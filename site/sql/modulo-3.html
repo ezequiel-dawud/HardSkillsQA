@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Módulo 3 — Agregação</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ SQL</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html" class="atual">3</a>
+      <a href="modulo-4.html">4</a>
+      <a href="modulo-5.html">5</a>
+      <a href="modulo-6.html">6</a>
+      <a href="modulo-7.html">7</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 3 — Agregação</h1>
+    <p class="legenda">COUNT, SUM, AVG, GROUP BY, HAVING</p>
+
+    <section class="secao teoria">
+      <h2>Teoria</h2>
+      <div class="card">
+        <ul>
+          <li>Funções de agregação resumem várias linhas em uma: <code>COUNT(*)</code>, <code>SUM(x)</code>, <code>AVG(x)</code>, <code>MIN(x)</code>, <code>MAX(x)</code>.</li>
+          <li><code>GROUP BY coluna</code> — calcula a agregação <strong>por grupo</strong> (ex.: total por status).</li>
+          <li><code>WHERE</code> filtra <strong>antes</strong> de agrupar; <code>HAVING</code> filtra <strong>depois</strong>, sobre o resultado agregado. Ex.: <code>HAVING COUNT(*) &gt; 5</code>.</li>
+          <li><code>COUNT(*)</code> conta linhas; <code>COUNT(coluna)</code> ignora as linhas em que aquela coluna é <code>NULL</code>.</li>
+          <li><code>ROUND(x, 2)</code> arredonda — útil pra médias e somas de dinheiro.</li>
+        </ul>
+        <p style="margin-bottom:0"><strong>Olhar de QA:</strong> é assim que se monta métrica — taxa de aprovação por suite, defeitos por módulo, ticket médio por status.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Prática</h2>
+      <p class="legenda">Rode com o botão ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.</p>
+      <div id="schema-ref"></div>
+      <p class="status-banco" id="status-banco">carregando banco…</p>
+      <div id="exercicios"></div>
+    </section>
+
+    <section class="secao">
+      <h2>Query livre</h2>
+      <div class="card">
+        <textarea class="editor" id="editor-livre" spellcheck="false">SELECT status, COUNT(*) FROM pedidos GROUP BY status;</textarea>
+        <div class="acoes"><button class="primario" id="btn-livre">Rodar</button></div>
+        <div class="resultado" id="res-livre"></div>
+      </div>
+    </section>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="modulo-2.html"><button>← Módulo 2</button></a>
+      <a href="modulo-4.html"><button class="primario">Módulo 4 →</button></a>
+    </nav>
+  </main>
+
+  <script>
+  const EXERCICIOS = [
+    { id: "3.1",
+      enunciado: "Quantos clientes existem no total? E quantos ativos?",
+      dica: "SUM(ativo) soma os 1s",
+      gabarito: "SELECT COUNT(*) AS total, SUM(ativo) AS ativos FROM clientes;" },
+    { id: "3.2",
+      enunciado: "Quantidade de pedidos por status.",
+      gabarito: "SELECT status, COUNT(*) AS qtd FROM pedidos GROUP BY status;" },
+    { id: "3.3",
+      enunciado: "Valor total (SUM) e ticket médio (AVG) de valor_total por status, arredondados com ROUND(x, 2). Ordene pelo total desc.",
+      gabarito: "SELECT status,\n       ROUND(SUM(valor_total), 2) AS total,\n       ROUND(AVG(valor_total), 2) AS ticket_medio\nFROM pedidos\nGROUP BY status\nORDER BY total DESC;" },
+    { id: "3.4",
+      enunciado: "Número de clientes por estado, do estado com mais clientes pro com menos.",
+      gabarito: "SELECT estado, COUNT(*) AS qtd FROM clientes\nGROUP BY estado ORDER BY qtd DESC;" },
+    { id: "3.5",
+      enunciado: "Número de defeitos por módulo e por severidade.",
+      dica: "GROUP BY modulo, severidade",
+      gabarito: "SELECT modulo, severidade, COUNT(*) AS qtd FROM defeitos\nGROUP BY modulo, severidade\nORDER BY modulo, severidade;" },
+    { id: "3.6",
+      enunciado: "Módulos que têm MAIS de 12 defeitos.",
+      dica: "GROUP BY + HAVING",
+      gabarito: "SELECT modulo, COUNT(*) AS qtd FROM defeitos\nGROUP BY modulo HAVING COUNT(*) > 12;" },
+    { id: "3.7",
+      enunciado: "Por suite de teste: total de execuções, quantas passaram, e a taxa de aprovação em % (passaram * 100.0 / total), com ROUND.",
+      dica: "SUM(CASE WHEN resultado='passou' THEN 1 ELSE 0 END)",
+      gabarito: "SELECT suite,\n       COUNT(*) AS total,\n       SUM(CASE WHEN resultado = 'passou' THEN 1 ELSE 0 END) AS passaram,\n       ROUND(SUM(CASE WHEN resultado = 'passou' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 1) AS taxa_aprovacao\nFROM execucoes_teste\nGROUP BY suite;" },
+    { id: "3.8",
+      enunciado: "Duração média (AVG) e máxima (MAX) das execuções por suite.",
+      gabarito: "SELECT suite, ROUND(AVG(duracao_seg), 1) AS dur_media, MAX(duracao_seg) AS dur_max\nFROM execucoes_teste GROUP BY suite;" },
+    { id: "3.9",
+      enunciado: "Quantos defeitos cada QA (reportado_por) abriu. Ordene por qtd desc.",
+      gabarito: "SELECT reportado_por, COUNT(*) AS qtd FROM defeitos\nGROUP BY reportado_por ORDER BY qtd DESC;" },
+    { id: "3.10",
+      enunciado: "Dias com mais de 5 pedidos: agrupe por data_pedido e use HAVING.",
+      gabarito: "SELECT data_pedido, COUNT(*) AS qtd FROM pedidos\nGROUP BY data_pedido HAVING COUNT(*) > 5 ORDER BY qtd DESC;" },
+  ];
+  </script>
+  <script>window.ASSETS_BASE="../assets/";window.DB_URL="pratica.db";</script>
+  <script src="../assets/sql-wasm.js"></script>
+  <script src="../assets/app.js"></script>
+</body>
+</html>

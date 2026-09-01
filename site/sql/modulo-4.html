@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Módulo 4 — Juntar tabelas</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ SQL</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html" class="atual">4</a>
+      <a href="modulo-5.html">5</a>
+      <a href="modulo-6.html">6</a>
+      <a href="modulo-7.html">7</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 4 — Juntar tabelas</h1>
+    <p class="legenda">INNER JOIN, LEFT JOIN, 3+ tabelas</p>
+
+    <section class="secao teoria">
+      <h2>Teoria</h2>
+      <div class="card">
+        <ul>
+          <li><code>INNER JOIN b ON a.x = b.y</code> — só as linhas que <strong>casam</strong> nas duas tabelas.</li>
+          <li><code>LEFT JOIN</code> — todas as linhas da tabela da esquerda, mesmo sem par na direita (as colunas da direita vêm <code>NULL</code>).</li>
+          <li>Padrão pra achar "quem não tem": <code>LEFT JOIN ... WHERE b.id IS NULL</code>.</li>
+          <li>Sempre qualifique colunas que existem nas duas tabelas: <code>pedidos.id</code>, <code>clientes.id</code>. Apelidos deixam mais curto: <code>FROM pedidos p JOIN clientes c ON c.id = p.cliente_id</code>.</li>
+          <li>Dá pra encadear 3+ <code>JOIN</code> na mesma query.</li>
+        </ul>
+        <p style="margin-bottom:0"><strong>Olhar de QA:</strong> os dados reais moram espalhados em várias tabelas. JOIN é o que reconstrói "o pedido inteiro" pra você conferir.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Prática</h2>
+      <p class="legenda">Rode com o botão ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.</p>
+      <div id="schema-ref"></div>
+      <p class="status-banco" id="status-banco">carregando banco…</p>
+      <div id="exercicios"></div>
+    </section>
+
+    <section class="secao">
+      <h2>Query livre</h2>
+      <div class="card">
+        <textarea class="editor" id="editor-livre" spellcheck="false">SELECT p.id, c.nome, p.valor_total
+FROM pedidos p JOIN clientes c ON c.id = p.cliente_id
+LIMIT 10;</textarea>
+        <div class="acoes"><button class="primario" id="btn-livre">Rodar</button></div>
+        <div class="resultado" id="res-livre"></div>
+      </div>
+    </section>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="modulo-3.html"><button>← Módulo 3</button></a>
+      <a href="modulo-5.html"><button class="primario">Módulo 5 →</button></a>
+    </nav>
+  </main>
+
+  <script>
+  const EXERCICIOS = [
+    { id: "4.1",
+      enunciado: "Pedidos com o nome do cliente: pedido.id, cliente.nome, pedido.data_pedido, pedido.valor_total.",
+      dica: "INNER JOIN",
+      gabarito: "SELECT p.id, c.nome, p.data_pedido, p.valor_total\nFROM pedidos p\nJOIN clientes c ON c.id = p.cliente_id;" },
+    { id: "4.2",
+      enunciado: "Itens do pedido de id = 10, mostrando nome do produto, quantidade e preco_unitario.",
+      gabarito: "SELECT pr.nome, i.quantidade, i.preco_unitario\nFROM itens_pedido i\nJOIN produtos pr ON pr.id = i.produto_id\nWHERE i.pedido_id = 10;" },
+    { id: "4.3",
+      enunciado: "Para cada pedido, some a quantidade de itens (SUM(quantidade)) juntando pedidos + itens_pedido, GROUP BY pedido.",
+      gabarito: "SELECT p.id, SUM(i.quantidade) AS qtd_itens\nFROM pedidos p\nJOIN itens_pedido i ON i.pedido_id = p.id\nGROUP BY p.id;" },
+    { id: "4.4",
+      enunciado: "Clientes que NUNCA fizeram pedido.",
+      dica: "LEFT JOIN pedidos ... WHERE pedidos.id IS NULL",
+      gabarito: "SELECT c.id, c.nome\nFROM clientes c\nLEFT JOIN pedidos p ON p.cliente_id = c.id\nWHERE p.id IS NULL;" },
+    { id: "4.5",
+      enunciado: "Produtos que nunca foram vendidos (não aparecem em itens_pedido).",
+      gabarito: "SELECT pr.id, pr.nome\nFROM produtos pr\nLEFT JOIN itens_pedido i ON i.produto_id = pr.id\nWHERE i.id IS NULL;" },
+    { id: "4.6",
+      enunciado: "Faturamento por categoria de produto: junte itens_pedido + produtos, some quantidade * preco_unitario, agrupe por categoria, ordene desc.",
+      gabarito: "SELECT pr.categoria, ROUND(SUM(i.quantidade * i.preco_unitario), 2) AS faturamento\nFROM itens_pedido i\nJOIN produtos pr ON pr.id = i.produto_id\nGROUP BY pr.categoria\nORDER BY faturamento DESC;" },
+    { id: "4.7",
+      enunciado: "Execuções de teste que falharam, com o titulo e o modulo do defeito linkado.",
+      gabarito: "SELECT e.caso_teste, d.titulo, d.modulo\nFROM execucoes_teste e\nJOIN defeitos d ON d.id = e.defeito_id\nWHERE e.resultado = 'falhou';" },
+    { id: "4.8",
+      enunciado: "Nome do cliente + faturamento total dele (soma dos valor_total dos pedidos que NÃO estão cancelados). Top 10 clientes.",
+      gabarito: "SELECT c.nome, ROUND(SUM(p.valor_total), 2) AS faturamento\nFROM clientes c\nJOIN pedidos p ON p.cliente_id = c.id\nWHERE p.status <> 'cancelado'\nGROUP BY c.id, c.nome\nORDER BY faturamento DESC\nLIMIT 10;" },
+    { id: "4.9",
+      enunciado: "Por estado do cliente: número de pedidos e valor total.",
+      dica: "JOIN clientes + pedidos, GROUP BY estado",
+      gabarito: "SELECT c.estado, COUNT(p.id) AS qtd_pedidos, ROUND(SUM(p.valor_total), 2) AS total\nFROM clientes c\nJOIN pedidos p ON p.cliente_id = c.id\nGROUP BY c.estado\nORDER BY total DESC;" },
+  ];
+  </script>
+  <script>window.ASSETS_BASE="../assets/";window.DB_URL="pratica.db";</script>
+  <script src="../assets/sql-wasm.js"></script>
+  <script src="../assets/app.js"></script>
+</body>
+</html>

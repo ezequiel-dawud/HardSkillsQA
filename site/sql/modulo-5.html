@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Módulo 5 — Subconsultas e CTE</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ SQL</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html">4</a>
+      <a href="modulo-5.html" class="atual">5</a>
+      <a href="modulo-6.html">6</a>
+      <a href="modulo-7.html">7</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 5 — Subconsultas e CTE</h1>
+    <p class="legenda">subquery, WITH, EXISTS</p>
+
+    <section class="secao teoria">
+      <h2>Teoria</h2>
+      <div class="card">
+        <ul>
+          <li>Subconsulta = um <code>SELECT</code> dentro de outro. Pode ir no <code>WHERE ... IN (SELECT ...)</code>, no <code>FROM (SELECT ...)</code>, ou como valor escalar: <code>... &gt; (SELECT AVG(...))</code>.</li>
+          <li><code>WITH nome AS (SELECT ...) SELECT ... FROM nome</code> — CTE: dá nome a uma subconsulta e deixa a query legível. Encadeie várias com vírgula.</li>
+          <li><code>EXISTS (SELECT 1 FROM ... WHERE ...)</code> — testa se existe pelo menos uma linha. <code>NOT EXISTS</code> pro contrário.</li>
+          <li>Subconsulta escalar retorna 1 valor; <code>IN</code>/<code>EXISTS</code> lidam com listas.</li>
+        </ul>
+        <p style="margin-bottom:0"><strong>Olhar de QA:</strong> "clientes que têm algum pedido cancelado", "linhas acima da média" — perguntas em duas camadas viram subconsulta ou CTE.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Prática</h2>
+      <p class="legenda">Rode com o botão ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.</p>
+      <div id="schema-ref"></div>
+      <p class="status-banco" id="status-banco">carregando banco…</p>
+      <div id="exercicios"></div>
+    </section>
+
+    <section class="secao">
+      <h2>Query livre</h2>
+      <div class="card">
+        <textarea class="editor" id="editor-livre" spellcheck="false">SELECT AVG(valor_total) FROM pedidos;</textarea>
+        <div class="acoes"><button class="primario" id="btn-livre">Rodar</button></div>
+        <div class="resultado" id="res-livre"></div>
+      </div>
+    </section>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="modulo-4.html"><button>← Módulo 4</button></a>
+      <a href="modulo-6.html"><button class="primario">Módulo 6 →</button></a>
+    </nav>
+  </main>
+
+  <script>
+  const EXERCICIOS = [
+    { id: "5.1",
+      enunciado: "Pedidos com valor_total acima da média geral de valor_total.",
+      dica: "subconsulta escalar no WHERE",
+      gabarito: "SELECT id, valor_total FROM pedidos\nWHERE valor_total > (SELECT AVG(valor_total) FROM pedidos);" },
+    { id: "5.2",
+      enunciado: "Clientes que fizeram pelo menos um pedido cancelado.",
+      dica: "WHERE id IN (SELECT cliente_id FROM pedidos WHERE status='cancelado')",
+      gabarito: "SELECT id, nome FROM clientes\nWHERE id IN (SELECT cliente_id FROM pedidos WHERE status = 'cancelado');" },
+    { id: "5.3",
+      enunciado: "Mesma coisa da 5.2, mas usando EXISTS.",
+      gabarito: "SELECT c.id, c.nome FROM clientes c\nWHERE EXISTS (\n  SELECT 1 FROM pedidos p\n  WHERE p.cliente_id = c.id AND p.status = 'cancelado'\n);" },
+    { id: "5.4",
+      enunciado: "Produto(s) mais caro(s): preco igual ao MAX(preco).",
+      gabarito: "SELECT nome, preco FROM produtos\nWHERE preco = (SELECT MAX(preco) FROM produtos);" },
+    { id: "5.5",
+      enunciado: "Usando CTE: monte 'gastos' (cliente_id, total_gasto) somando valor_total por cliente; depois selecione os clientes com total_gasto > 20000, trazendo o nome.",
+      gabarito: "WITH gastos AS (\n  SELECT cliente_id, SUM(valor_total) AS total_gasto\n  FROM pedidos GROUP BY cliente_id\n)\nSELECT c.nome, g.total_gasto\nFROM gastos g\nJOIN clientes c ON c.id = g.cliente_id\nWHERE g.total_gasto > 20000\nORDER BY g.total_gasto DESC;" },
+    { id: "5.6",
+      enunciado: "Usando CTE: taxa de aprovação por suite (do módulo 3), e depois filtre só as suites com taxa < 80.",
+      gabarito: "WITH taxa AS (\n  SELECT suite,\n         ROUND(SUM(CASE WHEN resultado = 'passou' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 1) AS aprov\n  FROM execucoes_teste GROUP BY suite\n)\nSELECT * FROM taxa WHERE aprov < 80;" },
+    { id: "5.7",
+      enunciado: "Top 3 módulos com mais defeitos críticos — use uma subconsulta no FROM e ordene/limite por fora.",
+      gabarito: "SELECT modulo, qtd FROM (\n  SELECT modulo, COUNT(*) AS qtd\n  FROM defeitos WHERE severidade = 'critica'\n  GROUP BY modulo\n) ORDER BY qtd DESC LIMIT 3;" },
+    { id: "5.8",
+      enunciado: "Clientes ativos que não fizeram nenhum pedido.",
+      dica: "NOT EXISTS um pedido pra aquele cliente",
+      gabarito: "SELECT c.id, c.nome FROM clientes c\nWHERE c.ativo = 1\n  AND NOT EXISTS (SELECT 1 FROM pedidos p WHERE p.cliente_id = c.id);" },
+  ];
+  </script>
+  <script>window.ASSETS_BASE="../assets/";window.DB_URL="pratica.db";</script>
+  <script src="../assets/sql-wasm.js"></script>
+  <script src="../assets/app.js"></script>
+</body>
+</html>

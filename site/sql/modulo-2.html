@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Módulo 2 — NULL e filtros finos</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ SQL</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html" class="atual">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html">4</a>
+      <a href="modulo-5.html">5</a>
+      <a href="modulo-6.html">6</a>
+      <a href="modulo-7.html">7</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 2 — NULL e filtros finos</h1>
+    <p class="legenda">IS NULL, COALESCE, CASE</p>
+
+    <section class="secao teoria">
+      <h2>Teoria</h2>
+      <div class="card">
+        <ul>
+          <li><code>NULL</code> = "sem valor". <strong>Não</strong> é 0 nem <code>''</code>. Não dá pra comparar com <code>=</code>: use <code>IS NULL</code> / <code>IS NOT NULL</code>.</li>
+          <li>Qualquer conta com <code>NULL</code> vira <code>NULL</code> (<code>10 + NULL</code> = <code>NULL</code>).</li>
+          <li><code>COALESCE(a, b, c)</code> — devolve o primeiro argumento que não for <code>NULL</code>.</li>
+          <li><code>CASE WHEN condição THEN x WHEN ... THEN y ELSE z END</code> — o "if" dentro do <code>SELECT</code>. Bom pra criar faixas/rótulos.</li>
+          <li>Truque útil: <code>SUM(CASE WHEN cond THEN 1 ELSE 0 END)</code> conta quantas linhas batem uma condição.</li>
+        </ul>
+        <p style="margin-bottom:0"><strong>Olhar de QA:</strong> linha com <code>data_fechamento IS NULL</code> = defeito ainda aberto. <code>NULL</code> onde não devia é uma classe inteira de bug.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Prática</h2>
+      <p class="legenda">Rode com o botão ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.</p>
+      <div id="schema-ref"></div>
+      <p class="status-banco" id="status-banco">carregando banco…</p>
+      <div id="exercicios"></div>
+    </section>
+
+    <section class="secao">
+      <h2>Query livre</h2>
+      <div class="card">
+        <textarea class="editor" id="editor-livre" spellcheck="false">SELECT * FROM defeitos LIMIT 10;</textarea>
+        <div class="acoes"><button class="primario" id="btn-livre">Rodar</button></div>
+        <div class="resultado" id="res-livre"></div>
+      </div>
+    </section>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="modulo-1.html"><button>← Módulo 1</button></a>
+      <a href="modulo-3.html"><button class="primario">Módulo 3 →</button></a>
+    </nav>
+  </main>
+
+  <script>
+  const EXERCICIOS = [
+    { id: "2.1",
+      enunciado: "Defeitos ainda não fechados (data_fechamento IS NULL). Mostre id, titulo, status, data_abertura.",
+      gabarito: "SELECT id, titulo, status, data_abertura FROM defeitos\nWHERE data_fechamento IS NULL;" },
+    { id: "2.2",
+      enunciado: "Defeitos já fechados, do mais antigo pro mais recente por data_fechamento.",
+      gabarito: "SELECT id, titulo, data_fechamento FROM defeitos\nWHERE data_fechamento IS NOT NULL\nORDER BY data_fechamento;" },
+    { id: "2.3",
+      enunciado: "Para cada defeito, mostre id, titulo e uma coluna 'fechamento' com a data_fechamento ou o texto 'em aberto' quando for NULL.",
+      dica: "use COALESCE",
+      gabarito: "SELECT id, titulo, COALESCE(data_fechamento, 'em aberto') AS fechamento\nFROM defeitos;" },
+    { id: "2.4",
+      enunciado: "Classifique os defeitos numa coluna 'faixa': 'critica'/'alta' → 'urgente', 'media' → 'normal', resto → 'baixa'. Mostre id, severidade, faixa.",
+      dica: "use CASE",
+      gabarito: "SELECT id, severidade,\n       CASE\n         WHEN severidade IN ('critica', 'alta') THEN 'urgente'\n         WHEN severidade = 'media' THEN 'normal'\n         ELSE 'baixa'\n       END AS faixa\nFROM defeitos;" },
+    { id: "2.5",
+      enunciado: "Execuções de teste cujo resultado NÃO foi 'passou'. Mostre caso_teste, suite, resultado.",
+      gabarito: "SELECT caso_teste, suite, resultado FROM execucoes_teste\nWHERE resultado <> 'passou';" },
+    { id: "2.6",
+      enunciado: "Execuções com resultado 'falhou' mas SEM defeito_id preenchido (falha sem bug linkado = problema de processo).",
+      gabarito: "SELECT caso_teste, suite, resultado FROM execucoes_teste\nWHERE resultado = 'falhou' AND defeito_id IS NULL;" },
+    { id: "2.7",
+      enunciado: "Defeitos de severidade 'critica' que estão 'aberto' ou 'reaberto'.",
+      gabarito: "SELECT id, titulo, status FROM defeitos\nWHERE severidade = 'critica' AND status IN ('aberto', 'reaberto');" },
+    { id: "2.8",
+      enunciado: "Conte quantos defeitos têm data_fechamento NULL e quantos não têm, em uma linha só.",
+      dica: "um SUM(CASE...) pra cada",
+      gabarito: "SELECT\n  SUM(CASE WHEN data_fechamento IS NULL THEN 1 ELSE 0 END) AS abertos,\n  SUM(CASE WHEN data_fechamento IS NOT NULL THEN 1 ELSE 0 END) AS fechados\nFROM defeitos;" },
+  ];
+  </script>
+  <script>window.ASSETS_BASE="../assets/";window.DB_URL="pratica.db";</script>
+  <script src="../assets/sql-wasm.js"></script>
+  <script src="../assets/app.js"></script>
+</body>
+</html>

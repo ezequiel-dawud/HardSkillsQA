@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Trilha SQL para QA</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ SQL</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html">4</a>
+      <a href="modulo-5.html">5</a>
+      <a href="modulo-6.html">6</a>
+      <a href="modulo-7.html">7</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <p style="margin:0 0 4px"><a href="../index.html" style="font-size:14px; color:var(--suave); text-decoration:none">← Todas as trilhas</a></p>
+    <h1>Trilha SQL para QA</h1>
+    <p class="legenda">
+      Sair do zero e chegar em <strong>consultar, validar e investigar dados</strong>
+      com confiança. Cada módulo tem a teoria curta em cima e os exercícios rodando
+      de verdade logo abaixo, num SQLite que vive dentro da própria página.
+    </p>
+
+    <h2>Módulos</h2>
+    <div class="grade-modulos">
+      <a class="modulo-link" href="modulo-1.html">
+        <div class="rot">Módulo 1</div>
+        <div class="tit">Ler dados</div>
+        <div class="desc">SELECT, WHERE, ORDER BY, LIMIT, DISTINCT</div>
+      </a>
+      <a class="modulo-link" href="modulo-2.html">
+        <div class="rot">Módulo 2</div>
+        <div class="tit">NULL e filtros finos</div>
+        <div class="desc">IS NULL, COALESCE, CASE</div>
+      </a>
+      <a class="modulo-link" href="modulo-3.html">
+        <div class="rot">Módulo 3</div>
+        <div class="tit">Agregação</div>
+        <div class="desc">COUNT, SUM, AVG, GROUP BY, HAVING</div>
+      </a>
+      <a class="modulo-link" href="modulo-4.html">
+        <div class="rot">Módulo 4</div>
+        <div class="tit">Juntar tabelas</div>
+        <div class="desc">INNER JOIN, LEFT JOIN, 3+ tabelas</div>
+      </a>
+      <a class="modulo-link" href="modulo-5.html">
+        <div class="rot">Módulo 5</div>
+        <div class="tit">Subconsultas e CTE</div>
+        <div class="desc">subquery, WITH, EXISTS</div>
+      </a>
+      <a class="modulo-link" href="modulo-6.html">
+        <div class="rot">Módulo 6</div>
+        <div class="tit">SQL no dia a dia de QA</div>
+        <div class="desc">validação de dados + métricas (tem bug plantado)</div>
+      </a>
+      <a class="modulo-link" href="modulo-7.html">
+        <div class="rot">Módulo 7</div>
+        <div class="tit">Escrever dados</div>
+        <div class="desc">INSERT, UPDATE, DELETE, transações</div>
+      </a>
+    </div>
+
+    <h2>O banco de prática</h2>
+    <p class="legenda">Cenário: um e-commerce fictício sendo testado pelo time de QA.</p>
+    <table class="dados">
+      <thead><tr><th>Tabela</th><th>O que é</th></tr></thead>
+      <tbody>
+        <tr><td><code>clientes</code></td><td>id, nome, email, cidade, estado, data_cadastro, ativo</td></tr>
+        <tr><td><code>produtos</code></td><td>id, nome, categoria, preco, estoque, ativo</td></tr>
+        <tr><td><code>pedidos</code></td><td>id, cliente_id, data_pedido, status, valor_total</td></tr>
+        <tr><td><code>itens_pedido</code></td><td>id, pedido_id, produto_id, quantidade, preco_unitario</td></tr>
+        <tr><td><code>defeitos</code></td><td>modulo, severidade, prioridade, status, reportado_por, ambiente, datas…</td></tr>
+        <tr><td><code>execucoes_teste</code></td><td>caso_teste, suite, resultado, data_execucao, duracao_seg, defeito_id</td></tr>
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>

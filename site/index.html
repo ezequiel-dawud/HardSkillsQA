@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QA Learning</title>
+  <link rel="stylesheet" href="assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="index.html">QA Learning</a></div>
+  </header>
+
+  <main class="container">
+    <h1>QA Learning</h1>
+    <p class="legenda">
+      Trilhas de estudo pra crescer como QA. Cada trilha tem a teoria curta e a
+      prática rodando de verdade no navegador. Comece pela que fizer sentido agora —
+      as outras ficam aqui esperando.
+    </p>
+
+    <div class="card">
+      <h3 style="margin-top:0">Como rodar</h3>
+      <pre class="bloco"><code>python site/servir.py</code></pre>
+      <p style="margin:8px 0 0; font-size:14px; color:var(--suave)">
+        Abre <code>http://localhost:8000</code>. Precisa ser pelo servidor
+        (abrir o arquivo com duplo clique não funciona). Nada vai pra internet.
+      </p>
+    </div>
+
+    <h2>Trilhas</h2>
+    <div class="grade-modulos">
+
+      <!-- ATIVA -->
+      <a class="modulo-link" href="sql/index.html">
+        <div class="rot">Trilha 1</div>
+        <div class="tit">SQL para QA</div>
+        <div class="desc">
+          Consultar, validar e investigar dados. 7 módulos, do SELECT às
+          transações, com um SQLite dentro da página.
+        </div>
+      </a>
+
+      <!-- EM BREVE — pra ativar, troque a <div> por <a href="..."> e tire a classe "embreve" -->
+      <div class="modulo-link embreve">
+        <div class="rot">Trilha 2 <span class="tag-embreve">em breve</span></div>
+        <div class="tit">PostgreSQL na prática</div>
+        <div class="desc">
+          O mesmo cenário migrado pro banco que você mais encontra no trabalho —
+          diferenças de datas, strings, tipos.
+        </div>
+      </div>
+
+      <div class="modulo-link embreve">
+        <div class="rot">Trilha 3 <span class="tag-embreve">em breve</span></div>
+        <div class="tit">Validação com pytest</div>
+        <div class="desc">
+          Transformar as queries de validação em testes automatizados que rodam
+          no CI (pytest + conexão com o banco).
+        </div>
+      </div>
+
+      <div class="modulo-link embreve">
+        <div class="rot">Trilha 4 <span class="tag-embreve">em breve</span></div>
+        <div class="tit">Teste de API</div>
+        <div class="desc">
+          HTTP, status codes, contrato de resposta, e cruzar o que a API
+          devolve com o que ficou gravado no banco.
+        </div>
+      </div>
+
+    </div>
+
+    <p class="legenda" style="margin-top:24px; font-size:13px">
+      As trilhas "em breve" são só marcadores por enquanto. Quando quiser começar
+      uma, é só pedir.
+    </p>
+  </main>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Módulo 7 — Escrever dados</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ SQL</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html">4</a>
+      <a href="modulo-5.html">5</a>
+      <a href="modulo-6.html">6</a>
+      <a href="modulo-7.html" class="atual">7</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 7 — Escrever dados</h1>
+    <p class="legenda">INSERT, UPDATE, DELETE, transações</p>
+
+    <section class="secao teoria">
+      <h2>Teoria</h2>
+      <div class="card">
+        <ul>
+          <li><code>INSERT INTO t (col1, col2) VALUES (v1, v2)</code> — cria linha nova.</li>
+          <li><code>UPDATE t SET col = valor WHERE ...</code> — <strong>sempre</strong> com <code>WHERE</code>, senão altera a tabela inteira.</li>
+          <li><code>DELETE FROM t WHERE ...</code> — idem: sem <code>WHERE</code>, apaga tudo.</li>
+          <li><code>BEGIN; ... COMMIT;</code> (ou <code>ROLLBACK;</code>) — agrupa mudanças; testa antes de confirmar.</li>
+          <li>Aqui as mudanças valem só nesta aba, na cópia em memória. O botão <strong>Resetar banco</strong> volta tudo aos dados originais — use à vontade.</li>
+        </ul>
+      </div>
+      <div class="acoes">
+        <button id="btn-reset">↺ Resetar banco (dados originais)</button>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Prática</h2>
+      <p class="legenda">
+        Cada exercício pode ter vários comandos separados por <code>;</code> — todos rodam.
+        Rode com o botão ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.
+      </p>
+      <div id="schema-ref"></div>
+      <p class="status-banco" id="status-banco">carregando banco…</p>
+      <div id="exercicios"></div>
+    </section>
+
+    <section class="secao">
+      <h2>Query livre</h2>
+      <div class="card">
+        <textarea class="editor" id="editor-livre" spellcheck="false">SELECT * FROM produtos WHERE categoria = 'Perifericos';</textarea>
+        <div class="acoes"><button class="primario" id="btn-livre">Rodar</button></div>
+        <div class="resultado" id="res-livre"></div>
+      </div>
+    </section>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="modulo-6.html"><button>← Módulo 6</button></a>
+      <a href="index.html"><button class="primario">Voltar ao índice</button></a>
+    </nav>
+  </main>
+
+  <script>
+  const EXERCICIOS = [
+    { id: "7.1",
+      enunciado: "Insira um novo produto: 'Micro SD 128GB', categoria 'Armazenamento', preco 89.90, estoque 50, ativo 1. Depois confira com um SELECT.",
+      gabarito: "INSERT INTO produtos (id, nome, categoria, preco, estoque, ativo)\nVALUES (16, 'Micro SD 128GB', 'Armazenamento', 89.90, 50, 1);\nSELECT * FROM produtos WHERE nome = 'Micro SD 128GB';" },
+    { id: "7.2",
+      enunciado: "Insira um cliente de teste (id 999, email 'qa.teste@exemplo.com', cidade/estado à escolha, data_cadastro '2025-08-01', ativo 1).",
+      gabarito: "INSERT INTO clientes (id, nome, email, cidade, estado, data_cadastro, ativo)\nVALUES (999, 'QA Teste', 'qa.teste@exemplo.com', 'Curitiba', 'PR', '2025-08-01', 1);\nSELECT * FROM clientes WHERE id = 999;" },
+    { id: "7.3",
+      enunciado: "Crie um pedido (id 999) pra esse cliente 999, status 'novo', data_pedido '2025-08-02', valor_total 0. Depois adicione 2 itens referenciando produtos reais.",
+      gabarito: "INSERT INTO pedidos (id, cliente_id, data_pedido, status, valor_total)\nVALUES (999, 999, '2025-08-02', 'novo', 0);\nINSERT INTO itens_pedido (id, pedido_id, produto_id, quantidade, preco_unitario)\nVALUES (9001, 999, 1, 2, 320.0);\nINSERT INTO itens_pedido (id, pedido_id, produto_id, quantidade, preco_unitario)\nVALUES (9002, 999, 3, 1, 250.0);" },
+    { id: "7.4",
+      enunciado: "Atualize o valor_total do pedido 999 pra bater com a soma dos itens (rode um SELECT da soma antes, depois o UPDATE).",
+      gabarito: "SELECT SUM(quantidade * preco_unitario) FROM itens_pedido WHERE pedido_id = 999;  -- 890\nUPDATE pedidos SET valor_total = 890.0 WHERE id = 999;" },
+    { id: "7.5",
+      enunciado: "Suba o preco de todos os produtos da categoria 'Perifericos' em 10%. Confira antes e depois.",
+      gabarito: "SELECT nome, preco FROM produtos WHERE categoria = 'Perifericos';\nUPDATE produtos SET preco = ROUND(preco * 1.10, 2) WHERE categoria = 'Perifericos';\nSELECT nome, preco FROM produtos WHERE categoria = 'Perifericos';" },
+    { id: "7.6",
+      enunciado: "Marque como 'fechado' e preencha data_fechamento = '2025-08-31' todos os defeitos com status 'resolvido'.",
+      gabarito: "UPDATE defeitos\nSET status = 'fechado', data_fechamento = '2025-08-31'\nWHERE status = 'resolvido';" },
+    { id: "7.7",
+      enunciado: "Transação: BEGIN; apague os itens do pedido 999; apague o pedido 999; rode um SELECT pra conferir; se estiver ok faça COMMIT (senão ROLLBACK).",
+      gabarito: "BEGIN;\nDELETE FROM itens_pedido WHERE pedido_id = 999;\nDELETE FROM pedidos WHERE id = 999;\nSELECT * FROM pedidos WHERE id = 999;   -- deve vir vazio\nCOMMIT;" },
+    { id: "7.8",
+      enunciado: "Apague o cliente de teste 999 e o produto 'Micro SD 128GB'. (Depois, o botão Resetar banco lá em cima devolve tudo.)",
+      gabarito: "DELETE FROM clientes WHERE id = 999;\nDELETE FROM produtos WHERE nome = 'Micro SD 128GB';" },
+  ];
+  </script>
+  <script>window.ASSETS_BASE="../assets/";window.DB_URL="pratica.db";</script>
+  <script src="../assets/sql-wasm.js"></script>
+  <script src="../assets/app.js"></script>
+</body>
+</html>
