@@ -145,9 +145,10 @@ function mostrarAvisoServidor(e) {
   div.className = "aviso-servidor";
   div.innerHTML =
     "<strong>O banco não carregou.</strong> Confira:<br>" +
-    "1) a página foi aberta por <code>http://localhost:8000</code> (e não com duplo clique)?<br>" +
-    "2) o <code>python site/servir.py</code> ainda está rodando no terminal?<br>" +
-    "3) se sim para os dois, tente recarregar com <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>, " +
+    "1) se você abriu o arquivo direto (com duplo clique, endereço <code>file://...</code>) — " +
+    "precisa ser por um servidor: use o link publicado, ou rode <code>python site/servir.py</code> " +
+    "e abra <code>http://localhost:8000</code>.<br>" +
+    "2) tente recarregar com <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>, " +
     "ou abra numa janela anônima / outro navegador (Chrome/Edge) sem extensões.<br><br>" +
     "<small>Detalhe técnico (veja também o Console do navegador): " +
     (e && e.message ? e.message : e) + "</small>";

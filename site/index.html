@@ -20,11 +20,12 @@
     </p>
 
     <div class="card">
-      <h3 style="margin-top:0">Como rodar</h3>
-      <pre class="bloco"><code>python site/servir.py</code></pre>
-      <p style="margin:8px 0 0; font-size:14px; color:var(--suave)">
-        Abre <code>http://localhost:8000</code>. Precisa ser pelo servidor
-        (abrir o arquivo com duplo clique não funciona). Nada vai pra internet.
+      <h3 style="margin-top:0">Como funciona</h3>
+      <p style="margin:0; font-size:14px; color:var(--suave)">
+        O banco roda dentro do próprio navegador (SQLite via WebAssembly) — nenhuma
+        query que você escreve sai da sua máquina, nenhum servidor processa nada.
+        As respostas que você digita ficam salvas só no seu navegador
+        (<code>localStorage</code>), então continuam lá mesmo se você recarregar a página.
       </p>
     </div>
 
