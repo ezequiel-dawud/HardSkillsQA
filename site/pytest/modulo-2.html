@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>pytest Módulo 2 — Anatomia de um teste</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ pytest</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html" class="atual">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 2 — Anatomia de um teste</h1>
+    <p class="legenda">função <code>test_</code>, <code>assert</code>, fixture, <code>conftest.py</code></p>
+
+    <section class="secao">
+      <h2>O teste mínimo</h2>
+      <div class="card">
+        <pre class="bloco"><code>def test_soma():
+    assert 2 + 2 == 4</code></pre>
+        <ul>
+          <li>O pytest descobre sozinho toda função cujo nome começa com <code>test_</code>,
+            em arquivos <code>test_*.py</code>.</li>
+          <li><code>assert &lt;expressão&gt;</code> — se for verdadeira, passa; se falsa, falha.
+            Nada de <code>self.assertEqual</code>; é o <code>assert</code> puro do Python.</li>
+          <li>Quando falha, o pytest <b>reescreve</b> o assert pra te mostrar os valores:
+            <code>assert 4 == 5</code> vira uma mensagem com o 4 e o 5 lado a lado.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Fixtures: o preparo que vem pronto</h2>
+      <div class="card">
+        <p style="margin-top:0">Quase todo teste precisa de um "setup": abrir conexão, criar
+          massa, limpar no fim. Uma <b>fixture</b> é uma função que faz esse preparo e
+          <b>entrega</b> o resultado pro teste. O teste só pede pelo nome, como parâmetro.</p>
+        <p>No projeto, a fixture <code>db</code> está no <code>conftest.py</code>:</p>
+        <pre class="bloco"><code>@pytest.fixture
+def db(tmp_path):
+    copia = tmp_path / "pratica.db"
+    shutil.copy(BANCO, copia)          # cópia: um teste não suja o outro
+    con = sqlite3.connect(copia)
+    con.row_factory = sqlite3.Row      # row["nome"] em vez de row[1]
+    try:
+        yield con                      # entrega pro teste
+    finally:
+        con.close()                    # roda DEPOIS do teste, sempre</code></pre>
+        <p style="margin-bottom:0">Qualquer teste que escreva <code>def test_x(db):</code> recebe
+          essa conexão pronta. O <code>yield</code> divide a fixture em "antes" e "depois":
+          o que vem depois do <code>yield</code> é a limpeza. <code>tmp_path</code> é uma fixture
+          do próprio pytest — uma pasta temporária só daquele teste.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2><code>conftest.py</code></h2>
+      <div class="card">
+        <p style="margin:0">Arquivo especial que o pytest carrega <b>automaticamente</b>, sem
+          import. Serve pra fixtures e configuração compartilhadas por todos os testes da pasta
+          (e subpastas). Você nunca escreve <code>import conftest</code> — só põe as fixtures lá
+          e usa pelo nome.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Rodando um pedaço só</h2>
+      <div class="card">
+        <pre class="bloco"><code>pytest -v                          # tudo, uma linha por teste
+pytest test_01_primeiros_testes.py # um arquivo
+pytest -k "orfao or email"         # só testes com esse texto no nome
+pytest -x                          # para no primeiro que falhar
+pytest --lf                        # só os que falharam na última rodada</code></pre>
+        <p style="margin-bottom:0; font-size:14px; color:var(--suave)">
+          No começo você vai viver do <code>-v</code> e do <code>-k</code>: rodar rápido só o
+          teste em que está mexendo.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Exercício</h2>
+      <div class="card">
+        <p style="margin-top:0">Abra <code>trilha-3/test_01_primeiros_testes.py</code> e:</p>
+        <ol>
+          <li>Rode só ele: <code>pytest -v test_01_primeiros_testes.py</code>.</li>
+          <li>Adicione um teste novo que confira que existem <b>15 produtos</b>
+            (dica: <code>scalar(db, "SELECT COUNT(*) FROM produtos")</code>).</li>
+          <li>Faça ele falhar de propósito (espere 14) e leia a mensagem que o pytest imprime.
+            Depois conserte.</li>
+        </ol>
+        <p style="margin-bottom:0">Objetivo: ver o ciclo <i>escrever → rodar → ler o vermelho →
+          corrigir → verde</i> com as próprias mãos.</p>
+      </div>
+    </section>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="modulo-1.html"><button>← Módulo 1</button></a>
+      <a href="modulo-3.html"><button class="primario">Módulo 3 →</button></a>
+    </nav>
+  </main>
+</body>
+</html>

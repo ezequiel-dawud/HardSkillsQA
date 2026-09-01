@@ -12,15 +12,23 @@ no banco `pratica/pratica.db`.
 
 ## Versão web (recomendada)
 
-Tem uma versão navegável em `site/`, montada como um hub de trilhas de QA
-(`site/index.html`). A trilha de SQL fica em `site/sql/`: teoria e prática juntas,
-uma página por módulo, com um SQLite rodando dentro do próprio navegador (não
-precisa de Python pra rodar as queries, nada sai da máquina). Outras trilhas
-(PostgreSQL, pytest, teste de API) estão listadas como "em breve".
+Hub de trilhas em `site/` (`site/index.html`), publicado na Vercel. Quatro trilhas:
+
+| # | Pasta | O que é | Onde roda |
+|---|---|---|---|
+| 1 | `site/sql/` | **SQL para QA** — SELECT a transações, 7 módulos | SQLite (WASM) na página |
+| 2 | `site/pg/` | **PostgreSQL na prática** — tipos reais, datas, texto, FILTER, window functions, 7 módulos | Postgres (PGlite/WASM) na página |
+| 3 | `site/pytest/` | **Validação com pytest** — queries de validação viram testes + CI, 4 módulos | teoria na página; testes rodam local (`trilha-3/`) |
+| 4 | `site/api/` | **Teste de API** — status, contrato, cruzar API × banco, 4 módulos | API falsa em JS na página |
 
 ```bash
-python site/servir.py     # abre http://localhost:8000
+python site/servir.py     # abre http://localhost:8000 (dev local; em produção é só o link)
 ```
+
+Geração de dados:
+- `pratica/build_db.py` → `pratica/pratica.db` (Trilhas 1 e 3)
+- `pratica/build_seed_pg.py` → `site/pg/seed.sql` (Trilha 2, tipos do Postgres, mesmos dados)
+- `site/api/dados.js` é um subconjunto do banco usado pela API falsa da Trilha 4
 
 O resto abaixo (arquivos `.md` + `sql.py`) continua valendo pra quem prefere
 terminal.
@@ -158,11 +166,8 @@ pra você caçar.
 ## Depois disso
 
 - Refazer os exercícios sem olhar o gabarito.
-- Migrar o mesmo cenário pra **PostgreSQL** (sintaxe de datas/strings muda um pouco;
-  o núcleo é igual) — é o banco que você mais vai encontrar no trabalho.
+- Seguir pras Trilhas 2, 3 e 4 (ver a tabela em "Versão web").
 - Praticar em plataformas: SQLZoo, StrataScratch, DataLemur, HackerRank (SQL).
-- Ligar com automação: rodar essas queries de validação dentro de um teste
-  (`pytest` + `sqlite3`/`psycopg`).
 
 ## Gabarito
 

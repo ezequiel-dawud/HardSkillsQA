@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>pytest Módulo 4 — Parametrizar e rodar no CI</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ pytest</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html" class="atual">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 4 — Parametrizar e rodar no CI</h1>
+    <p class="legenda"><code>@pytest.mark.parametrize</code> + GitHub Actions</p>
+
+    <section class="secao">
+      <h2>Um teste, vários casos</h2>
+      <div class="card">
+        <p style="margin-top:0">Quando a mesma verificação vale pra várias colunas/valores,
+          não copie a função. Parametrize:</p>
+        <pre class="bloco"><code>@pytest.mark.parametrize(
+    "coluna, tabela, permitidos",
+    [
+        ("status", "pedidos", {"novo", "pago", "enviado", "entregue", "cancelado"}),
+        ("severidade", "defeitos", {"baixa", "media", "alta", "critica"}),
+        ("resultado", "execucoes_teste", {"passou", "falhou", "bloqueado", "pulado"}),
+    ],
+)
+def test_coluna_so_tem_valores_do_dominio(db, coluna, tabela, permitidos):
+    achados = {r[0] for r in db.execute(f"SELECT DISTINCT {coluna} FROM {tabela}")}
+    assert not (achados - permitidos)</code></pre>
+        <p style="margin-bottom:0">No relatório viram <b>3 casos separados</b>:
+          <code>…[status-pedidos-permitidos0] PASSED</code>, etc. Se um domínio quebrar, você
+          vê exatamente qual — sem ambiguidade.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Rodar no CI (GitHub Actions)</h2>
+      <div class="card">
+        <p style="margin-top:0">O repositório já tem o workflow
+          <code>.github/workflows/trilha-3-pytest.yml</code>. Ele instala o Python, instala o
+          <code>pytest</code> e roda a suíte <b>numa máquina do GitHub</b> a cada push que
+          mexa em <code>trilha-3/</code> ou no banco — e também pelo botão
+          <b>Run workflow</b> na aba <b>Actions</b>.</p>
+        <pre class="bloco"><code>jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - working-directory: trilha-3
+        run: pip install -r requirements.txt
+      - working-directory: trilha-3
+        run: pytest</code></pre>
+        <ul>
+          <li>Se <code>pytest</code> sai com código ≠ 0, o passo falha e o <b>check do commit
+            fica vermelho</b> — visível no PR, dá pra <b>bloquear o merge</b>.</li>
+          <li>Os 3 <code>xfail</code> mantêm a suíte verde no CI. No dia que um deles virar
+            <code>XPASS</code> (dado corrigido), o <code>strict=True</code> derruba o build de
+            propósito — sinal de "remova o marcador".</li>
+          <li>Veja cada rodada, com o log completo, na aba <b>Actions</b> do repositório.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Exercício final</h2>
+      <div class="card">
+        <ol style="margin-top:0">
+          <li>Escreva um teste parametrizado novo: pra cada tabela
+            (<code>clientes</code>, <code>produtos</code>, <code>pedidos</code>), confira que
+            <code>id</code> não se repete
+            (<code>SELECT id, COUNT(*) … GROUP BY id HAVING COUNT(*) &gt; 1</code> tem que vir vazio).</li>
+          <li>Rode local, veja os 3 casos verdes.</li>
+          <li>Faça commit e push. Abra a aba <b>Actions</b> no GitHub e veja o workflow rodar
+            sozinho.</li>
+        </ol>
+        <p style="margin-bottom:0">A partir daqui, toda query de investigação que você escrever
+          pode virar uma linha de defesa que roda pra sempre.</p>
+      </div>
+    </section>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="modulo-3.html"><button>← Módulo 3</button></a>
+      <a href="index.html"><button class="primario">Fim da trilha ✓</button></a>
+    </nav>
+  </main>
+</body>
+</html>

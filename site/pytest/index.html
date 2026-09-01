@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Trilha Validação com pytest</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ pytest</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <p style="margin:0 0 4px"><a href="../index.html" style="font-size:14px; color:var(--suave); text-decoration:none">← Todas as trilhas</a></p>
+    <h1>Trilha Validação com pytest</h1>
+    <p class="legenda">
+      Pegar as queries de "caça-bug" da Trilha 1 e transformar em <strong>testes
+      automatizados</strong> — que rodam no seu terminal e depois no CI, quebrando o
+      build quando o dado fica inconsistente.
+    </p>
+
+    <div class="card">
+      <h3 style="margin-top:0">Esta trilha roda na sua máquina</h3>
+      <p style="margin:0; font-size:14px; color:var(--suave)">
+        Diferente das outras, aqui não tem prática rodando na página — testes de verdade
+        rodam no seu computador. O código está no repositório, na pasta
+        <code>trilha-3/</code>. Cada módulo abaixo te leva por uma parte; siga com o
+        <code>trilha-3/README.md</code> aberto do lado.
+      </p>
+    </div>
+
+    <h2>Módulos</h2>
+    <div class="grade-modulos">
+      <a class="modulo-link" href="modulo-1.html">
+        <div class="rot">Módulo 1</div>
+        <div class="tit">Preparar a máquina</div>
+        <div class="desc">Python, venv, pip, o primeiro <code>pytest</code>, ler a saída, erros comuns</div>
+      </a>
+      <a class="modulo-link" href="modulo-2.html">
+        <div class="rot">Módulo 2</div>
+        <div class="tit">Anatomia de um teste</div>
+        <div class="desc">função <code>test_</code>, <code>assert</code>, fixture, <code>conftest.py</code>, flags úteis</div>
+      </a>
+      <a class="modulo-link" href="modulo-3.html">
+        <div class="rot">Módulo 3</div>
+        <div class="tit">Validação de dados vira teste</div>
+        <div class="desc">o padrão "traz as linhas ruins, assert vazio", <code>xfail</code>, pegar o bug</div>
+      </a>
+      <a class="modulo-link" href="modulo-4.html">
+        <div class="rot">Módulo 4</div>
+        <div class="tit">Parametrizar e rodar no CI</div>
+        <div class="desc"><code>@pytest.mark.parametrize</code>, GitHub Actions, build vermelho</div>
+      </a>
+    </div>
+
+    <h2>Pré-requisito</h2>
+    <p class="legenda">
+      Ter o repositório na máquina (<code>git clone</code> ou baixar o ZIP pelo GitHub) e
+      o Python instalado. O Módulo 1 cobre os dois passo a passo.
+    </p>
+  </main>
+</body>
+</html>

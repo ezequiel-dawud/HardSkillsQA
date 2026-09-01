@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Trilha PostgreSQL para QA</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ PostgreSQL</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html">4</a>
+      <a href="modulo-5.html">5</a>
+      <a href="modulo-6.html">6</a>
+      <a href="modulo-7.html">7</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <p style="margin:0 0 4px"><a href="../index.html" style="font-size:14px; color:var(--suave); text-decoration:none">← Todas as trilhas</a></p>
+    <h1>Trilha PostgreSQL para QA</h1>
+    <p class="legenda">
+      O mesmo e-commerce fictício da Trilha 1, agora num <strong>PostgreSQL de verdade</strong>
+      — o banco que você mais encontra no trabalho. Cada módulo tem a teoria curta em cima
+      e os exercícios rodando logo abaixo, num Postgres que sobe dentro da própria página
+      (via PGlite/WebAssembly).
+    </p>
+
+    <div class="card">
+      <h3 style="margin-top:0">Se você já fez a Trilha 1</h3>
+      <p style="margin:0; font-size:14px; color:var(--suave)">
+        A base (<code>SELECT</code>, <code>WHERE</code>, <code>JOIN</code>, <code>GROUP BY</code>)
+        é a mesma — aqui ela reaparece rápido e o foco vai pro que <b>muda</b> no Postgres:
+        tipos de verdade (<code>boolean</code>, <code>numeric</code>, <code>date</code>),
+        contas com datas, funções de texto e as <i>window functions</i>. Se ainda não fez a
+        Trilha 1, dá pra começar por aqui mesmo — os dois primeiros módulos cobrem o essencial.
+      </p>
+    </div>
+
+    <h2>Módulos</h2>
+    <div class="grade-modulos">
+      <a class="modulo-link" href="modulo-1.html">
+        <div class="rot">Módulo 1</div>
+        <div class="tit">Ler dados no Postgres</div>
+        <div class="desc">SELECT, WHERE, ORDER BY, LIMIT/OFFSET, aspas, cast com ::</div>
+      </a>
+      <a class="modulo-link" href="modulo-2.html">
+        <div class="rot">Módulo 2</div>
+        <div class="tit">Tipos de verdade</div>
+        <div class="desc">boolean, numeric x divisão inteira, CAST, NULL, IS DISTINCT FROM</div>
+      </a>
+      <a class="modulo-link" href="modulo-3.html">
+        <div class="rot">Módulo 3</div>
+        <div class="tit">Datas e tempo</div>
+        <div class="desc">date, INTERVAL, AGE, EXTRACT, DATE_TRUNC, TO_CHAR</div>
+      </a>
+      <a class="modulo-link" href="modulo-4.html">
+        <div class="rot">Módulo 4</div>
+        <div class="tit">Texto</div>
+        <div class="desc">||, ILIKE, LOWER/INITCAP, SPLIT_PART, POSITION, STRING_AGG</div>
+      </a>
+      <a class="modulo-link" href="modulo-5.html">
+        <div class="rot">Módulo 5</div>
+        <div class="tit">Agregação e GROUP BY</div>
+        <div class="desc">COUNT/SUM/AVG, HAVING, FILTER (WHERE …), bool_or</div>
+      </a>
+      <a class="modulo-link" href="modulo-6.html">
+        <div class="rot">Módulo 6</div>
+        <div class="tit">JOIN, subconsultas e CTE</div>
+        <div class="desc">JOIN, USING, LEFT JOIN … IS NULL, WITH, EXISTS</div>
+      </a>
+      <a class="modulo-link" href="modulo-7.html">
+        <div class="rot">Módulo 7</div>
+        <div class="tit">Window functions</div>
+        <div class="desc">OVER, PARTITION BY, ROW_NUMBER/RANK, running SUM, LAG/LEAD</div>
+      </a>
+    </div>
+
+    <h2>O banco de prática</h2>
+    <p class="legenda">Mesmo cenário da Trilha 1 — mesmos dados, mesmos números — só que com os tipos do Postgres.</p>
+    <table class="dados">
+      <thead><tr><th>Tabela</th><th>O que é</th></tr></thead>
+      <tbody>
+        <tr><td><code>clientes</code></td><td>id, nome, email, cidade, estado, data_cadastro (date), ativo (boolean)</td></tr>
+        <tr><td><code>produtos</code></td><td>id, nome, categoria, preco (numeric), estoque, ativo (boolean)</td></tr>
+        <tr><td><code>pedidos</code></td><td>id, cliente_id, data_pedido (date), status, valor_total (numeric)</td></tr>
+        <tr><td><code>itens_pedido</code></td><td>id, pedido_id, produto_id, quantidade, preco_unitario (numeric)</td></tr>
+        <tr><td><code>defeitos</code></td><td>modulo, severidade, prioridade, status, reportado_por, ambiente, data_abertura (date), data_fechamento (date/NULL)</td></tr>
+        <tr><td><code>execucoes_teste</code></td><td>caso_teste, suite, resultado, data_execucao (date), duracao_seg, defeito_id</td></tr>
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>

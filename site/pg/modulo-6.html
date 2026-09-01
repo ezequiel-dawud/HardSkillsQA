@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PG Módulo 6 — JOIN, subconsultas e CTE</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ PostgreSQL</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html">4</a>
+      <a href="modulo-5.html">5</a>
+      <a href="modulo-6.html" class="atual">6</a>
+      <a href="modulo-7.html">7</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 6 — JOIN, subconsultas e CTE</h1>
+    <p class="legenda">JOIN … ON, USING, LEFT JOIN … IS NULL, WITH, EXISTS, IN (subquery)</p>
+
+    <section class="secao">
+      <h2>Antes de começar</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          <code>JOIN</code> no Postgres é o mesmo da Trilha 1. Três atalhos que aparecem muito:
+        </p>
+        <ul>
+          <li><b><code>JOIN produtos USING (produto_id)</code></b> — quando a coluna de ligação
+            tem o <b>mesmo nome</b> nas duas tabelas, <code>USING (col)</code> substitui o
+            <code>ON a.col = b.col</code> (e a coluna aparece uma vez só no resultado).</li>
+          <li><b><code>LEFT JOIN … WHERE b.id IS NULL</code></b> — o padrão "quem não tem par":
+            clientes sem pedido, produtos nunca vendidos.</li>
+          <li><b><code>WITH nome AS (…)</code></b> (CTE) — dá nome a uma consulta e usa como se
+            fosse tabela. Deixa a query em etapas legíveis.</li>
+          <li><b><code>EXISTS (SELECT 1 FROM … WHERE …)</code></b> — "existe pelo menos uma linha
+            relacionada". <code>NOT EXISTS</code> pro contrário. Costuma ser mais claro (e rápido)
+            que <code>IN (subquery)</code>.</li>
+        </ul>
+      </div>
+
+      <h3>Dois exemplos</h3>
+      <div id="exemplos"></div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>Teoria</h2>
+      <div class="card">
+        <ul>
+          <li><code>a JOIN b ON b.a_id = a.id</code> — só as linhas que casam nos dois lados.</li>
+          <li><code>a JOIN b USING (col)</code> — quando o nome da coluna é igual nos dois.</li>
+          <li><code>a LEFT JOIN b ON …</code> — mantém tudo de <code>a</code>; o que não casa vem NULL em <code>b</code>.</li>
+          <li><code>WITH x AS (SELECT …) SELECT … FROM x …</code> — CTE, consulta nomeada.</li>
+          <li><code>WHERE EXISTS (SELECT 1 FROM b WHERE b.a_id = a.id AND …)</code> — tem relacionada?</li>
+          <li><code>WHERE col IN (SELECT … )</code> — valor dentro do resultado de outra query.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Prática</h2>
+      <p class="legenda">Escreva a query e clique <strong>Rodar</strong> (ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>).</p>
+      <div id="schema-ref" data-aberto></div>
+      <p class="status-banco" id="status-banco">carregando banco…</p>
+      <div class="acoes" style="margin:6px 0 0"><button id="btn-reset">Resetar banco</button></div>
+      <div id="exercicios"></div>
+    </section>
+
+    <section class="secao">
+      <h2>Query livre</h2>
+      <div class="card">
+        <textarea class="editor" id="editor-livre" spellcheck="false">SELECT p.id, c.nome, p.valor_total
+FROM pedidos p
+JOIN clientes c ON c.id = p.cliente_id
+ORDER BY p.valor_total DESC
+LIMIT 10;</textarea>
+        <div class="acoes"><button class="primario" id="btn-livre">Rodar</button></div>
+        <div class="resultado" id="res-livre"></div>
+      </div>
+    </section>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="modulo-5.html"><button>← Módulo 5</button></a>
+      <a href="modulo-7.html"><button class="primario">Módulo 7 →</button></a>
+    </nav>
+  </main>
+
+  <script>
+  window.EXEMPLOS = [
+    {
+      titulo: "1) Clientes que nunca fizeram pedido (LEFT JOIN … IS NULL)",
+      explica: "LEFT JOIN traz todo cliente; quem não tem pedido fica com <code>p.id</code> NULL.",
+      sql: "SELECT c.id, c.nome\nFROM clientes c\nLEFT JOIN pedidos p ON p.cliente_id = c.id\nWHERE p.id IS NULL;",
+    },
+    {
+      titulo: "2) Mesma coisa com NOT EXISTS",
+      explica: "Lê melhor: \"não existe pedido para esse cliente\".",
+      sql: "SELECT c.id, c.nome\nFROM clientes c\nWHERE NOT EXISTS (SELECT 1 FROM pedidos p WHERE p.cliente_id = c.id);",
+    },
+  ];
+
+  window.EXERCICIOS = [
+    { id: "6.1",
+      enunciado: "Pedidos com o nome do cliente: pedido.id, cliente.nome, data_pedido, valor_total. Só os 15 primeiros por id.",
+      dica: "<code>JOIN clientes c ON c.id = p.cliente_id</code>.",
+      gabarito: "SELECT p.id, c.nome, p.data_pedido, p.valor_total\nFROM pedidos p\nJOIN clientes c ON c.id = p.cliente_id\nORDER BY p.id\nLIMIT 15;" },
+    { id: "6.2",
+      enunciado: "Itens do pedido de id = 10: nome do produto, quantidade, preco_unitario.",
+      dica: "<code>itens_pedido JOIN produtos ON produtos.id = itens_pedido.produto_id</code>, <code>WHERE pedido_id = 10</code>.",
+      gabarito: "SELECT pr.nome, i.quantidade, i.preco_unitario\nFROM itens_pedido i\nJOIN produtos pr ON pr.id = i.produto_id\nWHERE i.pedido_id = 10;" },
+    { id: "6.3",
+      enunciado: "Clientes que nunca tiveram um pedido ENTREGUE (podem ter pedidos noutros status, ou nenhum). Traga id e nome. A condição do status vai no ON, não no WHERE.",
+      dica: "<code>LEFT JOIN pedidos p ON p.cliente_id = c.id AND p.status = 'entregue'</code>, depois <code>WHERE p.id IS NULL</code>. Se o <code>status</code> fosse no WHERE, o LEFT JOIN viraria INNER e você perderia quem não tem pedido nenhum.",
+      gabarito: "SELECT c.id, c.nome\nFROM clientes c\nLEFT JOIN pedidos p ON p.cliente_id = c.id AND p.status = 'entregue'\nWHERE p.id IS NULL\nORDER BY c.id;" },
+    { id: "6.4",
+      enunciado: "Nome do cliente + faturamento total dele (soma dos valor_total dos pedidos NÃO cancelados). Top 10.",
+      dica: "<code>JOIN</code>, <code>WHERE status &lt;&gt; 'cancelado'</code>, <code>GROUP BY c.id, c.nome</code>, <code>ORDER BY ... DESC LIMIT 10</code>.",
+      gabarito: "SELECT c.nome, ROUND(SUM(p.valor_total), 2) AS faturamento\nFROM clientes c\nJOIN pedidos p ON p.cliente_id = c.id\nWHERE p.status <> 'cancelado'\nGROUP BY c.id, c.nome\nORDER BY faturamento DESC\nLIMIT 10;" },
+    { id: "6.5",
+      enunciado: "Execuções de teste que falharam, com o titulo e o modulo do defeito ligado. Traga caso_teste, titulo, modulo.",
+      dica: "<code>JOIN defeitos d ON d.id = e.defeito_id</code> + <code>WHERE e.resultado = 'falhou'</code>.",
+      gabarito: "SELECT e.caso_teste, d.titulo, d.modulo\nFROM execucoes_teste e\nJOIN defeitos d ON d.id = e.defeito_id\nWHERE e.resultado = 'falhou';" },
+    { id: "6.6",
+      enunciado: "Com uma CTE chamada gastos (cliente_id, total_gasto = soma dos valor_total): traga o nome dos clientes com total_gasto acima de 20000, do maior pro menor.",
+      dica: "<code>WITH gastos AS (SELECT cliente_id, SUM(valor_total) AS total_gasto FROM pedidos GROUP BY cliente_id)</code>; depois <code>JOIN clientes</code> e <code>WHERE total_gasto &gt; 20000</code>.",
+      gabarito: "WITH gastos AS (\n  SELECT cliente_id, SUM(valor_total) AS total_gasto\n  FROM pedidos\n  GROUP BY cliente_id\n)\nSELECT c.nome, g.total_gasto\nFROM gastos g\nJOIN clientes c ON c.id = g.cliente_id\nWHERE g.total_gasto > 20000\nORDER BY g.total_gasto DESC;" },
+    { id: "6.7",
+      enunciado: "Clientes ativos que NÃO fizeram nenhum pedido. Traga id e nome. Use NOT EXISTS.",
+      dica: "<code>WHERE c.ativo AND NOT EXISTS (SELECT 1 FROM pedidos p WHERE p.cliente_id = c.id)</code>.",
+      gabarito: "SELECT c.id, c.nome\nFROM clientes c\nWHERE c.ativo\n  AND NOT EXISTS (SELECT 1 FROM pedidos p WHERE p.cliente_id = c.id);" },
+    { id: "6.8",
+      enunciado: "Produtos que já foram vendidos em algum pedido cancelado. Traga nome, sem repetir. Use IN (subquery).",
+      dica: "<code>WHERE id IN (SELECT i.produto_id FROM itens_pedido i JOIN pedidos p ON p.id = i.pedido_id WHERE p.status = 'cancelado')</code>.",
+      gabarito: "SELECT DISTINCT pr.nome\nFROM produtos pr\nWHERE pr.id IN (\n  SELECT i.produto_id\n  FROM itens_pedido i\n  JOIN pedidos p ON p.id = i.pedido_id\n  WHERE p.status = 'cancelado'\n)\nORDER BY pr.nome;" },
+  ];
+  </script>
+  <script type="module" src="app-pg.js"></script>
+</body>
+</html>

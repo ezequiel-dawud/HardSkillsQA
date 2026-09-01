@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>API Módulo 3 — Regras de negócio e POST</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ API</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html" class="atual">3</a>
+      <a href="modulo-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 3 — Regras de negócio e POST</h1>
+    <p class="legenda">201, 400, validação de entrada, efeito colateral</p>
+
+    <section class="secao">
+      <h2>Teoria</h2>
+      <div class="card">
+        <ul>
+          <li><b><code>POST</code></b> cria coisa. Segundo argumento vira o corpo:
+            <code>await api('POST', '/defeitos', { titulo: 'x', severidade: 'alta' })</code>.</li>
+          <li><b>Sucesso:</b> geralmente <code>201 Created</code>, e o corpo traz o recurso criado
+            (com <code>id</code> novo, campos default preenchidos).</li>
+          <li><b>Entrada inválida:</b> <code>400 Bad Request</code> — a API <b>não</b> deve criar
+            nada e deve explicar o que faltou.</li>
+          <li><b>Efeito colateral:</b> depois de um POST bem-sucedido, um <code>GET</code>
+            seguinte tem que <b>enxergar</b> o que foi criado. Teste isso — é onde mora bug de
+            "cadastrou mas não salvou".</li>
+        </ul>
+        <p style="margin-bottom:0; font-size:14px; color:var(--suave)">Dica: o botão
+          <b>Resetar dados</b> desfaz os POSTs que você fez, pra rodar de novo do zero.</p>
+      </div>
+
+      <h3>Exemplos</h3>
+      <div id="exemplos"></div>
+    </section>
+
+    <section class="secao">
+      <h2>Prática</h2>
+      <p class="legenda">Complete e clique <strong>Rodar</strong> (ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>).</p>
+      <div class="acoes" style="margin:6px 0 10px"><button id="btn-reset">Resetar dados</button></div>
+      <div id="exercicios"></div>
+    </section>
+
+    <section class="secao">
+      <h2>Área livre</h2>
+      <div class="card">
+        <textarea class="editor" id="editor-livre" spellcheck="false" rows="7">const r = await api('POST', '/defeitos', { titulo: 'teste manual', severidade: 'baixa' });
+check('status 201', r.status === 201);
+check('ganhou id', typeof r.json.id === 'number');
+check('status inicial aberto', r.json.status === 'aberto');</textarea>
+        <div class="acoes"><button class="primario" id="btn-livre">Rodar</button></div>
+        <div class="resultado" id="res-livre"></div>
+      </div>
+    </section>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="modulo-2.html"><button>← Módulo 2</button></a>
+      <a href="modulo-4.html"><button class="primario">Módulo 4 →</button></a>
+    </nav>
+  </main>
+
+  <script src="dados.js"></script>
+  <script>
+  window.EXEMPLOS = [
+    {
+      titulo: "1) POST válido → 201 + recurso criado",
+      explica: "A API devolve o defeito com id novo e <code>status: 'aberto'</code> de default.",
+      sql: "const r = await api('POST', '/defeitos', { titulo: 'checkout trava no passo 2', severidade: 'alta', modulo: 'checkout' });\ncheck('status 201', r.status === 201);\ncheck('tem id novo', typeof r.json.id === 'number');\ncheck('modulo veio do corpo', r.json.modulo === 'checkout');\ncheck('status default = aberto', r.json.status === 'aberto');",
+    },
+    {
+      titulo: "2) POST sem campo obrigatório → 400",
+      explica: "Sem <code>severidade</code>, a API recusa com 400 e não cria nada.",
+      sql: "const antes = (await api('GET', '/defeitos')).json.length;\nconst r = await api('POST', '/defeitos', { titulo: 'faltou severidade' });\ncheck('status 400', r.status === 400);\nconst depois = (await api('GET', '/defeitos')).json.length;\ncheck('nao criou nada', antes === depois, antes + ' -> ' + depois);",
+    },
+  ];
+
+  window.EXERCICIOS = [
+    { id: "3.1",
+      enunciado: "Crie um defeito com <code>titulo</code> 'busca ignora acento' e <code>severidade</code> 'media'. Verifique: status 201, o <code>titulo</code> no corpo bate com o que você mandou, e <code>id</code> é número.",
+      dica: "<code>await api('POST', '/defeitos', { titulo: '...', severidade: 'media' })</code>.",
+      inicial: "const r = await api('POST', '/defeitos', { titulo: 'busca ignora acento', severidade: 'media' });\n",
+      gabarito: "const r = await api('POST', '/defeitos', { titulo: 'busca ignora acento', severidade: 'media' });\ncheck('status 201', r.status === 201);\ncheck('titulo ecoado', r.json.titulo === 'busca ignora acento');\ncheck('id numerico', typeof r.json.id === 'number');" },
+    { id: "3.2",
+      enunciado: "Tente criar um defeito só com <code>{ severidade: 'alta' }</code> (sem titulo). Verifique que a API responde 400 e que o corpo tem um campo <code>erro</code> explicando.",
+      dica: "400 + <code>typeof r.json.erro === 'string'</code>.",
+      inicial: "const r = await api('POST', '/defeitos', { severidade: 'alta' });\n",
+      gabarito: "const r = await api('POST', '/defeitos', { severidade: 'alta' });\ncheck('status 400', r.status === 400);\ncheck('explica o erro', typeof r.json.erro === 'string', r.json.erro);" },
+    { id: "3.3",
+      enunciado: "Efeito colateral: conte os defeitos, crie um novo (válido), conte de novo. Verifique que aumentou exatamente 1, e que o <code>id</code> retornado aparece num <code>GET /defeitos</code> seguinte.",
+      dica: "guarde <code>antes</code> e <code>depois</code> com <code>(await api('GET','/defeitos')).json</code>. Pra achar: <code>depois.some(d =&gt; d.id === r.json.id)</code>.",
+      inicial: "const antes = (await api('GET', '/defeitos')).json;\nconst r = await api('POST', '/defeitos', { titulo: 'novo', severidade: 'baixa' });\n",
+      gabarito: "const antes = (await api('GET', '/defeitos')).json;\nconst r = await api('POST', '/defeitos', { titulo: 'novo', severidade: 'baixa' });\nconst depois = (await api('GET', '/defeitos')).json;\ncheck('aumentou 1', depois.length === antes.length + 1, antes.length + ' -> ' + depois.length);\ncheck('o novo aparece no GET', depois.some(d => d.id === r.json.id));" },
+    { id: "3.4",
+      enunciado: "Regra: um defeito recém-criado NÃO pode vir com <code>status</code> 'fechado'. Crie um e verifique que o status é 'aberto'.",
+      dica: "<code>r.json.status === 'aberto'</code>.",
+      inicial: "const r = await api('POST', '/defeitos', { titulo: 'x', severidade: 'alta' });\n",
+      gabarito: "const r = await api('POST', '/defeitos', { titulo: 'x', severidade: 'alta' });\ncheck('nasce aberto', r.json.status === 'aberto', 'veio ' + r.json.status);" },
+  ];
+  </script>
+  <script src="app-api.js"></script>
+</body>
+</html>

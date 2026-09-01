@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>API Módulo 1 — Primeira requisição</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ API</span></div>
+    <nav>
+      <a href="modulo-1.html" class="atual">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 1 — Primeira requisição</h1>
+    <p class="legenda">GET, status code, <code>ok</code>, corpo JSON, 200 × 404</p>
+
+    <section class="secao">
+      <h2>Teoria</h2>
+      <div class="card">
+        <p style="margin-top:0">Uma chamada de API tem 3 coisas que a gente sempre olha:</p>
+        <ul>
+          <li><b>Status code</b> — número que resume o que aconteceu:
+            <code>200</code> ok, <code>201</code> criado, <code>400</code> pedido malformado,
+            <code>401/403</code> sem permissão, <code>404</code> não existe,
+            <code>405</code> método errado, <code>500</code> a API quebrou.</li>
+          <li><b>Corpo</b> (body) — normalmente JSON: um objeto ou uma lista.</li>
+          <li><b>Cabeçalhos</b> — ex.: <code>content-type: application/json</code>.</li>
+        </ul>
+        <p style="margin-bottom:0">Aqui você usa <code>const r = await api('GET', '/caminho')</code>.
+          O <code>r</code> tem <code>r.status</code>, <code>r.ok</code> (true se 2xx),
+          <code>r.json</code> (o corpo já convertido) e <code>r.headers</code>. Pra afirmar algo,
+          <code>check('rótulo', condição)</code>.</p>
+      </div>
+
+      <h3>Exemplos (rodam sozinhos — mexe e clique Rodar)</h3>
+      <div id="exemplos"></div>
+    </section>
+
+    <section class="secao">
+      <h2>Prática</h2>
+      <p class="legenda">Complete o código e clique <strong>Rodar</strong> (ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>). Verde = todos os <code>check</code> passaram.</p>
+      <div class="acoes" style="margin:6px 0 10px"><button id="btn-reset">Resetar dados</button></div>
+      <div id="exercicios"></div>
+    </section>
+
+    <section class="secao">
+      <h2>Área livre</h2>
+      <div class="card">
+        <textarea class="editor" id="editor-livre" spellcheck="false" rows="6">const r = await api('GET', '/produtos');
+check('status 200', r.status === 200);
+check('veio uma lista', Array.isArray(r.json), 'tamanho ' + r.json.length);</textarea>
+        <div class="acoes"><button class="primario" id="btn-livre">Rodar</button></div>
+        <div class="resultado" id="res-livre"></div>
+      </div>
+    </section>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="index.html"><button>← Índice</button></a>
+      <a href="modulo-2.html"><button class="primario">Módulo 2 →</button></a>
+    </nav>
+  </main>
+
+  <script src="dados.js"></script>
+  <script>
+  window.EXEMPLOS = [
+    {
+      titulo: "1) Um GET simples",
+      explica: "status, <code>ok</code> e o corpo. <code>check</code> aceita um 3º argumento só pra anotar detalhe.",
+      sql: "const r = await api('GET', '/produtos');\ncheck('status 200', r.status === 200);\ncheck('r.ok é true', r.ok === true);\ncheck('15 produtos', r.json.length === 15, 'veio ' + r.json.length);",
+    },
+    {
+      titulo: "2) Recurso que não existe → 404",
+      explica: "A API responde 404 e um corpo com <code>erro</code>. <code>r.ok</code> fica false.",
+      sql: "const r = await api('GET', '/produtos/999');\ncheck('status 404', r.status === 404);\ncheck('r.ok é false', r.ok === false);\ncheck('corpo tem campo erro', typeof r.json.erro === 'string', r.json.erro);",
+    },
+  ];
+
+  window.EXERCICIOS = [
+    { id: "1.1",
+      enunciado: "Busque o produto de id 1. Verifique: status 200, <code>r.ok</code> verdadeiro, e que <code>r.json.id</code> é 1.",
+      dica: "<code>const r = await api('GET', '/produtos/1');</code> e três <code>check(...)</code>.",
+      inicial: "const r = await api('GET', '/produtos/1');\n// check('...', ...);\n",
+      gabarito: "const r = await api('GET', '/produtos/1');\ncheck('status 200', r.status === 200);\ncheck('ok', r.ok === true);\ncheck('id correto', r.json.id === 1);" },
+    { id: "1.2",
+      enunciado: "Peça um cliente que não existe (id 999). Verifique que a API responde 404, com <code>r.ok</code> falso e um campo <code>erro</code> no corpo.",
+      dica: "mesma ideia do exemplo 2, na rota <code>/clientes/999</code>.",
+      inicial: "const r = await api('GET', '/clientes/999');\n",
+      gabarito: "const r = await api('GET', '/clientes/999');\ncheck('status 404', r.status === 404);\ncheck('nao ok', r.ok === false);\ncheck('tem erro', typeof r.json.erro === 'string');" },
+    { id: "1.3",
+      enunciado: "Liste os produtos da categoria 'Monitores' (use <code>?categoria=Monitores</code>). Verifique status 200, que veio pelo menos 1, e que TODOS têm categoria 'Monitores'.",
+      dica: "<code>api('GET', '/produtos?categoria=Monitores')</code>. Pra \"todos\": <code>r.json.every(p =&gt; p.categoria === 'Monitores')</code>.",
+      inicial: "const r = await api('GET', '/produtos?categoria=Monitores');\n",
+      gabarito: "const r = await api('GET', '/produtos?categoria=Monitores');\ncheck('status 200', r.status === 200);\ncheck('tem resultado', r.json.length >= 1, r.json.length + ' itens');\ncheck('todos sao Monitores', r.json.every(p => p.categoria === 'Monitores'));" },
+    { id: "1.4",
+      enunciado: "Pegue os pedidos com <code>?status=cancelado</code>. Verifique que todos os itens da resposta têm status 'cancelado'.",
+      dica: "<code>every(pd =&gt; pd.status === 'cancelado')</code>.",
+      inicial: "const r = await api('GET', '/pedidos?status=cancelado');\n",
+      gabarito: "const r = await api('GET', '/pedidos?status=cancelado');\ncheck('status 200', r.status === 200);\ncheck('todos cancelados', r.json.every(pd => pd.status === 'cancelado'), r.json.length + ' pedidos');" },
+    { id: "1.5",
+      enunciado: "Tente um <code>DELETE</code> em <code>/produtos/1</code>. A API não suporta esse método — verifique que ela responde 405.",
+      dica: "<code>api('DELETE', '/produtos/1')</code>. 405 = Method Not Allowed.",
+      inicial: "const r = await api('DELETE', '/produtos/1');\n",
+      gabarito: "const r = await api('DELETE', '/produtos/1');\ncheck('status 405', r.status === 405);\ncheck('nao ok', r.ok === false);" },
+    { id: "1.6",
+      enunciado: "Busque os pedidos do cliente 1 em <code>/clientes/1/pedidos</code>. Verifique status 200 e que todo pedido retornado tem <code>cliente_id</code> igual a 1.",
+      dica: "<code>r.json.every(pd =&gt; pd.cliente_id === 1)</code>.",
+      inicial: "const r = await api('GET', '/clientes/1/pedidos');\n",
+      gabarito: "const r = await api('GET', '/clientes/1/pedidos');\ncheck('status 200', r.status === 200);\ncheck('todos do cliente 1', r.json.every(pd => pd.cliente_id === 1), r.json.length + ' pedidos');" },
+  ];
+  </script>
+  <script src="app-api.js"></script>
+</body>
+</html>

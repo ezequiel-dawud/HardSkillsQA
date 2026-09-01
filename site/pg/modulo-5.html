@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PG Módulo 5 — Agregação e GROUP BY</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ PostgreSQL</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html">4</a>
+      <a href="modulo-5.html" class="atual">5</a>
+      <a href="modulo-6.html">6</a>
+      <a href="modulo-7.html">7</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 5 — Agregação e GROUP BY</h1>
+    <p class="legenda">COUNT, SUM, AVG, GROUP BY, HAVING — e o <code>FILTER (WHERE …)</code>, jeito Postgres</p>
+
+    <section class="secao">
+      <h2>Antes de começar</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          <code>GROUP BY</code> e <code>HAVING</code> funcionam igual à Trilha 1. A novidade que
+          vale ouro é o <b><code>FILTER (WHERE …)</code></b>: contar/somar só as linhas que batem
+          uma condição, <b>por coluna</b>, sem aquele <code>SUM(CASE WHEN … THEN 1 ELSE 0 END)</code>.
+        </p>
+        <ul>
+          <li><code>COUNT(*) FILTER (WHERE resultado = 'passou')</code> — quantas passaram.</li>
+          <li>Dá pra ter várias na mesma query, cada uma com seu filtro, lado a lado.</li>
+          <li>É mais curto e mais legível que <code>SUM(CASE …)</code> — e faz a mesma coisa.</li>
+          <li><b><code>bool_or(cond)</code></b> / <b><code>bool_and(cond)</code></b> — "existe alguma
+            linha no grupo onde…" / "todas as linhas do grupo…".</li>
+        </ul>
+        <p style="margin-bottom:0"><b>Cuidado de tipo (Módulo 2):</b> <code>AVG</code> de inteiros ou
+          uma divisão inteira zeram casas decimais — force <code>::numeric</code> e
+          <code>ROUND(x, 2)</code>.</p>
+        <p style="margin:8px 0 0"><b>Olhar de QA:</b> quase toda métrica de qualidade
+          (taxa de aprovação, backlog por severidade, faturamento por categoria) é um
+          <code>GROUP BY</code> com <code>FILTER</code>.</p>
+      </div>
+
+      <h3>Dois exemplos</h3>
+      <div id="exemplos"></div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>Teoria</h2>
+      <div class="card">
+        <ul>
+          <li><code>COUNT(*)</code>, <code>COUNT(coluna)</code> (ignora NULL), <code>SUM</code>, <code>AVG</code>, <code>MIN</code>, <code>MAX</code>.</li>
+          <li><code>GROUP BY col</code> — uma linha por valor de <code>col</code>. Tudo que não é agregado tem que estar no GROUP BY.</li>
+          <li><code>HAVING</code> — filtra <em>depois</em> de agrupar (é o WHERE dos agregados).</li>
+          <li><code>agg FILTER (WHERE cond)</code> — agrega só as linhas que passam em <code>cond</code>.</li>
+          <li><code>bool_or(cond)</code> / <code>bool_and(cond)</code> — "algum" / "todos" dentro do grupo.</li>
+          <li><code>ROUND(AVG(x)::numeric, 2)</code>, <code>x * 100.0 / y</code> — pra não perder casas.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Prática</h2>
+      <p class="legenda">Escreva a query e clique <strong>Rodar</strong> (ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>).</p>
+      <div id="schema-ref" data-aberto></div>
+      <p class="status-banco" id="status-banco">carregando banco…</p>
+      <div class="acoes" style="margin:6px 0 0"><button id="btn-reset">Resetar banco</button></div>
+      <div id="exercicios"></div>
+    </section>
+
+    <section class="secao">
+      <h2>Query livre</h2>
+      <div class="card">
+        <textarea class="editor" id="editor-livre" spellcheck="false">SELECT suite,
+       COUNT(*) AS total,
+       COUNT(*) FILTER (WHERE resultado = 'passou') AS passaram
+FROM execucoes_teste
+GROUP BY suite;</textarea>
+        <div class="acoes"><button class="primario" id="btn-livre">Rodar</button></div>
+        <div class="resultado" id="res-livre"></div>
+      </div>
+    </section>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="modulo-4.html"><button>← Módulo 4</button></a>
+      <a href="modulo-6.html"><button class="primario">Módulo 6 →</button></a>
+    </nav>
+  </main>
+
+  <script>
+  window.EXEMPLOS = [
+    {
+      titulo: "1) FILTER no lugar de SUM(CASE)",
+      explica: "Conta abertos e fechados numa linha só — sem CASE.",
+      sql: "SELECT COUNT(*) FILTER (WHERE data_fechamento IS NULL) AS abertos,\n       COUNT(*) FILTER (WHERE data_fechamento IS NOT NULL) AS fechados\nFROM defeitos;",
+    },
+    {
+      titulo: "2) Faturamento por status",
+      explica: "<code>SUM</code> por grupo, arredondado. <code>ORDER BY</code> pelo apelido.",
+      sql: "SELECT status, ROUND(SUM(valor_total), 2) AS total\nFROM pedidos\nGROUP BY status\nORDER BY total DESC;",
+    },
+  ];
+
+  window.EXERCICIOS = [
+    { id: "5.1",
+      enunciado: "Quantidade de pedidos por status.",
+      dica: "<code>GROUP BY status</code> + <code>COUNT(*)</code>.",
+      gabarito: "SELECT status, COUNT(*) AS qtd FROM pedidos\nGROUP BY status\nORDER BY qtd DESC;" },
+    { id: "5.2",
+      enunciado: "Por status: valor total e ticket médio (AVG) de valor_total, os dois com 2 casas. Ordene pelo total desc.",
+      dica: "<code>ROUND(SUM(valor_total), 2)</code> e <code>ROUND(AVG(valor_total), 2)</code>. valor_total já é numeric, então o ROUND aceita direto.",
+      gabarito: "SELECT status,\n       ROUND(SUM(valor_total), 2) AS total,\n       ROUND(AVG(valor_total), 2) AS ticket_medio\nFROM pedidos\nGROUP BY status\nORDER BY total DESC;" },
+    { id: "5.3",
+      enunciado: "Conte, numa linha só, quantos defeitos estão abertos (data_fechamento NULL) e quantos fechados. Use FILTER.",
+      dica: "<code>COUNT(*) FILTER (WHERE data_fechamento IS NULL) AS abertos</code> e outro FILTER pro IS NOT NULL.",
+      gabarito: "SELECT COUNT(*) FILTER (WHERE data_fechamento IS NULL) AS abertos,\n       COUNT(*) FILTER (WHERE data_fechamento IS NOT NULL) AS fechados\nFROM defeitos;" },
+    { id: "5.4",
+      enunciado: "Por suite: total de execuções, quantas passaram, e a taxa de aprovação em % (1 casa). Use FILTER pra contar as que passaram.",
+      dica: "<code>COUNT(*) FILTER (WHERE resultado = 'passou')</code>. Taxa = <code>ROUND(passaram * 100.0 / total, 1)</code> — repita o FILTER na conta ou use <code>* 100.0 / COUNT(*)</code>.",
+      gabarito: "SELECT suite,\n       COUNT(*) AS total,\n       COUNT(*) FILTER (WHERE resultado = 'passou') AS passaram,\n       ROUND(COUNT(*) FILTER (WHERE resultado = 'passou') * 100.0 / COUNT(*), 1) AS taxa_aprovacao\nFROM execucoes_teste\nGROUP BY suite\nORDER BY taxa_aprovacao DESC;" },
+    { id: "5.5",
+      enunciado: "Módulos de defeito com MAIS de 12 defeitos. Colunas modulo e qtd.",
+      dica: "<code>GROUP BY modulo HAVING COUNT(*) &gt; 12</code>.",
+      gabarito: "SELECT modulo, COUNT(*) AS qtd FROM defeitos\nGROUP BY modulo\nHAVING COUNT(*) > 12\nORDER BY qtd DESC;" },
+    { id: "5.6",
+      enunciado: "Número de defeitos por módulo, e quantos deles são 'critica' ou 'alta' (coluna urgentes), lado a lado.",
+      dica: "<code>COUNT(*) FILTER (WHERE severidade IN ('critica','alta')) AS urgentes</code>.",
+      gabarito: "SELECT modulo,\n       COUNT(*) AS total,\n       COUNT(*) FILTER (WHERE severidade IN ('critica', 'alta')) AS urgentes\nFROM defeitos\nGROUP BY modulo\nORDER BY urgentes DESC;" },
+    { id: "5.7",
+      enunciado: "Por suite, diga se ela tem alguma execução com resultado 'bloqueado' (coluna tem_bloqueado, true/false).",
+      dica: "<code>bool_or(resultado = 'bloqueado') AS tem_bloqueado</code>, com <code>GROUP BY suite</code>.",
+      gabarito: "SELECT suite, bool_or(resultado = 'bloqueado') AS tem_bloqueado\nFROM execucoes_teste\nGROUP BY suite;" },
+    { id: "5.8",
+      enunciado: "Faturamento por categoria de produto (junte itens_pedido + produtos): some quantidade * preco_unitario, 2 casas, do maior pro menor.",
+      dica: "<code>JOIN produtos ON produtos.id = itens_pedido.produto_id</code>, <code>SUM(quantidade * preco_unitario)</code>, <code>GROUP BY categoria</code>.",
+      gabarito: "SELECT p.categoria,\n       ROUND(SUM(i.quantidade * i.preco_unitario), 2) AS faturamento\nFROM itens_pedido i\nJOIN produtos p ON p.id = i.produto_id\nGROUP BY p.categoria\nORDER BY faturamento DESC;" },
+  ];
+  </script>
+  <script type="module" src="app-pg.js"></script>
+</body>
+</html>

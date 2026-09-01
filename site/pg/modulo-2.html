@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PG Módulo 2 — Tipos de verdade</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ PostgreSQL</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html" class="atual">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html">4</a>
+      <a href="modulo-5.html">5</a>
+      <a href="modulo-6.html">6</a>
+      <a href="modulo-7.html">7</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 2 — Tipos de verdade</h1>
+    <p class="legenda">boolean, numeric x divisão inteira, CAST/::, NULL, IS DISTINCT FROM</p>
+
+    <section class="secao">
+      <h2>Antes de começar</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          O SQLite é frouxo com tipos: aceita <code>ativo = 1</code>, junta texto com número
+          sem reclamar. O Postgres é <b>rígido</b> — e isso é bom, porque erro de tipo vira
+          erro na hora, não dado torto que só aparece semanas depois.
+        </p>
+        <ul>
+          <li><b><code>boolean</code></b> — <code>ativo</code> aqui é <code>true</code>/<code>false</code>,
+            não 0/1. <code>WHERE ativo</code> já basta (é "onde ativo é verdadeiro").
+            O contrário é <code>WHERE NOT ativo</code>. Também existe <code>ativo IS TRUE</code> /
+            <code>IS FALSE</code> / <code>IS NOT TRUE</code> (esse último pega inclusive
+            <code>NULL</code>).</li>
+          <li><b>Divisão inteira.</b> <code>5 / 2</code> dá <code>2</code> (dois inteiros → resultado
+            inteiro). Pra ter <code>2.5</code>: <code>5 / 2.0</code> ou <code>5::numeric / 2</code>.
+            Pega muita gente em cálculo de taxa/percentual.</li>
+          <li><b><code>CAST(x AS tipo)</code></b> ou <b><code>x::tipo</code></b> — converte de propósito:
+            <code>'42'::int</code>, <code>preco::int</code>, <code>data_abertura::text</code>.</li>
+          <li><b><code>NULL</code></b> não é igual a nada, nem a outro NULL. Teste com
+            <code>IS NULL</code> / <code>IS NOT NULL</code>. <code>COALESCE(a, b)</code> devolve o
+            primeiro não-nulo. <code>a IS DISTINCT FROM b</code> compara tratando NULL como um
+            valor comum (útil pra "mudou?").</li>
+        </ul>
+        <p style="margin-bottom:0"><b>Olhar de QA:</b> "esse campo devia ser numérico e veio texto"
+          ou "somaram 0/1 num campo boolean" são bugs clássicos — no Postgres o próprio banco te avisa.</p>
+      </div>
+
+      <h3>Dois exemplos</h3>
+      <div id="exemplos"></div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>Teoria</h2>
+      <div class="card">
+        <ul>
+          <li><code>WHERE ativo</code> — coluna boolean já é a condição. Negativo: <code>WHERE NOT ativo</code>.</li>
+          <li><code>coluna IS TRUE / IS FALSE / IS NOT TRUE</code> — o <code>IS NOT TRUE</code> também casa com <code>NULL</code>.</li>
+          <li><code>5 / 2</code> = 2 (inteiro). <code>5::numeric / 2</code> = 2.5. <code>ROUND(x::numeric, 2)</code> arredonda.</li>
+          <li><code>x::tipo</code> = <code>CAST(x AS tipo)</code>. Ex.: <code>valor_total::int</code>, <code>'2025-01-01'::date</code>.</li>
+          <li><code>COALESCE(a, b, …)</code> — primeiro valor não-nulo. <code>NULLIF(a, b)</code> — vira NULL se <code>a = b</code>.</li>
+          <li><code>a IS DISTINCT FROM b</code> — "são diferentes", contando NULL como valor.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Prática</h2>
+      <p class="legenda">Escreva a query e clique <strong>Rodar</strong> (ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>).</p>
+      <div id="schema-ref" data-aberto></div>
+      <p class="status-banco" id="status-banco">carregando banco…</p>
+      <div class="acoes" style="margin:6px 0 0"><button id="btn-reset">Resetar banco</button></div>
+      <div id="exercicios"></div>
+    </section>
+
+    <section class="secao">
+      <h2>Query livre</h2>
+      <div class="card">
+        <textarea class="editor" id="editor-livre" spellcheck="false">SELECT 5 / 2 AS inteiro, 5::numeric / 2 AS decimal;</textarea>
+        <div class="acoes"><button class="primario" id="btn-livre">Rodar</button></div>
+        <div class="resultado" id="res-livre"></div>
+      </div>
+    </section>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="modulo-1.html"><button>← Módulo 1</button></a>
+      <a href="modulo-3.html"><button class="primario">Módulo 3 →</button></a>
+    </nav>
+  </main>
+
+  <script>
+  window.EXEMPLOS = [
+    {
+      titulo: "1) boolean é boolean",
+      explica: "<code>WHERE ativo</code> já significa \"ativo é verdadeiro\". Compare com <code>WHERE NOT ativo</code>.",
+      sql: "SELECT nome, ativo FROM produtos WHERE NOT ativo;",
+    },
+    {
+      titulo: "2) divisão inteira x numeric",
+      explica: "Dois inteiros dividem como inteiro. Force um lado a <code>numeric</code> pra ter casas decimais.",
+      sql: "SELECT 7 / 2 AS cai_no_chao, 7 / 2.0 AS certo, ROUND(7::numeric / 2, 2) AS arredondado;",
+    },
+  ];
+
+  window.EXERCICIOS = [
+    { id: "2.1",
+      enunciado: "Clientes ativos (nome e cidade). Use a coluna boolean direto, sem = TRUE.",
+      dica: "<code>WHERE ativo</code> — só isso. A coluna já é a condição.",
+      gabarito: "SELECT nome, cidade FROM clientes WHERE ativo;" },
+    { id: "2.2",
+      enunciado: "Produtos fora de linha (ativo falso), mostrando nome e ativo.",
+      dica: "<code>WHERE NOT ativo</code> (ou <code>WHERE ativo IS FALSE</code>).",
+      gabarito: "SELECT nome, ativo FROM produtos WHERE NOT ativo;" },
+    { id: "2.3",
+      enunciado: "Mostre o valor_total de cada pedido e o mesmo valor arredondado pra inteiro numa coluna valor_arred. Só os 10 primeiros por id.",
+      dica: "<code>valor_total::int AS valor_arred</code> (o cast pra int arredonda). <code>ORDER BY id LIMIT 10</code>.",
+      gabarito: "SELECT id, valor_total, valor_total::int AS valor_arred\nFROM pedidos\nORDER BY id\nLIMIT 10;" },
+    { id: "2.4",
+      enunciado: "Para cada produto, quanto % do estoque representa sobre 120 unidades (o teto de estoque). Coluna pct, com 1 casa decimal. Ordene por pct desc.",
+      dica: "<code>estoque</code> e 120 são inteiros → <code>estoque * 100.0 / 120</code> (ou <code>estoque::numeric</code>) pra não zerar. <code>ROUND(..., 1)</code>.",
+      gabarito: "SELECT nome, estoque,\n       ROUND(estoque * 100.0 / 120, 1) AS pct\nFROM produtos\nORDER BY pct DESC;" },
+    { id: "2.5",
+      enunciado: "Para cada defeito: id, titulo e uma coluna fechamento com a data_fechamento ou o texto 'em aberto' quando for NULL.",
+      dica: "<code>COALESCE(data_fechamento::text, 'em aberto')</code> — precisa do <code>::text</code> porque os dois lados têm que ser do mesmo tipo.",
+      gabarito: "SELECT id, titulo,\n       COALESCE(data_fechamento::text, 'em aberto') AS fechamento\nFROM defeitos;" },
+    { id: "2.6",
+      enunciado: "Defeitos que NÃO estão fechados. Traga id, status e data_fechamento.",
+      dica: "<code>WHERE data_fechamento IS NULL</code>. NULL não se compara com <code>=</code>.",
+      gabarito: "SELECT id, status, data_fechamento FROM defeitos\nWHERE data_fechamento IS NULL;" },
+    { id: "2.7",
+      enunciado: "Classifique cada defeito numa coluna faixa: severidade 'critica' ou 'alta' → 'urgente', 'media' → 'normal', o resto → 'baixa'. Mostre id, severidade, faixa.",
+      dica: "<code>CASE WHEN severidade IN ('critica','alta') THEN 'urgente' WHEN severidade = 'media' THEN 'normal' ELSE 'baixa' END AS faixa</code>.",
+      gabarito: "SELECT id, severidade,\n       CASE\n         WHEN severidade IN ('critica', 'alta') THEN 'urgente'\n         WHEN severidade = 'media' THEN 'normal'\n         ELSE 'baixa'\n       END AS faixa\nFROM defeitos;" },
+    { id: "2.8",
+      enunciado: "Execuções de teste cujo resultado não foi 'passou' E que têm defeito_id preenchido. Traga caso_teste, resultado, defeito_id.",
+      dica: "<code>resultado &lt;&gt; 'passou' AND defeito_id IS NOT NULL</code>.",
+      gabarito: "SELECT caso_teste, resultado, defeito_id\nFROM execucoes_teste\nWHERE resultado <> 'passou' AND defeito_id IS NOT NULL;" },
+  ];
+  </script>
+  <script type="module" src="app-pg.js"></script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>pytest Módulo 1 — Preparar a máquina</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ pytest</span></div>
+    <nav>
+      <a href="modulo-1.html" class="atual">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 1 — Preparar a máquina</h1>
+    <p class="legenda">Do zero até <code>pytest</code> rodando verde no seu terminal.</p>
+
+    <section class="secao">
+      <h2>1. Pegar o código</h2>
+      <div class="card">
+        <p style="margin-top:0">Duas formas — escolha uma:</p>
+        <ul>
+          <li><b>Com git:</b> <code>git clone https://github.com/ezequiel-dawud/HardSkillsQA.git</code></li>
+          <li><b>Sem git:</b> no GitHub, botão verde <b>Code → Download ZIP</b>, e descompacte.</li>
+        </ul>
+        <p style="margin-bottom:0">O que interessa nesta trilha está em <code>HardSkillsQA/trilha-3/</code>.
+          O banco que os testes usam mora em <code>HardSkillsQA/pratica/pratica.db</code> — por isso
+          precisa ser o repositório inteiro, não só a pasta <code>trilha-3</code>.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>2. Instalar o Python</h2>
+      <div class="card">
+        <p style="margin-top:0">Se <code>python --version</code> já responde algo tipo
+          <code>Python 3.11+</code>, pule pro passo 3.</p>
+        <p><b>Windows:</b> baixe em <a href="https://www.python.org/downloads/">python.org/downloads</a>
+          e, no instalador, <b>marque "Add python.exe to PATH"</b> antes de clicar em Install.
+          Esse checkbox é onde quase todo mundo tropeça — sem ele o terminal não acha o
+          <code>python</code>.</p>
+        <p style="margin-bottom:0"><b>macOS:</b> <code>brew install python</code> (ou o instalador do
+          python.org). <b>Linux:</b> já vem; instale o <code>python3-venv</code> pela sua distro se
+          faltar.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>3. Ambiente isolado + pytest</h2>
+      <div class="card">
+        <p style="margin-top:0">Um <b>venv</b> ("virtual environment") é uma cópia local do Python
+          só pra este projeto — o que você instalar aqui não bagunça o resto da máquina, e some
+          quando você apaga a pasta.</p>
+        <p><b>Windows / PowerShell</b>, de dentro de <code>trilha-3/</code>:</p>
+        <pre class="bloco"><code>python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt</code></pre>
+        <p style="margin:10px 0 0"><b>macOS / Linux</b>: só muda a ativação —
+          <code>source .venv/bin/activate</code>.</p>
+        <p style="margin:10px 0 0; font-size:14px; color:var(--suave)">
+          Deu certo se o começo da linha do terminal passou a mostrar <code>(.venv)</code>.
+          Da próxima vez que abrir o terminal, só o <code>activate</code> basta — não precisa
+          recriar o venv nem reinstalar.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>4. Rodar</h2>
+      <div class="card">
+        <pre class="bloco"><code>pytest</code></pre>
+        <p>Saída esperada na primeira vez (resumida):</p>
+        <pre class="bloco"><code>test_01_primeiros_testes.py::test_o_banco_abre PASSED
+test_02_integridade.py::test_nenhum_pedido_orfao PASSED
+test_02_integridade.py::test_pedido_nao_cancelado_nao_tem_valor_zero XFAIL
+...
+======== 12 passed, 3 xfailed ========</code></pre>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>5. Ler a saída</h2>
+      <div class="card">
+        <ul>
+          <li><b><code>PASSED</code></b> (verde) — o <code>assert</code> do teste foi verdadeiro.</li>
+          <li><b><code>FAILED</code></b> (vermelho) — o <code>assert</code> foi falso, ou a função
+            explodiu. O pytest imprime a linha do <code>assert</code> e <b>os dois lados</b> da
+            comparação (o que esperava × o que veio). É aí que você lê o que deu errado.</li>
+          <li><b><code>XFAIL</code></b> — teste marcado como "sabidamente falhando". Conta como
+            sucesso da suíte (não deixa vermelho). Módulo 3 explica.</li>
+          <li><b><code>ERROR</code></b> — quebrou <i>antes</i> do teste (ex.: a fixture não achou o
+            banco). Diferente de FAILED.</li>
+          <li>A última linha é o placar. O <b>código de saída</b> é 0 só se nada falhou — é isso
+            que o CI olha pra dar o build como verde ou vermelho.</li>
+        </ul>
+        <p style="margin-bottom:0">Flags que ajudam: <code>pytest -v</code> (uma linha por teste),
+          <code>pytest -x</code> (para no primeiro erro), <code>pytest test_02_integridade.py</code>
+          (só um arquivo), <code>pytest -k orfao</code> (só testes com "orfao" no nome).</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Erros comuns</h2>
+      <div class="card">
+        <table class="dados">
+          <thead><tr><th>Mensagem</th><th>O que é / correção</th></tr></thead>
+          <tbody>
+            <tr><td><code>'python' não é reconhecido…</code></td><td>Python não está no PATH. Reinstale marcando "Add to PATH", ou use <code>py</code> no lugar de <code>python</code> (Windows).</td></tr>
+            <tr><td><code>No module named pytest</code></td><td>o venv não está ativo, ou você não rodou <code>pip install -r requirements.txt</code>. Rode <code>.venv\Scripts\activate</code> e tente de novo.</td></tr>
+            <tr><td><code>não achei o banco em …pratica.db</code></td><td>você rodou de fora de <code>trilha-3/</code>, ou baixou só a pasta. Rode de dentro de <code>trilha-3/</code>, com o repo completo.</td></tr>
+            <tr><td><code>execution of scripts is disabled</code> (PowerShell)</td><td>a política do PowerShell bloqueia o <code>activate</code>. Rode uma vez: <code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code>.</td></tr>
+            <tr><td><code>pytest: command not found</code> depois de instalar</td><td>terminal aberto antes da instalação. Feche e reabra, ative o venv de novo.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="index.html"><button>← Índice</button></a>
+      <a href="modulo-2.html"><button class="primario">Módulo 2 →</button></a>
+    </nav>
+  </main>
+</body>
+</html>

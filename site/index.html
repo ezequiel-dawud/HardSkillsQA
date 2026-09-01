@@ -14,25 +14,24 @@
   <main class="container">
     <h1>QA Learning</h1>
     <p class="legenda">
-      Trilhas de estudo pra crescer como QA. Cada trilha tem a teoria curta e a
-      prática rodando de verdade no navegador. Comece pela que fizer sentido agora —
-      as outras ficam aqui esperando.
+      Trilhas de estudo pra crescer como QA. Cada uma tem a teoria curta e a prática
+      pra fazer de verdade — a maioria roda dentro do próprio navegador. Comece pela
+      que fizer sentido agora.
     </p>
 
     <div class="card">
       <h3 style="margin-top:0">Como funciona</h3>
       <p style="margin:0; font-size:14px; color:var(--suave)">
-        O banco roda dentro do próprio navegador (SQLite via WebAssembly) — nenhuma
-        query que você escreve sai da sua máquina, nenhum servidor processa nada.
-        As respostas que você digita ficam salvas só no seu navegador
-        (<code>localStorage</code>), então continuam lá mesmo se você recarregar a página.
+        Nas Trilhas 1, 2 e 4 o banco/API roda dentro do próprio navegador (WebAssembly ou
+        JavaScript) — nada que você escreve sai da sua máquina, nenhum servidor processa nada.
+        A Trilha 3 (pytest) roda no seu computador, a partir do código no repositório.
+        As respostas que você digita ficam salvas no seu navegador (<code>localStorage</code>).
       </p>
     </div>
 
     <h2>Trilhas</h2>
     <div class="grade-modulos">
 
-      <!-- ATIVA -->
       <a class="modulo-link" href="sql/index.html">
         <div class="rot">Trilha 1</div>
         <div class="tit">SQL para QA</div>
@@ -42,40 +41,34 @@
         </div>
       </a>
 
-      <!-- EM BREVE — pra ativar, troque a <div> por <a href="..."> e tire a classe "embreve" -->
-      <div class="modulo-link embreve">
-        <div class="rot">Trilha 2 <span class="tag-embreve">em breve</span></div>
+      <a class="modulo-link" href="pg/index.html">
+        <div class="rot">Trilha 2</div>
         <div class="tit">PostgreSQL na prática</div>
         <div class="desc">
-          O mesmo cenário migrado pro banco que você mais encontra no trabalho —
-          diferenças de datas, strings, tipos.
+          O mesmo cenário num Postgres de verdade (rodando na página). Tipos reais,
+          datas, texto, FILTER, window functions. 7 módulos.
         </div>
-      </div>
+      </a>
 
-      <div class="modulo-link embreve">
-        <div class="rot">Trilha 3 <span class="tag-embreve">em breve</span></div>
+      <a class="modulo-link" href="pytest/index.html">
+        <div class="rot">Trilha 3</div>
         <div class="tit">Validação com pytest</div>
         <div class="desc">
-          Transformar as queries de validação em testes automatizados que rodam
-          no CI (pytest + conexão com o banco).
+          As queries de validação viram testes automatizados que rodam no seu
+          terminal e no CI. Projeto real em <code>trilha-3/</code>. 4 módulos.
         </div>
-      </div>
+      </a>
 
-      <div class="modulo-link embreve">
-        <div class="rot">Trilha 4 <span class="tag-embreve">em breve</span></div>
+      <a class="modulo-link" href="api/index.html">
+        <div class="rot">Trilha 4</div>
         <div class="tit">Teste de API</div>
         <div class="desc">
-          HTTP, status codes, contrato de resposta, e cruzar o que a API
-          devolve com o que ficou gravado no banco.
+          HTTP, status codes, contrato da resposta, e cruzar o que a API devolve
+          com o que está no banco. API falsa na própria página. 4 módulos.
         </div>
-      </div>
+      </a>
 
     </div>
-
-    <p class="legenda" style="margin-top:24px; font-size:13px">
-      As trilhas "em breve" são só marcadores por enquanto. Quando quiser começar
-      uma, é só pedir.
-    </p>
   </main>
 </body>
 </html>

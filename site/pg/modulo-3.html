@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PG Módulo 3 — Datas e tempo</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ PostgreSQL</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html" class="atual">3</a>
+      <a href="modulo-4.html">4</a>
+      <a href="modulo-5.html">5</a>
+      <a href="modulo-6.html">6</a>
+      <a href="modulo-7.html">7</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 3 — Datas e tempo</h1>
+    <p class="legenda">date, INTERVAL, subtração de datas, AGE, EXTRACT, DATE_TRUNC, TO_CHAR</p>
+
+    <section class="secao">
+      <h2>Antes de começar</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          No SQLite data era texto <code>'2025-03-01'</code> e você fazia conta na mão com
+          <code>strftime</code>. No Postgres <code>date</code> é um tipo real, e isso destrava
+          um monte de coisa:
+        </p>
+        <ul>
+          <li><b>Subtrair datas dá número de dias (int):</b>
+            <code>data_fechamento - data_abertura</code> → <code>12</code>.</li>
+          <li><b><code>INTERVAL</code></b> pra somar/subtrair tempo:
+            <code>CURRENT_DATE - INTERVAL '30 days'</code>,
+            <code>data_pedido + INTERVAL '7 days'</code>.</li>
+          <li><b><code>AGE(fim, inicio)</code></b> → intervalo "2 mons 3 days". <code>AGE(data)</code>
+            sozinho = quanto tempo desde então até hoje.</li>
+          <li><b><code>EXTRACT(campo FROM data)</code></b> — puxa um pedaço:
+            <code>EXTRACT(YEAR FROM data_pedido)</code>, <code>MONTH</code>, <code>DOW</code>
+            (dia da semana, 0 = domingo), <code>WEEK</code>.</li>
+          <li><b><code>DATE_TRUNC('month', data)</code></b> — joga a data pro começo do mês
+            (<code>2025-03-01</code>). Serve pra agrupar por mês/semana/dia.</li>
+          <li><b><code>TO_CHAR(data, 'YYYY-MM')</code></b> — formata como texto pra rótulo.</li>
+        </ul>
+        <p style="margin-bottom:0"><b>Olhar de QA:</b> "quanto tempo em média um bug crítico fica
+          aberto?", "quantos pedidos por mês?", "cadastro no futuro?" — tudo é conta de data.</p>
+      </div>
+
+      <h3>Dois exemplos</h3>
+      <div id="exemplos"></div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>Teoria</h2>
+      <div class="card">
+        <ul>
+          <li><code>data2 - data1</code> → dias (inteiro). <code>data + INTERVAL '1 month'</code> → outra data.</li>
+          <li><code>CURRENT_DATE</code> / <code>now()</code> — hoje / agora.</li>
+          <li><code>AGE(fim, inicio)</code> → intervalo legível. <code>EXTRACT(DAY FROM AGE(...))</code> pra virar número.</li>
+          <li><code>EXTRACT(YEAR|MONTH|DOW|WEEK FROM data)</code> — componente da data.</li>
+          <li><code>DATE_TRUNC('month'|'week'|'day', data)</code> — "arredonda" a data pra baixo.</li>
+          <li><code>TO_CHAR(data, 'YYYY-MM')</code> / <code>'DD/MM/YYYY'</code> — formata como texto.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Prática</h2>
+      <p class="legenda">Escreva a query e clique <strong>Rodar</strong> (ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>).</p>
+      <div id="schema-ref" data-aberto></div>
+      <p class="status-banco" id="status-banco">carregando banco…</p>
+      <div class="acoes" style="margin:6px 0 0"><button id="btn-reset">Resetar banco</button></div>
+      <div id="exercicios"></div>
+    </section>
+
+    <section class="secao">
+      <h2>Query livre</h2>
+      <div class="card">
+        <textarea class="editor" id="editor-livre" spellcheck="false">SELECT CURRENT_DATE AS hoje,
+       DATE_TRUNC('month', CURRENT_DATE)::date AS inicio_do_mes,
+       CURRENT_DATE - INTERVAL '30 days' AS trinta_dias_atras;</textarea>
+        <div class="acoes"><button class="primario" id="btn-livre">Rodar</button></div>
+        <div class="resultado" id="res-livre"></div>
+      </div>
+    </section>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="modulo-2.html"><button>← Módulo 2</button></a>
+      <a href="modulo-4.html"><button class="primario">Módulo 4 →</button></a>
+    </nav>
+  </main>
+
+  <script>
+  window.EXEMPLOS = [
+    {
+      titulo: "1) Quantos dias um defeito ficou aberto",
+      explica: "Subtração de <code>date</code> já dá o número de dias. Só os que têm fechamento.",
+      sql: "SELECT id, data_abertura, data_fechamento,\n       data_fechamento - data_abertura AS dias_aberto\nFROM defeitos\nWHERE data_fechamento IS NOT NULL\nORDER BY dias_aberto DESC\nLIMIT 5;",
+    },
+    {
+      titulo: "2) Pedidos por mês",
+      explica: "<code>DATE_TRUNC('month', ...)</code> joga tudo pro dia 1; aí é só agrupar.",
+      sql: "SELECT DATE_TRUNC('month', data_pedido)::date AS mes, COUNT(*) AS qtd\nFROM pedidos\nGROUP BY mes\nORDER BY mes;",
+    },
+  ];
+
+  window.EXERCICIOS = [
+    { id: "3.1",
+      enunciado: "Clientes cadastrados nos primeiros 90 dias a partir de '2025-01-01'. Traga nome e data_cadastro, ordenado por data.",
+      dica: "<code>data_cadastro &lt; DATE '2025-01-01' + INTERVAL '90 days'</code> (e <code>&gt;= '2025-01-01'</code>).",
+      gabarito: "SELECT nome, data_cadastro FROM clientes\nWHERE data_cadastro >= DATE '2025-01-01'\n  AND data_cadastro < DATE '2025-01-01' + INTERVAL '90 days'\nORDER BY data_cadastro;" },
+    { id: "3.2",
+      enunciado: "Defeitos fechados: id, dias que ficaram abertos (data_fechamento - data_abertura), do que demorou mais pro que demorou menos.",
+      dica: "a subtração <code>data_fechamento - data_abertura</code> já é o número de dias. <code>WHERE data_fechamento IS NOT NULL</code>.",
+      gabarito: "SELECT id, data_fechamento - data_abertura AS dias_aberto\nFROM defeitos\nWHERE data_fechamento IS NOT NULL\nORDER BY dias_aberto DESC;" },
+    { id: "3.3",
+      enunciado: "Quantidade de pedidos por mês (coluna mes no formato 'YYYY-MM' e qtd). Ordene por mes.",
+      dica: "<code>TO_CHAR(data_pedido, 'YYYY-MM') AS mes</code> + <code>GROUP BY mes ORDER BY mes</code>.",
+      gabarito: "SELECT TO_CHAR(data_pedido, 'YYYY-MM') AS mes, COUNT(*) AS qtd\nFROM pedidos\nGROUP BY mes\nORDER BY mes;" },
+    { id: "3.4",
+      enunciado: "Número de defeitos abertos por mês de abertura. Use DATE_TRUNC. Colunas mes (date) e qtd.",
+      dica: "<code>DATE_TRUNC('month', data_abertura)::date AS mes</code>, agrupa por ele.",
+      gabarito: "SELECT DATE_TRUNC('month', data_abertura)::date AS mes, COUNT(*) AS qtd\nFROM defeitos\nGROUP BY mes\nORDER BY mes;" },
+    { id: "3.5",
+      enunciado: "Execuções de teste que rodaram num fim de semana (sábado ou domingo). Traga caso_teste e data_execucao.",
+      dica: "<code>EXTRACT(DOW FROM data_execucao) IN (0, 6)</code> — 0 = domingo, 6 = sábado.",
+      gabarito: "SELECT caso_teste, data_execucao\nFROM execucoes_teste\nWHERE EXTRACT(DOW FROM data_execucao) IN (0, 6);" },
+    { id: "3.6",
+      enunciado: "Tempo médio de correção (em dias) dos defeitos já fechados. Uma linha só, coluna dias_medios com 1 casa.",
+      dica: "<code>AVG(data_fechamento - data_abertura)</code> dá um número; <code>ROUND(...::numeric, 1)</code> pra formatar. Filtre <code>data_fechamento IS NOT NULL</code>.",
+      gabarito: "SELECT ROUND(AVG(data_fechamento - data_abertura)::numeric, 1) AS dias_medios\nFROM defeitos\nWHERE data_fechamento IS NOT NULL;" },
+    { id: "3.7",
+      enunciado: "Defeitos abertos há mais de 120 dias e ainda não fechados (a partir de hoje). Traga id, data_abertura e a idade com AGE.",
+      dica: "<code>data_fechamento IS NULL AND CURRENT_DATE - data_abertura &gt; 120</code>. Mostre <code>AGE(data_abertura)</code>.",
+      gabarito: "SELECT id, data_abertura, AGE(data_abertura) AS idade\nFROM defeitos\nWHERE data_fechamento IS NULL\n  AND CURRENT_DATE - data_abertura > 120\nORDER BY data_abertura;" },
+    { id: "3.8",
+      enunciado: "Para cada dia da semana (0 a 6), quantos pedidos foram feitos. Colunas dia_semana e qtd, ordenado por dia_semana.",
+      dica: "<code>EXTRACT(DOW FROM data_pedido) AS dia_semana</code>, agrupa e ordena por ele.",
+      gabarito: "SELECT EXTRACT(DOW FROM data_pedido) AS dia_semana, COUNT(*) AS qtd\nFROM pedidos\nGROUP BY dia_semana\nORDER BY dia_semana;" },
+  ];
+  </script>
+  <script type="module" src="app-pg.js"></script>
+</body>
+</html>

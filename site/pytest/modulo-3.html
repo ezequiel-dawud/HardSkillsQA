@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>pytest Módulo 3 — Validação de dados vira teste</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ pytest</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html" class="atual">3</a>
+      <a href="modulo-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 3 — Validação de dados vira teste</h1>
+    <p class="legenda">O padrão "traz as linhas erradas, <code>assert</code> que veio vazio"</p>
+
+    <section class="secao">
+      <h2>A ponte com a Trilha 1</h2>
+      <div class="card">
+        <p style="margin-top:0">No módulo 6 da Trilha 1 você escreveu queries que <b>procuram
+          linha errada</b>: pedido não-cancelado com valor 0, item com quantidade 0, e-mail
+          duplicado. A query já era a validação. Agora é só embrulhar num teste:</p>
+        <pre class="bloco"><code>def test_item_tem_quantidade_positiva(db):
+    ruins = db.execute(
+        "SELECT id, pedido_id, quantidade FROM itens_pedido WHERE quantidade &lt;= 0"
+    ).fetchall()
+    assert ruins == [], f"itens com quantidade &lt;= 0: {[r['id'] for r in ruins]}"</code></pre>
+        <p style="margin-bottom:0">A receita, sempre igual:</p>
+        <ol>
+          <li>a query <code>SELECT</code> traz <b>só as linhas que violam a regra</b>;</li>
+          <li><code>assert ruins == []</code> — passa quando não há nenhuma;</li>
+          <li>a mensagem do <code>assert</code> lista <b>quais</b> linhas quebraram, pra você
+            já sair caçando.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Nem toda validação é "igual a zero"</h2>
+      <div class="card">
+        <p style="margin:0">Às vezes o que você quer vigiar é uma <b>proporção</b> ou um
+          <b>teto</b>. Em <code>test_03_regras_negocio.py</code>:</p>
+        <pre class="bloco"><code>proporcao = sem_defeito / total_falhas
+assert proporcao &lt;= 0.30, f"{proporcao:.0%} das falhas sem defeito ligado — acima de 30%"</code></pre>
+        <p style="margin-bottom:0">O <code>assert</code> aceita qualquer expressão booleana. E o
+          texto depois da vírgula é a mensagem que aparece quando falha.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2><code>xfail</code>: "eu já sei que este falha"</h2>
+      <div class="card">
+        <p style="margin-top:0">O banco de prática tem <b>bugs plantados de propósito</b>
+          (a Trilha 1 avisa isso). Então três testes de <code>test_02_integridade.py</code>
+          estão certos, mas o dado está torto — eles falhariam. Pra suíte não ficar vermelha
+          por causa disso, eles levam:</p>
+        <pre class="bloco"><code>@pytest.mark.xfail(reason="bug plantado: 2 itens de pedido com quantidade 0", strict=True)
+def test_item_tem_quantidade_positiva(db):
+    ...</code></pre>
+        <ul>
+          <li><b>XFAIL</b> no relatório = "falhou, como esperado". Não derruba o build.</li>
+          <li><code>strict=True</code> — se um dia ele <i>passar</i> (o dado foi corrigido),
+            o pytest marca <b>XPASS como erro</b>, te lembrando de remover o marcador.</li>
+          <li>Diferente de <code>skip</code>: <code>skip</code> nem roda; <code>xfail</code> roda
+            e confere que ainda está quebrado.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Exercício: pegue o bug</h2>
+      <div class="card">
+        <ol style="margin-top:0">
+          <li>Em <code>test_02_integridade.py</code>, apague a linha
+            <code>@pytest.mark.xfail(...)</code> de cima de
+            <code>test_pedido_nao_cancelado_nao_tem_valor_zero</code>.</li>
+          <li><code>pytest -v test_02_integridade.py</code>. Agora fica <b>FAILED</b> — leia a
+            mensagem: ela lista os ids dos pedidos (17, 88, 143).</li>
+          <li>Confirme no banco com a Trilha 1 / SQLite:
+            <code>SELECT * FROM pedidos WHERE id IN (17, 88, 143);</code></li>
+          <li>Recoloque o <code>@pytest.mark.xfail</code>. Isso é o fluxo real: o teste vermelho
+            <b>é</b> o bug report.</li>
+        </ol>
+        <p style="margin-bottom:0; font-size:14px; color:var(--suave)">
+          Num projeto de verdade você abriria o defeito, e o teste só voltaria a verde quando
+          o dado (ou a regra) fosse corrigido.
+        </p>
+      </div>
+    </section>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="modulo-2.html"><button>← Módulo 2</button></a>
+      <a href="modulo-4.html"><button class="primario">Módulo 4 →</button></a>
+    </nav>
+  </main>
+</body>
+</html>

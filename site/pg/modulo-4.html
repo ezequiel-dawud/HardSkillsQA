@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PG Módulo 4 — Texto</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ PostgreSQL</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html" class="atual">4</a>
+      <a href="modulo-5.html">5</a>
+      <a href="modulo-6.html">6</a>
+      <a href="modulo-7.html">7</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 4 — Texto</h1>
+    <p class="legenda">||, ILIKE, LOWER/UPPER/INITCAP, LENGTH, TRIM, LEFT/RIGHT, SPLIT_PART, POSITION, REPLACE</p>
+
+    <section class="secao">
+      <h2>Antes de começar</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          Texto sujo é meio ambiente natural do QA: espaço sobrando, caixa trocada, e-mail com
+          domínio errado. O Postgres tem um bom kit pra investigar isso.
+        </p>
+        <ul>
+          <li><b><code>a || b</code></b> — junta textos: <code>nome || ' (' || estado || ')'</code>.
+            Se um lado for NULL o resultado é NULL (use <code>COALESCE</code>).</li>
+          <li><b><code>ILIKE</code></b> — <code>LIKE</code> sem ligar pra maiúsc./minúsc.
+            <code>~</code> / <code>~*</code> fazem regex (sensível / insensível).</li>
+          <li><b>Caixa:</b> <code>LOWER</code>, <code>UPPER</code>, <code>INITCAP</code>
+            ("joão silva" → "João Silva").</li>
+          <li><b>Recortar:</b> <code>LEFT(t, 3)</code>, <code>RIGHT(t, 4)</code>,
+            <code>SUBSTRING(t FROM 2 FOR 5)</code>, <code>SPLIT_PART(email, '@', 2)</code>
+            (pega o pedaço 2, o domínio).</li>
+          <li><b>Achar/trocar:</b> <code>POSITION('@' IN email)</code> (0 = não achou),
+            <code>REPLACE(t, 'a', 'b')</code>, <code>TRIM(t)</code>, <code>LENGTH(t)</code>.</li>
+        </ul>
+        <p style="margin-bottom:0"><b>Olhar de QA:</b> "quantos e-mails não são do domínio esperado?",
+          "tem nome com espaço no fim?", "busca deveria ser case-insensitive e não é".</p>
+      </div>
+
+      <h3>Dois exemplos</h3>
+      <div id="exemplos"></div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>Teoria</h2>
+      <div class="card">
+        <ul>
+          <li><code>a || b || c</code> — concatena. <code>CONCAT_WS(', ', a, b)</code> ignora NULL e põe separador.</li>
+          <li><code>t ILIKE '%abc%'</code> — contém "abc" em qualquer caixa. <code>t ~* 'abc'</code> — regex insensível.</li>
+          <li><code>LOWER / UPPER / INITCAP(t)</code> — caixa.</li>
+          <li><code>SPLIT_PART(email, '@', 2)</code> — domínio. <code>LEFT/RIGHT(t, n)</code> — pontas.</li>
+          <li><code>POSITION('x' IN t)</code> — índice de "x" (0 = ausente). <code>LENGTH(t)</code> — tamanho.</li>
+          <li><code>TRIM(t)</code> tira espaços das pontas; <code>t = TRIM(t)</code> é falso quando sobra espaço.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Prática</h2>
+      <p class="legenda">Escreva a query e clique <strong>Rodar</strong> (ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>).</p>
+      <div id="schema-ref" data-aberto></div>
+      <p class="status-banco" id="status-banco">carregando banco…</p>
+      <div class="acoes" style="margin:6px 0 0"><button id="btn-reset">Resetar banco</button></div>
+      <div id="exercicios"></div>
+    </section>
+
+    <section class="secao">
+      <h2>Query livre</h2>
+      <div class="card">
+        <textarea class="editor" id="editor-livre" spellcheck="false">SELECT email, SPLIT_PART(email, '@', 2) AS dominio, LENGTH(email) AS tam
+FROM clientes
+LIMIT 10;</textarea>
+        <div class="acoes"><button class="primario" id="btn-livre">Rodar</button></div>
+        <div class="resultado" id="res-livre"></div>
+      </div>
+    </section>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="modulo-3.html"><button>← Módulo 3</button></a>
+      <a href="modulo-5.html"><button class="primario">Módulo 5 →</button></a>
+    </nav>
+  </main>
+
+  <script>
+  window.EXEMPLOS = [
+    {
+      titulo: "1) Montar um rótulo com ||",
+      explica: "Concatena colunas e literais num texto só.",
+      sql: "SELECT nome || ' — ' || cidade || '/' || estado AS quem\nFROM clientes\nLIMIT 8;",
+    },
+    {
+      titulo: "2) Domínio do e-mail",
+      explica: "<code>SPLIT_PART(email, '@', 2)</code> pega o que vem depois do @.",
+      sql: "SELECT DISTINCT SPLIT_PART(email, '@', 2) AS dominio FROM clientes;",
+    },
+  ];
+
+  window.EXERCICIOS = [
+    { id: "4.1",
+      enunciado: "Para cada produto, uma coluna etiqueta no formato 'NOME (categoria)' — nome em MAIÚSCULAS, categoria como está.",
+      dica: "<code>UPPER(nome) || ' (' || categoria || ')' AS etiqueta</code>.",
+      gabarito: "SELECT UPPER(nome) || ' (' || categoria || ')' AS etiqueta\nFROM produtos;" },
+    { id: "4.2",
+      enunciado: "Clientes cujo nome contém 'costa', sem ligar pra caixa. Traga o nome já com INITCAP.",
+      dica: "<code>WHERE nome ILIKE '%costa%'</code>; mostre <code>INITCAP(nome)</code>.",
+      gabarito: "SELECT INITCAP(nome) AS nome\nFROM clientes\nWHERE nome ILIKE '%costa%';" },
+    { id: "4.3",
+      enunciado: "Quantos clientes existem por domínio de e-mail. Colunas dominio e qtd.",
+      dica: "<code>SPLIT_PART(email, '@', 2) AS dominio</code>, <code>GROUP BY dominio</code>.",
+      gabarito: "SELECT SPLIT_PART(email, '@', 2) AS dominio, COUNT(*) AS qtd\nFROM clientes\nGROUP BY dominio\nORDER BY qtd DESC;" },
+    { id: "4.4",
+      enunciado: "Defeitos cujo titulo começa com '[checkout]'. Traga id e titulo.",
+      dica: "<code>titulo LIKE '[checkout]%'</code> — colchete é literal aqui, e o texto é minúsculo, então nem precisa de ILIKE. (Alternativa: <code>LEFT(titulo, 10) = '[checkout]'</code>.)",
+      gabarito: "SELECT id, titulo FROM defeitos\nWHERE titulo LIKE '[checkout]%';" },
+    { id: "4.5",
+      enunciado: "Extraia o módulo de dentro do titulo do defeito: o texto entre os colchetes. Traga titulo e uma coluna modulo_no_titulo. (Todo titulo começa com '[modulo] ...'.)",
+      dica: "<code>SPLIT_PART(titulo, ']', 1)</code> te dá '[checkout'; tire o '[' com <code>SUBSTRING(..., 2)</code> ou <code>REPLACE(..., '[', '')</code>.",
+      gabarito: "SELECT titulo,\n       REPLACE(SPLIT_PART(titulo, ']', 1), '[', '') AS modulo_no_titulo\nFROM defeitos;" },
+    { id: "4.6",
+      enunciado: "Validação: a coluna modulo deveria sempre bater com o que está escrito entre colchetes no titulo. Liste os defeitos onde NÃO batem (id, modulo, titulo). Se estiver tudo certo, vem vazio — e vazio aqui é o resultado esperado.",
+      dica: "compare <code>modulo</code> com o texto extraído do titulo (exercício 4.5) e filtre onde são diferentes. Nenhuma linha = nenhuma inconsistência.",
+      gabarito: "SELECT id, modulo, titulo\nFROM defeitos\nWHERE modulo <> REPLACE(SPLIT_PART(titulo, ']', 1), '[', '');" },
+    { id: "4.7",
+      enunciado: "Junte num texto só (coluna casos) todos os caso_teste distintos da suite 'smoke', separados por ', '.",
+      dica: "<code>STRING_AGG(DISTINCT caso_teste, ', ')</code> com <code>WHERE suite = 'smoke'</code>.",
+      gabarito: "SELECT STRING_AGG(DISTINCT caso_teste, ', ' ORDER BY caso_teste) AS casos\nFROM execucoes_teste\nWHERE suite = 'smoke';" },
+    { id: "4.8",
+      enunciado: "Qual o primeiro nome (o pedaço antes do primeiro espaço) mais comum entre os clientes? Colunas primeiro_nome e qtd, do mais comum pro menos.",
+      dica: "<code>SPLIT_PART(nome, ' ', 1) AS primeiro_nome</code>, depois <code>GROUP BY 1 ORDER BY qtd DESC</code>.",
+      gabarito: "SELECT SPLIT_PART(nome, ' ', 1) AS primeiro_nome, COUNT(*) AS qtd\nFROM clientes\nGROUP BY primeiro_nome\nORDER BY qtd DESC;" },
+  ];
+  </script>
+  <script type="module" src="app-pg.js"></script>
+</body>
+</html>
