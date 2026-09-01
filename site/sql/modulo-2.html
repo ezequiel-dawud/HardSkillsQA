@@ -93,7 +93,7 @@
       gabarito: "SELECT id, titulo, status FROM defeitos\nWHERE severidade = 'critica' AND status IN ('aberto', 'reaberto');" },
     { id: "2.8",
       enunciado: "Conte quantos defeitos têm data_fechamento NULL e quantos não têm, em uma linha só.",
-      dica: "um SUM(CASE...) pra cada",
+      dica: "Você quer <b>dois números lado a lado, numa linha só</b> &mdash; então nada de <code>GROUP BY</code> (ele geraria uma linha por grupo). O padrão pra isso chama <b>agregação condicional</b>: pra cada linha da tabela, um <code>CASE WHEN &lt;condição&gt; THEN 1 ELSE 0 END</code> devolve 1 quando a condição bate e 0 quando não; o <code>SUM(...)</code> em volta soma esses 1s, e o total é exatamente a contagem de quem atende a condição. Aqui você precisa de <b>dois</b> desses: um com <code>data_fechamento IS NULL</code> (os abertos) e outro com <code>IS NOT NULL</code> (os fechados), cada um com seu apelido via <code>AS</code>, os dois no mesmo <code>SELECT ... FROM defeitos</code>. Lembre que NULL não se testa com <code>=</code> &mdash; só com <code>IS NULL</code> / <code>IS NOT NULL</code>.",
       gabarito: "SELECT\n  SUM(CASE WHEN data_fechamento IS NULL THEN 1 ELSE 0 END) AS abertos,\n  SUM(CASE WHEN data_fechamento IS NOT NULL THEN 1 ELSE 0 END) AS fechados\nFROM defeitos;" },
   ];
   </script>
