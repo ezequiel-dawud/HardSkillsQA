@@ -361,11 +361,13 @@ function montarExercicios() {
     enun.innerHTML = '<span class="num">' + ex.id + ")</span> " + ex.enunciado;
     card.appendChild(enun);
 
+    // A dica fica escondida atrás de um botão: quem travar dá uma espiada
+    // sem já cair na resposta.
+    let dicaBox = null;
     if (ex.dica) {
-      const dica = document.createElement("p");
-      dica.className = "dica";
-      dica.innerHTML = "\u{1F4A1} " + ex.dica;
-      card.appendChild(dica);
+      dicaBox = document.createElement("div");
+      dicaBox.className = "dica-box";
+      dicaBox.innerHTML = '<p class="dica">\u{1F4A1} ' + ex.dica + "</p>";
     }
 
     const ta = document.createElement("textarea");
@@ -385,12 +387,20 @@ function montarExercicios() {
     bRodar.dataset.precisaBanco = "1";
     bRodar.disabled = !db;
 
+    let bDica = null;
+    if (dicaBox) {
+      bDica = document.createElement("button");
+      bDica.textContent = "Ver dica";
+    }
+
     const bResp = document.createElement("button");
     bResp.textContent = "Ver resposta";
 
     acoes.appendChild(bRodar);
+    if (bDica) acoes.appendChild(bDica);
     acoes.appendChild(bResp);
     card.appendChild(acoes);
+    if (dicaBox) card.appendChild(dicaBox);
 
     const resultado = document.createElement("div");
     resultado.className = "resultado";
@@ -413,6 +423,12 @@ function montarExercicios() {
         rodar(ta.value, resultado);
       }
     });
+    if (bDica) {
+      bDica.addEventListener("click", () => {
+        dicaBox.classList.toggle("aberto");
+        bDica.textContent = dicaBox.classList.contains("aberto") ? "Esconder dica" : "Ver dica";
+      });
+    }
     bResp.addEventListener("click", () => {
       gab.classList.toggle("aberto");
       bResp.textContent = gab.classList.contains("aberto") ? "Esconder resposta" : "Ver resposta";
