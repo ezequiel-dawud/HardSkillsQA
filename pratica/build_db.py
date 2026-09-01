@@ -207,7 +207,7 @@ def build():
                                    weights=[70, 15, 8, 7])[0]
         caso = f"CT-{random.randint(1, 250):03d}"
         dur = random.randint(2, 240)
-        defeito_id = random.randint(1, 80) if resultado == "falhou" else None
+        defeito_id = (random.randint(1, 80) if random.random() < 0.8 else None) if resultado == "falhou" else None
         execucoes.append((ex_id, caso, suite, resultado,
                           d(random.randint(0, 240)), dur, defeito_id))
         ex_id += 1
