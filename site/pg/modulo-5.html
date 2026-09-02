@@ -66,6 +66,79 @@
     </section>
 
     <section class="secao">
+      <h2>Exemplos de aplicação</h2>
+      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar — é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
+
+      <div class="card">
+        <h3 style="margin-top:0">Agregações + <code>COUNT(coluna)</code></h3>
+        <pre class="bloco"><code>SELECT
+  COUNT(*)          AS execucoes,
+  COUNT(defeito_id) AS com_defeito,
+  ROUND(AVG(duracao_seg)::numeric, 1) AS duracao_media,
+  MAX(duracao_seg)  AS mais_lenta
+FROM execucoes_teste;</code></pre>
+        <p style="margin-bottom:0"><code>COUNT(*)</code> conta linhas; <code>COUNT(defeito_id)</code> ignora as em que a coluna é <code>NULL</code>. <code>AVG</code>/<code>MAX</code> resumem o resto. O <code>::numeric</code> antes do <code>ROUND</code> é pra média sair com casas decimais.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>GROUP BY</code></h3>
+        <pre class="bloco"><code>SELECT suite,
+       resultado,
+       COUNT(*) AS qtd
+FROM execucoes_teste
+GROUP BY suite, resultado
+ORDER BY suite, resultado;</code></pre>
+        <p style="margin-bottom:0">Agrupa por combinação de <code>suite</code> + <code>resultado</code>: uma linha por par. Regra do Postgres: toda coluna do <code>SELECT</code> que não está numa função de agregação <em>precisa</em> estar no <code>GROUP BY</code>.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>HAVING</code></h3>
+        <pre class="bloco"><code>SELECT modulo,
+       COUNT(*) AS qtd_defeitos
+FROM defeitos
+GROUP BY modulo
+HAVING COUNT(*) &gt; 10;</code></pre>
+        <p style="margin-bottom:0"><code>HAVING</code> é o filtro que roda <em>depois</em> de agrupar — só mantém os módulos com mais de 10 defeitos. Não dá pra usar <code>WHERE COUNT(*) &gt; 10</code>: o <code>WHERE</code> acontece antes da contagem existir.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>FILTER (WHERE ...)</code></h3>
+        <pre class="bloco"><code>SELECT
+  suite,
+  COUNT(*)                                     AS total,
+  COUNT(*) FILTER (WHERE resultado = 'passou') AS passaram,
+  COUNT(*) FILTER (WHERE resultado = 'falhou') AS falharam
+FROM execucoes_teste
+GROUP BY suite;</code></pre>
+        <p style="margin-bottom:0"><code>FILTER</code> aplica uma condição só àquela agregação. É a versão limpa do <code>SUM(CASE WHEN ... THEN 1 ELSE 0 END)</code> do SQLite — mesma ideia (contar um subconjunto do grupo), sintaxe mais direta.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>bool_or</code> / <code>bool_and</code></h3>
+        <pre class="bloco"><code>SELECT
+  pedido_id,
+  bool_or(quantidade &lt;= 0) AS tem_item_invalido,
+  bool_and(quantidade &gt; 0) AS todos_itens_ok
+FROM itens_pedido
+GROUP BY pedido_id;</code></pre>
+        <p style="margin-bottom:0"><code>bool_or(cond)</code> é <code>true</code> se <em>algum</em> item do grupo satisfaz a condição; <code>bool_and(cond)</code> só se <em>todos</em> satisfazem. Ótimo pra marcar "este pedido tem pelo menos um item furado".</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">Porcentagem sem perder casas</h3>
+        <pre class="bloco"><code>SELECT
+  suite,
+  ROUND(
+    100.0 * COUNT(*) FILTER (WHERE resultado = 'passou') / COUNT(*),
+    1
+  ) AS aprovacao_pct
+FROM execucoes_teste
+GROUP BY suite;</code></pre>
+        <p style="margin-bottom:0">Multiplicar por <code>100.0</code> (com o <code>.0</code>) força a conta a ser decimal — senão a divisão de inteiros truncaria pra 0. <code>ROUND(x, 1)</code> deixa uma casa.</p>
+      </div>
+    </section>
+
+    <section class="secao">
       <h2>Prática</h2>
       <p class="legenda">Escreva a query e clique <strong>Rodar</strong> (ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>).</p>
       <div id="schema-ref" data-aberto></div>

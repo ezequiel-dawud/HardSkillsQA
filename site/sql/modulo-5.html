@@ -38,6 +38,55 @@
     </section>
 
     <section class="secao">
+      <h2>Exemplos de aplicação</h2>
+      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar — é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
+
+      <div class="card">
+        <h3 style="margin-top:0">Subconsulta no <code>WHERE ... IN</code></h3>
+        <pre class="bloco"><code>SELECT nome, email
+FROM clientes
+WHERE id IN (
+  SELECT cliente_id
+  FROM pedidos
+  WHERE status = 'cancelado'
+);</code></pre>
+        <p style="margin-bottom:0">A subconsulta interna devolve uma <em>lista</em> de <code>cliente_id</code> com pedido cancelado. O <code>WHERE id IN (...)</code> de fora mantém os clientes cujo <code>id</code> está nessa lista. A mesma ideia caberia no <code>FROM (SELECT ...)</code> (como tabela) ou, se voltasse um número só, comparada direto: <code>WHERE valor_total &gt; (SELECT AVG(valor_total) FROM pedidos)</code>.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>WITH ... AS (...)</code> (CTE)</h3>
+        <pre class="bloco"><code>WITH pedidos_validos AS (
+  SELECT * FROM pedidos WHERE status &lt;&gt; 'cancelado'
+)
+SELECT cliente_id, COUNT(*) AS qtd
+FROM pedidos_validos
+GROUP BY cliente_id;</code></pre>
+        <p style="margin-bottom:0"><code>WITH nome AS (...)</code> dá nome a uma subconsulta e a deixa no topo, legível. Depois você usa <code>pedidos_validos</code> como se fosse uma tabela. Dá pra encadear várias, separadas por vírgula.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>EXISTS</code> / <code>NOT EXISTS</code></h3>
+        <pre class="bloco"><code>SELECT c.nome
+FROM clientes AS c
+WHERE EXISTS (
+  SELECT 1
+  FROM pedidos AS p
+  WHERE p.cliente_id = c.id
+    AND p.valor_total &gt; 5000
+);</code></pre>
+        <p style="margin-bottom:0"><code>EXISTS</code> só responde "tem pelo menos uma linha?". Pra cada cliente, checa se há algum pedido dele acima de 5000; se há, o cliente entra. O <code>SELECT 1</code> é convenção — o valor não importa, só a existência. <code>NOT EXISTS</code> inverteria.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">Escalar (1 valor) vs lista</h3>
+        <pre class="bloco"><code>SELECT nome, preco
+FROM produtos
+WHERE preco &gt; (SELECT AVG(preco) FROM produtos);</code></pre>
+        <p style="margin-bottom:0"><code>(SELECT AVG(preco) FROM produtos)</code> devolve <em>um único número</em> (a média geral), então dá pra comparar com <code>&gt;</code> direto. Se a subconsulta devolvesse várias linhas, seria preciso <code>IN</code> ou <code>EXISTS</code>, não <code>&gt;</code>.</p>
+      </div>
+    </section>
+
+    <section class="secao">
       <h2>Prática</h2>
       <p class="legenda">Rode com o botão ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.</p>
       <div id="schema-ref"></div>

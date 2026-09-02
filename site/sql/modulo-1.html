@@ -72,6 +72,76 @@
     </section>
 
     <section class="secao">
+      <h2>Exemplos de aplicação</h2>
+      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar — é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>SELECT ... FROM tabela</code></h3>
+        <pre class="bloco"><code>SELECT nome, categoria, preco
+FROM produtos;</code></pre>
+        <p style="margin-bottom:0"><code>SELECT nome, categoria, preco</code> diz <em>quais colunas</em> aparecem no resultado; <code>FROM produtos</code> diz <em>de qual tabela</em> elas saem. Sem <code>WHERE</code>, volta uma linha por produto. Trocar as 3 colunas por <code>*</code> traria todas as colunas da tabela.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>WHERE</code> + operadores</h3>
+        <pre class="bloco"><code>SELECT id, status, valor_total
+FROM pedidos
+WHERE status &lt;&gt; 'cancelado' AND valor_total &gt;= 1000;</code></pre>
+        <p style="margin-bottom:0">O <code>WHERE</code> deixa passar só as linhas em que as duas condições são verdade ao mesmo tempo (<code>AND</code>): status <em>diferente de</em> (<code>&lt;&gt;</code>) <code>'cancelado'</code> <strong>e</strong> valor de 1000 pra cima. Texto vai entre aspas simples; número, não.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>BETWEEN a AND b</code></h3>
+        <pre class="bloco"><code>SELECT nome, data_cadastro
+FROM clientes
+WHERE data_cadastro BETWEEN '2025-01-01' AND '2025-03-31';</code></pre>
+        <p style="margin-bottom:0"><code>BETWEEN</code> é atalho pra <code>data_cadastro &gt;= '2025-01-01' AND data_cadastro &lt;= '2025-03-31'</code>. As duas pontas entram. Funciona com data em texto porque o formato <code>AAAA-MM-DD</code> ordena igual a texto comum.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>IN (lista)</code></h3>
+        <pre class="bloco"><code>SELECT nome, categoria
+FROM produtos
+WHERE categoria IN ('Perifericos', 'Monitores', 'Armazenamento');</code></pre>
+        <p style="margin-bottom:0"><code>IN</code> testa se o valor da coluna é <em>um dos</em> da lista. Equivale a três comparações ligadas por <code>OR</code>, só que mais curto e mais fácil de ler.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>LIKE 'padrão'</code></h3>
+        <pre class="bloco"><code>SELECT nome, email
+FROM clientes
+WHERE email LIKE '%@gmail.com';</code></pre>
+        <p style="margin-bottom:0"><code>%</code> casa com qualquer sequência de caracteres (até nenhuma), então <code>'%@gmail.com'</code> pega todo email que <em>termina</em> em <code>@gmail.com</code>. <code>_</code> casaria com exatamente 1 caractere — <code>'CT-01_'</code> pegaria de CT-010 a CT-019.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>ORDER BY</code> + <code>LIMIT</code></h3>
+        <pre class="bloco"><code>SELECT id, valor_total
+FROM pedidos
+ORDER BY valor_total DESC
+LIMIT 10;</code></pre>
+        <p style="margin-bottom:0"><code>ORDER BY valor_total DESC</code> ordena do maior pro menor (<code>ASC</code>, crescente, é o padrão). <code>LIMIT 10</code> corta nas 10 primeiras linhas <em>depois</em> de ordenar — ou seja, os 10 pedidos mais caros.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>DISTINCT</code></h3>
+        <pre class="bloco"><code>SELECT DISTINCT estado
+FROM clientes
+ORDER BY estado;</code></pre>
+        <p style="margin-bottom:0">Sem <code>DISTINCT</code>, viria o <code>estado</code> dos 60 clientes, com muita repetição. <code>DISTINCT</code> colapsa as linhas iguais e devolve cada estado uma vez — bom pra responder "quais valores existem nessa coluna?".</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>AS</code> (apelido)</h3>
+        <pre class="bloco"><code>SELECT nome,
+       preco AS preco_cheio,
+       preco * 0.9 AS preco_com_desconto
+FROM produtos;</code></pre>
+        <p style="margin-bottom:0"><code>AS</code> renomeia a coluna no resultado. Serve pra trocar um nome (<code>preco</code> &rarr; <code>preco_cheio</code>) e, principalmente, pra dar nome a coluna calculada: <code>preco * 0.9</code> sem apelido viria com um cabeçalho ilegível.</p>
+      </div>
+    </section>
+
+    <section class="secao">
       <h2>Prática</h2>
       <p class="legenda">
         Escreva a query e clique <strong>Rodar</strong> (ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>).

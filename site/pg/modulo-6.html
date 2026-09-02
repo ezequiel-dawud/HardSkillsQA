@@ -63,6 +63,80 @@
     </section>
 
     <section class="secao">
+      <h2>Exemplos de aplicação</h2>
+      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar — é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>JOIN ... ON</code></h3>
+        <pre class="bloco"><code>SELECT p.id, p.valor_total, c.nome AS cliente
+FROM pedidos p
+JOIN clientes c ON c.id = p.cliente_id;</code></pre>
+        <p style="margin-bottom:0">O <code>ON</code> diz como as tabelas se casam: o <code>cliente_id</code> do pedido é o <code>id</code> de <code>clientes</code>. Só entram as linhas que casam nos dois lados (<code>JOIN</code> = <code>INNER JOIN</code>).</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>JOIN ... USING (col)</code></h3>
+        <pre class="bloco"><code>-- quando a coluna de ligação tem o MESMO nome nos dois lados:
+SELECT ip.pedido_id, ip.quantidade, pr.nome
+FROM itens_pedido ip
+JOIN produtos pr ON pr.id = ip.produto_id;
+-- se a FK em itens_pedido se chamasse "id" igual em produtos,
+-- daria pra escrever:  JOIN produtos USING (id)</code></pre>
+        <p style="margin-bottom:0"><code>USING (col)</code> é atalho de <code>ON a.col = b.col</code> pra quando o nome é idêntico nos dois lados, e ainda funde a coluna repetida numa só no resultado. Neste banco as chaves têm nomes diferentes (<code>produto_id</code> &harr; <code>id</code>), então o <code>ON</code> é o que se usa — mas a sintaxe é essa.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>LEFT JOIN</code></h3>
+        <pre class="bloco"><code>SELECT c.nome, COUNT(p.id) AS qtd_pedidos
+FROM clientes c
+LEFT JOIN pedidos p ON p.cliente_id = c.id
+GROUP BY c.nome
+ORDER BY qtd_pedidos;</code></pre>
+        <p style="margin-bottom:0"><code>LEFT JOIN</code> mantém todo cliente, mesmo sem pedido — nesse caso as colunas de <code>p</code> vêm <code>NULL</code>. Como <code>COUNT(p.id)</code> ignora <code>NULL</code>, clientes sem pedido aparecem com <code>0</code> (em vez de sumirem, como num <code>JOIN</code> normal).</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>WITH x AS (...)</code> (CTE)</h3>
+        <pre class="bloco"><code>WITH gasto_por_cliente AS (
+  SELECT cliente_id, SUM(valor_total) AS total
+  FROM pedidos
+  WHERE status &lt;&gt; 'cancelado'
+  GROUP BY cliente_id
+)
+SELECT c.nome, g.total
+FROM gasto_por_cliente g
+JOIN clientes c ON c.id = g.cliente_id
+WHERE g.total &gt; 10000;</code></pre>
+        <p style="margin-bottom:0">A CTE calcula o gasto por cliente e ganha um nome; a query de baixo usa <code>gasto_por_cliente</code> como se fosse tabela. Deixa cada etapa separada e legível — melhor que aninhar subconsulta dentro de subconsulta.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>WHERE EXISTS (...)</code></h3>
+        <pre class="bloco"><code>SELECT c.nome
+FROM clientes c
+WHERE EXISTS (
+  SELECT 1 FROM pedidos p
+  WHERE p.cliente_id = c.id
+    AND p.status = 'cancelado'
+);</code></pre>
+        <p style="margin-bottom:0">Pra cada cliente, testa se <em>existe</em> ao menos um pedido cancelado dele. Retorna só "sim/não", então é rápido. Trocar por <code>NOT EXISTS</code> daria os clientes sem nenhum cancelamento.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>WHERE col IN (SELECT ...)</code></h3>
+        <pre class="bloco"><code>SELECT nome, email
+FROM clientes
+WHERE id IN (
+  SELECT cliente_id
+  FROM pedidos
+  GROUP BY cliente_id
+  HAVING SUM(valor_total) &gt; 20000
+);</code></pre>
+        <p style="margin-bottom:0">A subconsulta devolve uma lista de <code>cliente_id</code> (os que gastaram mais de 20 mil); o <code>IN</code> mantém os clientes cujo <code>id</code> está nessa lista. Funciona bem quando a subconsulta devolve poucas linhas.</p>
+      </div>
+    </section>
+
+    <section class="secao">
       <h2>Prática</h2>
       <p class="legenda">Escreva a query e clique <strong>Rodar</strong> (ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>).</p>
       <div id="schema-ref" data-aberto></div>

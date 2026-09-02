@@ -39,6 +39,63 @@
     </section>
 
     <section class="secao">
+      <h2>Exemplos de aplicação</h2>
+      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar — é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
+
+      <div class="card">
+        <h3 style="margin-top:0">Funções de agregação</h3>
+        <pre class="bloco"><code>SELECT
+  COUNT(*)         AS qtd_pedidos,
+  SUM(valor_total) AS faturamento,
+  AVG(valor_total) AS ticket_medio,
+  MIN(valor_total) AS menor,
+  MAX(valor_total) AS maior
+FROM pedidos
+WHERE status &lt;&gt; 'cancelado';</code></pre>
+        <p style="margin-bottom:0">Cada função resume <em>todas</em> as linhas que passaram no <code>WHERE</code> num único número: <code>COUNT(*)</code> quantas linhas, <code>SUM</code> o total, <code>AVG</code> a média, <code>MIN</code>/<code>MAX</code> os extremos. Sem <code>GROUP BY</code>, o resultado é uma linha só.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>GROUP BY</code></h3>
+        <pre class="bloco"><code>SELECT status,
+       COUNT(*)         AS qtd,
+       SUM(valor_total) AS total
+FROM pedidos
+GROUP BY status;</code></pre>
+        <p style="margin-bottom:0"><code>GROUP BY status</code> separa os pedidos em pilhas por status e roda a agregação <em>em cada pilha</em>. Resultado: uma linha por status, com a contagem e a soma daquele grupo. Regra: toda coluna que não está numa função de agregação precisa estar no <code>GROUP BY</code>.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>WHERE</code> antes, <code>HAVING</code> depois</h3>
+        <pre class="bloco"><code>SELECT cliente_id,
+       COUNT(*) AS qtd_pedidos
+FROM pedidos
+WHERE status &lt;&gt; 'cancelado'
+GROUP BY cliente_id
+HAVING COUNT(*) &gt;= 3;</code></pre>
+        <p style="margin-bottom:0"><code>WHERE</code> corta linhas <em>antes</em> de agrupar (tira os cancelados). <code>HAVING</code> corta <em>depois</em>, olhando o resultado já agregado — aqui mantém só clientes com 3+ pedidos válidos. <code>HAVING</code> pode usar <code>COUNT(*)</code>/<code>SUM(...)</code>; <code>WHERE</code> não.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>COUNT(*)</code> vs <code>COUNT(coluna)</code></h3>
+        <pre class="bloco"><code>SELECT
+  COUNT(*)          AS total_execucoes,
+  COUNT(defeito_id) AS com_defeito_ligado
+FROM execucoes_teste;</code></pre>
+        <p style="margin-bottom:0"><code>COUNT(*)</code> conta todas as linhas. <code>COUNT(defeito_id)</code> conta só as linhas em que <code>defeito_id</code> não é <code>NULL</code>. A diferença entre os dois é quantas execuções não têm defeito vinculado.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>ROUND(x, 2)</code></h3>
+        <pre class="bloco"><code>SELECT suite,
+       ROUND(AVG(duracao_seg), 2) AS duracao_media_seg
+FROM execucoes_teste
+GROUP BY suite;</code></pre>
+        <p style="margin-bottom:0"><code>AVG(duracao_seg)</code> pode vir com muitas casas (12.83333…). <code>ROUND(x, 2)</code> corta em 2 casas &rarr; 12.83. Cosmético, mas essencial em relatório de tempo ou de dinheiro.</p>
+      </div>
+    </section>
+
+    <section class="secao">
       <h2>Prática</h2>
       <p class="legenda">Rode com o botão ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.</p>
       <div id="schema-ref"></div>

@@ -39,6 +39,64 @@
     </section>
 
     <section class="secao">
+      <h2>Exemplos de aplicação</h2>
+      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar — é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>INNER JOIN</code></h3>
+        <pre class="bloco"><code>SELECT pedidos.id,
+       pedidos.valor_total,
+       clientes.nome AS cliente
+FROM pedidos
+INNER JOIN clientes ON clientes.id = pedidos.cliente_id;</code></pre>
+        <p style="margin-bottom:0">O pedido guarda só o <code>cliente_id</code>. O <code>ON clientes.id = pedidos.cliente_id</code> casa cada pedido com a linha do cliente que tem aquele <code>id</code>, e aí dá pra mostrar o <code>nome</code> junto. <code>INNER</code>: pedido sem cliente correspondente fica de fora.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>LEFT JOIN</code></h3>
+        <pre class="bloco"><code>SELECT clientes.nome,
+       pedidos.id AS pedido_id
+FROM clientes
+LEFT JOIN pedidos ON pedidos.cliente_id = clientes.id;</code></pre>
+        <p style="margin-bottom:0"><code>LEFT JOIN</code> mantém <em>todos</em> os clientes, com pedido ou sem. Quem tem pedido aparece uma vez por pedido; quem não tem aparece uma vez, com <code>pedido_id</code> vindo <code>NULL</code> — não há linha de pedido pra preencher.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">Achar "quem não tem"</h3>
+        <pre class="bloco"><code>SELECT clientes.id, clientes.nome
+FROM clientes
+LEFT JOIN pedidos ON pedidos.cliente_id = clientes.id
+WHERE pedidos.id IS NULL;</code></pre>
+        <p style="margin-bottom:0">O <code>LEFT JOIN</code> traz o cliente mesmo sem pedido (colunas de <code>pedidos</code> em <code>NULL</code>); o <code>WHERE pedidos.id IS NULL</code> mantém <em>só</em> essas linhas. Resultado: clientes que nunca compraram.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">Qualificar colunas + apelidos</h3>
+        <pre class="bloco"><code>SELECT p.id,
+       p.data_pedido,
+       c.nome AS cliente,
+       c.estado
+FROM pedidos AS p
+JOIN clientes AS c ON c.id = p.cliente_id
+WHERE c.estado = 'SP';</code></pre>
+        <p style="margin-bottom:0"><code>id</code> existe nas duas tabelas; escrever <code>p.id</code> / <code>c.id</code> evita ambiguidade. O apelido (<code>pedidos AS p</code>) encurta o resto. <code>JOIN</code> sozinho já é <code>INNER JOIN</code>.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">Encadear 3+ <code>JOIN</code></h3>
+        <pre class="bloco"><code>SELECT p.id AS pedido,
+       c.nome AS cliente,
+       pr.nome AS produto,
+       ip.quantidade
+FROM pedidos AS p
+JOIN clientes AS c      ON c.id = p.cliente_id
+JOIN itens_pedido AS ip ON ip.pedido_id = p.id
+JOIN produtos AS pr     ON pr.id = ip.produto_id;</code></pre>
+        <p style="margin-bottom:0">Cada <code>JOIN</code> liga mais uma tabela pela chave certa: pedido&rarr;cliente, pedido&rarr;itens, item&rarr;produto. Assim você remonta a compra inteira (quem comprou, o quê, quantas unidades) numa linha por item.</p>
+      </div>
+    </section>
+
+    <section class="secao">
       <h2>Prática</h2>
       <p class="legenda">Rode com o botão ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.</p>
       <div id="schema-ref"></div>

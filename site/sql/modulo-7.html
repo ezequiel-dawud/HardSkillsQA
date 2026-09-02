@@ -41,6 +41,51 @@
     </section>
 
     <section class="secao">
+      <h2>Exemplos de aplicação</h2>
+      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar — é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>INSERT INTO ... VALUES</code></h3>
+        <pre class="bloco"><code>INSERT INTO defeitos
+  (titulo, modulo, severidade, prioridade, status, reportado_por, ambiente, data_abertura, data_fechamento)
+VALUES
+  ('Botao de pagar sem resposta', 'pagamento', 'alta', 'P2', 'aberto', 'ezequiel', 'homolog', '2026-09-02', NULL);</code></pre>
+        <p style="margin-bottom:0">A lista entre parênteses são as colunas que você vai preencher; o <code>VALUES</code> traz os valores <em>na mesma ordem</em>. Colunas não citadas ficam com o padrão (o <code>id</code> se preenche sozinho). <code>data_fechamento</code> entra como <code>NULL</code> porque o defeito nasce aberto.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>UPDATE ... SET ... WHERE</code></h3>
+        <pre class="bloco"><code>UPDATE defeitos
+SET status = 'resolvido',
+    data_fechamento = '2026-09-10'
+WHERE id = 57;</code></pre>
+        <p style="margin-bottom:0"><code>SET</code> lista as colunas a mudar e o novo valor de cada. O <code>WHERE id = 57</code> limita a mudança a <em>uma</em> linha. <strong>Sem <code>WHERE</code>, o <code>SET</code> valeria pra tabela inteira.</strong> Rode um <code>SELECT</code> com o mesmo <code>WHERE</code> antes, pra ver o que será afetado.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>DELETE FROM ... WHERE</code></h3>
+        <pre class="bloco"><code>DELETE FROM itens_pedido
+WHERE pedido_id = 143;</code></pre>
+        <p style="margin-bottom:0">Apaga as linhas que casam com o <code>WHERE</code> — aqui, todos os itens do pedido 143. Mesma regra do <code>UPDATE</code>: sem <code>WHERE</code>, esvazia a tabela. Confirme antes com <code>SELECT COUNT(*) FROM itens_pedido WHERE pedido_id = 143;</code>.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>BEGIN; ... COMMIT;</code> / <code>ROLLBACK;</code></h3>
+        <pre class="bloco"><code>BEGIN;
+
+UPDATE pedidos          SET status = 'cancelado' WHERE id = 88;
+DELETE FROM itens_pedido WHERE pedido_id = 88;
+
+-- conferiu com SELECT e está certo?
+COMMIT;      -- grava as duas mudanças de uma vez
+-- ROLLBACK; -- desfaz tudo desde o BEGIN</code></pre>
+        <p style="margin-bottom:0"><code>BEGIN</code> abre a transação: as mudanças ficam "em suspenso". Você roda vários comandos, confere com <code>SELECT</code>, e só então decide: <code>COMMIT</code> grava tudo junto, <code>ROLLBACK</code> joga tudo fora. Evita deixar o banco num meio-termo (pedido cancelado mas itens ainda lá).</p>
+      </div>
+
+      <p class="legenda">Neste site as escritas rodam só na cópia em memória desta aba — o botão <strong>Resetar banco</strong> volta os dados originais, então pode testar <code>INSERT</code>/<code>UPDATE</code>/<code>DELETE</code> à vontade.</p>
+    </section>
+
+    <section class="secao">
       <h2>Prática</h2>
       <p class="legenda">
         Cada exercício pode ter vários comandos separados por <code>;</code> — todos rodam.

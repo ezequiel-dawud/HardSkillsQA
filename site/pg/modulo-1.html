@@ -68,6 +68,69 @@
     </section>
 
     <section class="secao">
+      <h2>Exemplos de aplicação</h2>
+      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar — é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>SELECT ... FROM tabela</code></h3>
+        <pre class="bloco"><code>SELECT nome, categoria, preco
+FROM produtos;</code></pre>
+        <p style="margin-bottom:0"><code>SELECT</code> diz quais colunas aparecem; <code>FROM produtos</code> diz de qual tabela. <code>SELECT *</code> traria todas. Igual ao SQLite — a diferença do Postgres começa nos tipos das colunas (aqui <code>preco</code> é <code>numeric</code> de verdade, não "número solto").</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>WHERE</code> + operadores</h3>
+        <pre class="bloco"><code>SELECT id, status, valor_total
+FROM pedidos
+WHERE status &lt;&gt; 'cancelado' AND valor_total &gt;= 1000;</code></pre>
+        <p style="margin-bottom:0">Passa só quem satisfaz as duas condições (<code>AND</code>). No Postgres, texto <strong>tem</strong> que ir entre aspas simples — aspas duplas significam nome de coluna e dariam erro.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>BETWEEN</code> / <code>IN</code></h3>
+        <pre class="bloco"><code>SELECT nome, data_cadastro
+FROM clientes
+WHERE data_cadastro BETWEEN DATE '2025-01-01' AND DATE '2025-03-31'
+  AND estado IN ('SP', 'RJ', 'MG');</code></pre>
+        <p style="margin-bottom:0"><code>BETWEEN a AND b</code> é intervalo inclusivo nas duas pontas. <code>IN (...)</code> testa se o valor é um da lista. Como <code>data_cadastro</code> é <code>date</code>, dá pra escrever <code>DATE '2025-01-01'</code> pra deixar claro que é data, não texto.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>LIKE</code> / <code>ILIKE</code></h3>
+        <pre class="bloco"><code>SELECT nome, email
+FROM clientes
+WHERE nome ILIKE '%silva%';</code></pre>
+        <p style="margin-bottom:0"><code>LIKE</code> compara texto com molde: <code>%</code> = qualquer sequência, <code>_</code> = 1 caractere. <code>ILIKE</code> é a versão que <em>ignora maiúscula/minúscula</em> — <code>'%silva%'</code> pega "Silva", "SILVA", "da Silva". Isso é do Postgres; no SQLite não existe <code>ILIKE</code>.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>ORDER BY</code> / <code>LIMIT</code> / <code>OFFSET</code></h3>
+        <pre class="bloco"><code>SELECT id, valor_total
+FROM pedidos
+ORDER BY valor_total DESC
+LIMIT 10 OFFSET 10;</code></pre>
+        <p style="margin-bottom:0"><code>ORDER BY ... DESC</code> ordena do maior pro menor. <code>LIMIT 10</code> pega 10 linhas; <code>OFFSET 10</code> pula as 10 primeiras antes disso — ou seja, esta query traz do 11º ao 20º pedido mais caro. É o padrão de paginação.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>DISTINCT</code></h3>
+        <pre class="bloco"><code>SELECT DISTINCT estado
+FROM clientes
+ORDER BY estado;</code></pre>
+        <p style="margin-bottom:0">Colapsa linhas repetidas: em vez do estado de cada cliente, devolve cada estado uma vez. Bom pra saber "quais valores existem nessa coluna".</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>AS</code> (apelido)</h3>
+        <pre class="bloco"><code>SELECT nome,
+       preco AS preco_cheio,
+       preco * 0.9 AS preco_promo
+FROM produtos;</code></pre>
+        <p style="margin-bottom:0"><code>AS</code> renomeia a coluna no resultado — troca um nome ou dá nome a coluna calculada (<code>preco * 0.9</code>). O <code>AS</code> é opcional (<code>preco AS preco_cheio</code> = <code>preco preco_cheio</code>), mas escrever deixa claro.</p>
+      </div>
+    </section>
+
+    <section class="secao">
       <h2>Prática</h2>
       <p class="legenda">
         Escreva a query e clique <strong>Rodar</strong> (ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>).

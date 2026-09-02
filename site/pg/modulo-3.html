@@ -70,6 +70,79 @@
     </section>
 
     <section class="secao">
+      <h2>Exemplos de aplicação</h2>
+      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar — é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>data - data</code> e <code>data + INTERVAL</code></h3>
+        <pre class="bloco"><code>SELECT
+  id,
+  data_fechamento - data_abertura     AS dias_para_fechar,
+  data_abertura + INTERVAL '30 days'  AS prazo_sla
+FROM defeitos
+WHERE data_fechamento IS NOT NULL;</code></pre>
+        <p style="margin-bottom:0">Subtrair duas <code>date</code> dá um inteiro de dias (<code>data_fechamento - data_abertura</code>). Somar um <code>INTERVAL</code> a uma data dá outra data — aqui, o prazo de 30 dias a partir da abertura.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>CURRENT_DATE</code> / <code>now()</code></h3>
+        <pre class="bloco"><code>SELECT
+  id,
+  data_abertura,
+  CURRENT_DATE - data_abertura AS dias_em_aberto
+FROM defeitos
+WHERE data_fechamento IS NULL;</code></pre>
+        <p style="margin-bottom:0"><code>CURRENT_DATE</code> é a data de hoje; <code>now()</code> traz data + hora. Aqui: pra cada defeito ainda aberto, há quantos dias ele está aberto (hoje menos a abertura).</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>AGE(...)</code> + <code>EXTRACT</code></h3>
+        <pre class="bloco"><code>SELECT
+  id,
+  AGE(data_fechamento, data_abertura)                   AS tempo,
+  EXTRACT(DAY FROM AGE(data_fechamento, data_abertura)) AS dias
+FROM defeitos
+WHERE data_fechamento IS NOT NULL;</code></pre>
+        <p style="margin-bottom:0"><code>AGE(fim, inicio)</code> devolve um intervalo legível ("1 mon 3 days"). <code>EXTRACT(DAY FROM ...)</code> puxa só um pedaço desse intervalo como número, pra dar pra somar/ordenar.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>EXTRACT(YEAR|MONTH|DOW FROM data)</code></h3>
+        <pre class="bloco"><code>SELECT
+  EXTRACT(YEAR  FROM data_pedido) AS ano,
+  EXTRACT(MONTH FROM data_pedido) AS mes,
+  COUNT(*)                        AS qtd_pedidos
+FROM pedidos
+GROUP BY 1, 2
+ORDER BY 1, 2;</code></pre>
+        <p style="margin-bottom:0"><code>EXTRACT</code> tira um componente da data (ano, mês, dia da semana com <code>DOW</code>…). Aqui vira base de agrupamento: pedidos por ano/mês. O <code>GROUP BY 1, 2</code> agrupa pela 1ª e 2ª colunas do <code>SELECT</code>.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>DATE_TRUNC('month', data)</code></h3>
+        <pre class="bloco"><code>SELECT
+  DATE_TRUNC('month', data_pedido)::date AS mes,
+  COUNT(*)                               AS qtd,
+  SUM(valor_total)                       AS total
+FROM pedidos
+GROUP BY 1
+ORDER BY 1;</code></pre>
+        <p style="margin-bottom:0"><code>DATE_TRUNC('month', d)</code> "arredonda a data pra baixo" — toda data do mês vira o dia 1 daquele mês. Assim todas as linhas de um mês caem no mesmo valor e o <code>GROUP BY</code> soma por mês. Dá pra trocar por <code>'week'</code> ou <code>'day'</code>.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>TO_CHAR(data, formato)</code></h3>
+        <pre class="bloco"><code>SELECT
+  id,
+  TO_CHAR(data_pedido, 'DD/MM/YYYY') AS data_br,
+  TO_CHAR(data_pedido, 'YYYY-MM')    AS competencia
+FROM pedidos
+LIMIT 5;</code></pre>
+        <p style="margin-bottom:0"><code>TO_CHAR</code> transforma a data em texto no formato que você pedir — <code>'DD/MM/YYYY'</code> pra exibir no padrão BR, <code>'YYYY-MM'</code> pra rótulo de mês. Serve pra apresentação; pra <em>ordenar</em>, prefira a data crua ou o formato <code>YYYY-MM</code>.</p>
+      </div>
+    </section>
+
+    <section class="secao">
       <h2>Prática</h2>
       <p class="legenda">Escreva a query e clique <strong>Rodar</strong> (ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>).</p>
       <div id="schema-ref" data-aberto></div>

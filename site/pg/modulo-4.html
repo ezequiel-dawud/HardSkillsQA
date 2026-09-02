@@ -67,6 +67,68 @@
     </section>
 
     <section class="secao">
+      <h2>Exemplos de aplicação</h2>
+      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar — é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>||</code> e <code>CONCAT_WS</code></h3>
+        <pre class="bloco"><code>SELECT
+  nome || ' - ' || estado         AS rotulo,
+  CONCAT_WS(', ', cidade, estado)  AS local
+FROM clientes;</code></pre>
+        <p style="margin-bottom:0"><code>||</code> gruda textos; se qualquer pedaço for <code>NULL</code>, o resultado inteiro vira <code>NULL</code>. <code>CONCAT_WS(sep, ...)</code> junta com um separador e <em>ignora</em> os <code>NULL</code> — mais seguro pra montar endereço.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>ILIKE</code> e regex <code>~*</code></h3>
+        <pre class="bloco"><code>SELECT titulo
+FROM defeitos
+WHERE titulo ILIKE '%login%'
+   OR titulo ~* 'senha|password';</code></pre>
+        <p style="margin-bottom:0"><code>ILIKE '%login%'</code> = contém "login" em qualquer caixa. <code>~* 'senha|password'</code> é regex insensível a caixa: casa "senha" <em>ou</em> "password". Regex serve quando o padrão é mais complexo que um simples "contém".</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>LOWER</code> / <code>UPPER</code> / <code>INITCAP</code></h3>
+        <pre class="bloco"><code>SELECT
+  nome,
+  LOWER(email)  AS email_normalizado,
+  INITCAP(nome) AS nome_padronizado
+FROM clientes;</code></pre>
+        <p style="margin-bottom:0"><code>LOWER</code>/<code>UPPER</code> forçam a caixa toda; <code>INITCAP</code> deixa a primeira letra de cada palavra maiúscula. Comparar sempre com a mesma caixa (<code>LOWER(email) = LOWER(entrada)</code>) evita bug de "achou" vs "não achou" por causa de maiúscula.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>SPLIT_PART</code>, <code>LEFT</code> / <code>RIGHT</code></h3>
+        <pre class="bloco"><code>SELECT
+  email,
+  SPLIT_PART(email, '@', 2) AS dominio,
+  LEFT(email, 3)            AS inicio
+FROM clientes;</code></pre>
+        <p style="margin-bottom:0"><code>SPLIT_PART(texto, '@', 2)</code> quebra o texto no <code>@</code> e pega o 2º pedaço — o domínio do email. <code>LEFT(t, n)</code>/<code>RIGHT(t, n)</code> pegam os <code>n</code> primeiros/últimos caracteres.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>POSITION</code>, <code>LENGTH</code></h3>
+        <pre class="bloco"><code>SELECT
+  email,
+  POSITION('@' IN email) AS pos_arroba,
+  LENGTH(email)          AS tamanho
+FROM clientes
+WHERE POSITION('@' IN email) = 0;   -- email sem @</code></pre>
+        <p style="margin-bottom:0"><code>POSITION('x' IN t)</code> devolve em que caractere "x" aparece, ou <code>0</code> se não aparece — útil pra validar formato. <code>LENGTH(t)</code> é o número de caracteres.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>TRIM</code> e espaço sobrando</h3>
+        <pre class="bloco"><code>SELECT id, cidade
+FROM clientes
+WHERE cidade &lt;&gt; TRIM(cidade);   -- tem espaço nas pontas</code></pre>
+        <p style="margin-bottom:0"><code>TRIM(t)</code> remove espaços do começo e do fim. Se <code>cidade</code> for diferente de <code>TRIM(cidade)</code>, é porque sobrou espaço — um problema clássico de dado "sujo" que quebra comparação e agrupamento.</p>
+      </div>
+    </section>
+
+    <section class="secao">
       <h2>Prática</h2>
       <p class="legenda">Escreva a query e clique <strong>Rodar</strong> (ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>).</p>
       <div id="schema-ref" data-aberto></div>

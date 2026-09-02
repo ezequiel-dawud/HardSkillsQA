@@ -39,6 +39,59 @@
     </section>
 
     <section class="secao">
+      <h2>Exemplos de aplicação</h2>
+      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar — é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>IS NULL</code> / <code>IS NOT NULL</code></h3>
+        <pre class="bloco"><code>SELECT id, titulo, data_fechamento
+FROM defeitos
+WHERE data_fechamento IS NULL;</code></pre>
+        <p style="margin-bottom:0"><code>data_fechamento</code> tem a data em que o defeito foi fechado — ou <code>NULL</code> se ainda está aberto. <code>WHERE data_fechamento = NULL</code> nunca dá certo (não dá pra comparar com <code>=</code>); o teste é <code>IS NULL</code>. Essa query lista os defeitos em aberto.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">Conta com <code>NULL</code> vira <code>NULL</code></h3>
+        <pre class="bloco"><code>SELECT id,
+       data_fechamento,
+       julianday(data_fechamento) - julianday(data_abertura) AS dias_aberto
+FROM defeitos;</code></pre>
+        <p style="margin-bottom:0">Nos defeitos fechados, <code>dias_aberto</code> vem com o número. Nos que têm <code>data_fechamento</code> nulo, a subtração inteira vira <code>NULL</code> — qualquer operação que toca em <code>NULL</code> resulta <code>NULL</code>. É por isso que linhas assim "somem" de médias e somas sem dar erro.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>COALESCE(a, b, ...)</code></h3>
+        <pre class="bloco"><code>SELECT id,
+       COALESCE(data_fechamento, 'ainda aberto') AS situacao
+FROM defeitos;</code></pre>
+        <p style="margin-bottom:0"><code>COALESCE</code> devolve o primeiro argumento que <em>não</em> for <code>NULL</code>. Aqui: se tem <code>data_fechamento</code>, mostra a data; se é <code>NULL</code>, mostra o texto <code>'ainda aberto'</code>. Útil pra não deixar célula vazia em relatório.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>CASE WHEN ... THEN ... END</code></h3>
+        <pre class="bloco"><code>SELECT nome,
+       preco,
+       CASE
+         WHEN preco &lt; 100 THEN 'barato'
+         WHEN preco &lt; 500 THEN 'medio'
+         ELSE 'caro'
+       END AS faixa_preco
+FROM produtos;</code></pre>
+        <p style="margin-bottom:0">É o "if" dentro do <code>SELECT</code>. Testa cada <code>WHEN</code> de cima pra baixo e para no primeiro verdadeiro; se nenhum bate, usa o <code>ELSE</code>. Cria a coluna <code>faixa_preco</code> com o rótulo. Sempre fecha com <code>END</code>.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>SUM(CASE WHEN cond THEN 1 ELSE 0 END)</code></h3>
+        <pre class="bloco"><code>SELECT
+  COUNT(*) AS total,
+  SUM(CASE WHEN severidade = 'critica' THEN 1 ELSE 0 END) AS criticos,
+  SUM(CASE WHEN status = 'aberto'      THEN 1 ELSE 0 END) AS em_aberto
+FROM defeitos;</code></pre>
+        <p style="margin-bottom:0">O <code>CASE</code> vira 1 quando a condição bate e 0 quando não. Somando esses valores você conta quantas linhas satisfazem cada condição, tudo numa passada. Resultado: uma linha com total, quantos são críticos e quantos estão abertos.</p>
+      </div>
+    </section>
+
+    <section class="secao">
       <h2>Prática</h2>
       <p class="legenda">Rode com o botão ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.</p>
       <div id="schema-ref"></div>

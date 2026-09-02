@@ -66,6 +66,70 @@
     </section>
 
     <section class="secao">
+      <h2>Exemplos de aplicação</h2>
+      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar — é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>OVER ()</code> e <code>OVER (PARTITION BY ...)</code></h3>
+        <pre class="bloco"><code>SELECT
+  id,
+  valor_total,
+  ROUND(AVG(valor_total) OVER (), 2)                    AS media_geral,
+  ROUND(AVG(valor_total) OVER (PARTITION BY status), 2) AS media_do_status
+FROM pedidos;</code></pre>
+        <p style="margin-bottom:0">Window function calcula um agregado <em>sem colapsar as linhas</em>: cada pedido continua aparecendo, com a média ao lado. <code>OVER ()</code> = sobre a tabela toda; <code>OVER (PARTITION BY status)</code> = sobre os pedidos do mesmo status. Dá pra comparar cada linha com a média dela.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>ROW_NUMBER() OVER (ORDER BY ...)</code></h3>
+        <pre class="bloco"><code>SELECT
+  id,
+  valor_total,
+  ROW_NUMBER() OVER (ORDER BY valor_total DESC) AS posicao
+FROM pedidos;</code></pre>
+        <p style="margin-bottom:0">Numera as linhas na ordem que você pedir — aqui, 1 pro pedido mais caro, 2 pro segundo, e assim por diante. Com <code>PARTITION BY cliente_id</code> junto, o ranking reinicia a cada cliente ("o maior pedido de cada um").</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">Acumulado — <code>SUM(...) OVER (ORDER BY ...)</code></h3>
+        <pre class="bloco"><code>SELECT
+  data_pedido,
+  valor_total,
+  SUM(valor_total) OVER (ORDER BY data_pedido) AS acumulado
+FROM pedidos
+WHERE status &lt;&gt; 'cancelado';</code></pre>
+        <p style="margin-bottom:0">Com <code>ORDER BY</code> dentro do <code>OVER</code>, a soma vira <em>acumulada</em>: cada linha traz o total dela mais o de todas as anteriores na ordem de data. É assim que se faz "faturamento acumulado no tempo".</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>LAG(...)</code> — comparar com a linha anterior</h3>
+        <pre class="bloco"><code>SELECT
+  mes,
+  total,
+  total - LAG(total) OVER (ORDER BY mes) AS variacao
+FROM (
+  SELECT DATE_TRUNC('month', data_pedido)::date AS mes,
+         SUM(valor_total) AS total
+  FROM pedidos
+  GROUP BY 1
+) m;</code></pre>
+        <p style="margin-bottom:0"><code>LAG(total) OVER (ORDER BY mes)</code> traz o <code>total</code> do mês anterior pra mesma linha; a subtração dá a variação mês a mês. No primeiro mês não há anterior, então <code>LAG</code> vem <code>NULL</code> e a variação também.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">Window function não vai no <code>WHERE</code></h3>
+        <pre class="bloco"><code>SELECT *
+FROM (
+  SELECT id, valor_total,
+         ROW_NUMBER() OVER (ORDER BY valor_total DESC) AS pos
+  FROM pedidos
+) ranqueado
+WHERE pos &lt;= 5;</code></pre>
+        <p style="margin-bottom:0">O <code>WHERE</code>/<code>HAVING</code> roda <em>antes</em> das window functions, então <code>WHERE pos &lt;= 5</code> na mesma query daria erro. A saída é embrulhar numa subconsulta (ou CTE) e filtrar do lado de fora — aqui, "os 5 maiores pedidos".</p>
+      </div>
+    </section>
+
+    <section class="secao">
       <h2>Prática</h2>
       <p class="legenda">Escreva a query e clique <strong>Rodar</strong> (ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>).</p>
       <div id="schema-ref" data-aberto></div>

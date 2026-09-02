@@ -71,6 +71,70 @@
     </section>
 
     <section class="secao">
+      <h2>Exemplos de aplicação</h2>
+      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar — é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
+
+      <div class="card">
+        <h3 style="margin-top:0">Coluna <code>boolean</code> como condição</h3>
+        <pre class="bloco"><code>SELECT nome, ativo
+FROM produtos
+WHERE ativo;          -- só os à venda
+
+-- inativos:
+-- WHERE NOT ativo;</code></pre>
+        <p style="margin-bottom:0"><code>ativo</code> já é <code>true</code>/<code>false</code>, então <code>WHERE ativo</code> basta — não precisa de <code>= 1</code> nem <code>= TRUE</code>. Pra negar, <code>WHERE NOT ativo</code>. No SQLite isso era <code>ativo = 1</code>; no Postgres é boolean de verdade.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>IS TRUE</code> / <code>IS FALSE</code> / <code>IS NOT TRUE</code></h3>
+        <pre class="bloco"><code>SELECT nome, ativo
+FROM produtos
+WHERE ativo IS NOT TRUE;</code></pre>
+        <p style="margin-bottom:0"><code>IS NOT TRUE</code> pega tanto <code>false</code> quanto <code>NULL</code> — diferente de <code>WHERE NOT ativo</code>, que deixa o <code>NULL</code> de fora. Use quando "não é verdade" precisa incluir os sem valor.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">Divisão inteira vs decimal</h3>
+        <pre class="bloco"><code>SELECT
+  5 / 2                     AS inteiro,      -- 2
+  5::numeric / 2            AS decimal,      -- 2.5000000000000000
+  ROUND(5::numeric / 2, 2)  AS arredondado  -- 2.50
+FROM produtos
+LIMIT 1;</code></pre>
+        <p style="margin-bottom:0">Dois inteiros divididos dão inteiro (o Postgres corta a parte fracionária). Convertendo um lado pra <code>numeric</code>, a divisão passa a ter casas. <code>ROUND(x, 2)</code> ajusta o número de casas.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>x::tipo</code> (cast)</h3>
+        <pre class="bloco"><code>SELECT
+  valor_total,
+  valor_total::int    AS sem_centavos,
+  '2025-01-01'::date  AS virou_data
+FROM pedidos
+LIMIT 5;</code></pre>
+        <p style="margin-bottom:0"><code>x::tipo</code> é a forma curta de <code>CAST(x AS tipo)</code>: converte o valor. <code>valor_total::int</code> descarta os centavos; <code>'2025-01-01'::date</code> transforma o texto em data de verdade (aí dá pra fazer conta com ela).</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>COALESCE</code> / <code>NULLIF</code></h3>
+        <pre class="bloco"><code>SELECT
+  id,
+  COALESCE(data_fechamento::text, 'aberto') AS situacao,
+  NULLIF(severidade, 'baixa')               AS severidade_relevante
+FROM defeitos;</code></pre>
+        <p style="margin-bottom:0"><code>COALESCE(a, b)</code> devolve o primeiro não-nulo. <code>NULLIF(a, b)</code> faz o contrário: devolve <code>NULL</code> quando <code>a = b</code> (aqui, some com o <code>'baixa'</code>), senão devolve <code>a</code>.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>a IS DISTINCT FROM b</code></h3>
+        <pre class="bloco"><code>SELECT id, status, reportado_por
+FROM defeitos
+WHERE reportado_por IS DISTINCT FROM 'ezequiel';</code></pre>
+        <p style="margin-bottom:0">É o "<code>&lt;&gt;</code> que trata <code>NULL</code> como valor". <code>reportado_por &lt;&gt; 'ezequiel'</code> deixa linhas com <code>NULL</code> de fora; <code>IS DISTINCT FROM</code> inclui essas linhas (NULL é "distinto de" qualquer texto).</p>
+      </div>
+    </section>
+
+    <section class="secao">
       <h2>Prática</h2>
       <p class="legenda">Escreva a query e clique <strong>Rodar</strong> (ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>).</p>
       <div id="schema-ref" data-aberto></div>

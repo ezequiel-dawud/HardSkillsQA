@@ -41,6 +41,46 @@
     </section>
 
     <section class="secao">
+      <h2>Exemplos de aplicação</h2>
+      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar — é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
+
+      <div class="card">
+        <h3 style="margin-top:0">Validação de dados — achar quem quebra a regra</h3>
+        <pre class="bloco"><code>-- pedido que não foi cancelado mas está com valor zerado
+SELECT id, status, valor_total
+FROM pedidos
+WHERE status &lt;&gt; 'cancelado'
+  AND valor_total = 0;</code></pre>
+        <p style="margin-bottom:0">A regra de negócio diz "todo pedido ativo tem valor". A query procura quem quebra isso. O trabalho de QA: rodar, achar as linhas, investigar por quê. Variações: <code>WHERE quantidade &lt;= 0</code> em <code>itens_pedido</code>; ou comparar o <code>valor_total</code> do pedido com <code>SUM(quantidade * preco_unitario)</code> dos itens via <code>JOIN</code> + <code>GROUP BY</code> + <code>HAVING</code>.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">Métrica — taxa de aprovação por suite</h3>
+        <pre class="bloco"><code>SELECT suite,
+       COUNT(*) AS total,
+       SUM(CASE WHEN resultado = 'passou' THEN 1 ELSE 0 END) AS passaram,
+       ROUND(
+         100.0 * SUM(CASE WHEN resultado = 'passou' THEN 1 ELSE 0 END) / COUNT(*),
+         1
+       ) AS taxa_aprovacao_pct
+FROM execucoes_teste
+GROUP BY suite;</code></pre>
+        <p style="margin-bottom:0">Junta o <code>SUM(CASE...)</code> (módulo 2) com <code>GROUP BY</code> (módulo 3). Pra cada suite: total, quantas passaram e a porcentagem. O <code>100.0</code> (com casa decimal) força divisão fracionária — com <code>100</code> inteiro o SQLite arredondaria pra 0.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">Conferir escrita depois de um teste de API</h3>
+        <pre class="bloco"><code>-- logo depois do teste que criou um pedido pro cliente 42
+SELECT *
+FROM pedidos
+WHERE cliente_id = 42
+ORDER BY id DESC
+LIMIT 1;</code></pre>
+        <p style="margin-bottom:0">Depois de um teste de API que cria um pedido, você vai ao banco conferir: o pedido apareceu? O <code>valor_total</code> bate com o que a API recebeu? O <code>status</code> inicial é <code>'novo'</code>? <code>ORDER BY id DESC LIMIT 1</code> pega o registro mais recente.</p>
+      </div>
+    </section>
+
+    <section class="secao">
       <h2>Prática — validação de dados</h2>
       <p class="legenda">Rode com o botão ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.</p>
       <div id="schema-ref"></div>
