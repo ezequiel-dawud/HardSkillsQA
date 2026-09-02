@@ -1,0 +1,12 @@
+[
+  { "usuario": "ana",     "email": "ana@teste.com" },
+  { "usuario": "bruno",   "email": "bruno@teste.com" },
+  { "usuario": "carla",   "email": "carla@teste.com" },
+  { "usuario": "diego",   "email": "diego@teste.com" },
+  { "usuario": "elisa",   "email": "elisa@teste.com" },
+  { "usuario": "fabio",   "email": "fabio@teste.com" },
+  { "usuario": "gabi",    "email": "gabi@teste.com" },
+  { "usuario": "hugo",    "email": "hugo@teste.com" },
+  { "usuario": "iris",    "email": "iris@teste.com" },
+  { "usuario": "joao",    "email": "joao@teste.com" }
+]

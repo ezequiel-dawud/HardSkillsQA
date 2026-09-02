@@ -1,0 +1,50 @@
+name: Trilha 5 — k6
+
+# Roda quando algo da trilha muda, ou manualmente pelo botao "Run workflow".
+on:
+  push:
+    paths:
+      - "trilha-5/**"
+      - ".github/workflows/trilha-5-k6.yml"
+  pull_request:
+    paths:
+      - "trilha-5/**"
+  workflow_dispatch:
+
+jobs:
+  carga:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar o k6
+        uses: grafana/setup-k6-action@v1
+
+      - name: Subir o servidor-alvo (mock) em segundo plano
+        working-directory: trilha-5
+        run: |
+          python mock/servidor.py &
+          echo $! > mock.pid
+          # espera a porta responder
+          for i in $(seq 1 20); do
+            curl -sf http://127.0.0.1:8787/ >/dev/null && break
+            sleep 0.5
+          done
+          curl -sf http://127.0.0.1:8787/ && echo " <- mock de pe"
+
+      - name: Rodar o smoke (tem que passar limpo)
+        working-directory: trilha-5
+        run: k6 run scripts/01_smoke.js
+
+      - name: Rodar a carga (portao de performance — reprova de proposito)
+        working-directory: trilha-5
+        run: k6 run scripts/03_carga.js
+
+      - name: Encerrar o mock
+        if: always()
+        working-directory: trilha-5
+        run: kill "$(cat mock.pid)" || true

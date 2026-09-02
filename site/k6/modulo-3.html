@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>k6 Módulo 3 — Carga de verdade: stages e thresholds</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ k6</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html" class="atual">3</a>
+      <a href="modulo-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 3 — Carga de verdade: stages e thresholds</h1>
+    <p class="legenda">Desenhar a rampa de carga no tempo e transformar a meta de performance num portão que reprova.</p>
+
+    <section class="secao">
+      <h2><code>stages</code> — a rampa</h2>
+      <div class="card">
+        <p style="margin-top:0">Carga real não começa no talo — ela <b>sobe</b>, <b>segura</b> e
+          <b>desce</b>. <code>stages</code> troca o <code>vus</code>/<code>duration</code> fixos por
+          uma curva:</p>
+        <pre class="bloco"><code>export const options = {
+  stages: [
+    { duration: "20s", target: 20 },  // sobe de 0 a 20 VUs em 20s
+    { duration: "40s", target: 20 },  // segura 20 VUs por 40s (o patamar)
+    { duration: "10s", target: 0 },   // desce de 20 a 0
+  ],
+};</code></pre>
+        <p style="margin-bottom:0">Cada objeto é um trecho: <code>target</code> é o nº de VUs que
+          se quer <b>ao fim</b> do trecho, e o k6 interpola linearmente até lá. O patamar (o
+          trecho do meio, com <code>target</code> igual ao anterior) é onde as métricas contam de
+          verdade.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2><code>thresholds</code> — o portão</h2>
+      <div class="card">
+        <p style="margin-top:0">É a única coisa no k6 que <b>reprova</b> o teste. Cada regra é uma
+          condição sobre uma métrica; se ela não for cumprida, o <code>k6 run</code> termina com
+          <b>código de saída 99</b> — e o CI marca o build como vermelho.</p>
+        <pre class="bloco"><code>thresholds: {
+  http_req_failed: ["rate&lt;0.01"],       // menos de 1% de erro
+  http_req_duration: ["p(95)&lt;300"],     // 95% das respostas abaixo de 300ms
+  "http_req_duration{tipo:leitura}": ["p(95)&lt;600"],  // so nas leituras
+  checks: ["rate&gt;0.99"],                 // 99%+ dos checks passando
+},</code></pre>
+        <ul>
+          <li><code>rate&lt;0.01</code> numa métrica de taxa (<code>http_req_failed</code>,
+            <code>checks</code>) — proporção.</li>
+          <li><code>p(95)&lt;300</code>, <code>p(99)&lt;500</code>, <code>avg&lt;200</code>,
+            <code>max&lt;1000</code> numa métrica de tempo.</li>
+          <li>vários limites na mesma métrica: <code>["p(95)&lt;300", "p(99)&lt;800"]</code>.</li>
+        </ul>
+        <p style="margin-bottom:0">No resumo, a linha <code>portão (thresholds)</code> mostra
+          <code>ok</code> ou <code>REPROVADO -&gt; http_req_duration: p(95)&lt;300</code>.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Os tipos de teste de carga</h2>
+      <div class="card">
+        <p style="margin-top:0">Mesmo script, curvas de <code>stages</code> diferentes:</p>
+        <table class="dados">
+          <thead><tr><th>Tipo</th><th>Curva</th><th>Responde</th></tr></thead>
+          <tbody>
+            <tr><td><b>smoke</b></td><td>1–2 VUs, poucos segundos</td><td>o script e o alvo estão de pé?</td></tr>
+            <tr><td><b>load</b></td><td>sobe até a carga esperada, segura, desce</td><td>aguenta o dia normal dentro da meta?</td></tr>
+            <tr><td><b>stress</b></td><td>sobe além do esperado, em degraus</td><td>a que ponto quebra? e como quebra?</td></tr>
+            <tr><td><b>spike</b></td><td>salto brusco pra carga altíssima e volta</td><td>sobrevive a um pico repentino (promoção, notícia)?</td></tr>
+            <tr><td><b>soak</b></td><td>carga média por muito tempo (horas)</td><td>degrada com o tempo? (vazamento de memória, disco enchendo)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Ler o "quebrou"</h2>
+      <div class="card">
+        <p style="margin-top:0">Quando o portão reprova, olhe <b>o que</b> reprovou:</p>
+        <ul>
+          <li><b>p95 estourou, erro baixo</b> — o sistema respondeu tudo, só devagar. Gargalo de
+            performance (banco, CPU, fila).</li>
+          <li><b>erro subiu</b> — passou a recusar requisições (5xx, timeout, connection reset).
+            Achou um teto de capacidade.</li>
+          <li><b>os dois pioram juntos a partir de um nº de VUs</b> — esse número é a capacidade
+            aproximada do sistema como está.</li>
+        </ul>
+        <p style="margin-bottom:0">Reprovar <b>não</b> é bug no seu script — é o resultado. O teste
+          de carga existe pra achar esse limite antes do usuário achar.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Rodar</h2>
+      <div class="card">
+        <p style="margin-top:0"><code>scripts/03_carga.js</code> tem a rampa até 20 VUs e um
+          threshold de <code>p(95)&lt;300</code> <b>apertado de propósito</b>. O alvo de treino
+          fica mais lento quanto mais carga recebe, então sob 20 VUs o p95 passa de 300ms e o
+          portão <b>reprova</b>. Com o mock ligado:</p>
+        <pre class="bloco"><code>k6 run scripts/03_carga.js
+# ... o k6 termina com codigo 99 (portao reprovado) — esperado
+
+# encerre o mock no Terminal 1 com Ctrl+C, depois:
+python verificar.py 3</code></pre>
+        <p style="margin-bottom:0">O corretor confere o que <b>você</b> montou (a rampa chegou a
+          20 VUs? os dois thresholds existem? o servidor sentiu a carga simultânea?) e mostra uma
+          nota dizendo que o portão reprovou — que é o certo aqui.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Exercício</h2>
+      <div class="card">
+        <p style="margin-top:0"><b>A)</b> Rode <code>03_carga.js</code> como está e confirme
+          <code>python verificar.py 3</code> com tudo <code>[ok]</code> + a nota de portão
+          reprovado.</p>
+        <p><b>B)</b> Afrouxe a meta pra <code>http_req_duration: ["p(95)&lt;1500"]</code> e rode de
+          novo. Agora o <code>k6 run</code> sai com código 0 e a nota vira "o portão passou". A
+          pergunta que sobra — <em>1500ms é aceitável pro seu produto?</em> — é decisão de time,
+          não da ferramenta.</p>
+        <p style="margin-bottom:0"><b>C, opcional)</b> Suba o mock com a contenção desligada
+          (<code>$env:MOCK_LATENCIA_POR_CARGA_MS=0; python mock/servidor.py</code>) e rode o
+          <code>03_carga.js</code> original — o p95 nem sobe. Gabarito em
+          <code>trilha-5/GABARITO.md</code>.</p>
+      </div>
+    </section>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="modulo-2.html"><button>← Módulo 2</button></a>
+      <a href="modulo-4.html"><button class="primario">Módulo 4 →</button></a>
+    </nav>
+  </main>
+</body>
+</html>

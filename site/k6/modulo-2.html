@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>k6 Módulo 2 — Anatomia de um script</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ k6</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html" class="atual">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 2 — Anatomia de um script</h1>
+    <p class="legenda">As 4 peças de todo teste de carga, num roteiro de usuário que faz login, navega e compra.</p>
+
+    <section class="secao">
+      <h2>As 4 peças</h2>
+      <div class="card">
+        <ul>
+          <li><b><code>options</code></b> — quanta carga e por quanto tempo (VUs, duração,
+            thresholds).</li>
+          <li><b><code>export default function</code></b> — o roteiro de <em>um</em> VU numa
+            iteração. O k6 repete isto em loop.</li>
+          <li><b><code>http.get / http.post / …</code></b> — as requisições.</li>
+          <li><b><code>check()</code></b> — o que conta como resposta certa.</li>
+        </ul>
+        <p style="margin-bottom:0">Mais duas de apoio: <b><code>sleep()</code></b> (o think time) e
+          <b><code>group()</code></b> (organiza o relatório por trecho do fluxo).</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Item por item, com exemplo</h2>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>export default function () { … }</code></h3>
+        <pre class="bloco"><code>export default function () {
+  // tudo aqui dentro = 1 iteracao de 1 VU. Com vus:5, rodam 5 em paralelo.
+  const r = http.get(`${BASE}/produtos`);
+  sleep(1);
+}</code></pre>
+        <p style="margin-bottom:0">É a única função obrigatória. O que estiver fora dela (imports,
+          <code>const BASE = …</code>, ler arquivo) roda <b>uma vez</b>, no "contexto de init";
+          o que está dentro roda a cada iteração.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>http.get(url, params)</code> / <code>http.post(url, corpo, params)</code></h3>
+        <pre class="bloco"><code>const login = http.post(
+  `${BASE}/login`,
+  JSON.stringify({ usuario: `qa_${__VU}` }),          // corpo (string)
+  { headers: { "Content-Type": "application/json" } } // params
+);
+const token = login.json("token");   // le um campo do JSON da resposta</code></pre>
+        <p style="margin-bottom:0">A resposta traz <code>.status</code>, <code>.body</code>,
+          <code>.headers</code>, <code>.timings</code> e <code>.json("caminho")</code>.
+          <code>__VU</code> é o número do VU (1, 2, 3…), útil pra gerar dado diferente por usuário.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>check(resposta, { rótulo: fn, … })</code></h3>
+        <pre class="bloco"><code>check(r, {
+  "status 201": (res) =&gt; res.status === 201,
+  "resposta traz id": (res) =&gt; res.json("id") !== undefined,
+});</code></pre>
+        <p style="margin-bottom:0">Cada função devolve <code>true</code>/<code>false</code>.
+          Diferente de um <code>assert</code>, um <code>check</code> falso <b>não</b> interrompe a
+          iteração — ele alimenta a métrica <code>checks</code> (o "% ok" do resumo). Pra falhar o
+          teste de verdade, é <code>threshold</code> (Módulo 3).</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>sleep(segundos)</code> — think time</h3>
+        <pre class="bloco"><code>const r = http.get(`${BASE}/produtos`);
+check(r, { "produtos 200": (res) =&gt; res.status === 200 });
+sleep(1);   // o "usuario" leva ~1s olhando a vitrine antes do proximo passo</code></pre>
+        <p style="margin-bottom:0">Sem <code>sleep</code>, cada VU dispara requisições sem pausa —
+          isso mede o servidor no talo, não usuários reais. Com think time, N VUs se parecem com N
+          pessoas. Dá pra variar: <code>sleep(Math.random() * 2)</code>.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>options</code> — a forma da carga</h3>
+        <pre class="bloco"><code>export const options = {
+  vus: 5,             // 5 usuarios virtuais simultaneos
+  duration: "20s",    // durante 20s (cada VU repete o fluxo em loop)
+  thresholds: {
+    http_req_failed: ["rate&lt;0.05"],
+  },
+};</code></pre>
+        <p style="margin-bottom:0">Aqui você escolhe entre <code>duration</code> (roda por X tempo)
+          ou <code>iterations</code> (roda X vezes no total). O Módulo 3 troca isso por
+          <code>stages</code>, que desenha uma rampa.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><code>group("nome", fn)</code> + tags</h3>
+        <pre class="bloco"><code>group("navegar", function () {
+  const r = http.get(`${BASE}/produtos`, { tags: { tipo: "leitura" } });
+  check(r, { "produtos 200": (res) =&gt; res.status === 200 });
+});</code></pre>
+        <p style="margin-bottom:0"><code>group</code> agrupa as métricas daquele trecho no relatório
+          (útil pra saber se a lentidão está no "login" ou no "checkout"). A <code>tag</code>
+          <code>{ tipo: "leitura" }</code> cria uma <b>sub-métrica</b>: dá pra ter um threshold só
+          das requisições de leitura — <code>"http_req_duration{tipo:leitura}": ["p(95)&lt;600"]</code>.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>O script completo</h2>
+      <div class="card">
+        <p style="margin-top:0">Está em <code>scripts/02_anatomia.js</code>: login → navegar →
+          comprar, com <code>group</code> em cada etapa, o token do login reaproveitado na compra,
+          e um threshold na sub-métrica de leitura. Rode com o mock ligado:</p>
+        <pre class="bloco"><code>k6 run scripts/02_anatomia.js
+python verificar.py 2</code></pre>
+        <p style="margin-bottom:0">No resumo vão aparecer <code>VUs (pico): 5</code> e a
+          sub-métrica <code>http_req_duration{tipo:leitura}</code> com o próprio p95.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Exercício</h2>
+      <div class="card">
+        <p style="margin-top:0">No grupo <code>comprar</code> do
+          <code>scripts/02_anatomia.js</code>, adicione um terceiro <code>check</code> que verifica
+          se o pedido volta com <code>status</code> igual a <code>"novo"</code>. Rode de novo e
+          confirme <code>python verificar.py 2</code> com tudo <code>[ok]</code> e
+          <code>checks ok</code> perto de 100%. Solução em <code>trilha-5/GABARITO.md</code>.</p>
+      </div>
+    </section>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="modulo-1.html"><button>← Módulo 1</button></a>
+      <a href="modulo-3.html"><button class="primario">Módulo 3 →</button></a>
+    </nav>
+  </main>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Trilha Teste de carga com k6</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ k6</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <p style="margin:0 0 4px"><a href="../index.html" style="font-size:14px; color:var(--suave); text-decoration:none">← Todas as trilhas</a></p>
+    <h1>Trilha Teste de carga com k6</h1>
+    <p class="legenda">
+      Simular muita gente usando o sistema ao mesmo tempo, medir o que acontece com
+      <strong>tempo de resposta</strong> e <strong>taxa de erro</strong>, e transformar a
+      meta de performance num <strong>portão</strong> que reprova o build.
+    </p>
+
+    <div class="card">
+      <h3 style="margin-top:0">Esta trilha roda na sua máquina</h3>
+      <p style="margin:0 0 10px; font-size:14px; color:var(--suave)">
+        Como a Trilha 3, não tem prática rodando na página — o k6 é um programa que roda
+        no seu terminal. O projeto está no repositório, na pasta <code>trilha-5/</code>.
+        Siga com o <code>trilha-5/README.md</code> aberto do lado.
+      </p>
+      <p style="margin:0; font-size:14px; color:var(--suave)">
+        Você vai precisar do <b>k6</b> (<code>winget install k6 --source winget</code>) e do
+        <b>Python</b> que já instalou na Trilha 3. Sem conta, sem Docker, sem
+        <code>pip install</code> — o servidor-alvo de treino usa só a biblioteca padrão.
+      </p>
+    </div>
+
+    <h2>Módulos</h2>
+    <div class="grade-modulos">
+      <a class="modulo-link" href="modulo-1.html">
+        <div class="rot">Módulo 1</div>
+        <div class="tit">Preparar e primeiro teste</div>
+        <div class="desc">o que é teste de carga, instalar o k6, VU / iteração / duração, o smoke test, ler o resumo</div>
+      </a>
+      <a class="modulo-link" href="modulo-2.html">
+        <div class="rot">Módulo 2</div>
+        <div class="tit">Anatomia de um script</div>
+        <div class="desc"><code>default function</code>, <code>http.get/post</code>, <code>check()</code>, <code>sleep()</code>, <code>options</code>, <code>group()</code>, tags</div>
+      </a>
+      <a class="modulo-link" href="modulo-3.html">
+        <div class="rot">Módulo 3</div>
+        <div class="tit">Carga de verdade: stages e thresholds</div>
+        <div class="desc">rampa de carga, <code>thresholds</code> como portão, smoke / load / stress / spike / soak, ler o "quebrou"</div>
+      </a>
+      <a class="modulo-link" href="modulo-4.html">
+        <div class="rot">Módulo 4</div>
+        <div class="tit">Dados e CI</div>
+        <div class="desc"><code>SharedArray</code>, correlação (pegar valor da resposta), dado que varia, portão de performance no GitHub Actions</div>
+      </a>
+    </div>
+
+    <h2>Pré-requisito</h2>
+    <p class="legenda">
+      Ter o repositório na máquina e o k6 instalado. O Módulo 1 cobre a instalação
+      passo a passo. Fazer a <a href="../api/index.html">Trilha 4 (Teste de API)</a> antes
+      ajuda, mas não é obrigatório.
+    </p>
+  </main>
+</body>
+</html>

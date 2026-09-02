@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>k6 Módulo 1 — Preparar e primeiro teste</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ k6</span></div>
+    <nav>
+      <a href="modulo-1.html" class="atual">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 1 — Preparar e primeiro teste</h1>
+    <p class="legenda">O que é teste de carga, instalar o k6, e rodar um smoke test contra o alvo de treino.</p>
+
+    <section class="secao">
+      <h2>O que é teste de carga</h2>
+      <div class="card">
+        <p style="margin-top:0">Os testes que você já fez respondem "<em>o sistema faz a coisa
+          certa?</em>". Teste de carga responde outra pergunta: "<em>o sistema aguenta muita
+          gente fazendo a coisa certa ao mesmo tempo?</em>". É teste <b>não-funcional</b> — ninguém
+          olha se a resposta está correta, olha-se <b>quanto tempo</b> ela demora e <b>quantas</b>
+          falham quando a pressão sobe.</p>
+        <p>Três resultados típicos que ele entrega:</p>
+        <ul>
+          <li>o <b>tempo de resposta</b> sob carga (normalmente o <b>p95</b>: o valor que 95% das
+            requisições não ultrapassam);</li>
+          <li>a <b>taxa de erro</b> quando a carga aperta (respostas 5xx, timeouts);</li>
+          <li>a <b>capacidade</b>: quantas requisições por segundo antes de degradar.</li>
+        </ul>
+        <p style="margin-bottom:0">Como QA, isso vira <b>portão</b>: "o checkout tem que responder
+          em menos de 800ms no p95 com 200 usuários" é um critério que o k6 verifica sozinho e
+          que o CI pode reprovar.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Os 3 conceitos que sustentam tudo</h2>
+      <div class="card">
+        <ul>
+          <li><b>VU (virtual user)</b> — um "usuário" simulado. Cada VU roda o seu roteiro em
+            <em>loop</em>, de forma independente e paralela. 50 VUs = 50 roteiros acontecendo ao
+            mesmo tempo.</li>
+          <li><b>Iteração</b> — uma passada completa pelo roteiro (a função <code>default</code> do
+            script). Um VU faz uma iteração atrás da outra.</li>
+          <li><b>Duração / nº de iterações</b> — o quanto a carga dura. Ou você fixa o tempo
+            (<code>duration: "30s"</code>) ou o total de iterações (<code>iterations: 100</code>).</li>
+        </ul>
+        <p style="margin-bottom:0"><b>Think time</b> (<code>sleep()</code>): a pausa que um humano
+          real faz entre uma ação e outra. Sem ela, 10 VUs viram um martelo irreal batendo sem
+          parar; com ela, 10 VUs parecem 10 pessoas navegando.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>1. Instalar o k6</h2>
+      <div class="card">
+        <p style="margin-top:0">O k6 é um programa único, grátis e open source. Não roda no
+          navegador — é no terminal.</p>
+        <p><b>Windows:</b></p>
+        <pre class="bloco"><code>winget install k6 --source winget</code></pre>
+        <p style="margin:10px 0 0"><b>macOS:</b> <code>brew install k6</code>.
+          <b>Linux:</b> instruções em <a href="https://grafana.com/docs/k6/latest/set-up/install-k6/">grafana.com/docs/k6</a>.</p>
+        <p style="margin:10px 0 0; font-size:14px; color:var(--suave)">
+          Feche e reabra o terminal e confirme:
+        </p>
+        <pre class="bloco"><code>k6 version</code></pre>
+        <p style="margin:10px 0 0; font-size:14px; color:var(--suave)">
+          Se o <code>winget</code> não cooperar: baixe o <code>.zip</code> em
+          <a href="https://github.com/grafana/k6/releases">github.com/grafana/k6/releases</a>,
+          extraia o <code>k6.exe</code> numa pasta e chame por caminho completo. Não precisa de admin.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>2. Pegar o projeto e subir o alvo</h2>
+      <div class="card">
+        <p style="margin-top:0">O código está no repositório, em <code>trilha-5/</code>
+          (<code>git clone</code> ou <b>Code → Download ZIP</b> no GitHub). Você vai usar
+          <b>dois terminais</b>, ambos abertos em <code>trilha-5/</code>.</p>
+        <p><b>Terminal 1 — o alvo de treino</b> (um HTTP falso que fica mais lento sob carga):</p>
+        <pre class="bloco"><code>python mock/servidor.py</code></pre>
+        <p style="margin:10px 0 0">Deixe rodando. Ele escuta em <code>http://127.0.0.1:8787</code>.
+          Não precisa instalar nada — é só biblioteca padrão do Python.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>3. O primeiro teste: um smoke</h2>
+      <div class="card">
+        <p style="margin-top:0">O <b>smoke test</b> é o mais simples que existe: 1 VU, poucas
+          iterações, só pra ver se o alvo está de pé e o script funciona. Ninguém roda carga de
+          verdade sem passar por aqui. O arquivo já está pronto em
+          <code>scripts/01_smoke.js</code>:</p>
+        <pre class="bloco"><code>import http from "k6/http";
+import { check, sleep } from "k6";
+
+const BASE = __ENV.BASE_URL || "http://127.0.0.1:8787";
+
+export const options = {
+  vus: 1,
+  iterations: 10,
+  thresholds: {
+    http_req_failed: ["rate&lt;0.01"],     // menos de 1% de erro
+    http_req_duration: ["p(95)&lt;800"],   // 95% das respostas abaixo de 800ms
+  },
+};
+
+export default function () {
+  const r = http.get(`${BASE}/produtos`);
+  check(r, {
+    "status e 200": (res) =&gt; res.status === 200,
+    "veio a lista de produtos": (res) =&gt; Array.isArray(res.json("produtos")),
+  });
+  sleep(1);
+}</code></pre>
+        <p style="margin:10px 0 0"><b>Terminal 2</b>, de dentro de <code>trilha-5/</code>:</p>
+        <pre class="bloco"><code>k6 run scripts/01_smoke.js</code></pre>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>4. Ler o resumo</h2>
+      <div class="card">
+        <p style="margin-top:0">No fim, o script imprime um resumo enxuto (e grava
+          <code>resumo.json</code> pro corretor). As linhas que importam:</p>
+        <pre class="bloco"><code>  requisicoes.......: 100
+  req/s.............: 19.7
+  duracao media.....: 16.2ms
+  duracao p95.......: 22.1ms      &lt;- 95% ficaram abaixo disso
+  falhas (erro).....: 0.00%       &lt;- % de respostas que falharam
+  checks ok.........: 100.00%     &lt;- % de check() que passaram
+  VUs (pico)........: 1
+  iteracoes.........: 10
+  portao (thresholds): ok         &lt;- nenhuma regra foi violada</code></pre>
+        <ul>
+          <li><b>p95</b> é a métrica de tempo que se usa — a média engana quando tem uns poucos
+            picos altos.</li>
+          <li><b>falhas (erro)</b> é <code>http_req_failed</code>: requisições com status ruim ou
+            sem resposta.</li>
+          <li><b>checks ok</b> — um <code>check()</code> que falha <b>não</b> derruba o teste
+            (diferente de um <code>assert</code>); só baixa esse percentual.</li>
+          <li><b>portão</b> — se algum <code>threshold</code> for violado, aqui aparece
+            <code>REPROVADO</code> e o <code>k6 run</code> sai com código de erro. É o que o CI olha.</li>
+        </ul>
+        <p style="margin-bottom:0">Rode o corretor pra conferir os critérios do módulo:</p>
+        <pre class="bloco"><code>python verificar.py 1</code></pre>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Sem subir o mock (alvo público)</h2>
+      <div class="card">
+        <p style="margin:0">Os scripts leem <code>BASE_URL</code> do ambiente. Pra treinar contra o
+          alvo público do k6, sem abrir o Terminal 1:</p>
+        <pre class="bloco"><code>k6 run -e BASE_URL=https://quickpizza.grafana.com scripts/01_smoke.js</code></pre>
+        <p style="margin:10px 0 0; font-size:14px; color:var(--suave)">O mock local é melhor a
+          partir do Módulo 3 — você controla a lentidão e o corretor consegue checar o lado do
+          servidor.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Exercício</h2>
+      <div class="card">
+        <p style="margin-top:0">Com o mock ligado, rode <code>01_smoke.js</code> como está e
+          confirme <code>python verificar.py 1</code> com tudo <code>[ok]</code>. Depois troque
+          <code>iterations: 10</code> por <code>iterations: 30</code> e rode de novo — observe o que
+          muda no resumo (só <code>requisicoes</code> e a duração total) e o que <b>não</b> muda
+          (p95, taxa de erro). O gabarito está em <code>trilha-5/GABARITO.md</code>.</p>
+      </div>
+    </section>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="index.html"><button>← Índice</button></a>
+      <a href="modulo-2.html"><button class="primario">Módulo 2 →</button></a>
+    </nav>
+  </main>
+</body>
+</html>
