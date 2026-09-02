@@ -12,7 +12,7 @@ no banco `pratica/pratica.db`.
 
 ## Versão web (recomendada)
 
-Hub de trilhas em `site/` (`site/index.html`), publicado na Vercel. Quatro trilhas:
+Hub de trilhas em `site/` (`site/index.html`), publicado na Vercel. Seis trilhas:
 
 | # | Pasta | O que é | Onde roda |
 |---|---|---|---|
@@ -20,6 +20,8 @@ Hub de trilhas em `site/` (`site/index.html`), publicado na Vercel. Quatro trilh
 | 2 | `site/pg/` | **PostgreSQL na prática** — tipos reais, datas, texto, FILTER, window functions, 7 módulos | Postgres (PGlite/WASM) na página |
 | 3 | `site/pytest/` | **Validação com pytest** — queries de validação viram testes + CI, 4 módulos | teoria na página; testes rodam local (`trilha-3/`) |
 | 4 | `site/api/` | **Teste de API** — status, contrato, cruzar API × banco, 4 módulos | API falsa em JS na página |
+| 5 | `site/k6/` | **Teste de carga com k6** — VU/iteração, thresholds como portão, dados e CI, 4 módulos | teoria na página; k6 roda local (`trilha-5/`) |
+| 6 | `site/cicd/` | **CI/CD para QA** — pipeline, ler o GitHub Actions, fazer o build reprovar, matrix/cache/secrets/artefatos, 4 módulos | leitura; mexe nos workflows em `.github/workflows/` |
 
 ```bash
 python site/servir.py     # abre http://localhost:8000 (dev local; em produção é só o link)

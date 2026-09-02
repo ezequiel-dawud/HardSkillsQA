@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CI/CD Módulo 3 — Fazer o build reprovar</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ CI/CD</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html" class="atual">3</a>
+      <a href="modulo-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 3 — Fazer o build reprovar</h1>
+    <p class="legenda">O portão de qualidade: como um teste que falha vira um ✗ que barra a mudança.</p>
+
+    <section class="secao">
+      <h2>O código de saída: como um comando diz "deu certo" ou "deu errado"</h2>
+      <div class="card">
+        <p style="margin-top:0">Todo comando de terminal, ao terminar, devolve um número
+          escondido chamado <b>código de saída</b> (<i>exit code</i>):</p>
+        <ul>
+          <li><b><code>0</code></b> = deu tudo certo.</li>
+          <li><b>qualquer outro número</b> (1, 2, 5&hellip;) = deu errado.</li>
+        </ul>
+        <p>Você nunca vê esse número, mas ele existe. O <code>pytest</code> segue a regra: se
+          todos os testes passam, ele sai com <b>0</b>; se <b>um</b> teste falha, ele sai com
+          <b>1</b>. O <code>k6</code> faz igual quando um <i>threshold</i> é violado.</p>
+        <p style="margin-bottom:0"><b>O pipeline inteiro gira em torno disso:</b> depois de cada
+          passo <code>run:</code>, o GitHub Actions olha o código de saída. Se for 0, segue pro
+          próximo passo. Se não for, <b>para o job na hora</b> e marca o run como ✗.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Do teste vermelho ao PR barrado</h2>
+      <div class="card">
+        <p style="margin-top:0">A corrente completa, elo por elo:</p>
+        <pre class="bloco"><code>um teste falha
+      |
+pytest sai com codigo 1
+      |
+o passo "Rodar os testes" e considerado falho
+      |
+o job "pytest" para e fica  X
+      |
+o run inteiro fica  X  na aba Actions
+      |
+no Pull Request, o check "Trilha 3 — pytest" aparece  X
+      |
+(se o check for obrigatorio) o botao de merge fica bloqueado</code></pre>
+        <p style="margin-bottom:0">É isso que se quer dizer com "<b>o teste reprova o
+          build</b>". O teste não conserta nada — ele <b>impede</b> que a mudança quebrada
+          avance sem alguém olhar.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Tornar o check obrigatório</h2>
+      <div class="card">
+        <p style="margin-top:0">Por padrão, um ✗ no PR é só um aviso — dá pra fazer merge
+          assim mesmo. Pra ele <b>de fato barrar</b>, liga-se uma <i>branch protection rule</i>
+          no repositório:</p>
+        <p style="margin:0 0 6px; font-size:14px; color:var(--suave)">Settings → Branches →
+          Add branch ruleset → em "Require status checks to pass", marque o check
+          <b>"pytest"</b>.</p>
+        <p style="margin-bottom:0">A partir daí, PR com pipeline vermelho não faz merge na
+          <code>main</code>. É a trava que transforma "temos testes" em "não entra código
+          quebrado". Em time real, quem configura isso costuma ser QA ou tech lead.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>O badge no README</h2>
+      <div class="card">
+        <p style="margin-top:0">Aquele selinho <b>"passing"</b> (verde) ou <b>"failing"</b>
+          (vermelho) no topo de muitos projetos é gerado pelo próprio GitHub. Cole no
+          <code>README.md</code>:</p>
+        <pre class="bloco"><code>![Trilha 3](https://github.com/SEU-USUARIO/SEU-REPO/actions/workflows/trilha-3-pytest.yml/badge.svg)</code></pre>
+        <p style="margin-bottom:0">Troque <code>SEU-USUARIO/SEU-REPO</code>. Ele reflete o
+          último run do workflow na branch principal — um raio-x do estado do projeto à
+          primeira vista.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Dois ajustes finos que você vai encontrar</h2>
+      <div class="card">
+        <p style="margin-top:0"><b><code>needs:</code></b> — encadear jobs. Por padrão jobs
+          rodam em paralelo; <code>needs</code> impõe ordem:</p>
+        <pre class="bloco"><code>jobs:
+  testes:
+    runs-on: ubuntu-latest
+    steps: [ ... ]
+  publicar:
+    needs: testes          # so roda se "testes" terminou em  check
+    runs-on: ubuntu-latest
+    steps: [ ... ]</code></pre>
+        <p style="margin:10px 0 4px">É o esqueleto de CI/CD: <b>publicar só depois que os
+          testes passaram</b>.</p>
+        <p style="margin:16px 0 4px"><b><code>if:</code></b> — rodar um passo só em certas
+          condições. Ex.: guardar o relatório <b>mesmo quando o teste falhou</b> (senão o
+          job já teria parado):</p>
+        <pre class="bloco"><code>      - name: Guardar relatório
+        if: always()       # rode aconteca o que acontecer
+        uses: actions/upload-artifact@v4
+        with:
+          path: trilha-3/report.xml</code></pre>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Exercício — quebrar de propósito e ver o portão fechar</h2>
+      <div class="card">
+        <p style="margin-top:0">O jeito mais rápido de entender o portão é vê-lo reprovar você.</p>
+        <ol>
+          <li>Crie uma branch: <code>git checkout -b teste-do-pipeline</code>.</li>
+          <li>Num teste da Trilha 3, estrague uma asserção de propósito — troque um número
+            esperado por outro errado, ou adicione <code>assert 1 == 2</code> num
+            <code>test_</code>.</li>
+          <li><code>git commit</code> e <code>git push</code> dessa branch. No GitHub, abra o
+            <b>Pull Request</b>.</li>
+          <li>Aguarde ~1&ndash;2 min. Lá embaixo no PR, o check <b>"Trilha 3 — pytest"</b>
+            fica <b>✗</b>. Clique em <b>"Details"</b> → veja no log qual teste falhou e a
+            mensagem — a mesma que o <code>pytest</code> dá no seu terminal.</li>
+          <li>Conserte o teste, faça outro commit na <b>mesma</b> branch, push. O pipeline
+            roda de novo sozinho e o check vira <b>✓</b>.</li>
+          <li>Se você fez o passo <code>echo</code> do Módulo 2, ache-o no log deste run.</li>
+        </ol>
+        <p style="margin-bottom:0; font-size:14px; color:var(--suave)">Não precisa fazer merge
+          — pode fechar o PR e apagar a branch. O que importava era ver o ✗ aparecer e saber
+          exatamente de onde ele veio.</p>
+      </div>
+    </section>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="modulo-2.html"><button>← Módulo 2</button></a>
+      <a href="modulo-4.html"><button class="primario">Módulo 4 →</button></a>
+    </nav>
+  </main>
+</body>
+</html>

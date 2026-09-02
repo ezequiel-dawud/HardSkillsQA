@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CI/CD Módulo 2 — Ler um pipeline linha a linha</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ CI/CD</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html" class="atual">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 2 — Ler um pipeline linha a linha</h1>
+    <p class="legenda">O arquivo real da Trilha 3, quebrado em pedaços. No fim você lê qualquer workflow simples.</p>
+
+    <section class="secao">
+      <h2>Primeiro: o que é YAML</h2>
+      <div class="card">
+        <p style="margin-top:0">O arquivo do pipeline é escrito em <b>YAML</b> (extensão
+          <code>.yml</code>). YAML é um jeito de escrever <b>listas</b> e <b>pares
+          nome: valor</b> de forma que humano lê fácil. Três regras que resolvem 90%:</p>
+        <ul>
+          <li><b>Dois pontos</b> = "isto tem este valor": <code>python-version: "3.12"</code>.</li>
+          <li><b>Indentação (espaços) = aninhamento.</b> O que está mais pra dentro
+            "pertence" ao de cima. <b>Use espaços, nunca Tab</b> — Tab quebra o arquivo.</li>
+          <li><b>Traço <code>-</code> no começo da linha = item de lista.</b> Vários traços =
+            vários itens.</li>
+        </ul>
+        <pre class="bloco"><code>fruta: banana            # um par nome: valor
+compras:                 # uma lista chamada "compras"
+  - leite                # item 1
+  - pao                  # item 2
+endereco:                # um bloco com coisas dentro
+  rua: das Flores        #   pertence a "endereco" (2 espacos pra dentro)
+  numero: 10</code></pre>
+        <p style="margin-bottom:0">O <code>#</code> começa um comentário — o resto da linha é
+          ignorado. É só isso. Agora o arquivo de verdade.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>O arquivo inteiro</h2>
+      <div class="card">
+        <p style="margin-top:0"><code>.github/workflows/trilha-3-pytest.yml</code>, exatamente
+          como está no repositório:</p>
+        <pre class="bloco"><code>name: Trilha 3 — pytest
+
+on:
+  push:
+    paths:
+      - "trilha-3/**"
+      - "pratica/pratica.db"
+      - ".github/workflows/trilha-3-pytest.yml"
+  pull_request:
+    paths:
+      - "trilha-3/**"
+      - "pratica/pratica.db"
+  workflow_dispatch:
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependências
+        working-directory: trilha-3
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Rodar os testes
+        working-directory: trilha-3
+        run: pytest</code></pre>
+        <p style="margin-bottom:0">36 linhas. Um pipeline completo e de produção tem esse
+          tamanho. Vamos por blocos.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2><code>name:</code> — o rótulo</h2>
+      <div class="card">
+        <pre class="bloco"><code>name: Trilha 3 — pytest</code></pre>
+        <p style="margin:0">O nome que aparece na aba <b>Actions</b>. Só cosmético — serve pra
+          você achar este workflow no meio dos outros.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2><code>on:</code> — quando rodar</h2>
+      <div class="card">
+        <p style="margin-top:0">O gatilho. Este workflow dispara em <b>três</b> situações:</p>
+        <pre class="bloco"><code>on:
+  push:                    # quando alguem envia commits pro GitHub
+    paths:                 #   ...mas so se os arquivos mexidos
+      - "trilha-3/**"      #      casam com algum destes padroes
+      - "pratica/pratica.db"
+      - ".github/workflows/trilha-3-pytest.yml"
+  pull_request:            # quando abrem/atualizam um PR
+    paths:
+      - "trilha-3/**"
+      - "pratica/pratica.db"
+  workflow_dispatch:       # botao "Run workflow" na aba Actions (manual)</code></pre>
+        <ul>
+          <li><b><code>push</code></b> — a cada envio de código. O <code>paths:</code> é um
+            filtro: se ninguém tocou em <code>trilha-3/</code> nem no banco, não faz sentido
+            rodar os testes da Trilha 3, então o pipeline nem começa. Economiza tempo.</li>
+          <li><b><code>**</code></b> quer dizer "qualquer arquivo em qualquer subpasta". Então
+            <code>"trilha-3/**"</code> = "qualquer coisa dentro de <code>trilha-3/</code>".</li>
+          <li><b><code>pull_request</code></b> — roda contra a mudança proposta num PR. É o que
+            pinta o ✓/✗ que o revisor vê.</li>
+          <li><b><code>workflow_dispatch</code></b> — deixa <b>você</b> disparar na mão, pelo
+            botão, sem precisar mudar nenhum arquivo. Útil pra testar o próprio pipeline.</li>
+        </ul>
+        <p style="margin-bottom:0">Outros gatilhos comuns (Módulo 4): <code>schedule</code>
+          (horário fixo, tipo "toda noite às 3h").</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2><code>jobs:</code> — o trabalho em si</h2>
+      <div class="card">
+        <pre class="bloco"><code>jobs:
+  pytest:                  # "pytest" e o nome que voce deu a este job
+    runs-on: ubuntu-latest # a maquina: um Linux novo, na nuvem do GitHub
+    steps:
+      - ...                # a lista de passos (proxima secao)</code></pre>
+        <ul>
+          <li>Um workflow tem um ou mais <b>jobs</b>. Aqui só um, chamado
+            <code>pytest</code> (o nome é livre; escolha um que descreva o que ele faz).</li>
+          <li><b><code>runs-on: ubuntu-latest</code></b> — pede uma máquina virtual Linux
+            recém-criada. Ela nasce vazia, faz o job e é destruída. Por isso o pipeline é um
+            teste honesto: nada da execução anterior sobra. Existem também
+            <code>windows-latest</code> e <code>macos-latest</code>.</li>
+          <li>Jobs diferentes rodam em <b>máquinas diferentes, em paralelo</b>, salvo se você
+            disser que um depende do outro (<code>needs:</code>, no Módulo 3).</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2><code>steps:</code> — os passos, em ordem</h2>
+      <div class="card">
+        <p style="margin-top:0">Cada item da lista (<code>-</code>) é um passo. Existem <b>dois
+          tipos</b>:</p>
+        <p style="margin:12px 0 4px"><b>1. <code>uses:</code> — usar uma ação pronta</b></p>
+        <pre class="bloco"><code>      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"</code></pre>
+        <p style="margin:0 0 10px">Uma <b>ação</b> é um pedaço de automação que outra pessoa
+          já escreveu e publicou, pra você não reinventar. <code>@v4</code> fixa a versão.</p>
+        <ul style="margin:0 0 4px">
+          <li><b><code>actions/checkout</code></b> — baixa o seu código pra dentro da máquina
+            virtual. <b>Quase todo pipeline começa com este</b>: sem ele, a máquina está vazia
+            e não há o que testar.</li>
+          <li><b><code>actions/setup-python</code></b> — instala o Python. O
+            <code>with:</code> passa "parâmetros" pra ação — aqui, qual versão
+            (<code>"3.12"</code>).</li>
+        </ul>
+        <p style="margin:16px 0 4px"><b>2. <code>run:</code> — rodar um comando de terminal</b></p>
+        <pre class="bloco"><code>      - name: Instalar dependências
+        working-directory: trilha-3
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Rodar os testes
+        working-directory: trilha-3
+        run: pytest</code></pre>
+        <ul style="margin:0">
+          <li><b><code>name:</code></b> — o título do passo no log. Opcional, mas deixa o log
+            legível.</li>
+          <li><b><code>run:</code></b> — o comando, igualzinho ao que você digitaria. O
+            <code>|</code> quer dizer "várias linhas a seguir, rode uma por uma".</li>
+          <li><b><code>working-directory: trilha-3</code></b> — "entre nesta pasta antes de
+            rodar". Sem isso, o comando rodaria na raiz do repositório e o
+            <code>pytest</code> não acharia os testes.</li>
+          <li>São <b>os mesmos comandos da Trilha 3</b>: <code>pip install -r
+            requirements.txt</code> e <code>pytest</code>. O pipeline não inventou nada — só
+            automatizou a sua rotina.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Como o pipeline decide ✓ ou ✗</h2>
+      <div class="card">
+        <p style="margin:0">Ele roda os passos <b>na ordem</b>. Se um passo termina com erro,
+          o pipeline <b>para ali</b> e o run fica ✗ (os passos seguintes nem rodam). Se todos
+          terminam bem, o run fica ✓. "Terminar com erro" tem uma definição técnica exata — o
+          <b>código de saída</b> — e é o assunto do Módulo 3.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Exercício</h2>
+      <div class="card">
+        <ol style="margin-top:0">
+          <li>Abra <code>.github/workflows/trilha-3-pytest.yml</code> no seu editor. Aponte com
+            o dedo, no arquivo, cada bloco desta página: <code>name</code>, <code>on</code>
+            (e seus 3 gatilhos), <code>jobs</code>, <code>runs-on</code>, os 4
+            <code>steps</code>.</li>
+          <li>Responda sem rodar: se você editar só o <code>README.md</code> da raiz e der
+            push, este workflow dispara? <span style="color:var(--suave)">(Não — o
+            <code>README.md</code> não casa com nenhum <code>paths:</code>.)</span></li>
+          <li>Adicione um passo novo, logo depois do <i>checkout</i>, só pra ver no log:
+            <pre class="bloco"><code>      - name: Dizer ola
+        run: echo "pipeline rodando na maquina $RUNNER_OS"</code></pre>
+            Cuide da indentação (o <code>-</code> alinhado com os outros passos). Faça commit
+            numa branch, e no Módulo 3 você abre o PR e vê esse passo no log.</li>
+          <li>Compare com <code>trilha-5-k6.yml</code>: mesma estrutura
+            (<code>name/on/jobs/steps</code>), passos diferentes. Ache onde ele instala o k6 e
+            onde roda o teste de carga.</li>
+        </ol>
+        <p style="margin-bottom:0; font-size:14px; color:var(--suave)">Dica: o GitHub valida o
+          YAML ao abrir o arquivo no site — se a indentação estiver errada, aparece um aviso
+          vermelho antes mesmo de você salvar.</p>
+      </div>
+    </section>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="modulo-1.html"><button>← Módulo 1</button></a>
+      <a href="modulo-3.html"><button class="primario">Módulo 3 →</button></a>
+    </nav>
+  </main>
+</body>
+</html>

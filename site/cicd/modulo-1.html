@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CI/CD Módulo 1 — O que é CI/CD, sem jargão</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ CI/CD</span></div>
+    <nav>
+      <a href="modulo-1.html" class="atual">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 1 — O que é CI/CD, sem jargão</h1>
+    <p class="legenda">A ideia por trás da sigla, o pipeline, o loop de feedback, e o que isso muda pra quem testa.</p>
+
+    <section class="secao">
+      <h2>A analogia</h2>
+      <div class="card">
+        <p style="margin-top:0">Imagine uma cozinha de restaurante. Toda vez que um cozinheiro
+          termina um prato, antes de ir pra mesa ele passa por uma bancada onde alguém
+          <b>sempre</b> confere: está na temperatura certa? tem o que o pedido pediu? está
+          bem apresentado? Se algo está errado, o prato <b>volta</b> na hora — não chega no
+          cliente.</p>
+        <p><b>CI/CD é essa bancada de conferência, automática, para software.</b> Toda vez que
+          alguém muda o código, uma máquina pega essa mudança e roda uma checagem completa
+          antes de deixar a mudança "ir pra mesa" (ser aceita no projeto ou publicada).</p>
+        <p style="margin-bottom:0">A diferença pro mundo real: a bancada nunca cansa, nunca
+          esquece um passo, e confere <b>toda</b> mudança, até a de uma linha.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>O que a sigla quer dizer</h2>
+      <div class="card">
+        <p style="margin-top:0">Não decore — entenda a ideia de cada parte:</p>
+        <ul>
+          <li><b>CI — Integração Contínua</b> (<i>Continuous Integration</i>): cada mudança de
+            código é <b>juntada ao projeto e testada na hora</b>, várias vezes por dia, em vez
+            de acumular semanas de trabalho e testar tudo de uma vez no fim (quando achar o
+            que quebrou vira um pesadelo).</li>
+          <li><b>CD — Entrega Contínua</b> (<i>Continuous Delivery</i>): se a checagem passou,
+            o sistema <b>já deixa pronto pra publicar</b> — às vezes publica sozinho
+            (<i>Continuous Deployment</i>), às vezes só espera alguém apertar um botão.</li>
+        </ul>
+        <p style="margin-bottom:0">Nesta trilha o foco é o <b>CI</b>: rodar os testes sozinho a
+          cada mudança. É a parte que mais afeta o dia a dia de QA e a que aparece em quase
+          toda vaga.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Pipeline: a receita de passos</h2>
+      <div class="card">
+        <p style="margin-top:0"><b>Pipeline</b> é só o nome da lista de passos que a máquina
+          executa, na ordem, a cada mudança. Um pipeline de testes típico faz:</p>
+        <pre class="bloco"><code>1. Pega a versão mais recente do código
+2. Instala as dependências  (pip install / npm install ...)
+3. Roda os testes           (pytest, k6, lint ...)
+4. Deu tudo certo?
+   sim  -> marca a mudança com um  check verde
+   nao  -> marca com um  X vermelho  e avisa quem mexeu</code></pre>
+        <p style="margin-bottom:0">Cada passo é um comando de terminal — os mesmos que você
+          rodaria na sua máquina. O pipeline só automatiza a sequência e roda num computador
+          limpo, igual pra todo mundo. É por isso que ele mata a frase "<i>mas na minha
+          máquina funciona</i>": não existe "a minha máquina", existe a máquina do pipeline.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>O loop de feedback</h2>
+      <div class="card">
+        <p style="margin-top:0">O valor real do CI é <b>o tempo até você descobrir que quebrou</b>.</p>
+        <table class="dados">
+          <tr><th>Sem CI</th><th>Com CI</th></tr>
+          <tr><td>alguém mexe no código</td><td>alguém mexe no código</td></tr>
+          <tr><td>ninguém roda todos os testes</td><td>o pipeline roda <b>todos</b> os testes em ~1&ndash;3 min</td></tr>
+          <tr><td>o bug entra no projeto</td><td>o pipeline marca ✗ e aponta o teste que falhou</td></tr>
+          <tr><td>dias depois, QA acha na mão</td><td>quem mexeu conserta antes de a mudança ser aceita</td></tr>
+          <tr><td>caçar a causa no meio de 20 mudanças</td><td>a causa é a única mudança daquele ✗</td></tr>
+        </table>
+        <p style="margin-bottom:0">Achar o defeito 2 minutos depois de ele nascer, isolado, é
+          incomparavelmente mais barato do que achá-lo uma semana depois no meio de tudo.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Onde isso aparece no GitHub</h2>
+      <div class="card">
+        <p style="margin-top:0">Neste projeto o pipeline roda no <b>GitHub Actions</b> — a
+          ferramenta de CI embutida no GitHub, de graça pra repositório público. Você a vê em
+          dois lugares:</p>
+        <ul>
+          <li><b>Aba "Actions"</b> do repositório: a lista de todas as execuções (chamadas de
+            <i>runs</i>). Cada linha é um disparo do pipeline, com ✓ ou ✗, quem disparou e
+            quanto tempo levou. Clicando numa, você vê cada passo e o log (a saída do
+            terminal) de cada um.</li>
+          <li><b>Dentro de um Pull Request</b>: lá embaixo, um quadro "checks" mostra ✓/✗ do
+            pipeline pra <b>aquela</b> proposta de mudança. É o que um revisor olha antes de
+            aceitar.</li>
+        </ul>
+        <p style="margin-bottom:0">O arquivo que descreve o pipeline mora no próprio
+          repositório, em <code>.github/workflows/</code>. Neste projeto:
+          <code>trilha-3-pytest.yml</code> e <code>trilha-5-k6.yml</code>. O Módulo 2 abre o
+          primeiro linha a linha.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Vocabulário mínimo</h2>
+      <div class="card">
+        <ul style="margin:0">
+          <li><b>CI</b> — a prática de testar cada mudança automaticamente.</li>
+          <li><b>Pipeline / workflow</b> — a lista de passos que roda a cada mudança.</li>
+          <li><b>Run</b> — uma execução do pipeline (um disparo).</li>
+          <li><b>Job</b> — um bloco de passos que roda numa máquina. Um pipeline pode ter vários.</li>
+          <li><b>Step / passo</b> — um comando dentro de um job.</li>
+          <li><b>Runner</b> — a máquina (aqui, virtual, na nuvem do GitHub) que executa o job.</li>
+          <li><b>Build vermelho / quebrado</b> — um run que terminou em ✗.</li>
+          <li><b>Check</b> — o resultado ✓/✗ que o pipeline "cola" numa mudança ou PR.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Se você só baixou o ZIP</h2>
+      <div class="card">
+        <p style="margin:0">O GitHub Actions só roda se o código estiver num repositório no
+          GitHub. Pra ter o seu: crie uma conta em <a href="https://github.com">github.com</a>
+          (grátis), instale o <a href="https://desktop.github.com">GitHub Desktop</a> ou use o
+          botão <b>"Add file → Upload files"</b> no site pra subir a pasta do projeto. A partir
+          daí a aba <b>Actions</b> aparece sozinha e os dois workflows já vêm junto.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Exercício</h2>
+      <div class="card">
+        <p style="margin-top:0">Sem escrever nada ainda — só explorar:</p>
+        <ol style="margin:0">
+          <li>Abra o seu repositório no GitHub e clique na aba <b>Actions</b>.</li>
+          <li>Ache um run do workflow <b>"Trilha 3 — pytest"</b> e abra.</li>
+          <li>Clique no job <b>pytest</b>. Você vê a lista de passos: <i>checkout</i>,
+            <i>setup-python</i>, <i>Instalar dependências</i>, <i>Rodar os testes</i>.</li>
+          <li>Expanda <b>"Rodar os testes"</b> e leia o log — é a <b>mesma</b> saída do
+            <code>pytest</code> que você viu no seu terminal na Trilha 3.</li>
+          <li>Repare no topo: quem disparou, por qual <i>commit</i>, ✓ ou ✗, e o tempo total.</li>
+        </ol>
+        <p style="margin-bottom:0; font-size:14px; color:var(--suave)">Se a aba Actions estiver
+          vazia: o pipeline roda quando algo dentro de <code>trilha-3/</code> muda. Vá ao
+          Módulo 3 pra provocar um run de propósito.</p>
+      </div>
+    </section>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="index.html"><button>← Índice</button></a>
+      <a href="modulo-2.html"><button class="primario">Módulo 2 →</button></a>
+    </nav>
+  </main>
+</body>
+</html>

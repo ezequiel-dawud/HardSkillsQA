@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Trilha CI/CD para QA</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ CI/CD</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <p style="margin:0 0 4px"><a href="../index.html" style="font-size:14px; color:var(--suave); text-decoration:none">← Todas as trilhas</a></p>
+    <h1>Trilha CI/CD para QA</h1>
+    <p class="legenda">
+      Entender o que é um <strong>pipeline</strong>, ler um arquivo do GitHub Actions
+      sem se assustar, e fazer os testes rodarem sozinhos a cada mudança —
+      <strong>reprovando o build</strong> quando algo quebra.
+    </p>
+
+    <div class="card">
+      <h3 style="margin-top:0">Esta trilha é de leitura — e mexe no que já existe</h3>
+      <p style="margin:0 0 10px; font-size:14px; color:var(--suave)">
+        Não tem nada rodando na página. O "laboratório" é o próprio repositório: ele já
+        tem <strong>dois pipelines de verdade</strong> em <code>.github/workflows/</code>
+        (um da Trilha 3, um da Trilha 5). Você vai lê-los, entendê-los linha a linha e
+        fazer pequenas mudanças.
+      </p>
+      <p style="margin:0; font-size:14px; color:var(--suave)">
+        Pré-requisito: ter o repositório no GitHub (o seu <em>fork</em>) e ter feito a
+        <a href="../pytest/index.html">Trilha 3 (pytest)</a> — os exemplos usam aquele
+        projeto. Não precisa instalar nada novo.
+      </p>
+    </div>
+
+    <h2>Módulos</h2>
+    <div class="grade-modulos">
+      <a class="modulo-link" href="modulo-1.html">
+        <div class="rot">Módulo 1</div>
+        <div class="tit">O que é CI/CD, sem jargão</div>
+        <div class="desc">a analogia, o pipeline, o loop de feedback, o ✓ e o ✗ no Pull Request, por que QA ganha com isso</div>
+      </a>
+      <a class="modulo-link" href="modulo-2.html">
+        <div class="rot">Módulo 2</div>
+        <div class="tit">Ler um pipeline linha a linha</div>
+        <div class="desc">o que é YAML, <code>on</code>, <code>jobs</code>, <code>runs-on</code>, <code>steps</code>, <code>uses</code> vs <code>run</code> — no arquivo real da Trilha 3</div>
+      </a>
+      <a class="modulo-link" href="modulo-3.html">
+        <div class="rot">Módulo 3</div>
+        <div class="tit">Fazer o build reprovar</div>
+        <div class="desc">código de saída, o portão de qualidade, <em>required checks</em> no PR, o badge no README, quebrar um teste de propósito</div>
+      </a>
+      <a class="modulo-link" href="modulo-4.html">
+        <div class="rot">Módulo 4</div>
+        <div class="tit">Um pouco além + o resto do mundo</div>
+        <div class="desc"><code>matrix</code>, cache, <code>secrets</code>, artefatos (guardar o relatório), agendamento; mapa rápido GitLab CI / Jenkins / Azure</div>
+      </a>
+    </div>
+
+    <h2>Pré-requisito</h2>
+    <p class="legenda">
+      Ter feito a <a href="../pytest/index.html">Trilha 3</a> e ter o repositório no seu
+      GitHub. Se você só baixou o ZIP, o Módulo 1 explica como colocar no GitHub —
+      é de graça e leva dois minutos.
+    </p>
+  </main>
+</body>
+</html>

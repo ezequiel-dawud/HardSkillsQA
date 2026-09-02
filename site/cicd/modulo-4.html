@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CI/CD Módulo 4 — Um pouco além + o resto do mundo</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ CI/CD</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html" class="atual">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 4 — Um pouco além + o resto do mundo</h1>
+    <p class="legenda">Cinco recursos que você vai ver em pipelines reais, e como as outras ferramentas se comparam.</p>
+
+    <section class="secao">
+      <h2>Antes: você já sabe o suficiente</h2>
+      <div class="card">
+        <p style="margin:0">Com <code>on</code>, <code>jobs</code>, <code>steps</code>,
+          <code>uses</code>/<code>run</code> e o código de saída, você lê e escreve um pipeline
+          de teste útil. O que vem agora são <b>peças opcionais</b> — reconheça o nome e a
+          finalidade; a sintaxe você copia da documentação quando precisar.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>1. <code>matrix</code> — rodar o mesmo job em várias versões</h2>
+      <div class="card">
+        <p style="margin-top:0">Testar em Python 3.10, 3.11 e 3.12 sem copiar o job três
+          vezes:</p>
+        <pre class="bloco"><code>jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.10", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install -r trilha-3/requirements.txt
+      - run: pytest
+        working-directory: trilha-3</code></pre>
+        <p style="margin-bottom:0">O GitHub cria <b>3 execuções paralelas</b>, uma por versão.
+          Se só a 3.10 quebra, você vê na hora. Serve pra sistema operacional, versão de
+          navegador, versão de banco &mdash; qualquer coisa que você queira cobrir em
+          combinação.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>2. Cache — não baixar as dependências toda vez</h2>
+      <div class="card">
+        <p style="margin-top:0">A máquina virtual nasce vazia, então todo run reinstala tudo.
+          O <b>cache</b> guarda o resultado de um run pro próximo, quando nada mudou:</p>
+        <pre class="bloco"><code>      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"          # guarda os pacotes baixados pelo pip</code></pre>
+        <p style="margin-bottom:0">Efeito prático: o passo de instalar dependências cai de
+          ~40s pra ~5s. Puramente velocidade — não muda o resultado ✓/✗.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>3. <code>secrets</code> — senhas sem vazar no arquivo</h2>
+      <div class="card">
+        <p style="margin-top:0">O workflow fica no repositório, à vista de todos. Então
+          <b>nunca</b> se escreve senha, token ou chave de API nele. Guarda-se no repositório
+          (<i>Settings → Secrets and variables → Actions</i>) e o pipeline lê por referência:</p>
+        <pre class="bloco"><code>      - name: Rodar testes contra o ambiente de staging
+        run: pytest --base-url $URL_STAGING
+        env:
+          URL_STAGING: ${{ secrets.URL_STAGING }}
+          API_TOKEN:   ${{ secrets.API_TOKEN }}</code></pre>
+        <p style="margin-bottom:0">O valor real nunca aparece no arquivo nem no log (o GitHub
+          apaga o valor de secrets da saída automaticamente).</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>4. Artefatos — guardar arquivos que o run produziu</h2>
+      <div class="card">
+        <p style="margin-top:0">Quando o job termina, a máquina virtual é destruída e tudo
+          nela some. Pra <b>ficar</b> com um relatório de teste, um screenshot de falha, um
+          HTML de cobertura &mdash; você sobe como <b>artefato</b>, e ele fica pra download na
+          página do run:</p>
+        <pre class="bloco"><code>      - name: Rodar os testes
+        working-directory: trilha-3
+        run: pytest --junitxml=report.xml
+
+      - name: Guardar o relatório
+        if: always()          # sobe mesmo se o teste falhou
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorio-pytest
+          path: trilha-3/report.xml</code></pre>
+        <p style="margin-bottom:0">Na aba Actions, abrindo o run, aparece um bloco
+          <b>"Artifacts"</b> com o <code>relatorio-pytest</code> pra baixar. É assim que QA
+          leva a evidência da execução pra um chamado ou pra uma reunião.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>5. <code>schedule</code> — rodar por horário</h2>
+      <div class="card">
+        <pre class="bloco"><code>on:
+  schedule:
+    - cron: "0 3 * * *"     # todo dia as 03:00 UTC</code></pre>
+        <p style="margin:0">Roda o pipeline sem ninguém mexer no código. Uso clássico de QA: a
+          <b>suíte de regressão completa</b> (lenta demais pra rodar a cada commit) roda toda
+          madrugada, e de manhã você olha se ficou verde. Aqueles cinco campos do
+          <code>cron</code> são <i>minuto hora dia-do-mês mês dia-da-semana</i>; o site
+          <a href="https://crontab.guru">crontab.guru</a> traduz pra português.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>O resto do mundo: mesma ideia, outra embalagem</h2>
+      <div class="card">
+        <p style="margin-top:0">Toda ferramenta de CI faz a mesma coisa &mdash; disparar em um
+          evento, rodar passos numa máquina limpa, decidir ✓/✗ pelo código de saída. Muda
+          onde mora o arquivo e como se escreve:</p>
+        <table class="dados">
+          <tr><th>Ferramenta</th><th>Arquivo de config</th><th>Bom saber</th></tr>
+          <tr><td><b>GitHub Actions</b></td><td><code>.github/workflows/*.yml</code></td><td>o que você aprendeu aqui; mais fácil de começar</td></tr>
+          <tr><td><b>GitLab CI</b></td><td><code>.gitlab-ci.yml</code> (raiz)</td><td>quase igual; <code>stages</code> no lugar de <code>needs</code></td></tr>
+          <tr><td><b>Jenkins</b></td><td><code>Jenkinsfile</code> (raiz)</td><td>o mais antigo; você/o time mantém o servidor; sintaxe própria (Groovy); comum em empresa grande</td></tr>
+          <tr><td><b>Azure Pipelines</b></td><td><code>azure-pipelines.yml</code> (raiz)</td><td>YAML parecido com o do GitHub; comum onde o stack é .NET/Microsoft</td></tr>
+          <tr><td><b>CircleCI</b></td><td><code>.circleci/config.yml</code></td><td>YAML; forte em paralelismo</td></tr>
+        </table>
+        <p style="margin-bottom:0">Correspondência de vocabulário: o <b>job</b> do GitHub é
+          <i>job</i> no GitLab, <i>stage</i> no Jenkins declarativo, <i>job</i> no Azure. O
+          <b>step</b> é <i>script</i> no GitLab, <i>step/sh</i> no Jenkins, <i>step/task</i> no
+          Azure. Aprendeu um a fundo &mdash; os outros viram tradução.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Exercício</h2>
+      <div class="card">
+        <ol style="margin-top:0">
+          <li>No <code>trilha-3-pytest.yml</code>, faça o passo de testes gerar um relatório
+            (<code>pytest --junitxml=report.xml</code>) e adicione o passo de
+            <code>upload-artifact</code> da seção 4.</li>
+          <li>Commit numa branch, abra o PR, espere o run. Abra o run na aba Actions e baixe o
+            artefato <b>relatorio-pytest</b>. Abra o <code>report.xml</code> &mdash; é a lista
+            de testes com tempo e resultado, em XML.</li>
+          <li>Ligue o cache (<code>cache: "pip"</code> no <code>setup-python</code>). Rode duas
+            vezes e compare o tempo do passo "Instalar dependências" entre o 1º e o 2º run.</li>
+          <li><b>Opcional:</b> transforme o job num <code>matrix</code> de Python 3.11 e 3.12 e
+            veja os dois runs paralelos no PR.</li>
+        </ol>
+        <p style="margin-bottom:0; font-size:14px; color:var(--suave)">Fecha a trilha: você lê
+          um pipeline, sabe o que cada bloco faz, consegue adicionar passos, entende como um
+          teste vermelho barra uma mudança, e reconhece os recursos avançados quando os
+          encontra. É o que "saber CI" significa numa entrevista de QA.</p>
+      </div>
+    </section>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="modulo-3.html"><button>← Módulo 3</button></a>
+      <a href="index.html"><button class="primario">Voltar ao índice</button></a>
+    </nav>
+  </main>
+</body>
+</html>
