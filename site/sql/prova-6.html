@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 6 (SQL)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ SQL / Provas</span></div>
+    <nav>
+      <a href="prova-1.html">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html">3</a>
+      <a href="prova-4.html">4</a>
+      <a href="prova-5.html">5</a>
+      <a href="prova-6.html" class="atual">6</a>
+      <a href="prova-7.html">7</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 6</h1>
+    <p class="legenda">SQL no dia a dia de QA: validação de dados + métricas. &nbsp;<a href="modulo-6.html">← rever o módulo</a></p>
+    <p class="status-banco" id="status-banco">carregando banco…</p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 6", trilha: "sql", modulo: 6, indiceHref: "index.html",
+    questoes: [
+      { t: "sql", ordenado: true,
+        enun: "Encontre os pedidos em que <code>valor_total</code> <b>não bate</b> com a soma dos itens (<code>quantidade * preco_unitario</code>). Colunas: <code>id</code>, <code>valor_total</code>, <code>soma_itens</code>; ordene por <code>id</code>.",
+        dica: "<code>GROUP BY p.id, p.valor_total</code> e <code>HAVING p.valor_total &lt;&gt; SUM(i.quantidade * i.preco_unitario)</code>.",
+        gab: "SELECT p.id, p.valor_total, SUM(i.quantidade * i.preco_unitario) AS soma_itens\nFROM pedidos p\nJOIN itens_pedido i ON i.pedido_id = p.id\nGROUP BY p.id, p.valor_total\nHAVING p.valor_total <> SUM(i.quantidade * i.preco_unitario)\nORDER BY p.id;" },
+
+      { t: "sql",
+        enun: "Distribuição dos resultados de execução: quantidade e percentual do total (1 casa). Colunas: <code>resultado</code>, <code>qtd</code>, <code>pct</code>.",
+        dica: "divida <code>COUNT(*)</code> pelo total geral: <code>(SELECT COUNT(*) FROM execucoes_teste)</code>, multiplicando por <code>100.0</code>.",
+        gab: "SELECT resultado,\n       COUNT(*) AS qtd,\n       ROUND(100.0 * COUNT(*) / (SELECT COUNT(*) FROM execucoes_teste), 1) AS pct\nFROM execucoes_teste\nGROUP BY resultado;" },
+
+      { t: "sql",
+        enun: "Defeitos ainda não resolvidos (<code>status</code> diferente de <code>'resolvido'</code> e <code>'fechado'</code>), contados por <code>modulo</code>. Colunas: <code>modulo</code>, <code>abertos</code>.",
+        dica: "<code>WHERE status NOT IN ('resolvido', 'fechado')</code> + <code>GROUP BY modulo</code>.",
+        gab: "SELECT modulo, COUNT(*) AS abertos\nFROM defeitos\nWHERE status NOT IN ('resolvido', 'fechado')\nGROUP BY modulo;" },
+
+      { t: "sql",
+        enun: "Por QA que reportou (<code>reportado_por</code>): total de defeitos e quantos são de severidade <code>'critica'</code>. Colunas: <code>reportado_por</code>, <code>qtd</code>, <code>criticos</code>.",
+        dica: "<code>SUM(CASE WHEN severidade = 'critica' THEN 1 ELSE 0 END) AS criticos</code>.",
+        gab: "SELECT reportado_por,\n       COUNT(*) AS qtd,\n       SUM(CASE WHEN severidade = 'critica' THEN 1 ELSE 0 END) AS criticos\nFROM defeitos\nGROUP BY reportado_por;" },
+
+      { t: "sql",
+        enun: "Tempo médio de resolução em dias (só os defeitos que já fecharam), arredondado a 1 casa. Coluna: <code>dias_medios</code>.",
+        dica: "no SQLite, <code>julianday(data_fechamento) - julianday(data_abertura)</code> dá a diferença em dias.",
+        gab: "SELECT ROUND(AVG(julianday(data_fechamento) - julianday(data_abertura)), 1) AS dias_medios\nFROM defeitos\nWHERE data_fechamento IS NOT NULL;" },
+
+      { t: "mc",
+        enun: "Ao validar dados você acha 7 pedidos com <code>valor_total</code> diferente da soma dos itens. Atitude de QA:",
+        ops: [
+          "Registrar como inconsistência, levar os <code>id</code>s e o critério ao time e investigar a origem",
+          "Corrigir os dados direto em produção",
+          "Ignorar, porque SQL às vezes erra contas",
+          "Apagar os pedidos" ],
+        correta: 0 },
+
+      { t: "mc",
+        enun: "Para checar se uma coluna que deveria ser única (ex.: <code>email</code>) tem duplicatas, você usa:",
+        ops: [
+          "<code>GROUP BY email HAVING COUNT(*) &gt; 1</code>",
+          "<code>SELECT DISTINCT email</code>",
+          "<code>WHERE email IS NULL</code>",
+          "<code>ORDER BY email</code>" ],
+        correta: 0 },
+
+      { t: "mc",
+        enun: "<code>100 / 3</code> entre colunas inteiras devolve <code>33</code>, não <code>33.33</code>. Para ter a fração você:",
+        ops: [
+          "força um dos lados a decimal, ex.: <code>100.0 / 3</code> ou <code>CAST(x AS REAL)</code>",
+          "usa <code>ROUND</code> no resultado inteiro",
+          "não dá pra ter fração em SQL",
+          "usa <code>AVG</code>" ],
+        correta: 0 }
+    ]
+  };
+  </script>
+  <script src="../assets/sql-wasm.js"></script>
+  <script src="prova.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

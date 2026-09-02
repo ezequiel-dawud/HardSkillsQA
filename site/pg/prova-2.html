@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 2 (PostgreSQL)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ PostgreSQL / Provas</span></div>
+    <nav>
+      <a href="prova-1.html">1</a>
+      <a href="prova-2.html" class="atual">2</a>
+      <a href="prova-3.html">3</a>
+      <a href="prova-4.html">4</a>
+      <a href="prova-5.html">5</a>
+      <a href="prova-6.html">6</a>
+      <a href="prova-7.html">7</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 2</h1>
+    <p class="legenda">Tipos de verdade: boolean, numeric x divisão inteira, CAST, NULL, IS DISTINCT FROM. &nbsp;<a href="modulo-2.html">← rever o módulo</a></p>
+    <p class="status-banco" id="status-banco">carregando Postgres…</p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "PG Módulo 2", trilha: "pg", modulo: 2, indiceHref: "index.html",
+    questoes: [
+      { t: "sql", ordenado: true,
+        enun: "Nome dos produtos que estão à venda (<code>ativo</code> verdadeiro). Coluna: <code>nome</code>; em ordem alfabética.",
+        dica: "<code>ativo</code> é <code>boolean</code>: use <code>WHERE ativo</code> ou <code>WHERE ativo = TRUE</code> — nunca <code>ativo = 1</code>.",
+        gab: "SELECT nome FROM produtos\nWHERE ativo = TRUE\nORDER BY nome;" },
+
+      { t: "sql",
+        enun: "Quantos clientes estão inativos (<code>ativo</code> falso)? Coluna: <code>inativos</code>.",
+        dica: "<code>WHERE ativo = FALSE</code> (ou <code>WHERE NOT ativo</code>).",
+        gab: "SELECT COUNT(*) AS inativos FROM clientes\nWHERE ativo = FALSE;" },
+
+      { t: "sql",
+        enun: "Numa linha só: o resultado de <code>10 / 3</code> como divisão inteira e o de <code>10 / 3</code> como decimal arredondado a 2 casas. Colunas: <code>divisao_inteira</code>, <code>divisao_decimal</code>.",
+        dica: "<code>10 / 3</code> entre inteiros dá <code>3</code>. Pra fração, force decimal: <code>10.0 / 3</code>.",
+        gab: "SELECT 10 / 3 AS divisao_inteira,\n       ROUND(10.0 / 3, 2) AS divisao_decimal;" },
+
+      { t: "sql", ordenado: true,
+        enun: "Nome do produto e o preço convertido para inteiro com cast. Colunas: <code>nome</code>, <code>preco_int</code>; ordene por <code>nome</code>.",
+        dica: "<code>preco::int</code> (ou <code>CAST(preco AS int)</code>).",
+        gab: "SELECT nome, preco::int AS preco_int\nFROM produtos\nORDER BY nome;" },
+
+      { t: "sql", ordenado: true,
+        enun: "Para os 6 primeiros defeitos por <code>id</code>: o <code>id</code> e uma coluna booleana <code>em_aberto</code> que vale verdadeiro quando <code>data_fechamento</code> é nula. Colunas: <code>id</code>, <code>em_aberto</code>.",
+        dica: "a própria expressão <code>data_fechamento IS NULL</code> já é um booleano — dá pra colocá-la no <code>SELECT</code> com <code>AS em_aberto</code>.",
+        gab: "SELECT id, data_fechamento IS NULL AS em_aberto\nFROM defeitos\nORDER BY id\nLIMIT 6;" },
+
+      { t: "mc",
+        enun: "No Postgres, comparar uma coluna <code>boolean</code> com <code>= 1</code>:",
+        ops: [
+          "dá erro de tipo — <code>boolean</code> não se compara com inteiro; use <code>= TRUE</code> ou só o nome da coluna",
+          "funciona: <code>1</code> vira <code>TRUE</code> automaticamente",
+          "sempre retorna <code>FALSE</code>",
+          "só funciona dentro de <code>CASE</code>" ],
+        correta: 0 },
+
+      { t: "mc",
+        enun: "<code>7 / 2</code> no Postgres (ambos inteiros) resulta em:",
+        ops: [
+          "<code>3</code> — divisão inteira; para <code>3.5</code> force decimal: <code>7.0 / 2</code>",
+          "<code>3.5</code>",
+          "<code>4</code> (arredonda)",
+          "erro" ],
+        correta: 0 },
+
+      { t: "mc",
+        enun: "<code>NULL = NULL</code> no Postgres retorna:",
+        ops: [
+          "<code>NULL</code> (desconhecido), não <code>TRUE</code> — pra comparar tratando <code>NULL</code> como valor use <code>IS NOT DISTINCT FROM</code>",
+          "<code>TRUE</code>",
+          "<code>FALSE</code>",
+          "erro de sintaxe" ],
+        correta: 0 }
+    ]
+  };
+  </script>
+  <script type="module" src="prova.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 5 (PostgreSQL)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ PostgreSQL / Provas</span></div>
+    <nav>
+      <a href="prova-1.html">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html">3</a>
+      <a href="prova-4.html">4</a>
+      <a href="prova-5.html" class="atual">5</a>
+      <a href="prova-6.html">6</a>
+      <a href="prova-7.html">7</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 5</h1>
+    <p class="legenda">Agregação e GROUP BY: COUNT/SUM/AVG, HAVING, FILTER (WHERE …), bool_or. &nbsp;<a href="modulo-5.html">← rever o módulo</a></p>
+    <p class="status-banco" id="status-banco">carregando Postgres…</p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "PG Módulo 5", trilha: "pg", modulo: 5, indiceHref: "index.html",
+    questoes: [
+      { t: "sql",
+        enun: "Por <code>status</code> de pedido: quantidade e soma de <code>valor_total</code>. Colunas: <code>status</code>, <code>qtd</code>, <code>total</code>.",
+        dica: "<code>GROUP BY status</code> + <code>COUNT(*)</code> + <code>SUM(valor_total)</code>.",
+        gab: "SELECT status, COUNT(*) AS qtd, SUM(valor_total) AS total\nFROM pedidos\nGROUP BY status;" },
+
+      { t: "sql", ordenado: true,
+        enun: "Por <code>suite</code>: total de execuções e quantas passaram, usando <code>FILTER</code>. Colunas: <code>suite</code>, <code>total</code>, <code>passaram</code>; ordene por <code>suite</code>.",
+        dica: "<code>COUNT(*) FILTER (WHERE resultado = 'passou') AS passaram</code>.",
+        gab: "SELECT suite,\n       COUNT(*) AS total,\n       COUNT(*) FILTER (WHERE resultado = 'passou') AS passaram\nFROM execucoes_teste\nGROUP BY suite\nORDER BY suite;" },
+
+      { t: "sql",
+        enun: "Categorias de produto cujo preço médio passa de 500. Colunas: <code>categoria</code>, <code>media</code> (2 casas).",
+        dica: "<code>GROUP BY categoria HAVING AVG(preco) &gt; 500</code>.",
+        gab: "SELECT categoria, ROUND(AVG(preco), 2) AS media\nFROM produtos\nGROUP BY categoria\nHAVING AVG(preco) > 500;" },
+
+      { t: "sql", ordenado: true,
+        enun: "Por <code>modulo</code> de defeito: total e se existe algum crítico. Colunas: <code>modulo</code>, <code>total</code>, <code>tem_critico</code> (booleano); ordene por <code>modulo</code>.",
+        dica: "<code>bool_or(severidade = 'critica') AS tem_critico</code>.",
+        gab: "SELECT modulo,\n       COUNT(*) AS total,\n       bool_or(severidade = 'critica') AS tem_critico\nFROM defeitos\nGROUP BY modulo\nORDER BY modulo;" },
+
+      { t: "sql",
+        enun: "Quantos clientes <b>distintos</b> fizeram pedidos, por <code>estado</code>. Colunas: <code>estado</code>, <code>clientes</code>.",
+        dica: "junte <code>clientes</code> e <code>pedidos</code>; <code>COUNT(DISTINCT p.cliente_id)</code>; <code>GROUP BY c.estado</code>.",
+        gab: "SELECT c.estado, COUNT(DISTINCT p.cliente_id) AS clientes\nFROM clientes c\nJOIN pedidos p ON p.cliente_id = c.id\nGROUP BY c.estado;" },
+
+      { t: "mc",
+        enun: "<code>COUNT(*) FILTER (WHERE cond)</code> num <code>GROUP BY</code>:",
+        ops: [
+          "conta só as linhas do grupo que satisfazem <code>cond</code> — alternativa enxuta ao <code>SUM(CASE WHEN ... THEN 1 ELSE 0 END)</code>",
+          "filtra o resultado inteiro, como um <code>WHERE</code>",
+          "só funciona sem <code>GROUP BY</code>",
+          "conta valores distintos" ],
+        correta: 0 },
+
+      { t: "mc",
+        enun: "<code>bool_or(x)</code> num <code>GROUP BY</code> retorna:",
+        ops: [
+          "<code>TRUE</code> se ao menos uma linha do grupo tem <code>x</code> verdadeiro",
+          "<code>TRUE</code> só se todas as linhas têm <code>x</code> verdadeiro",
+          "a quantidade de linhas verdadeiras",
+          "sempre <code>NULL</code>" ],
+        correta: 0 },
+
+      { t: "mc",
+        enun: "<code>WHERE</code> x <code>HAVING</code>:",
+        ops: [
+          "<code>WHERE</code> filtra linhas antes de agrupar; <code>HAVING</code> filtra os grupos depois da agregação",
+          "são sinônimos no Postgres",
+          "<code>HAVING</code> não pode usar funções de agregação",
+          "<code>WHERE</code> roda depois do <code>GROUP BY</code>" ],
+        correta: 0 }
+    ]
+  };
+  </script>
+  <script type="module" src="prova.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

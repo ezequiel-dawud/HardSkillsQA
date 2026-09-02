@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 2 (SQL)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ SQL / Provas</span></div>
+    <nav>
+      <a href="prova-1.html">1</a>
+      <a href="prova-2.html" class="atual">2</a>
+      <a href="prova-3.html">3</a>
+      <a href="prova-4.html">4</a>
+      <a href="prova-5.html">5</a>
+      <a href="prova-6.html">6</a>
+      <a href="prova-7.html">7</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 2</h1>
+    <p class="legenda">NULL e filtros finos: IS NULL, COALESCE, CASE. &nbsp;<a href="modulo-2.html">← rever o módulo</a></p>
+    <p class="status-banco" id="status-banco">carregando banco…</p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 2", trilha: "sql", modulo: 2, indiceHref: "index.html",
+    questoes: [
+      { t: "sql", ordenado: true,
+        enun: "<code>id</code> e <code>titulo</code> dos defeitos ainda em aberto (<code>data_fechamento</code> nula). Ordene por <code>id</code>.",
+        dica: "nulo se testa com <code>IS NULL</code>, nunca com <code>= NULL</code>.",
+        gab: "SELECT id, titulo FROM defeitos\nWHERE data_fechamento IS NULL\nORDER BY id;" },
+
+      { t: "sql",
+        enun: "Quantas execuções falharam <b>sem</b> nenhum defeito vinculado (<code>defeito_id</code> nulo)? Coluna: <code>falhas_sem_defeito</code>.",
+        dica: "<code>resultado = 'falhou' AND defeito_id IS NULL</code>, com <code>COUNT(*)</code>.",
+        gab: "SELECT COUNT(*) AS falhas_sem_defeito FROM execucoes_teste\nWHERE resultado = 'falhou' AND defeito_id IS NULL;" },
+
+      { t: "sql", ordenado: true,
+        enun: "Para os 6 primeiros defeitos por <code>id</code>: <code>id</code>, <code>titulo</code> e a data de fechamento — quando for nula, mostre o texto <code>'em aberto'</code>. Terceira coluna: <code>fechamento</code>.",
+        dica: "<code>COALESCE(data_fechamento, 'em aberto') AS fechamento</code>.",
+        gab: "SELECT id, titulo, COALESCE(data_fechamento, 'em aberto') AS fechamento\nFROM defeitos\nORDER BY id\nLIMIT 6;" },
+
+      { t: "sql", ordenado: true,
+        enun: "Classifique cada pedido por faixa de valor: <code>'alto'</code> se <code>valor_total &gt;= 10000</code>, <code>'medio'</code> se <code>&gt;= 2000</code>, senão <code>'baixo'</code>. Traga os 6 primeiros por <code>id</code>. Colunas: <code>id</code>, <code>faixa</code>.",
+        dica: "<code>CASE WHEN ... THEN ... WHEN ... THEN ... ELSE ... END AS faixa</code> — a ordem dos <code>WHEN</code> importa.",
+        gab: "SELECT id,\n       CASE WHEN valor_total >= 10000 THEN 'alto'\n            WHEN valor_total >= 2000 THEN 'medio'\n            ELSE 'baixo' END AS faixa\nFROM pedidos\nORDER BY id\nLIMIT 6;" },
+
+      { t: "sql", ordenado: true,
+        enun: "Quantos defeitos em aberto (sem <code>data_fechamento</code>) existem por <code>severidade</code>? Colunas: <code>severidade</code>, <code>qtd</code>; ordene por <code>severidade</code>.",
+        dica: "<code>WHERE data_fechamento IS NULL</code> + <code>GROUP BY severidade</code>.",
+        gab: "SELECT severidade, COUNT(*) AS qtd FROM defeitos\nWHERE data_fechamento IS NULL\nGROUP BY severidade\nORDER BY severidade;" },
+
+      { t: "mc",
+        enun: "Por que <code>SELECT * FROM execucoes_teste WHERE defeito_id = NULL;</code> não devolve as linhas com <code>defeito_id</code> nulo?",
+        ops: [
+          "Comparar com <code>NULL</code> usando <code>=</code> resulta em 'desconhecido', nunca em verdadeiro — o certo é <code>IS NULL</code>",
+          "<code>NULL</code> só funciona em colunas de texto",
+          "Falta aspas em <code>NULL</code>",
+          "<code>WHERE</code> ignora colunas numéricas" ],
+        correta: 0 },
+
+      { t: "mc",
+        enun: "<code>COALESCE(a, b, c)</code> devolve:",
+        ops: [
+          "o primeiro valor não nulo da lista",
+          "sempre o último valor",
+          "a soma de <code>a</code>, <code>b</code> e <code>c</code>",
+          "<code>NULL</code> se algum deles for <code>NULL</code>" ],
+        correta: 0 },
+
+      { t: "mc",
+        enun: "Numa coluna <code>ativo</code> que pode ser <code>1</code>, <code>0</code> ou <code>NULL</code>, qual condição pega as linhas em que <code>ativo</code> NÃO é 1, <b>incluindo</b> as nulas?",
+        ops: [
+          "<code>ativo &lt;&gt; 1 OR ativo IS NULL</code>",
+          "<code>ativo &lt;&gt; 1</code>",
+          "<code>ativo = 0</code>",
+          "<code>NOT ativo</code>" ],
+        correta: 0,
+        exp: "<code>ativo &lt;&gt; 1</code> sozinho descarta as linhas <code>NULL</code>, porque a comparação com <code>NULL</code> não é verdadeira." }
+    ]
+  };
+  </script>
+  <script src="../assets/sql-wasm.js"></script>
+  <script src="prova.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

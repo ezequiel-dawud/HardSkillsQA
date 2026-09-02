@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 7 (PostgreSQL)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ PostgreSQL / Provas</span></div>
+    <nav>
+      <a href="prova-1.html">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html">3</a>
+      <a href="prova-4.html">4</a>
+      <a href="prova-5.html">5</a>
+      <a href="prova-6.html">6</a>
+      <a href="prova-7.html" class="atual">7</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 7</h1>
+    <p class="legenda">Window functions: OVER, PARTITION BY, ROW_NUMBER/RANK, running SUM, LAG. &nbsp;<a href="modulo-7.html">← rever o módulo</a></p>
+    <p class="status-banco" id="status-banco">carregando Postgres…</p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "PG Módulo 7", trilha: "pg", modulo: 7, indiceHref: "index.html",
+    questoes: [
+      { t: "sql", ordenado: true,
+        enun: "Os 5 pedidos mais caros, com a posição no ranking. Colunas: <code>posicao</code>, <code>id</code>, <code>valor_total</code>; do 1º ao 5º.",
+        dica: "<code>ROW_NUMBER() OVER (ORDER BY valor_total DESC) AS posicao</code> e <code>LIMIT 5</code>.",
+        gab: "SELECT ROW_NUMBER() OVER (ORDER BY valor_total DESC) AS posicao,\n       id, valor_total\nFROM pedidos\nORDER BY valor_total DESC\nLIMIT 5;" },
+
+      { t: "sql", ordenado: true,
+        enun: "Ranking dos produtos por preço <b>dentro de cada categoria</b>. Colunas: <code>categoria</code>, <code>nome</code>, <code>preco</code>, <code>posicao</code>; ordene por <code>categoria</code> e depois <code>preco</code> decrescente.",
+        dica: "<code>RANK() OVER (PARTITION BY categoria ORDER BY preco DESC) AS posicao</code>.",
+        gab: "SELECT categoria, nome, preco,\n       RANK() OVER (PARTITION BY categoria ORDER BY preco DESC) AS posicao\nFROM produtos\nORDER BY categoria, preco DESC;" },
+
+      { t: "sql", ordenado: true,
+        enun: "Soma acumulada (running total) de <code>valor_total</code> dos 10 primeiros pedidos por <code>id</code>. Colunas: <code>id</code>, <code>valor_total</code>, <code>acumulado</code>.",
+        dica: "<code>SUM(valor_total) OVER (ORDER BY id) AS acumulado</code>.",
+        gab: "SELECT id, valor_total,\n       SUM(valor_total) OVER (ORDER BY id) AS acumulado\nFROM pedidos\nORDER BY id\nLIMIT 10;" },
+
+      { t: "sql", ordenado: true,
+        enun: "Para os 10 primeiros pedidos por <code>id</code>: o valor do pedido, o valor do pedido <b>anterior</b> (na ordem de <code>id</code>) e a diferença. Colunas: <code>id</code>, <code>valor_total</code>, <code>anterior</code>, <code>diferenca</code>.",
+        dica: "<code>LAG(valor_total) OVER (ORDER BY id) AS anterior</code>. A 1ª linha fica com <code>anterior</code> e <code>diferenca</code> nulos.",
+        gab: "SELECT id, valor_total,\n       LAG(valor_total) OVER (ORDER BY id) AS anterior,\n       valor_total - LAG(valor_total) OVER (ORDER BY id) AS diferenca\nFROM pedidos\nORDER BY id\nLIMIT 10;" },
+
+      { t: "sql", ordenado: true,
+        enun: "Cada produto com o preço médio da sua categoria ao lado (sem colapsar as linhas). Colunas: <code>nome</code>, <code>categoria</code>, <code>preco</code>, <code>media_categoria</code> (2 casas); ordene por <code>categoria</code> e <code>nome</code>.",
+        dica: "<code>AVG(preco) OVER (PARTITION BY categoria)</code> — window, não <code>GROUP BY</code>.",
+        gab: "SELECT nome, categoria, preco,\n       ROUND(AVG(preco) OVER (PARTITION BY categoria), 2) AS media_categoria\nFROM produtos\nORDER BY categoria, nome;" },
+
+      { t: "mc",
+        enun: "Diferença entre <code>RANK()</code> e <code>ROW_NUMBER()</code>:",
+        ops: [
+          "<code>RANK</code> repete o número em empates e pula o(s) seguinte(s); <code>ROW_NUMBER</code> dá sempre números únicos e sequenciais",
+          "são idênticos",
+          "<code>ROW_NUMBER</code> só funciona com <code>PARTITION BY</code>",
+          "<code>RANK</code> não aceita <code>ORDER BY</code>" ],
+        correta: 0 },
+
+      { t: "mc",
+        enun: "<code>SUM(x) OVER (ORDER BY d)</code> calcula:",
+        ops: [
+          "uma soma acumulada (running total), linha a linha, na ordem de <code>d</code>",
+          "a soma total repetida em todas as linhas",
+          "a média de <code>x</code>",
+          "erro — <code>SUM</code> não é window function" ],
+        correta: 0 },
+
+      { t: "mc",
+        enun: "<code>PARTITION BY</code> numa window function:",
+        ops: [
+          "reinicia o cálculo a cada grupo, <b>sem</b> colapsar as linhas (diferente do <code>GROUP BY</code>)",
+          "colapsa cada grupo numa linha só, como o <code>GROUP BY</code>",
+          "ordena o resultado",
+          "remove linhas duplicadas" ],
+        correta: 0 }
+    ]
+  };
+  </script>
+  <script type="module" src="prova.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

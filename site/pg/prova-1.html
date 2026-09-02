@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 1 (PostgreSQL)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ PostgreSQL / Provas</span></div>
+    <nav>
+      <a href="prova-1.html" class="atual">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html">3</a>
+      <a href="prova-4.html">4</a>
+      <a href="prova-5.html">5</a>
+      <a href="prova-6.html">6</a>
+      <a href="prova-7.html">7</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 1</h1>
+    <p class="legenda">Ler dados no Postgres: SELECT, WHERE, ORDER BY, LIMIT/OFFSET, aspas, cast com <code>::</code>. &nbsp;<a href="modulo-1.html">← rever o módulo</a></p>
+    <p class="status-banco" id="status-banco">carregando Postgres…</p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "PG Módulo 1", trilha: "pg", modulo: 1, indiceHref: "index.html",
+    questoes: [
+      { t: "sql", ordenado: true,
+        enun: "Nome e preço dos produtos com preço abaixo de 200, do mais barato pro mais caro. Colunas: <code>nome</code>, <code>preco</code>.",
+        dica: "<code>WHERE preco &lt; 200 ORDER BY preco</code>.",
+        gab: "SELECT nome, preco FROM produtos\nWHERE preco < 200\nORDER BY preco;" },
+
+      { t: "sql", ordenado: true,
+        enun: "Nome e cidade dos clientes do estado <code>'MG'</code>, em ordem alfabética de nome. Colunas: <code>nome</code>, <code>cidade</code>.",
+        dica: "texto vai entre <b>aspas simples</b>: <code>estado = 'MG'</code>. Aspas duplas dariam erro de coluna inexistente.",
+        gab: "SELECT nome, cidade FROM clientes\nWHERE estado = 'MG'\nORDER BY nome;" },
+
+      { t: "sql", ordenado: true,
+        enun: "A \"segunda página\" dos pedidos mais caros: do 6º ao 10º maior <code>valor_total</code>. Colunas: <code>id</code>, <code>valor_total</code> (do maior pro menor).",
+        dica: "<code>ORDER BY valor_total DESC LIMIT 5 OFFSET 5</code>.",
+        gab: "SELECT id, valor_total FROM pedidos\nORDER BY valor_total DESC\nLIMIT 5 OFFSET 5;" },
+
+      { t: "sql", ordenado: true,
+        enun: "A lista das categorias distintas de <code>produtos</code>, em ordem alfabética. Coluna: <code>categoria</code>.",
+        dica: "<code>SELECT DISTINCT categoria ... ORDER BY categoria</code>.",
+        gab: "SELECT DISTINCT categoria FROM produtos\nORDER BY categoria;" },
+
+      { t: "sql", ordenado: true,
+        enun: "Nome dos clientes cujo nome contém <code>silva</code>, sem se importar com maiúsculas/minúsculas. Coluna: <code>nome</code>; em ordem alfabética.",
+        dica: "<code>ILIKE '%silva%'</code> — a versão do <code>LIKE</code> que ignora a caixa (só existe no Postgres).",
+        gab: "SELECT nome FROM clientes\nWHERE nome ILIKE '%silva%'\nORDER BY nome;" },
+
+      { t: "sql",
+        enun: "<code>id</code> e <code>titulo</code> dos defeitos abertos em <code>ambiente = 'producao'</code> com <code>severidade = 'critica'</code>.",
+        dica: "duas condições com <code>AND</code>.",
+        gab: "SELECT id, titulo FROM defeitos\nWHERE ambiente = 'producao' AND severidade = 'critica';" },
+
+      { t: "mc",
+        enun: "No Postgres, <code>WHERE estado = \"SP\"</code> (aspas duplas) dá erro. Por quê?",
+        ops: [
+          "Aspas duplas indicam <b>nome de coluna/tabela</b>; texto literal vai entre aspas simples (<code>'SP'</code>)",
+          "Falta um ponto e vírgula",
+          "<code>estado</code> é uma palavra reservada",
+          "O Postgres não aceita <code>=</code> com texto" ],
+        correta: 0 },
+
+      { t: "mc",
+        enun: "<code>valor_total::int</code> faz o quê?",
+        ops: [
+          "Converte (cast) o valor para inteiro — é a forma curta de <code>CAST(valor_total AS int)</code>",
+          "Multiplica o valor por si mesmo",
+          "Compara o valor com um inteiro",
+          "Cria uma coluna nova chamada <code>int</code>" ],
+        correta: 0 },
+
+      { t: "mc",
+        enun: "<code>LIMIT 5 OFFSET 10</code> retorna:",
+        ops: [
+          "5 linhas, pulando as 10 primeiras",
+          "10 linhas, pulando as 5 primeiras",
+          "as linhas de 5 a 10",
+          "erro — não se pode usar os dois juntos" ],
+        correta: 0 }
+    ]
+  };
+  </script>
+  <script type="module" src="prova.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

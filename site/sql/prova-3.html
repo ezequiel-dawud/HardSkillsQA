@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 3 (SQL)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ SQL / Provas</span></div>
+    <nav>
+      <a href="prova-1.html">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html" class="atual">3</a>
+      <a href="prova-4.html">4</a>
+      <a href="prova-5.html">5</a>
+      <a href="prova-6.html">6</a>
+      <a href="prova-7.html">7</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 3</h1>
+    <p class="legenda">Agregação: COUNT, SUM, AVG, GROUP BY, HAVING. &nbsp;<a href="modulo-3.html">← rever o módulo</a></p>
+    <p class="status-banco" id="status-banco">carregando banco…</p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 3", trilha: "sql", modulo: 3, indiceHref: "index.html",
+    questoes: [
+      { t: "sql",
+        enun: "Quantidade de pedidos por <code>status</code>. Colunas: <code>status</code>, <code>qtd</code>.",
+        dica: "<code>GROUP BY status</code> + <code>COUNT(*) AS qtd</code>.",
+        gab: "SELECT status, COUNT(*) AS qtd FROM pedidos\nGROUP BY status;" },
+
+      { t: "sql",
+        enun: "Preço médio por <code>categoria</code>, arredondado a 2 casas. Colunas: <code>categoria</code>, <code>media</code>.",
+        dica: "<code>ROUND(AVG(preco), 2) AS media</code>.",
+        gab: "SELECT categoria, ROUND(AVG(preco), 2) AS media FROM produtos\nGROUP BY categoria;" },
+
+      { t: "sql",
+        enun: "Módulos com 12 ou mais defeitos. Colunas: <code>modulo</code>, <code>qtd</code>.",
+        dica: "filtro sobre o grupo: <code>HAVING COUNT(*) &gt;= 12</code>.",
+        gab: "SELECT modulo, COUNT(*) AS qtd FROM defeitos\nGROUP BY modulo\nHAVING COUNT(*) >= 12;" },
+
+      { t: "sql", ordenado: true,
+        enun: "Por <code>suite</code>: total de execuções e o percentual que passou (arredondado a 1 casa). Colunas: <code>suite</code>, <code>total</code>, <code>pct_passou</code>; ordene por <code>suite</code>.",
+        dica: "some 1 quando <code>resultado = 'passou'</code> com <code>CASE</code>, divida por <code>COUNT(*)</code> e multiplique por <code>100.0</code>.",
+        gab: "SELECT suite,\n       COUNT(*) AS total,\n       ROUND(100.0 * SUM(CASE WHEN resultado = 'passou' THEN 1 ELSE 0 END) / COUNT(*), 1) AS pct_passou\nFROM execucoes_teste\nGROUP BY suite\nORDER BY suite;" },
+
+      { t: "sql",
+        enun: "Quantos clientes distintos aparecem na tabela <code>pedidos</code>? Coluna: <code>clientes_com_pedido</code>.",
+        dica: "<code>COUNT(DISTINCT cliente_id)</code>.",
+        gab: "SELECT COUNT(DISTINCT cliente_id) AS clientes_com_pedido FROM pedidos;" },
+
+      { t: "sql",
+        enun: "Maior, menor e média (2 casas) de <code>valor_total</code> entre todos os pedidos. Colunas: <code>maior</code>, <code>menor</code>, <code>media</code>.",
+        dica: "três funções de agregação numa linha só, sem <code>GROUP BY</code>.",
+        gab: "SELECT MAX(valor_total) AS maior,\n       MIN(valor_total) AS menor,\n       ROUND(AVG(valor_total), 2) AS media\nFROM pedidos;" },
+
+      { t: "mc",
+        enun: "Qual a diferença entre <code>WHERE</code> e <code>HAVING</code>?",
+        ops: [
+          "<code>WHERE</code> filtra linhas antes de agrupar; <code>HAVING</code> filtra grupos depois da agregação",
+          "São sinônimos",
+          "<code>HAVING</code> vem antes de <code>GROUP BY</code>",
+          "<code>WHERE</code> não pode ser usado com <code>GROUP BY</code>" ],
+        correta: 0 },
+
+      { t: "mc",
+        enun: "Numa tabela onde <code>defeito_id</code> às vezes é <code>NULL</code>, <code>COUNT(*)</code> e <code>COUNT(defeito_id)</code>:",
+        ops: [
+          "<code>COUNT(*)</code> conta todas as linhas; <code>COUNT(defeito_id)</code> conta só as linhas em que <code>defeito_id</code> não é <code>NULL</code>",
+          "dão sempre o mesmo número",
+          "<code>COUNT(defeito_id)</code> conta os valores distintos",
+          "<code>COUNT(*)</code> ignora linhas com qualquer <code>NULL</code>" ],
+        correta: 0 },
+
+      { t: "mc",
+        enun: "Você escreveu <code>SELECT categoria, AVG(preco) FROM produtos;</code> sem <code>GROUP BY</code>. Num banco estrito (como o Postgres):",
+        ops: [
+          "dá erro: <code>categoria</code> não está agregada nem no <code>GROUP BY</code>",
+          "roda e traz uma linha por categoria",
+          "roda e traz a média geral repetida",
+          "ignora a coluna <code>categoria</code>" ],
+        correta: 0 }
+    ]
+  };
+  </script>
+  <script src="../assets/sql-wasm.js"></script>
+  <script src="prova.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

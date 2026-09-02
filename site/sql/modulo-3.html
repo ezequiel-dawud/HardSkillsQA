@@ -28,7 +28,15 @@
       <h2>Teoria</h2>
       <div class="card">
         <ul>
-          <li>Funções de agregação resumem várias linhas em uma: <code>COUNT(*)</code>, <code>SUM(x)</code>, <code>AVG(x)</code>, <code>MIN(x)</code>, <code>MAX(x)</code>.</li>
+          <li>Funções de agregação resumem várias linhas em uma:
+            <ul>
+              <li><code>COUNT(x)</code> — quantas linhas (ex.: quantos pedidos, quantos casos de teste).</li>
+              <li><code>SUM(x)</code> — soma os valores da coluna (ex.: faturamento total).</li>
+              <li><code>AVG(x)</code> — média dos valores (ex.: ticket médio, tempo médio de execução).</li>
+              <li><code>MIN(x)</code> — o menor valor (ex.: pedido mais barato, data mais antiga).</li>
+              <li><code>MAX(x)</code> — o maior valor (ex.: pedido mais caro, data mais recente).</li>
+            </ul>
+          </li>
           <li><code>GROUP BY coluna</code> — calcula a agregação <strong>por grupo</strong> (ex.: total por status).</li>
           <li><code>WHERE</code> filtra <strong>antes</strong> de agrupar; <code>HAVING</code> filtra <strong>depois</strong>, sobre o resultado agregado. Ex.: <code>HAVING COUNT(*) &gt; 5</code>.</li>
           <li><code>COUNT(*)</code> conta linhas; <code>COUNT(coluna)</code> ignora as linhas em que aquela coluna é <code>NULL</code>.</li>
@@ -114,6 +122,7 @@ GROUP BY suite;</code></pre>
 
     <nav class="acoes" style="margin-top:32px">
       <a href="modulo-2.html"><button>← Módulo 2</button></a>
+      <a href="prova-3.html"><button>📝 Prova do módulo</button></a>
       <a href="modulo-4.html"><button class="primario">Módulo 4 →</button></a>
     </nav>
   </main>

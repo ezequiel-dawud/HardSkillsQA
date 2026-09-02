@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 4 (PostgreSQL)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ PostgreSQL / Provas</span></div>
+    <nav>
+      <a href="prova-1.html">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html">3</a>
+      <a href="prova-4.html" class="atual">4</a>
+      <a href="prova-5.html">5</a>
+      <a href="prova-6.html">6</a>
+      <a href="prova-7.html">7</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 4</h1>
+    <p class="legenda">Texto: ||, ILIKE, LOWER/INITCAP, SPLIT_PART, POSITION, LEFT. &nbsp;<a href="modulo-4.html">← rever o módulo</a></p>
+    <p class="status-banco" id="status-banco">carregando Postgres…</p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "PG Módulo 4", trilha: "pg", modulo: 4, indiceHref: "index.html",
+    questoes: [
+      { t: "sql", ordenado: true,
+        enun: "Nome do cliente em MAIÚSCULAS e o e-mail, para os clientes de <code>'SP'</code>. Colunas: <code>nome_maiusc</code>, <code>email</code>; ordene por <code>email</code>.",
+        dica: "<code>UPPER(nome) AS nome_maiusc</code>.",
+        gab: "SELECT UPPER(nome) AS nome_maiusc, email\nFROM clientes\nWHERE estado = 'SP'\nORDER BY email;" },
+
+      { t: "sql", ordenado: true,
+        enun: "Primeira letra do nome e quantos clientes começam com ela. Colunas: <code>inicial</code>, <code>qtd</code>; ordene por <code>inicial</code>.",
+        dica: "<code>LEFT(nome, 1) AS inicial</code> + <code>GROUP BY 1 ORDER BY 1</code>.",
+        gab: "SELECT LEFT(nome, 1) AS inicial, COUNT(*) AS qtd\nFROM clientes\nGROUP BY 1\nORDER BY 1;" },
+
+      { t: "sql", ordenado: true,
+        enun: "Primeiro nome (o pedaço antes do primeiro espaço) e o nome completo, dos 10 primeiros clientes por ordem alfabética de nome. Colunas: <code>primeiro_nome</code>, <code>nome</code>.",
+        dica: "<code>SPLIT_PART(nome, ' ', 1) AS primeiro_nome</code>.",
+        gab: "SELECT SPLIT_PART(nome, ' ', 1) AS primeiro_nome, nome\nFROM clientes\nORDER BY nome\nLIMIT 10;" },
+
+      { t: "sql", ordenado: true,
+        enun: "Títulos de defeitos que começam com <code>[login]</code>. Coluna: <code>titulo</code>; ordene por <code>titulo</code>.",
+        dica: "<code>WHERE titulo LIKE '[login]%'</code> — no Postgres o <code>[</code> é literal dentro do <code>LIKE</code>.",
+        gab: "SELECT titulo FROM defeitos\nWHERE titulo LIKE '[login]%'\nORDER BY titulo;" },
+
+      { t: "sql", ordenado: true,
+        enun: "Para os 8 primeiros clientes por <code>id</code>: o <code>id</code> e um campo <code>local</code> no formato <code>Cidade/UF</code> (ex.: <code>Campinas/SP</code>). Colunas: <code>id</code>, <code>local</code>.",
+        dica: "concatene com <code>||</code>: <code>cidade || '/' || estado</code>.",
+        gab: "SELECT id, cidade || '/' || estado AS local\nFROM clientes\nORDER BY id\nLIMIT 8;" },
+
+      { t: "mc",
+        enun: "O operador <code>||</code> no Postgres:",
+        ops: [
+          "concatena textos: <code>'a' || 'b'</code> resulta em <code>'ab'</code>",
+          "é o <code>OR</code> lógico",
+          "compara dois textos",
+          "divide um texto em partes" ],
+        correta: 0 },
+
+      { t: "mc",
+        enun: "Diferença entre <code>LIKE</code> e <code>ILIKE</code>:",
+        ops: [
+          "<code>ILIKE</code> ignora maiúsculas/minúsculas; <code>LIKE</code> diferencia",
+          "<code>ILIKE</code> é mais rápido",
+          "<code>LIKE</code> não aceita <code>%</code>",
+          "são idênticos" ],
+        correta: 0 },
+
+      { t: "mc",
+        enun: "<code>SPLIT_PART('a-b-c', '-', 2)</code> retorna:",
+        ops: [ "<code>'b'</code>", "<code>'a'</code>", "<code>'c'</code>", "<code>'a-b'</code>" ],
+        correta: 0 }
+    ]
+  };
+  </script>
+  <script type="module" src="prova.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

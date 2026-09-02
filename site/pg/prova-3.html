@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 3 (PostgreSQL)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ PostgreSQL / Provas</span></div>
+    <nav>
+      <a href="prova-1.html">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html" class="atual">3</a>
+      <a href="prova-4.html">4</a>
+      <a href="prova-5.html">5</a>
+      <a href="prova-6.html">6</a>
+      <a href="prova-7.html">7</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 3</h1>
+    <p class="legenda">Datas e tempo: date, INTERVAL, AGE, EXTRACT, DATE_TRUNC, TO_CHAR. &nbsp;<a href="modulo-3.html">← rever o módulo</a></p>
+    <p class="status-banco" id="status-banco">carregando Postgres…</p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "PG Módulo 3", trilha: "pg", modulo: 3, indiceHref: "index.html",
+    questoes: [
+      { t: "sql", ordenado: true,
+        enun: "Nome e <code>data_cadastro</code> dos clientes cadastrados em <b>março de 2025</b>. Ordene por <code>data_cadastro</code>.",
+        dica: "intervalo meio-aberto: <code>data_cadastro &gt;= DATE '2025-03-01' AND data_cadastro &lt; DATE '2025-04-01'</code>.",
+        gab: "SELECT nome, data_cadastro FROM clientes\nWHERE data_cadastro >= DATE '2025-03-01'\n  AND data_cadastro < DATE '2025-04-01'\nORDER BY data_cadastro;" },
+
+      { t: "sql", ordenado: true,
+        enun: "Quantos pedidos por mês (número do mês). Colunas: <code>mes</code>, <code>qtd</code>; ordene por <code>mes</code>.",
+        dica: "<code>EXTRACT(MONTH FROM data_pedido) AS mes</code> + <code>GROUP BY 1 ORDER BY 1</code>.",
+        gab: "SELECT EXTRACT(MONTH FROM data_pedido) AS mes, COUNT(*) AS qtd\nFROM pedidos\nGROUP BY 1\nORDER BY 1;" },
+
+      { t: "sql",
+        enun: "Defeitos que levaram <b>mais de 30 dias</b> pra fechar. Colunas: <code>id</code>, <code>dias</code> (a diferença entre as datas).",
+        dica: "no Postgres, <code>data_fechamento - data_abertura</code> entre <code>date</code> já dá o número de dias (inteiro).",
+        gab: "SELECT id, (data_fechamento - data_abertura) AS dias\nFROM defeitos\nWHERE data_fechamento IS NOT NULL\n  AND (data_fechamento - data_abertura) > 30;" },
+
+      { t: "sql", ordenado: true,
+        enun: "Mês (no formato <code>'YYYY-MM'</code>) e total faturado, considerando só pedidos <code>'entregue'</code>. Colunas: <code>mes</code>, <code>faturado</code>; ordene por <code>mes</code>.",
+        dica: "<code>TO_CHAR(data_pedido, 'YYYY-MM') AS mes</code> + <code>SUM(valor_total)</code>.",
+        gab: "SELECT TO_CHAR(data_pedido, 'YYYY-MM') AS mes, SUM(valor_total) AS faturado\nFROM pedidos\nWHERE status = 'entregue'\nGROUP BY 1\nORDER BY 1;" },
+
+      { t: "sql", ordenado: true,
+        enun: "Usando <code>DATE_TRUNC</code>, quantos clientes se cadastraram por mês. Colunas: <code>mes</code>, <code>qtd</code>; ordene por <code>mes</code>.",
+        dica: "<code>DATE_TRUNC('month', data_cadastro) AS mes</code> + <code>GROUP BY 1 ORDER BY 1</code>.",
+        gab: "SELECT DATE_TRUNC('month', data_cadastro) AS mes, COUNT(*) AS qtd\nFROM clientes\nGROUP BY 1\nORDER BY 1;" },
+
+      { t: "mc",
+        enun: "<code>AGE(data_fechamento, data_abertura)</code> retorna:",
+        ops: [
+          "um <code>INTERVAL</code> (ex.: <code>'1 mon 5 days'</code>) com a diferença entre as duas datas",
+          "o número de dias como inteiro",
+          "sempre a data de hoje",
+          "um texto <code>'YYYY-MM-DD'</code>" ],
+        correta: 0 },
+
+      { t: "mc",
+        enun: "Para pegar <b>todos</b> os pedidos de janeiro/2025 de forma segura (mesmo que a coluna venha a ser <code>timestamp</code>), o padrão é:",
+        ops: [
+          "<code>data_pedido &gt;= DATE '2025-01-01' AND data_pedido &lt; DATE '2025-02-01'</code>",
+          "<code>data_pedido BETWEEN '2025-01-01' AND '2025-01-31'</code>",
+          "<code>EXTRACT(MONTH FROM data_pedido) = 1</code> apenas",
+          "<code>data_pedido LIKE '2025-01%'</code>" ],
+        correta: 0 },
+
+      { t: "mc",
+        enun: "<code>EXTRACT(YEAR FROM data_pedido)</code> retorna:",
+        ops: [
+          "o ano como número (ex.: <code>2025</code>)",
+          "a data inteira",
+          "um texto <code>'2025'</code> com aspas",
+          "o dia do ano (1 a 365)" ],
+        correta: 0 }
+    ]
+  };
+  </script>
+  <script type="module" src="prova.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

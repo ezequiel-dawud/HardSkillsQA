@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 1 (SQL)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ SQL / Provas</span></div>
+    <nav>
+      <a href="prova-1.html" class="atual">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html">3</a>
+      <a href="prova-4.html">4</a>
+      <a href="prova-5.html">5</a>
+      <a href="prova-6.html">6</a>
+      <a href="prova-7.html">7</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 1</h1>
+    <p class="legenda">Ler dados: SELECT, WHERE, ORDER BY, LIMIT, DISTINCT, BETWEEN, IN, LIKE. &nbsp;<a href="modulo-1.html">← rever o módulo</a></p>
+    <p class="status-banco" id="status-banco">carregando banco…</p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 1", trilha: "sql", modulo: 1, indiceHref: "index.html",
+    questoes: [
+      { t: "sql", ordenado: true,
+        enun: "Nome e preço dos produtos com preço abaixo de 200, do mais barato pro mais caro. Colunas: <code>nome</code>, <code>preco</code>.",
+        dica: "<code>WHERE preco &lt; 200</code> + <code>ORDER BY preco</code>.",
+        gab: "SELECT nome, preco FROM produtos\nWHERE preco < 200\nORDER BY preco;" },
+
+      { t: "sql", ordenado: true,
+        enun: "Nome e cidade dos clientes do estado <code>'RS'</code>, em ordem alfabética de nome. Colunas: <code>nome</code>, <code>cidade</code>.",
+        dica: "texto entre aspas simples: <code>estado = 'RS'</code>.",
+        gab: "SELECT nome, cidade FROM clientes\nWHERE estado = 'RS'\nORDER BY nome;" },
+
+      { t: "sql", ordenado: true,
+        enun: "Os 8 pedidos de maior <code>valor_total</code>. Colunas: <code>id</code>, <code>valor_total</code> (do maior pro menor).",
+        dica: "<code>ORDER BY valor_total DESC</code> + <code>LIMIT 8</code>.",
+        gab: "SELECT id, valor_total FROM pedidos\nORDER BY valor_total DESC\nLIMIT 8;" },
+
+      { t: "sql", ordenado: true,
+        enun: "A lista das categorias distintas de <code>produtos</code>, em ordem alfabética. Coluna: <code>categoria</code>.",
+        dica: "<code>SELECT DISTINCT categoria ... ORDER BY categoria</code>.",
+        gab: "SELECT DISTINCT categoria FROM produtos\nORDER BY categoria;" },
+
+      { t: "sql", ordenado: true,
+        enun: "<code>id</code> e <code>titulo</code> dos defeitos cujo título contém <code>login</code>. Ordene por <code>id</code>.",
+        dica: "<code>WHERE titulo LIKE '%login%'</code>.",
+        gab: "SELECT id, titulo FROM defeitos\nWHERE titulo LIKE '%login%'\nORDER BY id;" },
+
+      { t: "sql",
+        enun: "<code>caso_teste</code>, <code>suite</code> e <code>resultado</code> das execuções da suite <code>'e2e'</code> cujo resultado foi <code>'falhou'</code> ou <code>'bloqueado'</code>.",
+        dica: "duas condições com <code>AND</code>; use <code>IN ('falhou','bloqueado')</code>.",
+        gab: "SELECT caso_teste, suite, resultado FROM execucoes_teste\nWHERE suite = 'e2e' AND resultado IN ('falhou', 'bloqueado');" },
+
+      { t: "mc",
+        enun: "Você rodou <code>SELECT nome FROM clientes WHERE cidade = 'campinas';</code> e voltou 0 linhas, mesmo existindo clientes de Campinas. Causa mais provável?",
+        ops: [
+          "A comparação de texto com <code>=</code> diferencia maiúsculas de minúsculas: os dados têm <code>'Campinas'</code>, não <code>'campinas'</code>",
+          "<code>WHERE</code> não funciona com a coluna <code>cidade</code>",
+          "Faltou <code>ORDER BY</code>",
+          "<code>SELECT</code> não aceita filtro por texto" ],
+        correta: 0,
+        exp: "Use o valor exato (<code>'Campinas'</code>) ou compare sem caixa, ex.: <code>LOWER(cidade) = 'campinas'</code>." },
+
+      { t: "mc",
+        enun: "Qual cláusula corta o resultado nas primeiras N linhas e, na prática, só faz sentido junto de um <code>ORDER BY</code>?",
+        ops: [ "<code>LIMIT</code>", "<code>DISTINCT</code>", "<code>WHERE</code>", "<code>BETWEEN</code>" ],
+        correta: 0 },
+
+      { t: "mc",
+        enun: "<code>WHERE preco BETWEEN 100 AND 200</code> é equivalente a:",
+        ops: [
+          "<code>preco &gt;= 100 AND preco &lt;= 200</code>",
+          "<code>preco &gt; 100 AND preco &lt; 200</code>",
+          "<code>preco &gt;= 100 OR preco &lt;= 200</code>",
+          "<code>preco IN (100, 200)</code>" ],
+        correta: 0,
+        exp: "<code>BETWEEN</code> é inclusivo nas duas pontas." }
+    ]
+  };
+  </script>
+  <script src="../assets/sql-wasm.js"></script>
+  <script src="prova.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

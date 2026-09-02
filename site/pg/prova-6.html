@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 6 (PostgreSQL)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ PostgreSQL / Provas</span></div>
+    <nav>
+      <a href="prova-1.html">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html">3</a>
+      <a href="prova-4.html">4</a>
+      <a href="prova-5.html">5</a>
+      <a href="prova-6.html" class="atual">6</a>
+      <a href="prova-7.html">7</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 6</h1>
+    <p class="legenda">JOIN, subconsultas e CTE: JOIN, USING, LEFT JOIN … IS NULL, WITH, EXISTS. &nbsp;<a href="modulo-6.html">← rever o módulo</a></p>
+    <p class="status-banco" id="status-banco">carregando Postgres…</p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "PG Módulo 6", trilha: "pg", modulo: 6, indiceHref: "index.html",
+    questoes: [
+      { t: "sql",
+        enun: "Nome do cliente e <code>valor_total</code> dos 5 pedidos de maior valor. Colunas: <code>nome</code>, <code>valor_total</code>.",
+        dica: "<code>JOIN clientes ON clientes.id = pedidos.cliente_id</code>, <code>ORDER BY valor_total DESC LIMIT 5</code>.",
+        gab: "SELECT c.nome, p.valor_total\nFROM pedidos p\nJOIN clientes c ON c.id = p.cliente_id\nORDER BY p.valor_total DESC\nLIMIT 5;" },
+
+      { t: "sql", ordenado: true,
+        enun: "Nome dos clientes <b>sem nenhum pedido</b>, com <code>LEFT JOIN … IS NULL</code>. Coluna: <code>nome</code>; em ordem alfabética.",
+        dica: "<code>LEFT JOIN pedidos p ON p.cliente_id = c.id WHERE p.id IS NULL</code>.",
+        gab: "SELECT c.nome\nFROM clientes c\nLEFT JOIN pedidos p ON p.cliente_id = c.id\nWHERE p.id IS NULL\nORDER BY c.nome;" },
+
+      { t: "sql",
+        enun: "Nome e preço dos produtos com preço acima da média geral (subconsulta). Colunas: <code>nome</code>, <code>preco</code>.",
+        dica: "<code>WHERE preco &gt; (SELECT AVG(preco) FROM produtos)</code>.",
+        gab: "SELECT nome, preco FROM produtos\nWHERE preco > (SELECT AVG(preco) FROM produtos);" },
+
+      { t: "sql",
+        enun: "Com uma <b>CTE</b> do gasto total por cliente, traga os 5 maiores gastadores. Colunas: <code>nome</code>, <code>total</code>.",
+        dica: "<code>WITH gasto AS (SELECT cliente_id, SUM(valor_total) AS total ... GROUP BY cliente_id)</code> e depois <code>JOIN clientes</code>.",
+        gab: "WITH gasto AS (\n  SELECT cliente_id, SUM(valor_total) AS total\n  FROM pedidos\n  GROUP BY cliente_id\n)\nSELECT c.nome, g.total\nFROM gasto g\nJOIN clientes c ON c.id = g.cliente_id\nORDER BY g.total DESC\nLIMIT 5;" },
+
+      { t: "sql", ordenado: true,
+        enun: "Nome dos clientes que têm <b>pelo menos um pedido cancelado</b>, com <code>EXISTS</code>. Coluna: <code>nome</code>; em ordem alfabética; no máximo 10.",
+        dica: "<code>WHERE EXISTS (SELECT 1 FROM pedidos p WHERE p.cliente_id = c.id AND p.status = 'cancelado')</code>.",
+        gab: "SELECT c.nome\nFROM clientes c\nWHERE EXISTS (\n  SELECT 1 FROM pedidos p\n  WHERE p.cliente_id = c.id AND p.status = 'cancelado'\n)\nORDER BY c.nome\nLIMIT 10;" },
+
+      { t: "mc",
+        enun: "<code>JOIN pedidos USING (cliente_id)</code> só funciona quando:",
+        ops: [
+          "a coluna de junção tem o <b>mesmo nome</b> nas duas tabelas",
+          "as duas tabelas têm o mesmo número de linhas",
+          "não há <code>NULL</code> na coluna",
+          "a tabela da direita é menor" ],
+        correta: 0 },
+
+      { t: "mc",
+        enun: "Para achar quem <b>não</b> tem pedido, o padrão com <code>JOIN</code> é:",
+        ops: [
+          "<code>LEFT JOIN pedidos … WHERE pedidos.id IS NULL</code>",
+          "<code>INNER JOIN pedidos … WHERE pedidos.id IS NULL</code>",
+          "<code>FULL JOIN</code> sempre",
+          "não dá pra fazer com <code>JOIN</code>" ],
+        correta: 0 },
+
+      { t: "mc",
+        enun: "Uma CTE (<code>WITH nome AS (…)</code>) serve para:",
+        ops: [
+          "dar nome a um resultado intermediário e deixar a consulta legível",
+          "criar uma tabela permanente no banco",
+          "criar um índice",
+          "trocar o valor de uma coluna" ],
+        correta: 0 }
+    ]
+  };
+  </script>
+  <script type="module" src="prova.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

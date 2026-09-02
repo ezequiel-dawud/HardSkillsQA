@@ -241,6 +241,59 @@ button.primario:hover { filter: brightness(1.05); }
 .modulo-link .tit { font-size: 16px; font-weight: 600; margin: 2px 0 4px; }
 .modulo-link .desc { font-size: 14px; color: var(--suave); }
 
+/* provas por módulo */
+.prova-intro { border-left: 4px solid var(--acento); }
+.prova-intro ul { padding-left: 20px; }
+.prova-intro li { margin: 4px 0; font-size: 14px; }
+.prova-melhor { font-size: 13px; color: var(--suave); margin: 4px 0 0; }
+
+.prova-q { scroll-margin-top: 80px; }
+.prova-ops { display: flex; flex-direction: column; gap: 6px; margin: 8px 0 2px; }
+.prova-op {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 8px 12px; border: 1px solid var(--borda); border-radius: 8px; cursor: pointer;
+}
+.prova-op:hover { border-color: var(--acento); }
+.prova-op input { margin-top: 3px; }
+
+.prova-veredito:empty { display: none; }
+.prova-veredito {
+  display: inline-block; margin-top: 10px; font-size: 13px; font-weight: 700;
+  padding: 3px 10px; border-radius: 999px;
+}
+.prova-veredito.certo { color: var(--ok); background: var(--ok-fraco); }
+.prova-veredito.errado { color: var(--erro); background: var(--erro-fraco); }
+
+.prova-painel:empty { display: none; }
+.prova-painel { margin-top: 10px; }
+.prova-tab { overflow-x: auto; }
+.prova-painel .contagem { color: var(--suave); font-size: 13px; margin: 6px 0 0; }
+.prova-painel .msg-erro {
+  color: var(--erro); background: var(--erro-fraco); border: 1px solid var(--erro);
+  border-radius: 8px; padding: 8px 12px; font-size: 14px; margin: 0 0 8px;
+}
+.prova-painel .msg-vazio {
+  background: rgba(214, 160, 102, .12); border: 1px solid #d6a066;
+  border-radius: 8px; padding: 8px 12px; font-size: 14px; margin: 0;
+}
+.prova-gab { margin-top: 8px; }
+.prova-gab summary { cursor: pointer; font-size: 13px; color: var(--suave); }
+
+.prova-rodape { display: flex; gap: 8px; flex-wrap: wrap; margin: 24px 0 0; }
+
+#prova-placar:empty { display: none; }
+#prova-placar {
+  margin: 18px 0 0; padding: 14px 18px; border-radius: 12px; border: 1px solid var(--borda);
+}
+#prova-placar.ok { background: var(--ok-fraco); border-color: var(--ok); }
+#prova-placar.abaixo { background: var(--erro-fraco); border-color: var(--erro); }
+
+.modulo-link .prova-mini {
+  display: inline-block; margin-top: 8px; font-size: 12px; font-weight: 700;
+  color: var(--acento); border: 1px solid var(--acento); border-radius: 999px; padding: 1px 9px;
+}
+.modulo-link .prova-mini:hover { background: var(--acento); color: #fff; }
+
 .modulo-link.embreve { opacity: .6; cursor: default; }
 .modulo-link.embreve:hover { border-color: var(--borda); transform: none; }
 .modulo-link.embreve .rot { color: var(--suave); }

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 7 (SQL)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ SQL / Provas</span></div>
+    <nav>
+      <a href="prova-1.html">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html">3</a>
+      <a href="prova-4.html">4</a>
+      <a href="prova-5.html">5</a>
+      <a href="prova-6.html">6</a>
+      <a href="prova-7.html" class="atual">7</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 7</h1>
+    <p class="legenda">Escrever dados: INSERT, UPDATE, DELETE, transações. Cada comando roda num banco recém-resetado. &nbsp;<a href="modulo-7.html">← rever o módulo</a></p>
+    <p class="status-banco" id="status-banco">carregando banco…</p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 7", trilha: "sql", modulo: 7, indiceHref: "index.html",
+    questoes: [
+      { t: "escrita",
+        enun: "Insira um cliente novo: <code>nome</code> 'Marina Teste', <code>email</code> 'marina.teste@exemplo.com', <code>cidade</code> 'Recife', <code>estado</code> 'PE', <code>data_cadastro</code> '2025-09-01', <code>ativo</code> 1.",
+        dica: "<code>INSERT INTO clientes (colunas...) VALUES (valores...);</code> — texto entre aspas simples.",
+        gab: "INSERT INTO clientes (nome, email, cidade, estado, data_cadastro, ativo)\nVALUES ('Marina Teste', 'marina.teste@exemplo.com', 'Recife', 'PE', '2025-09-01', 1);",
+        checa: "SELECT nome, cidade, estado, ativo FROM clientes WHERE email = 'marina.teste@exemplo.com';" },
+
+      { t: "escrita",
+        enun: "Aumente em 50 o <code>estoque</code> de todos os produtos da categoria <code>'Perifericos'</code>.",
+        dica: "<code>UPDATE produtos SET estoque = estoque + 50 WHERE categoria = 'Perifericos';</code>",
+        gab: "UPDATE produtos SET estoque = estoque + 50\nWHERE categoria = 'Perifericos';",
+        checa: "SELECT nome, estoque FROM produtos WHERE categoria = 'Perifericos' ORDER BY nome;" },
+
+      { t: "escrita",
+        enun: "Marque como <code>'entregue'</code> todos os pedidos que estão <code>'enviado'</code> e cujo <code>data_pedido</code> é anterior a <code>'2025-06-01'</code>.",
+        dica: "duas condições no <code>WHERE</code> com <code>AND</code>.",
+        gab: "UPDATE pedidos SET status = 'entregue'\nWHERE status = 'enviado' AND data_pedido < '2025-06-01';",
+        checa: "SELECT COUNT(*) AS entregues FROM pedidos WHERE status = 'entregue';" },
+
+      { t: "escrita",
+        enun: "Cancele (<code>status = 'cancelado'</code>) todos os pedidos que hoje estão com <code>status = 'novo'</code>.",
+        dica: "<code>UPDATE pedidos SET status = 'cancelado' WHERE status = 'novo';</code>",
+        gab: "UPDATE pedidos SET status = 'cancelado'\nWHERE status = 'novo';",
+        checa: "SELECT status, COUNT(*) AS qtd FROM pedidos WHERE status IN ('novo', 'cancelado') GROUP BY status ORDER BY status;" },
+
+      { t: "escrita",
+        enun: "Apague da tabela <code>execucoes_teste</code> todas as linhas com <code>resultado = 'pulado'</code>.",
+        dica: "<code>DELETE FROM execucoes_teste WHERE resultado = 'pulado';</code> — sem <code>WHERE</code> apagaria tudo.",
+        gab: "DELETE FROM execucoes_teste WHERE resultado = 'pulado';",
+        checa: "SELECT COUNT(*) AS restantes FROM execucoes_teste;" },
+
+      { t: "escrita",
+        enun: "Numa transação, desative (<code>ativo = 0</code>) os produtos com <code>estoque</code> abaixo de 20 e confirme com <code>COMMIT</code>.",
+        dica: "<code>BEGIN;</code> ... <code>UPDATE ...;</code> ... <code>COMMIT;</code>",
+        gab: "BEGIN;\nUPDATE produtos SET ativo = 0 WHERE estoque < 20;\nCOMMIT;",
+        checa: "SELECT COUNT(*) AS inativos FROM produtos WHERE ativo = 0;" },
+
+      { t: "mc",
+        enun: "Você vai rodar um <code>UPDATE</code> em produção. Hábito mais seguro antes:",
+        ops: [
+          "Rodar antes o mesmo filtro num <code>SELECT</code> pra ver exatamente quais linhas serão afetadas",
+          "Rodar direto e conferir depois",
+          "Tirar o <code>WHERE</code> pra garantir",
+          "Fazer <code>DELETE</code> e reinserir" ],
+        correta: 0 },
+
+      { t: "mc",
+        enun: "Um <code>UPDATE produtos SET ativo = 0;</code> sem <code>WHERE</code>:",
+        ops: [
+          "desativa TODOS os produtos — o <code>WHERE</code> é o que limita as linhas",
+          "não roda sem <code>WHERE</code>",
+          "só afeta a primeira linha",
+          "dá erro de sintaxe" ],
+        correta: 0 },
+
+      { t: "mc",
+        enun: "Dentro de uma transação, se algo dá errado você usa <code>ROLLBACK</code> para:",
+        ops: [
+          "desfazer todas as mudanças feitas desde o <code>BEGIN</code>, como se nada tivesse acontecido",
+          "salvar só as mudanças válidas",
+          "repetir os comandos",
+          "fechar a conexão" ],
+        correta: 0 }
+    ]
+  };
+  </script>
+  <script src="../assets/sql-wasm.js"></script>
+  <script src="prova.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 4 (SQL)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ SQL / Provas</span></div>
+    <nav>
+      <a href="prova-1.html">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html">3</a>
+      <a href="prova-4.html" class="atual">4</a>
+      <a href="prova-5.html">5</a>
+      <a href="prova-6.html">6</a>
+      <a href="prova-7.html">7</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 4</h1>
+    <p class="legenda">Juntar tabelas: INNER JOIN, LEFT JOIN, 3+ tabelas. &nbsp;<a href="modulo-4.html">← rever o módulo</a></p>
+    <p class="status-banco" id="status-banco">carregando banco…</p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 4", trilha: "sql", modulo: 4, indiceHref: "index.html",
+    questoes: [
+      { t: "sql",
+        enun: "Nome do cliente, <code>id</code> e <code>valor_total</code> dos 5 pedidos <b>cancelados</b> de maior valor. Colunas: <code>nome</code>, <code>id</code>, <code>valor_total</code>.",
+        dica: "<code>JOIN clientes ON clientes.id = pedidos.cliente_id</code>, <code>WHERE status = 'cancelado'</code>, <code>ORDER BY valor_total DESC LIMIT 5</code>.",
+        gab: "SELECT c.nome, p.id, p.valor_total\nFROM pedidos p\nJOIN clientes c ON c.id = p.cliente_id\nWHERE p.status = 'cancelado'\nORDER BY p.valor_total DESC\nLIMIT 5;" },
+
+      { t: "sql",
+        enun: "Os 3 produtos mais vendidos em unidades (soma de <code>quantidade</code> em <code>itens_pedido</code>). Colunas: <code>nome</code>, <code>unidades</code>.",
+        dica: "<code>JOIN produtos</code>, <code>GROUP BY</code> pelo nome, <code>SUM(quantidade) AS unidades</code>, <code>ORDER BY unidades DESC LIMIT 3</code>.",
+        gab: "SELECT pr.nome, SUM(i.quantidade) AS unidades\nFROM itens_pedido i\nJOIN produtos pr ON pr.id = i.produto_id\nGROUP BY pr.nome\nORDER BY unidades DESC\nLIMIT 3;" },
+
+      { t: "sql", ordenado: true,
+        enun: "Nome dos clientes que <b>nunca</b> fizeram um pedido. Coluna: <code>nome</code>; em ordem alfabética.",
+        dica: "<code>LEFT JOIN pedidos ... WHERE pedidos.id IS NULL</code>.",
+        gab: "SELECT c.nome\nFROM clientes c\nLEFT JOIN pedidos p ON p.cliente_id = c.id\nWHERE p.id IS NULL\nORDER BY c.nome;" },
+
+      { t: "sql",
+        enun: "Quantidade de pedidos por <code>estado</code> do cliente (contando também estados sem pedido, como 0). Colunas: <code>estado</code>, <code>pedidos</code>.",
+        dica: "<code>LEFT JOIN</code> a partir de <code>clientes</code>, <code>COUNT(p.id)</code> (não <code>COUNT(*)</code>), <code>GROUP BY c.estado</code>.",
+        gab: "SELECT c.estado, COUNT(p.id) AS pedidos\nFROM clientes c\nLEFT JOIN pedidos p ON p.cliente_id = c.id\nGROUP BY c.estado;" },
+
+      { t: "sql", ordenado: true,
+        enun: "<code>caso_teste</code>, <code>titulo</code> do defeito e <code>severidade</code>, para as execuções com <code>resultado = 'falhou'</code> ligadas a um defeito <b>crítico</b>. Ordene por <code>caso_teste</code>.",
+        dica: "<code>JOIN defeitos ON defeitos.id = execucoes_teste.defeito_id</code>, <code>WHERE resultado = 'falhou' AND severidade = 'critica'</code>.",
+        gab: "SELECT e.caso_teste, d.titulo, d.severidade\nFROM execucoes_teste e\nJOIN defeitos d ON d.id = e.defeito_id\nWHERE e.resultado = 'falhou' AND d.severidade = 'critica'\nORDER BY e.caso_teste;" },
+
+      { t: "sql",
+        enun: "<code>id</code> do pedido, nome do cliente e a soma dos itens (<code>quantidade * preco_unitario</code>) dos 5 pedidos de maior soma de itens. Colunas: <code>id</code>, <code>nome</code>, <code>soma_itens</code>.",
+        dica: "junte <code>pedidos</code>, <code>clientes</code> e <code>itens_pedido</code>; <code>GROUP BY p.id, c.nome</code>; <code>ORDER BY soma_itens DESC LIMIT 5</code>.",
+        gab: "SELECT p.id, c.nome, SUM(i.quantidade * i.preco_unitario) AS soma_itens\nFROM pedidos p\nJOIN clientes c ON c.id = p.cliente_id\nJOIN itens_pedido i ON i.pedido_id = p.id\nGROUP BY p.id, c.nome\nORDER BY soma_itens DESC\nLIMIT 5;" },
+
+      { t: "mc",
+        enun: "Diferença entre <code>INNER JOIN</code> e <code>LEFT JOIN</code>:",
+        ops: [
+          "<code>INNER</code> só traz linhas com correspondência nos dois lados; <code>LEFT</code> traz todas as da tabela da esquerda, preenchendo com <code>NULL</code> quando não há par",
+          "<code>LEFT</code> é sempre mais rápido",
+          "<code>INNER</code> traz duplicatas e <code>LEFT</code> não",
+          "Não há diferença prática" ],
+        correta: 0 },
+
+      { t: "mc",
+        enun: "Para achar clientes SEM pedidos, o padrão é:",
+        ops: [
+          "<code>LEFT JOIN pedidos ... WHERE pedidos.id IS NULL</code>",
+          "<code>INNER JOIN pedidos ... WHERE pedidos.id IS NULL</code>",
+          "sempre <code>RIGHT JOIN</code>",
+          "<code>JOIN</code> com <code>HAVING COUNT(*) = 0</code>" ],
+        correta: 0 },
+
+      { t: "mc",
+        enun: "Ao juntar <code>pedidos</code> com <code>itens_pedido</code> (1 pedido tem vários itens) e somar <code>valor_total</code> do pedido, o total fica inflado. Por quê?",
+        ops: [
+          "O <code>JOIN</code> repete a linha do pedido uma vez por item, então <code>valor_total</code> é somado várias vezes",
+          "<code>SUM</code> não funciona com <code>JOIN</code>",
+          "Falta <code>DISTINCT</code> no <code>FROM</code>",
+          "O <code>valor_total</code> está errado no banco" ],
+        correta: 0,
+        exp: "Agregue os itens numa subconsulta/CTE antes de juntar, ou some <code>quantidade * preco_unitario</code> em vez de repetir <code>valor_total</code>." }
+    ]
+  };
+  </script>
+  <script src="../assets/sql-wasm.js"></script>
+  <script src="prova.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

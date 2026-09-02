@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 5 (SQL)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ SQL / Provas</span></div>
+    <nav>
+      <a href="prova-1.html">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html">3</a>
+      <a href="prova-4.html">4</a>
+      <a href="prova-5.html" class="atual">5</a>
+      <a href="prova-6.html">6</a>
+      <a href="prova-7.html">7</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 5</h1>
+    <p class="legenda">Subconsultas e CTE: subquery, WITH, EXISTS. &nbsp;<a href="modulo-5.html">← rever o módulo</a></p>
+    <p class="status-banco" id="status-banco">carregando banco…</p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 5", trilha: "sql", modulo: 5, indiceHref: "index.html",
+    questoes: [
+      { t: "sql",
+        enun: "Nome e preço dos produtos com preço <b>acima da média geral</b> de preços. Colunas: <code>nome</code>, <code>preco</code>.",
+        dica: "subconsulta escalar no <code>WHERE</code>: <code>preco &gt; (SELECT AVG(preco) FROM produtos)</code>.",
+        gab: "SELECT nome, preco FROM produtos\nWHERE preco > (SELECT AVG(preco) FROM produtos);" },
+
+      { t: "sql", ordenado: true,
+        enun: "Nome dos clientes cujo <b>gasto total</b> em pedidos passa de 25000. Coluna: <code>nome</code>; em ordem alfabética.",
+        dica: "subconsulta com <code>GROUP BY cliente_id HAVING SUM(valor_total) &gt; 25000</code> e <code>id IN (...)</code>.",
+        gab: "SELECT nome FROM clientes\nWHERE id IN (\n  SELECT cliente_id FROM pedidos\n  GROUP BY cliente_id\n  HAVING SUM(valor_total) > 25000\n)\nORDER BY nome;" },
+
+      { t: "sql",
+        enun: "Usando uma <b>CTE</b> com o gasto total por cliente, traga os 5 maiores gastadores. Colunas: <code>nome</code>, <code>total</code>.",
+        dica: "<code>WITH gasto AS (SELECT cliente_id, SUM(valor_total) AS total ...)</code> e depois <code>JOIN clientes</code>.",
+        gab: "WITH gasto AS (\n  SELECT cliente_id, SUM(valor_total) AS total\n  FROM pedidos\n  GROUP BY cliente_id\n)\nSELECT c.nome, g.total\nFROM gasto g\nJOIN clientes c ON c.id = g.cliente_id\nORDER BY g.total DESC\nLIMIT 5;" },
+
+      { t: "sql", ordenado: true,
+        enun: "Nome dos clientes que <b>não têm nenhum pedido</b>, usando <code>NOT EXISTS</code>. Coluna: <code>nome</code>; em ordem alfabética.",
+        dica: "<code>WHERE NOT EXISTS (SELECT 1 FROM pedidos p WHERE p.cliente_id = c.id)</code>.",
+        gab: "SELECT c.nome\nFROM clientes c\nWHERE NOT EXISTS (\n  SELECT 1 FROM pedidos p WHERE p.cliente_id = c.id\n)\nORDER BY c.nome;" },
+
+      { t: "sql", ordenado: true,
+        enun: "O produto <b>mais caro de cada categoria</b>. Colunas: <code>nome</code>, <code>preco</code>, <code>categoria</code>; ordene por <code>categoria</code>.",
+        dica: "subconsulta correlacionada: <code>preco = (SELECT MAX(preco) FROM produtos p2 WHERE p2.categoria = p.categoria)</code>.",
+        gab: "SELECT nome, preco, categoria\nFROM produtos p\nWHERE preco = (\n  SELECT MAX(preco) FROM produtos p2 WHERE p2.categoria = p.categoria\n)\nORDER BY categoria;" },
+
+      { t: "mc",
+        enun: "Uma subconsulta <b>correlacionada</b> é aquela que:",
+        ops: [
+          "referencia uma coluna da consulta externa e é reavaliada para cada linha de fora",
+          "roda uma vez só e guarda o resultado",
+          "não pode usar <code>WHERE</code>",
+          "sempre retorna uma única linha" ],
+        correta: 0 },
+
+      { t: "mc",
+        enun: "<code>WITH</code> (CTE) serve principalmente para:",
+        ops: [
+          "dar nome a um resultado intermediário, deixar a query legível e poder reaproveitá-lo",
+          "acelerar sempre a query",
+          "substituir índices",
+          "criar tabelas permanentes" ],
+        correta: 0 },
+
+      { t: "mc",
+        enun: "<code>x IN (subconsulta)</code> pode se comportar de forma inesperada quando a subconsulta:",
+        ops: [
+          "retorna algum <code>NULL</code> — aí <code>x NOT IN (...)</code> pode não trazer nada",
+          "retorna muitas linhas",
+          "é uma CTE",
+          "tem <code>ORDER BY</code>" ],
+        correta: 0 }
+    ]
+  };
+  </script>
+  <script src="../assets/sql-wasm.js"></script>
+  <script src="prova.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>
