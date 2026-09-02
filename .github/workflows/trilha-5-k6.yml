@@ -42,6 +42,10 @@ jobs:
 
       - name: Rodar a carga (portao de performance — reprova de proposito)
         working-directory: trilha-5
+        # O threshold p(95)<300 estoura sob 20 VUs e o k6 sai com codigo 99.
+        # Isso e a LICAO do modulo 3 (o portao achou o limite do sistema), nao
+        # um erro do CI -- por isso o passo nao derruba o workflow.
+        continue-on-error: true
         run: k6 run scripts/03_carga.js
 
       - name: Encerrar o mock
