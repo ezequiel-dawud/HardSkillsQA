@@ -288,6 +288,128 @@ button.primario:hover { filter: brightness(1.05); }
 #prova-placar.ok { background: var(--ok-fraco); border-color: var(--ok); }
 #prova-placar.abaixo { background: var(--erro-fraco); border-color: var(--erro); }
 
+/* ===== cara mais "tech" (todas as telas) ===== */
+body {
+  background:
+    radial-gradient(circle at 1px 1px, rgba(127, 140, 170, .18) 1px, transparent 0) 0 0 / 22px 22px,
+    var(--bg);
+  background-attachment: fixed;
+}
+.topo {
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  background: color-mix(in srgb, var(--painel) 82%, transparent);
+}
+.topo .marca a::before {
+  content: "▸ "; color: var(--acento); font-weight: 700;
+}
+
+.hero {
+  position: relative;
+  margin: 12px 0 6px;
+  padding: 26px 24px 24px;
+  border: 1px solid var(--borda);
+  border-radius: 16px;
+  background:
+    linear-gradient(140deg, var(--acento-fraco) 0%, transparent 55%),
+    var(--painel);
+  overflow: hidden;
+}
+.hero::after {
+  content: "";
+  position: absolute; right: -60px; top: -60px;
+  width: 200px; height: 200px; border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--acento) 22%, transparent), transparent 70%);
+  pointer-events: none;
+}
+.hero-kicker {
+  margin: 0 0 6px;
+  font-family: "SF Mono", "Cascadia Code", Consolas, monospace;
+  font-size: 12.5px; letter-spacing: .6px; text-transform: uppercase;
+  color: var(--suave);
+}
+.hero-kicker .prompt { color: var(--acento); font-weight: 700; margin-right: 6px; }
+.hero h1 {
+  font-size: 30px; margin: 0 0 6px; letter-spacing: -.4px;
+  background: linear-gradient(92deg, var(--texto), var(--acento));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero .legenda { max-width: 640px; }
+.hero-stats { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.chip-stat {
+  font-size: 13px; color: var(--suave);
+  border: 1px solid var(--borda); border-radius: 999px;
+  padding: 4px 12px; background: color-mix(in srgb, var(--painel) 70%, transparent);
+}
+.chip-stat strong { color: var(--acento); font-weight: 700; }
+
+.card-info { border-left: 3px solid var(--acento); }
+
+/* cards das trilhas */
+.grade-trilhas .modulo-link {
+  position: relative; overflow: hidden;
+  transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+.grade-trilhas .modulo-link::before {
+  content: "";
+  position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: linear-gradient(var(--acento), color-mix(in srgb, var(--acento) 30%, transparent));
+  opacity: 0; transition: opacity .15s ease;
+}
+.grade-trilhas .modulo-link:hover {
+  border-color: var(--acento);
+  box-shadow: 0 6px 24px -10px color-mix(in srgb, var(--acento) 55%, transparent);
+}
+.grade-trilhas .modulo-link:hover::before { opacity: 1; }
+
+.trilha-topo { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.trilha-topo .rot { margin: 0; }
+.trilha-icone {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 38px; height: 38px; flex: none;
+  border-radius: 10px;
+  color: var(--acento);
+  background: var(--acento-fraco);
+  border: 1px solid color-mix(in srgb, var(--acento) 25%, transparent);
+}
+.trilha-icone svg { width: 22px; height: 22px; }
+.grade-trilhas .modulo-link:hover .trilha-icone {
+  background: var(--acento); color: #fff;
+  border-color: var(--acento);
+}
+
+/* página "Sobre" */
+.perfil { display: flex; align-items: center; gap: 16px; }
+.perfil-avatar {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 60px; height: 60px; flex: none;
+  border-radius: 14px;
+  font-weight: 700; font-size: 20px; letter-spacing: .5px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--acento), color-mix(in srgb, var(--acento) 55%, #7ee08a));
+  box-shadow: 0 6px 20px -8px color-mix(in srgb, var(--acento) 70%, transparent);
+}
+.link-botao {
+  display: inline-flex; align-items: center; gap: 8px;
+  text-decoration: none; font-size: 14px; font-weight: 600;
+  color: #fff; background: var(--acento);
+  border: 1px solid var(--acento); border-radius: 999px;
+  padding: 7px 16px;
+}
+.link-botao:hover { filter: brightness(1.06); }
+.link-botao svg { width: 16px; height: 16px; }
+
+/* rodapé */
+.rodape {
+  display: flex; flex-wrap: wrap; gap: 8px 18px;
+  align-items: center; justify-content: space-between;
+  margin-top: 40px; padding-top: 16px;
+  border-top: 1px solid var(--borda);
+  font-size: 13px; color: var(--suave);
+}
+.rodape a { color: var(--acento); text-decoration: none; }
+.rodape a:hover { text-decoration: underline; }
+
 .modulo-link .prova-mini {
   display: inline-block; margin-top: 8px; font-size: 12px; font-weight: 700;
   color: var(--acento); border: 1px solid var(--acento); border-radius: 999px; padding: 1px 9px;
