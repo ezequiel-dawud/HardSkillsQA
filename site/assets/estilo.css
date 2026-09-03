@@ -145,7 +145,8 @@ table.dados tr:nth-child(even) td { background: rgba(127, 127, 127, .05); }
 .dica-box .dica { margin: 0; }
 
 .editor {
-  width: 100%; min-height: 90px; resize: vertical;
+  width: 100%; min-height: 90px; resize: none;
+  overflow-y: hidden; /* o campo cresce sozinho com o texto (ver crescer() no JS) */
   background: var(--codigo-bg); color: var(--codigo-fg);
   border: 1px solid var(--borda); border-radius: 10px;
   padding: 12px 14px; font-family: "SF Mono", "Cascadia Code", Consolas, monospace;

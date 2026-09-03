@@ -329,8 +329,14 @@ function realcar(ta, chave) {
     pre.scrollTop = ta.scrollTop;
     pre.scrollLeft = ta.scrollLeft;
   };
+  // em vez de mostrar scroll, o campo cresce conforme o texto passa das linhas visíveis
+  const crescer = () => {
+    ta.style.height = "auto";
+    ta.style.height = ta.scrollHeight + 2 + "px";
+  };
   const pintar = () => {
     code.innerHTML = realce(ta.value + "\n");
+    crescer();
     sync();
   };
   const salvar = () => { if (chave) gravarSalvo(chave, ta.value); };

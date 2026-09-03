@@ -181,10 +181,17 @@
         const salvo = ler("sql" + i);
         if (salvo != null) ta.value = salvo;
         respostas[i] = ta.value;
+        // o campo cresce conforme o texto, em vez de mostrar scroll
+        const crescer = () => {
+          ta.style.height = "auto";
+          ta.style.height = ta.scrollHeight + 2 + "px";
+        };
         ta.addEventListener("input", () => {
           respostas[i] = ta.value;
           guardar("sql" + i, ta.value);
+          crescer();
         });
+        requestAnimationFrame(crescer);
         ta.addEventListener("keydown", (e) => {
           if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
             e.preventDefault();
