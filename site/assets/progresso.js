@@ -10,6 +10,9 @@
    dos exercícios — o mesmo corte das provas. Também dá pra marcar na mão, pros
    módulos de leitura (pytest, k6, CI/CD), que não têm exercício na página.
 
+   Se o aluno entrar numa conta (assets/conta.js), cada escrita também vai pro
+   servidor — por isso toda gravação passa por gravar()/apagar().
+
    Expõe window.Progresso. */
 
 (function () {
@@ -17,13 +20,30 @@
 
   const B = "qal:";
   const CORTE = 0.7;
+  const PREFIXOS = ["ex:", "extot:", "mod:", "prova:"];
+
+  // quem precisa saber de cada escrita (a conta, pra mandar pro servidor) se inscreve aqui
+  const escritas = [];
+  const aoGravar = (fn) => escritas.push(fn);
+  const anotar = (k, v) => escritas.forEach((fn) => { try { fn(k, v); } catch (e) {} });
 
   function ler(k) { try { return localStorage.getItem(B + k); } catch (e) { return null; } }
-  function gravar(k, v) { try { localStorage.setItem(B + k, v); } catch (e) {} }
-  function apagar(k) { try { localStorage.removeItem(B + k); } catch (e) {} }
+  function gravar(k, v) {
+    if (ler(k) === v) return;
+    try { localStorage.setItem(B + k, v); } catch (e) {}
+    anotar(k, v);
+  }
+  function apagar(k) {
+    if (ler(k) === null) return;
+    try { localStorage.removeItem(B + k); } catch (e) {}
+    anotar(k, null);
+  }
+  // devolve as chaves JÁ sem o prefixo "qal:"
   function chaves(pref) {
     try {
-      return Object.keys(localStorage).filter((k) => k.indexOf(B + pref) === 0);
+      return Object.keys(localStorage)
+        .filter((k) => k.indexOf(B + pref) === 0)
+        .map((k) => k.slice(B.length));
     } catch (e) { return []; }
   }
 
@@ -92,12 +112,14 @@
   function selo(texto, classe) {
     const s = document.createElement("span");
     s.className = "selo " + classe;
+    s.setAttribute("data-prog", "");
     s.textContent = texto;
     return s;
   }
 
   /* índice de trilha: marca cada link de módulo e de prova */
   function decorarIndiceTrilha() {
+    document.querySelectorAll(".selo[data-prog]").forEach((s) => s.remove());
     document.querySelectorAll('a[href*="modulo-"]').forEach((a) => {
       if (!a.classList.contains("modulo-link")) return;
       const s = situacaoModulo(caminhoDe(a.getAttribute("href")));
@@ -115,6 +137,7 @@
 
   /* hub: cada card de trilha declara data-trilha e data-modulos */
   function decorarHub() {
+    document.querySelectorAll(".trilha-progresso").forEach((b) => b.remove());
     document.querySelectorAll("[data-trilha][data-modulos]").forEach((card) => {
       const pasta = card.getAttribute("data-trilha");
       const n = Number(card.getAttribute("data-modulos"));
@@ -157,20 +180,50 @@
   }
 
   function zerarTudo() {
-    ["ex:", "extot:", "mod:", "prova:"].forEach((p) =>
-      chaves(p).forEach((k) => { try { localStorage.removeItem(k); } catch (e) {} })
-    );
+    PREFIXOS.forEach((p) => chaves(p).forEach(apagar));
+  }
+
+  /* ---- pra conta (assets/conta.js) ------------------------------------- */
+
+  // todo o progresso deste navegador, como { "ex:/sql/modulo-1.html:1.1": "1", ... }
+  function exportar() {
+    const m = {};
+    PREFIXOS.forEach((p) => chaves(p).forEach((k) => { m[k] = ler(k); }));
+    return m;
+  }
+
+  // troca o progresso deste navegador pelo que veio da conta. Escreve direto,
+  // sem passar por gravar(): o que veio do servidor não volta pra fila de envio.
+  function importar(mapa) {
+    PREFIXOS.forEach((p) => chaves(p).forEach((k) => {
+      if (!Object.prototype.hasOwnProperty.call(mapa, k)) {
+        try { localStorage.removeItem(B + k); } catch (e) {}
+      }
+    }));
+    Object.keys(mapa).forEach((k) => {
+      if (PREFIXOS.some((p) => k.indexOf(p) === 0)) {
+        try { localStorage.setItem(B + k, String(mapa[k])); } catch (e) {}
+      }
+    });
+    avisar();
   }
 
   window.Progresso = {
     registrarTotal, marcarExercicio, registrarProva, marcarModulo,
     situacaoModulo, situacaoProva, estaFeito, aoMudar,
     decorarIndiceTrilha, decorarHub, botaoConcluir, zerarTudo,
+    aoGravar, exportar, importar,
   };
 
-  document.addEventListener("DOMContentLoaded", () => {
+  // selos e barras se redesenham quando o progresso muda (ex.: chegou da conta)
+  function decorar() {
     if (document.body.classList.contains("pagina-inicial")) decorarHub();
     else if (/index\.html?$|\/$/.test(location.pathname)) decorarIndiceTrilha();
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    decorar();
+    aoMudar(decorar);
     botaoConcluir();
   });
 })();

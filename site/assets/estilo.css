@@ -498,3 +498,49 @@ body {
 
 .prog-contador { font-size: 13px; color: var(--suave); font-weight: 600; }
 .prog-contador:empty { display: none; }
+
+/* ---- conta opcional (assets/conta.js) ---------------------------------- */
+.conta-botao {
+  padding: 4px 12px; border-radius: 999px; margin-left: 4px;
+  color: var(--acento); border-color: var(--acento);
+  max-width: 190px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.conta-botao.logado { color: var(--texto); border-color: var(--borda); }
+.conta-botao.logado::before {
+  content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+  margin-right: 7px; vertical-align: 1px; background: var(--ok);
+}
+.conta-botao.estado-salvando::before { background: var(--acento); }
+.conta-botao.estado-offline::before  { background: var(--aviso); }
+
+.conta-dialogo {
+  width: min(420px, calc(100vw - 32px));
+  padding: 0; border: 1px solid var(--borda); border-radius: 14px;
+  background: var(--painel); color: var(--texto);
+  box-shadow: 0 20px 60px -20px rgba(0, 0, 0, .45);
+}
+.conta-dialogo::backdrop { background: rgba(10, 14, 22, .55); }
+.conta-caixa { padding: 20px 22px; }
+.conta-caixa h3 { margin: 0 0 6px; font-size: 18px; }
+.conta-texto { margin: 0 0 14px; font-size: 14px; color: var(--suave); }
+.conta-campo { display: block; font-size: 13px; font-weight: 600; margin: 0 0 10px; }
+.conta-campo input {
+  display: block; width: 100%; margin-top: 4px;
+  font: inherit; font-size: 15px; font-weight: 400;
+  padding: 8px 10px; border-radius: 8px;
+  border: 1px solid var(--borda); background: var(--bg); color: var(--texto);
+}
+.conta-campo input:focus { outline: 2px solid var(--acento); outline-offset: -1px; }
+.conta-aviso {
+  margin: 4px 0 12px; padding: 7px 10px; font-size: 13px;
+  color: var(--aviso); background: var(--aviso-fraco);
+  border-left: 3px solid var(--aviso); border-radius: 6px;
+}
+.conta-msg { margin: 0; font-size: 14px; }
+.conta-msg:empty { display: none; }
+.conta-msg.erro { color: var(--erro); }
+.conta-msg.info { color: var(--suave); }
+.conta-status { margin: 0 0 12px; font-size: 14px; font-weight: 600; }
+.conta-status.estado-ok       { color: var(--ok); }
+.conta-status.estado-salvando { color: var(--acento); }
+.conta-status.estado-offline  { color: var(--aviso); }

@@ -40,9 +40,17 @@ PostgreSQL e k6 são aprofundamentos.
 | `site/assets/conferir.js` | **conferência automática**: roda a resposta do aluno e o gabarito no mesmo banco e compara os resultados, em vez de comparar o texto da query |
 | `site/assets/progresso.js` | progresso do aluno no `localStorage`: exercícios conferidos, módulos concluídos, melhor nota por prova; desenha os selos no índice e a barra no hub |
 | `site/assets/prova-core.js` | motor das provas: questões de query, de escrita, de múltipla escolha (com alternativas embaralhadas) e abertas (não entram na nota, mostram resposta modelo) |
+| `site/assets/conta.js` | **conta opcional**: botão "Entrar" no topo. Só nome de usuário, sem senha; com conta, o progresso vai pro servidor e aparece em qualquer navegador |
+| `api/conta/*.js` (raiz do repo) | funções da Vercel da conta: `criar` (recusa nome em uso), `entrar` e `progresso` (junta as mudanças com o que está guardado). Guardam no Upstash Redis |
 
 Provas conceituais (só múltipla escolha e abertas) não precisam de banco: o
 `prova-core.js` cria um motor de mentira sozinho quando a prova não tem questão de query.
+
+A pasta `api/` da **raiz** são as funções da Vercel; `site/api/` é a trilha de Teste de API.
+A conta só funciona no site publicado (ou com `vercel dev`) e precisa de um banco
+Upstash conectado ao projeto em Vercel → Storage — as variáveis `KV_REST_API_URL` e
+`KV_REST_API_TOKEN` entram sozinhas. Sem conta, o site funciona igual, só com o
+`localStorage`.
 
 ```bash
 python site/servir.py     # abre http://localhost:8000 (dev local; em produção é só o link)
