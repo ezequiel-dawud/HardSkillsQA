@@ -1,27 +1,48 @@
-# Plano de Estudos — SQL para QA
+# Plano de Estudos — QA Learning
 
-Objetivo: sair do zero e chegar em **consultar, validar e investigar dados** com
-confiança — a skill de SQL que realmente move a carreira de QA (validar regra de
-negócio no banco, achar dado inconsistente que a UI esconde, montar massa de teste,
-conferir o que a API gravou).
+Objetivo: sair do zero e chegar em **QA que sabe o que testar e consegue provar**:
+escolher casos de teste com técnica, investigar dados no banco, testar API, automatizar
+a validação e fazer tudo isso rodar sozinho no pipeline.
 
-Foco: **mão na massa**. Cada módulo = teoria curta + exercícios rodando de verdade
-no banco `pratica/pratica.db`.
+Foco: **mão na massa**. Cada módulo = teoria curta + prática rodando de verdade,
+a maioria dentro do próprio navegador.
 
 ---
 
 ## Versão web (recomendada)
 
-Hub de trilhas em `site/` (`site/index.html`), publicado na Vercel. Seis trilhas:
+Hub de trilhas em `site/` (`site/index.html`), publicado na Vercel. Oito trilhas e um
+projeto final:
 
-| # | Pasta | O que é | Onde roda |
-|---|---|---|---|
-| 1 | `site/sql/` | **SQL para QA** — SELECT a transações, 7 módulos | SQLite (WASM) na página |
-| 2 | `site/pg/` | **PostgreSQL na prática** — tipos reais, datas, texto, FILTER, window functions, 7 módulos | Postgres (PGlite/WASM) na página |
-| 3 | `site/pytest/` | **Validação com pytest** — queries de validação viram testes + CI, 4 módulos | teoria na página; testes rodam local (`trilha-3/`) |
-| 4 | `site/api/` | **Teste de API** — status, contrato, cruzar API × banco, 4 módulos | API falsa em JS na página |
-| 5 | `site/k6/` | **Teste de carga com k6** — VU/iteração, thresholds como portão, dados e CI, 4 módulos | teoria na página; k6 roda local (`trilha-5/`) |
-| 6 | `site/cicd/` | **CI/CD para QA** — pipeline, ler o GitHub Actions, fazer o build reprovar, matrix/cache/secrets/artefatos, 4 módulos | leitura; mexe nos workflows em `.github/workflows/` |
+| Pasta | O que é | Onde roda |
+|---|---|---|
+| `site/fundamentos/` | **Fundamentos de Teste** — princípios, níveis e tipos, técnicas de design de caso de teste, exploratório, relatar bug. 5 módulos | leitura + provas na página |
+| `site/git/` | **Git e GitHub para QA** — fork, clone, o ciclo, branch, Pull Request e os checks do CI. 3 módulos | terminal do aluno |
+| `site/sql/` | **SQL para QA** — SELECT a transações, 7 módulos | SQLite (WASM) na página |
+| `site/pg/` | **PostgreSQL na prática** — tipos reais, datas, texto, FILTER, window functions, 7 módulos | Postgres (PGlite/WASM) na página |
+| `site/pytest/` | **Validação com pytest** — queries de validação viram testes + CI, 4 módulos | teoria na página; testes rodam local (`trilha-3/`) |
+| `site/api/` | **Teste de API** — status, contrato, cruzar API × banco, 4 módulos | API falsa em JS na página |
+| `site/k6/` | **Teste de carga com k6** — VU/iteração, thresholds como portão, dados e CI, 4 módulos | teoria na página; k6 roda local (`trilha-5/`) |
+| `site/cicd/` | **CI/CD para QA** — pipeline, ler o GitHub Actions, fazer o build reprovar, matrix/cache/secrets/artefatos, 4 módulos | leitura; mexe nos workflows em `.github/workflows/` |
+| `site/projeto/` | **Projeto final** — uma história de usuário do refinamento ao pipeline, usando todas as trilhas. Vira portfólio | repositório do aluno |
+
+**Caminho recomendado para quem começa do zero:**
+Fundamentos → Git → SQL → API → pytest → CI/CD.
+PostgreSQL e k6 são aprofundamentos.
+
+### Como o site funciona por dentro
+
+| Arquivo | Papel |
+|---|---|
+| `site/assets/app.js` | motor da prática em SQLite (sql.js): monta exercícios, roda query, desenha tabela |
+| `site/pg/app-pg.js` | o mesmo, em Postgres (PGlite) |
+| `site/api/app-api.js` | o mesmo, para a API falsa em JS |
+| `site/assets/conferir.js` | **conferência automática**: roda a resposta do aluno e o gabarito no mesmo banco e compara os resultados, em vez de comparar o texto da query |
+| `site/assets/progresso.js` | progresso do aluno no `localStorage`: exercícios conferidos, módulos concluídos, melhor nota por prova; desenha os selos no índice e a barra no hub |
+| `site/assets/prova-core.js` | motor das provas: questões de query, de escrita, de múltipla escolha (com alternativas embaralhadas) e abertas (não entram na nota, mostram resposta modelo) |
+
+Provas conceituais (só múltipla escolha e abertas) não precisam de banco: o
+`prova-core.js` cria um motor de mentira sozinho quando a prova não tem questão de query.
 
 ```bash
 python site/servir.py     # abre http://localhost:8000 (dev local; em produção é só o link)
@@ -167,8 +188,9 @@ pra você caçar.
 
 ## Depois disso
 
-- Refazer os exercícios sem olhar o gabarito.
-- Seguir pras Trilhas 2, 3 e 4 (ver a tabela em "Versão web").
+- Refazer os exercícios sem olhar o gabarito (a conferência automática diz na hora se bateu).
+- Fazer as provas de cada módulo — 70% pra cima significa que o módulo está firme.
+- Seguir o caminho recomendado até o fim e fechar com o **Projeto final** (`site/projeto/`).
 - Praticar em plataformas: SQLZoo, StrataScratch, DataLemur, HackerRank (SQL).
 
 ## Gabarito

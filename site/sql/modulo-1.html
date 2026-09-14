@@ -142,6 +142,23 @@ FROM produtos;</code></pre>
     </section>
 
     <section class="secao">
+      <div class="card pegadinhas">
+        <h2 style="margin-top:0;border:0">Pegadinhas deste módulo</h2>
+        <p style="margin-top:0;font-size:14px">
+          Os erros que quase todo mundo comete aqui. Ler agora poupa meia hora de
+          confusão depois — e alguns deles são a causa de relatório errado em projeto real.
+        </p>
+        <ul>
+          <li><b>Texto diferencia maiúscula de minúscula.</b> <code>WHERE cidade = 'campinas'</code> não acha <code>'Campinas'</code> e devolve <b>zero linhas sem dar erro</b>. Zero linha não é sinal de que está tudo certo — é sinal de que você precisa conferir a condição.</li>
+          <li><b><code>LIMIT</code> sem <code>ORDER BY</code> não significa nada.</b> "As 5 primeiras" de um resultado não ordenado são 5 linhas quaisquer, e podem mudar entre execuções. Se o enunciado fala em "maiores" ou "mais recentes", tem que haver <code>ORDER BY</code>.</li>
+          <li><b><code>LIKE '%Silva%'</code> ≠ <code>LIKE 'Silva'</code>.</b> Sem os <code>%</code>, o <code>LIKE</code> vira uma igualdade. É a causa mais comum de "minha busca não acha nada".</li>
+          <li><b>Aspas simples para texto, nada para número.</b> <code>WHERE preco > '500'</code> pode funcionar por acidente e comparar como <em>texto</em> — e aí <code>'90'</code> fica maior que <code>'500'</code>, porque <code>9</code> vem depois de <code>5</code> no alfabeto.</li>
+          <li><b><code>BETWEEN</code> inclui as duas pontas.</b> <code>BETWEEN 100 AND 200</code> pega o 100 e o 200. Quando o requisito diz "acima de 100", <code>BETWEEN</code> está errado — e essa diferença de uma linha é exatamente o tipo de defeito que a análise de valor limite procura.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="secao">
       <h2>Prática</h2>
       <p class="legenda">
         Escreva a query e clique <strong>Rodar</strong> (ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>).
@@ -161,6 +178,13 @@ FROM produtos;</code></pre>
         <div class="resultado" id="res-livre"></div>
       </div>
     </section>
+
+    <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
+      <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
+        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        progresso anda no começo do site. Fica salvo só no seu navegador.
+      </span>
+    </div>
 
     <nav class="acoes" style="margin-top:32px">
       <a href="index.html"><button>← Índice</button></a>
@@ -232,6 +256,8 @@ FROM produtos;</code></pre>
   </script>
   <script>window.ASSETS_BASE="../assets/";window.DB_URL="pratica.db";</script>
   <script src="../assets/sql-wasm.js"></script>
+  <script src="../assets/conferir.js"></script>
+  <script src="../assets/progresso.js"></script>
   <script src="../assets/app.js"></script>
 </body>
 </html>

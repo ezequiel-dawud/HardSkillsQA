@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 1 (Git)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ Git / Provas</span></div>
+    <nav>
+      <a href="prova-1.html" class="atual">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html">3</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 1</h1>
+    <p class="legenda">Git × GitHub, vocabulário, instalar, fork e clone. &nbsp;<a href="modulo-1.html">← rever o módulo</a></p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 1", trilha: "git", modulo: 1, indiceHref: "index.html",
+    questoes: [
+      {
+            "t": "mc",
+            "enun": "Qual a diferença entre Git e GitHub?",
+            "ops": [
+                  "Git é o programa de controle de versão que roda na sua máquina; GitHub é um site que hospeda repositórios e acrescenta PR, revisão e CI",
+                  "Git é a versão gratuita e GitHub a versão paga da mesma ferramenta",
+                  "Git serve para código e GitHub para documentação",
+                  "São dois nomes para a mesma ferramenta"
+            ],
+            "correta": 0,
+            "exp": "Existem outros hospedeiros com as mesmas ideias — GitLab, Bitbucket. O Git é o mesmo em todos."
+      },
+      {
+            "t": "mc",
+            "enun": "Por que fazer <b>fork</b> do repositório do curso, em vez de simplesmente cloná-lo?",
+            "ops": [
+                  "Porque você não tem permissão de enviar mudanças no repositório de outra pessoa; o fork cria uma cópia na sua conta, onde você manda",
+                  "Porque o clone só baixa os arquivos, sem a história",
+                  "Porque o fork é mais rápido de baixar",
+                  "Porque sem fork o Git não deixa criar branches"
+            ],
+            "correta": 0,
+            "exp": "E há um bônus importante para a Trilha de CI/CD: no seu fork, os pipelines rodam na sua conta e você pode mexer neles à vontade."
+      },
+      {
+            "t": "mc",
+            "enun": "O que é um <b>commit</b>?",
+            "ops": [
+                  "Um ponto salvo na história do projeto: um conjunto de mudanças com uma mensagem explicando",
+                  "Um arquivo de configuração do repositório",
+                  "O envio das suas mudanças para o servidor",
+                  "Uma cópia de segurança automática feita pelo Git a cada hora"
+            ],
+            "correta": 0,
+            "exp": "Enviar para o servidor é o <code>push</code>. O commit acontece só na sua máquina, e é ele que entra na história."
+      },
+      {
+            "t": "mc",
+            "enun": "Você clonou o repositório, mas ao rodar <code>git push</code> aparece <code>Permission denied</code>. Causa mais provável?",
+            "ops": [
+                  "Você clonou o repositório original em vez do seu fork",
+                  "Faltou rodar <code>git add</code>",
+                  "O branch <code>main</code> não existe no seu repositório",
+                  "O Git não está instalado corretamente"
+            ],
+            "correta": 0,
+            "exp": "Confira se aparece o <i>seu</i> usuário na URL do repositório. Se não, faça o fork e clone a partir dele."
+      },
+      {
+            "t": "mc",
+            "enun": "Por que a trilha de pytest pede o repositório inteiro, e não só a pasta <code>trilha-3/</code>?",
+            "ops": [
+                  "Porque o banco que os testes usam mora em <code>pratica/pratica.db</code>, fora dessa pasta",
+                  "Porque o pytest só funciona na raiz de um repositório Git",
+                  "Porque o arquivo de configuração fica em outro lugar do repositório",
+                  "Porque o GitHub não permite baixar pastas isoladas"
+            ],
+            "correta": 0,
+            "exp": "A fixture <code>db</code> do <code>conftest.py</code> procura o banco em <code>../pratica/pratica.db</code>. Sem ele, os testes nem começam."
+      },
+      {
+            "t": "mc",
+            "enun": "Logo após instalar o Git, qual configuração você precisa fazer antes do primeiro commit?",
+            "ops": [
+                  "Definir nome e e-mail com <code>git config --global user.name</code> e <code>user.email</code>",
+                  "Criar um branch chamado <code>main</code> manualmente",
+                  "Instalar o GitHub Desktop",
+                  "Gerar uma chave SSH — sem ela não é possível commitar"
+            ],
+            "correta": 0,
+            "exp": "Esse nome vai carimbado em todo commit que você fizer. A chave SSH é uma alternativa ao token, não uma obrigação."
+      },
+      {
+            "t": "aberta",
+            "enun": "Explique, para alguém que nunca usou Git, <b>por que</b> um time de software precisa disso — sem usar nenhum comando na resposta.",
+            "modelo": "<p>Uma boa resposta cobre três coisas, em linguagem de gente:</p><ul><li><b>História:</b> o projeto guarda todas as versões anteriores, com quem mudou o quê, quando e por quê. Dá pra voltar no tempo e comparar duas versões linha a linha — em vez de <code>plano_FINAL_v2_agora_vai</code>.</li><li><b>Trabalho em paralelo:</b> várias pessoas mexem no mesmo projeto ao mesmo tempo, cada uma na sua linha de trabalho, sem sobrescrever o trabalho das outras; o Git junta tudo no fim e avisa quando duas pessoas mexeram na mesma linha.</li><li><b>Um \"antes de entrar\":</b> a mudança fica separada até ser revisada e testada. É isso que permite que alguém revise, que os testes rodem automaticamente, e que só o que passou chegue na versão que vale.</li></ul><p>Se a sua resposta foi \"pra salvar o código na nuvem\", ela está incompleta: isso um Drive faz. O que o Drive não faz é história linha a linha, trabalho paralelo e revisão antes de entrar.</p>",
+            "dica": "pense no problema dos arquivos _FINAL_v2, e no que acontece quando duas pessoas mexem no mesmo arquivo."
+      }
+]
+  };
+  </script>
+  <script src="../assets/progresso.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

@@ -97,6 +97,32 @@ JOIN produtos AS pr     ON pr.id = ip.produto_id;</code></pre>
     </section>
 
     <section class="secao">
+      <div class="card pegadinhas">
+        <h2 style="margin-top:0;border:0">Pegadinhas deste módulo</h2>
+        <p style="margin-top:0;font-size:14px">
+          Os erros que quase todo mundo comete aqui. Ler agora poupa meia hora de
+          confusão depois — e alguns deles são a causa de relatório errado em projeto real.
+        </p>
+        <ul>
+          <li><b><b>A armadilha clássica:</b> filtrar a tabela da direita no <code>WHERE</code> transforma o <code>LEFT JOIN</code> num <code>INNER JOIN</code>, em silêncio.</b> <pre class="bloco" style="margin:8px 0"><code>-- ERRADO: vira INNER JOIN e perde os clientes sem pedido
+SELECT c.nome, p.id
+FROM clientes c
+LEFT JOIN pedidos p ON p.cliente_id = c.id
+WHERE p.status = 'entregue';
+
+-- CERTO: a condição vai no ON
+SELECT c.nome, p.id
+FROM clientes c
+LEFT JOIN pedidos p ON p.cliente_id = c.id AND p.status = 'entregue';</code></pre>Por quê: o <code>LEFT JOIN</code> preenche com <code>NULL</code> quem não tem par, e o <code>WHERE</code> logo em seguida descarta essas linhas — porque <code>NULL = 'entregue'</code> não é verdadeiro. O resultado parece certo e está faltando gente. <b>Regra:</b> condição sobre a tabela da direita vai no <code>ON</code>; a única exceção é <code>WHERE x IS NULL</code>, que é justamente como se procura "quem não tem".</li>
+          <li><b><code>JOIN</code> sem <code>ON</code> multiplica tudo.</b> Esquecer a condição gera o produto cartesiano: 200 pedidos × 60 clientes = 12 000 linhas. Se o resultado veio absurdamente grande, é a primeira coisa a conferir.</li>
+          <li><b><code>JOIN</code> com relação um-para-muitos duplica as linhas da esquerda.</b> Juntar <code>pedidos</code> com <code>itens_pedido</code> repete o pedido uma vez por item. Aí <code>SUM(p.valor_total)</code> soma o mesmo pedido várias vezes e infla o total. É o erro de número mais difícil de perceber, porque o resultado parece plausível.</li>
+          <li><b>Sempre qualifique a coluna quando o nome existe nas duas tabelas.</b> <code>id</code> sozinho num <code>JOIN</code> de <code>pedidos</code> com <code>clientes</code> é ambíguo — o banco reclama, ou pior, escolhe um.</li>
+          <li><b>Confira a contagem antes e depois do <code>JOIN</code>.</b> Se <code>pedidos</code> tem 200 linhas e o seu <code>JOIN</code> devolveu 512, houve duplicação. Esse hábito de dois segundos evita relatório errado.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="secao">
       <h2>Prática</h2>
       <p class="legenda">Rode com o botão ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.</p>
       <div id="schema-ref"></div>
@@ -114,6 +140,13 @@ LIMIT 10;</textarea>
         <div class="resultado" id="res-livre"></div>
       </div>
     </section>
+
+    <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
+      <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
+        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        progresso anda no começo do site. Fica salvo só no seu navegador.
+      </span>
+    </div>
 
     <nav class="acoes" style="margin-top:32px">
       <a href="modulo-3.html"><button>← Módulo 3</button></a>
@@ -164,6 +197,8 @@ LIMIT 10;</textarea>
   </script>
   <script>window.ASSETS_BASE="../assets/";window.DB_URL="pratica.db";</script>
   <script src="../assets/sql-wasm.js"></script>
+  <script src="../assets/conferir.js"></script>
+  <script src="../assets/progresso.js"></script>
   <script src="../assets/app.js"></script>
 </body>
 </html>

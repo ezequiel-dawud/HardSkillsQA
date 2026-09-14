@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fundamentos Módulo 3 — Como escolher o que testar</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ Fundamentos</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html" class="atual">3</a>
+      <a href="modulo-4.html">4</a>
+      <a href="modulo-5.html">5</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 3 — Como escolher o que testar</h1>
+    <p class="legenda">Partição de equivalência, valor limite, tabela de decisão e transição de estado — as técnicas que transformam "testar" em método</p>
+
+    <details class="card aquecimento">
+      <summary>Aquecimento — 2 perguntas do Módulo 2</summary>
+      <p class="resp"><b>1.</b> Qual a diferença entre reteste e regressão?<br>
+        <i>Reteste</i> confirma que aquele bug específico foi corrigido, seguindo os passos
+        do relatório. <i>Regressão</i> confirma que a correção não quebrou outra coisa que
+        já funcionava.</p>
+      <p class="resp"><b>2.</b> Por que cobertura de código alta não significa bem testado?<br>
+        <i>Porque cobertura mede o que foi executado, não o que foi verificado</i> — dá pra
+        rodar 100% das linhas sem nenhuma asserção sobre o resultado.</p>
+    </details>
+
+    <section class="secao">
+      <h2>O problema: por que não dá pra "testar tudo"</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          Um campo de <b>idade</b> que aceita de 0 a 120. Quantos testes pra cobrir tudo?
+          121 valores válidos, mais os negativos, mais os acima de 120, mais texto, mais
+          vazio, mais decimais, mais espaços... Só esse campo já passa de duzentos casos.
+          Agora imagine o formulário inteiro.
+        </p>
+        <p style="margin-bottom:0">
+          A saída não é testar mais rápido — é <b>testar menos, mas os certos</b>. As
+          técnicas abaixo fazem exatamente isso: reduzem centenas de casos a um punhado,
+          com um argumento explícito de por que os descartados não valiam a pena. Esse
+          argumento é o que você apresenta quando alguém pergunta "você testou tudo?".
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>1. Partição de equivalência</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          <b>A ideia:</b> valores que o sistema trata do mesmo jeito formam uma
+          <em>classe</em>. Se o código vai pelo mesmo caminho para 37 e para 45, testar os
+          dois não acrescenta nada — <b>um representante por classe basta</b>.
+        </p>
+        <p><b>Exemplo.</b> Frete de um pedido, pela regra:</p>
+        <pre class="bloco"><code>valor &lt; 100,00        → frete R$ 20,00
+valor entre 100 e 300 → frete R$ 10,00
+valor &gt; 300,00        → frete grátis</code></pre>
+        <p>As classes <b>válidas</b> são três, e cada uma precisa de um teste só:</p>
+        <table class="dados">
+          <thead><tr><th>Classe</th><th>Representante</th><th>Esperado</th></tr></thead>
+          <tbody>
+            <tr><td>abaixo de 100</td><td>R$ 50,00</td><td>frete 20,00</td></tr>
+            <tr><td>de 100 a 300</td><td>R$ 180,00</td><td>frete 10,00</td></tr>
+            <tr><td>acima de 300</td><td>R$ 500,00</td><td>frete grátis</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-bottom:0">
+          E as classes <b>inválidas</b> — que quase todo iniciante esquece: valor negativo,
+          zero, texto no lugar do número, campo vazio, valor com mais de duas casas
+          decimais. Cada uma é uma classe, cada uma merece um representante.
+          <b>Regra prática:</b> para cada classe válida que você listar, pergunte
+          "qual é o jeito errado de preencher isso?".
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>2. Análise de valor limite</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          <b>A ideia:</b> o defeito quase nunca está no meio da faixa — está na
+          <em>fronteira</em>. É onde alguém escreveu <code>&gt;</code> em vez de
+          <code>&gt;=</code>, ou esqueceu que o limite é inclusivo. Essa é, de longe, a
+          técnica com melhor retorno por esforço em teste de software.
+        </p>
+        <p>Na mesma regra de frete, as fronteiras interessantes são:</p>
+        <table class="dados">
+          <thead><tr><th>Valor</th><th>Por quê</th><th>Esperado</th></tr></thead>
+          <tbody>
+            <tr><td>99,99</td><td>logo abaixo da primeira fronteira</td><td>frete 20,00</td></tr>
+            <tr><td><b>100,00</b></td><td>exatamente na fronteira — o caso que mais quebra</td><td>frete 10,00</td></tr>
+            <tr><td>100,01</td><td>logo acima</td><td>frete 10,00</td></tr>
+            <tr><td>299,99</td><td>logo abaixo da segunda fronteira</td><td>frete 10,00</td></tr>
+            <tr><td><b>300,00</b></td><td>na fronteira</td><td>frete 10,00 (a regra diz "entre 100 e 300")</td></tr>
+            <tr><td>300,01</td><td>logo acima</td><td>frete grátis</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-bottom:0">
+          Repare que a linha do <b>300,00</b> obriga você a reler o requisito. "Entre 100 e
+          300" inclui o 300? E o 100? Se a especificação não responde, você acabou de achar
+          uma <b>ambiguidade</b> — e isso vale mais do que um bug, porque impede que o
+          defeito seja escrito. Leve a pergunta pro refinamento.
+        </p>
+      </div>
+
+      <div class="card pegadinhas">
+        <h3 style="margin-top:0">Limites que ninguém escreve no requisito</h3>
+        <ul>
+          <li><b>Zero</b> — quantidade 0, valor 0, lista vazia, carrinho sem itens.
+            <i>O exercício 6.1 da trilha de SQL existe por causa disso: pedido não
+            cancelado com <code>valor_total = 0</code>.</i></li>
+          <li><b>Vazio e nulo</b> — campo em branco, campo nunca preenchido
+            (<code>NULL</code>), string só com espaços. Não são a mesma coisa.</li>
+          <li><b>Um só</b> — a lista com exatamente 1 item costuma quebrar paginação e
+            concordância de texto ("1 itens").</li>
+          <li><b>Tamanho máximo</b> — o nome com 255 caracteres, e o com 256.</li>
+          <li><b>Datas</b> — 29 de fevereiro, virada de ano, fuso horário, horário de verão.</li>
+          <li><b>Acentos e emoji</b> — "José", "Ação", "🙂" em campo de texto.</li>
+        </ul>
+        <p style="margin-bottom:0">Esta lista sozinha já encontra bug em quase qualquer formulário novo.</p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>3. Tabela de decisão</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          <b>Quando usar:</b> a regra combina várias condições e o resultado depende da
+          combinação — não de cada uma isolada. Aí listar "testei cliente VIP" e "testei
+          cupom" não basta: o defeito mora no cruzamento.
+        </p>
+        <p><b>Exemplo.</b> Desconto no checkout:</p>
+        <pre class="bloco"><code>Cliente VIP  →  10% de desconto
+Cupom válido →  15% de desconto
+Os dois      →  20% (não soma os dois)
+Nenhum       →  sem desconto</code></pre>
+        <table class="dados">
+          <thead>
+            <tr><th>Caso</th><th>É VIP?</th><th>Cupom válido?</th><th>Desconto esperado</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>não</td><td>não</td><td>0%</td></tr>
+            <tr><td>2</td><td>não</td><td>sim</td><td>15%</td></tr>
+            <tr><td>3</td><td>sim</td><td>não</td><td>10%</td></tr>
+            <tr><td>4</td><td>sim</td><td>sim</td><td><b>20%</b> — não 25%</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-bottom:0">
+          Com 2 condições dão 4 casos; com 3, dão 8. A tabela força você a olhar todas as
+          combinações e a perceber as que ninguém especificou. O <b>caso 4</b> é o clássico:
+          é onde o sistema soma 10 + 15 e dá 25% por engano — e ninguém tinha escrito o que
+          deveria acontecer.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>4. Transição de estado</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          <b>Quando usar:</b> a coisa testada tem <em>estados</em> e só pode andar por
+          certos caminhos. O defeito não está num estado — está numa <b>transição que
+          deveria ser proibida e não é</b>.
+        </p>
+        <p>
+          Use o pedido do banco deste curso, que tem exatamente esses estados na coluna
+          <code>status</code>:
+        </p>
+        <pre class="bloco"><code>  novo ──→ pago ──→ enviado ──→ entregue
+    │        │
+    └────────┴──→ cancelado</code></pre>
+        <p>Dois grupos de teste saem direto do desenho:</p>
+        <ul>
+          <li><b>Transições válidas</b> — uma por seta. novo→pago, pago→enviado,
+            enviado→entregue, novo→cancelado, pago→cancelado.</li>
+          <li><b>Transições inválidas</b> — o que <em>não</em> tem seta, e é aqui que mora
+            o dinheiro:
+            <ul>
+              <li><code>entregue → cancelado</code> — dá pra cancelar o que já foi entregue?</li>
+              <li><code>novo → entregue</code> — dá pra pular o pagamento?</li>
+              <li><code>cancelado → pago</code> — dá pra pagar um pedido cancelado?</li>
+              <li><code>entregue → entregue</code> — entregar duas vezes gera dois e-mails?</li>
+            </ul>
+          </li>
+        </ul>
+        <p style="margin-bottom:0">
+          <b>Por que isso importa tanto:</b> a interface normalmente esconde os botões
+          proibidos — mas a API não. Trocar o status direto pela API, ou clicar duas vezes
+          rápido, é como esses defeitos aparecem na vida real. <i>Na trilha de Teste de API
+          você faz exatamente isso; na de SQL, você confere o estado resultante no banco.</i>
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>5. Quando há combinação demais: teste por pares</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          4 navegadores × 3 sistemas × 3 perfis × 2 idiomas = 72 combinações. Testar todas
+          é inviável; testar uma só é ingênuo.
+        </p>
+        <p style="margin-bottom:0">
+          O <b>teste por pares</b> (<i>pairwise</i>) parte de uma constatação empírica: a
+          grande maioria dos defeitos de combinação aparece na interação de <b>apenas duas</b>
+          variáveis, não de quatro. Então basta montar um conjunto onde <em>cada par de
+          valores</em> apareça ao menos uma vez — o que costuma derrubar as 72 combinações
+          para menos de 15. Existem ferramentas que geram esse conjunto (PICT, AllPairs).
+          Guarde o nome: é uma resposta forte quando perguntarem "e se for muita combinação?".
+        </p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Juntando tudo: um caso real</h2>
+      <div class="card card-info">
+        <p style="margin-top:0">
+          <b>História:</b> "Como cliente, quero aplicar um cupom de desconto no carrinho.
+          O cupom tem 8 caracteres, vale para compras a partir de R$ 50,00, e cada cliente
+          pode usar um cupom por pedido."
+        </p>
+        <p>Passando as quatro técnicas por cima, em ordem:</p>
+        <table class="dados">
+          <thead><tr><th>Técnica</th><th>O que ela faz aparecer</th></tr></thead>
+          <tbody>
+            <tr><td><b>Partição</b></td><td>cupom válido; cupom inexistente; cupom expirado; cupom já usado; campo vazio; cupom com 7 e com 9 caracteres</td></tr>
+            <tr><td><b>Valor limite</b></td><td>carrinho de R$ 49,99 / <b>R$ 50,00</b> / R$ 50,01; cupom com exatamente 8 caracteres; carrinho vazio (R$ 0)</td></tr>
+            <tr><td><b>Tabela de decisão</b></td><td>cupom válido × valor suficiente: as 4 combinações — e o que a mensagem deve dizer em cada uma</td></tr>
+            <tr><td><b>Transição de estado</b></td><td>aplicar cupom → remover → aplicar de novo; aplicar dois cupons seguidos; aplicar cupom e depois esvaziar o carrinho abaixo de R$ 50</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-bottom:0">
+          Repare no último: <b>aplicar o cupom e depois remover itens até o carrinho cair
+          abaixo de R$ 50</b>. Nenhuma leitura ingênua da história produz esse caso — a
+          técnica produziu. É esse o ponto de usar método em vez de intuição.
+        </p>
+      </div>
+
+      <div class="card" style="border-left:3px solid var(--acento)">
+        <h3 style="margin-top:0">Olhar de QA</h3>
+        <p style="margin-bottom:0">
+          Essas técnicas rendem duas vezes. A primeira é óbvia: bons casos de teste.
+          A segunda é a que te faz notar — <b>elas expõem o que o requisito não diz</b>.
+          Toda vez que você preenche uma linha da tabela e não sabe o que escrever na coluna
+          "esperado", você achou uma ambiguidade. Levar cinco dessas pro refinamento é o
+          trabalho de QA mais barato e mais valioso que existe.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Sua vez</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          Pegue este requisito e escreva os casos de teste, dizendo qual técnica gerou cada um:
+        </p>
+        <p style="border-left:3px solid var(--acento);padding-left:14px">
+          <i>"O campo <b>quantidade</b> de um item no carrinho aceita de 1 a 99 unidades.
+          Acima do estoque disponível, o sistema deve avisar e limitar à quantidade em
+          estoque."</i>
+        </p>
+        <p style="margin-bottom:0" class="legenda">
+          Faça antes de abrir a prova — a questão aberta dela é exatamente esta, com uma
+          resposta modelo pra você comparar.
+        </p>
+      </div>
+    </section>
+
+    <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
+      <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
+        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        progresso anda no começo do site. Fica salvo só no seu navegador.
+      </span>
+    </div>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="modulo-2.html"><button>← Módulo 2</button></a>
+      <a href="prova-3.html"><button>📝 Prova do módulo</button></a>
+      <a href="modulo-4.html"><button class="primario">Módulo 4 →</button></a>
+    </nav>
+  </main>
+  <script src="../assets/progresso.js"></script>
+</body>
+</html>

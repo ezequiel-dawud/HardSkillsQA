@@ -102,10 +102,26 @@ pytest --lf                        # só os que falharam na última rodada</code
       </div>
     </section>
 
+    <section class="secao">
+      <div class="card" style="border-left:3px solid var(--acento)">
+        <h2 style="margin-top:0;border:0">Olhar de QA</h2>
+        <p style="margin-bottom:0">A fixture que copia o banco antes de cada teste não é detalhe técnico — é <b>isolamento</b>, e isolamento é o que separa uma suíte confiável de uma que falha sozinha às terças. Teste que depende do que o teste anterior deixou vai falhar um dia, sem ninguém entender o porquê, e é assim que um time deixa de confiar no vermelho.</p>
+      </div>
+    </section>
+
+    <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
+      <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
+        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        progresso anda no começo do site. Fica salvo só no seu navegador.
+      </span>
+    </div>
+
     <nav class="acoes" style="margin-top:32px">
       <a href="modulo-1.html"><button>← Módulo 1</button></a>
+      <a href="prova-2.html"><button>📝 Prova do módulo</button></a>
       <a href="modulo-3.html"><button class="primario">Módulo 3 →</button></a>
     </nav>
   </main>
+  <script src="../assets/progresso.js"></script>
 </body>
 </html>

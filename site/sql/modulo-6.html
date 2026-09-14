@@ -81,6 +81,23 @@ LIMIT 1;</code></pre>
     </section>
 
     <section class="secao">
+      <div class="card pegadinhas">
+        <h2 style="margin-top:0;border:0">Pegadinhas deste módulo</h2>
+        <p style="margin-top:0;font-size:14px">
+          Os erros que quase todo mundo comete aqui. Ler agora poupa meia hora de
+          confusão depois — e alguns deles são a causa de relatório errado em projeto real.
+        </p>
+        <ul>
+          <li><b>Zero linhas pode significar "está tudo certo" ou "a query está errada".</b> São duas conclusões opostas para o mesmo resultado. Antes de dizer "não há inconsistência", <b>prove que a query funciona</b>: rode uma versão sem o filtro, ou com o filtro invertido, e veja se ela consegue devolver alguma coisa.</li>
+          <li><b>Comparar número decimal com <code>=</code> falha por arredondamento.</b> <code>valor_total = SUM(quantidade * preco_unitario)</code> pode dar diferente por casas decimais invisíveis. Use <code>ROUND(..., 2)</code> dos dois lados, ou compare a diferença absoluta contra uma tolerância.</li>
+          <li><b>Achar a linha errada é metade do trabalho.</b> A outra metade é decidir se o <b>dado</b> está torto ou se a <b>regra</b> que você assumiu está errada. Antes de abrir o defeito, confirme qual é a regra — às vezes o defeito está na especificação (Fundamentos, Módulo 5).</li>
+          <li><b>Métrica sem denominador engana.</b> "40 defeitos no checkout" não diz nada sem saber quantas entregas houve. Prefira taxas, e diga sempre o período e o recorte.</li>
+          <li><b>A média esconde o caso ruim.</b> Tempo médio de correção de 3 dias pode conter um defeito parado há 200. Olhe também o máximo e a mediana antes de apresentar o número.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="secao">
       <h2>Prática — validação de dados</h2>
       <p class="legenda">Rode com o botão ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.</p>
       <div id="schema-ref"></div>
@@ -96,6 +113,20 @@ LIMIT 1;</code></pre>
         <div class="resultado" id="res-livre"></div>
       </div>
     </section>
+
+    <section class="secao">
+      <div class="card" style="border-left:3px solid var(--acento)">
+        <h2 style="margin-top:0;border:0">Olhar de QA</h2>
+        <p style="margin-bottom:0">Aqui está a habilidade que mais rende na carreira: achar, sozinho, a linha que viola a regra. Mas guarde duas cautelas. A primeira: <b>zero linhas pode significar "está tudo certo" ou "a sua query está errada"</b> — prove que a consulta funciona antes de concluir. A segunda: achar a linha torta é metade do trabalho; a outra metade é decidir se o defeito está no dado ou na regra que você assumiu. Às vezes ele está na especificação.</p>
+      </div>
+    </section>
+
+    <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
+      <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
+        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        progresso anda no começo do site. Fica salvo só no seu navegador.
+      </span>
+    </div>
 
     <nav class="acoes" style="margin-top:32px">
       <a href="modulo-5.html"><button>← Módulo 5</button></a>
@@ -154,6 +185,8 @@ LIMIT 1;</code></pre>
   </script>
   <script>window.ASSETS_BASE="../assets/";window.DB_URL="pratica.db";</script>
   <script src="../assets/sql-wasm.js"></script>
+  <script src="../assets/conferir.js"></script>
+  <script src="../assets/progresso.js"></script>
   <script src="../assets/app.js"></script>
 </body>
 </html>

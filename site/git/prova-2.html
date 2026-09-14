@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 2 (Git)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ Git / Provas</span></div>
+    <nav>
+      <a href="prova-1.html">1</a>
+      <a href="prova-2.html" class="atual">2</a>
+      <a href="prova-3.html">3</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 2</h1>
+    <p class="legenda">As três áreas, status/add/commit/push, branch, diff e log. &nbsp;<a href="modulo-2.html">← rever o módulo</a></p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 2", trilha: "git", modulo: 2, indiceHref: "index.html",
+    questoes: [
+      {
+            "t": "mc",
+            "enun": "Para que serve a área de preparo (<i>staging</i>), entre os seus arquivos e a história?",
+            "ops": [
+                  "Para escolher <b>o que entra em cada commit</b>, permitindo separar mudanças diferentes em commits diferentes",
+                  "Para guardar uma cópia de segurança antes do commit",
+                  "Para comprimir os arquivos antes de enviar ao servidor",
+                  "Para revisar automaticamente o código em busca de erros"
+            ],
+            "correta": 0,
+            "exp": "Commit é uma unidade de sentido, não um backup do fim do dia. Mexeu em cinco arquivos por dois motivos diferentes? Dois commits."
+      },
+      {
+            "t": "mc",
+            "enun": "Qual comando mostra em que branch você está, o que foi modificado e o que já está preparado?",
+            "ops": [
+                  "<code>git status</code>",
+                  "<code>git log</code>",
+                  "<code>git diff</code>",
+                  "<code>git show</code>"
+            ],
+            "correta": 0,
+            "exp": "É o comando que você mais vai usar. Na dúvida sobre qualquer coisa: <code>git status</code>."
+      },
+      {
+            "t": "mc",
+            "enun": "Qual destas mensagens de commit presta?",
+            "ops": [
+                  "<code>corrige domínio de status aceito no teste de pedidos</code>",
+                  "<code>ajustes</code>",
+                  "<code>agora vai</code>",
+                  "<code>alterações do dia 12</code>"
+            ],
+            "correta": 0,
+            "exp": "A mensagem é para quem vai ler o histórico daqui a seis meses — muitas vezes você. Diga o que a mudança faz."
+      },
+      {
+            "t": "mc",
+            "enun": "Você editou um arquivo e fez <code>git commit</code>. Onde a mudança está?",
+            "ops": [
+                  "Só na sua máquina — ela só chega ao GitHub depois de <code>git push</code>",
+                  "Já no GitHub, visível para o time",
+                  "Na área de preparo, aguardando o <code>git add</code>",
+                  "Em nenhum lugar ainda: falta aprovar o Pull Request"
+            ],
+            "correta": 0,
+            "exp": "Enquanto não há push, tudo vive local. É depois do push que o CI começa a rodar."
+      },
+      {
+            "t": "mc",
+            "enun": "Qual a razão principal, do ponto de vista de QA, para trabalhar em <b>branch</b> e não direto na <code>main</code>?",
+            "ops": [
+                  "Porque o branch cria o \"antes de entrar\": o CI roda e o PR mostra o resultado, e a <code>main</code> só recebe o que passou",
+                  "Porque a <code>main</code> é protegida pelo Git e não aceita commits",
+                  "Porque os commits em branch ficam menores",
+                  "Porque só em branch é possível desfazer mudanças"
+            ],
+            "correta": 0,
+            "exp": "Sem branch, todo mundo escreve por cima do mesmo lugar e não existe momento de testar antes."
+      },
+      {
+            "t": "mc",
+            "enun": "Apareceu <code>CONFLICT (content): Merge conflict in helpers.py</code>. O que aconteceu?",
+            "ops": [
+                  "Duas pessoas mudaram a mesma linha do arquivo; você precisa editar o trecho marcado, deixar como deve ficar e commitar",
+                  "O arquivo foi corrompido e precisa ser baixado de novo",
+                  "Você não tem permissão para editar esse arquivo",
+                  "O Git perdeu as suas alterações e é preciso refazê-las"
+            ],
+            "correta": 0,
+            "exp": "O Git marca o trecho com <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> / <code>=======</code> / <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>. Nada foi perdido — é você quem decide como fica."
+      },
+      {
+            "t": "mc",
+            "enun": "Qual comando responde à pergunta \"quais commits mexeram na pasta <code>trilha-3/</code>?\"",
+            "ops": [
+                  "<code>git log --oneline -- trilha-3/</code>",
+                  "<code>git status trilha-3/</code>",
+                  "<code>git add trilha-3/</code>",
+                  "<code>git restore trilha-3/</code>"
+            ],
+            "correta": 0,
+            "exp": "Saber restringir o log a um caminho é o que permite responder \"o que mudou na área que eu testo?\" sem perguntar pra ninguém."
+      },
+      {
+            "t": "aberta",
+            "enun": "Você é QA e recebeu a tarefa de testar uma entrega. Descreva, em passos, como usar o Git para descobrir <b>o que exatamente mudou</b> — e o que você procuraria.",
+            "modelo": "<p><b>Como descobrir:</b></p><ol><li><code>git switch main</code> e <code>git pull</code> — partir da versão atual.</li><li><code>git log --oneline -20</code> — ver os commits recentes e suas mensagens.</li><li><code>git log --oneline -- caminho/da/area</code> — restringir à área que te interessa.</li><li><code>git show &lt;hash&gt;</code> ou a aba <b>Files changed</b> do PR — ver as linhas em si.</li></ol><p><b>O que procurar no diff</b> (é aqui que está o valor):</p><ul><li><b>Arquivos fora do escopo</b> — a história era sobre carrinho e o diff mexe em autenticação? Pergunte.</li><li><b>Números que mudaram</b> — limites, percentuais, tamanhos máximos. Cada um é um caso de valor limite.</li><li><b>Condições que mudaram</b> — um <code>&gt;</code> que virou <code>&gt;=</code>, um <code>and</code> que virou <code>or</code>. São as mudanças de uma linha que mais causam defeito.</li><li><b>Linhas removidas</b> — uma validação apagada é um caminho que ficou aberto.</li><li><b>Veio teste junto?</b> Mudança de comportamento sem nenhum teste novo é pergunta legítima na revisão.</li><li><b>Migração de banco?</b> Então há risco de dados — vale conferir no banco depois de subir.</li></ul><p>Se a sua resposta parou em \"leio os commits\", falta a segunda metade: o valor está em <b>o que você procura</b> no diff, não em conseguir abri-lo.</p>",
+            "dica": "dois blocos: os comandos, e depois o que você examina no resultado."
+      }
+]
+  };
+  </script>
+  <script src="../assets/progresso.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

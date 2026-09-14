@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Git Módulo 2 — O ciclo do dia a dia</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ Git</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html" class="atual">2</a>
+      <a href="modulo-3.html">3</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 2 — O ciclo do dia a dia</h1>
+    <p class="legenda">status, add, commit, push — e branch, que é o que separa quem entendeu Git de quem decorou comandos</p>
+
+    <details class="card aquecimento">
+      <summary>Aquecimento — 2 perguntas do Módulo 1</summary>
+      <p class="resp"><b>1.</b> Qual a diferença entre Git e GitHub?<br>
+        <i>Git</i> é o programa de controle de versão que roda na sua máquina. <i>GitHub</i>
+        é um site que hospeda repositórios Git e acrescenta Pull Request, revisão e CI.</p>
+      <p class="resp"><b>2.</b> Por que fazer fork em vez de só clonar?<br>
+        <i>Porque você não tem permissão de enviar mudanças no repositório de outra pessoa.</i>
+        O fork cria uma cópia na sua conta, onde você manda — e onde o CI roda com o seu nome.</p>
+    </details>
+
+    <section class="secao">
+      <h2>As três áreas</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          Este é o modelo mental que faz todo o resto encaixar. Um arquivo modificado passa
+          por três lugares antes de virar história:
+        </p>
+        <pre class="bloco"><code>  seus arquivos          área de preparo          história local        servidor
+  (working dir)          (staging / index)        (repositório)         (GitHub)
+
+   você edita  ──git add──→   selecionado   ──git commit──→   salvo  ──git push──→  publicado
+                                                                │
+                                                                └──git pull──  o que os outros fizeram</code></pre>
+        <p style="margin-bottom:0">
+          A área do meio é a que confunde todo mundo no começo. Ela existe para você
+          <b>escolher o que entra em cada commit</b>: mexeu em cinco arquivos, mas só três
+          fazem parte da mesma ideia? Adicione só esses três, faça o commit, e depois trate
+          os outros dois em separado. Commit é uma <em>unidade de sentido</em>, não um
+          backup do fim do dia.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>O ciclo, comando por comando</h2>
+      <div class="card">
+        <h3 style="margin-top:0"><code>git status</code> — onde estou?</h3>
+        <p>
+          O comando que você mais vai usar. Rode antes e depois de qualquer coisa: ele diz
+          em que branch você está, o que foi modificado, o que já está preparado e o que o
+          Git está ignorando. <b>Na dúvida, <code>git status</code>.</b>
+        </p>
+
+        <h3><code>git add</code> — o que entra neste commit</h3>
+        <pre class="bloco"><code>git add trilha-3/test_04_meus_testes.py   # um arquivo específico
+git add trilha-3/                         # tudo dentro de uma pasta
+git add .                                 # tudo que mudou (cuidado)</code></pre>
+        <p>
+          <code>git add .</code> é prático e perigoso: ele varre tudo, inclusive arquivo
+          temporário e senha que você deixou num arquivo de teste. Prefira nomear os
+          arquivos enquanto está aprendendo.
+        </p>
+
+        <h3><code>git commit</code> — salvar na história</h3>
+        <pre class="bloco"><code>git commit -m "adiciona teste de unicidade de id nas tabelas principais"</code></pre>
+        <p>
+          A mensagem é para a pessoa que vai ler o histórico daqui a seis meses — muitas
+          vezes você. Diga <b>o que a mudança faz</b>, no presente:
+        </p>
+        <table class="dados">
+          <thead><tr><th>Ruim</th><th>Bom</th></tr></thead>
+          <tbody>
+            <tr><td><code>ajustes</code></td><td><code>corrige domínio de status aceito no teste de pedidos</code></td></tr>
+            <tr><td><code>teste</code></td><td><code>adiciona teste de defeito fechado sem data_fechamento</code></td></tr>
+            <tr><td><code>agora vai</code></td><td><code>remove xfail do teste de valor_total após correção do seed</code></td></tr>
+          </tbody>
+        </table>
+
+        <h3><code>git push</code> — publicar</h3>
+        <pre class="bloco"><code>git push                       # envia os commits do branch atual
+git push -u origin meu-branch  # na primeira vez de um branch novo</code></pre>
+        <p style="margin-bottom:0">
+          Enquanto você não dá push, tudo vive só na sua máquina. Depois do push, está no
+          GitHub — e é aí que o <b>CI começa a rodar</b>.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>Branch: por que não trabalhar direto na <code>main</code></h2>
+      <div class="card">
+        <p style="margin-top:0">
+          Um <b>branch</b> é uma linha paralela de trabalho. Você sai da <code>main</code>,
+          faz suas mudanças isoladas, e só depois propõe juntar de volta.
+        </p>
+        <pre class="bloco"><code>main      ──●──●──●─────────────●──  ← sempre estável, é o que vale
+                  \             /
+meu-branch         ●──●──●─────    ← você trabalha aqui, sem risco</code></pre>
+        <pre class="bloco"><code>git switch -c teste-unicidade-ids   # cria e entra no branch novo
+#  ... edita, git add, git commit ...
+git push -u origin teste-unicidade-ids</code></pre>
+        <p>
+          <i>(Em Git mais antigo o comando era <code>git checkout -b nome</code>. Os dois
+          funcionam.)</i>
+        </p>
+        <p style="margin-bottom:0">
+          <b>Por que isso importa pra QA:</b> é o branch que torna possível testar uma
+          mudança <em>antes</em> de ela entrar no que vale. O CI roda no branch, o Pull
+          Request mostra o resultado, e a <code>main</code> só recebe o que passou. Sem
+          branch, todo mundo escreve por cima do mesmo lugar e não existe "antes de entrar".
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">Trazer o que os outros fizeram</h3>
+        <pre class="bloco"><code>git switch main     # volta pro branch principal
+git pull            # baixa o que mudou no servidor</code></pre>
+        <p style="margin-bottom:0">
+          Faça isso <b>antes</b> de criar um branch novo, pra partir da versão mais recente.
+          É o hábito que evita a maior parte dos conflitos.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>Ler o que mudou — a parte mais útil pra QA</h2>
+      <div class="card">
+        <pre class="bloco"><code>git diff                     # o que você mudou e ainda não preparou
+git diff --staged            # o que está preparado pro commit
+git log --oneline -10        # os 10 últimos commits
+git log --oneline -- trilha-3/   # só os commits que tocaram nessa pasta
+git show a1b2c3d             # tudo o que aquele commit mudou</code></pre>
+        <p style="margin-bottom:0">
+          No diff, <code>-</code> (vermelho) é linha removida e <code>+</code> (verde) é
+          linha adicionada. Saber ler isso é o que permite responder à pergunta que abre
+          todo trabalho de teste: <b>o que exatamente mudou?</b>
+        </p>
+      </div>
+
+      <div class="card pegadinhas">
+        <h3 style="margin-top:0">Situações que assustam (e não são graves)</h3>
+        <table class="dados">
+          <thead><tr><th>Situação</th><th>O que fazer</th></tr></thead>
+          <tbody>
+            <tr><td>Abriu uma tela estranha de editor no terminal (o <code>vim</code>)</td><td>Aconteceu porque você fez <code>git commit</code> sem <code>-m</code>. Aperte <kbd>Esc</kbd>, digite <code>:wq</code> e <kbd>Enter</kbd>.</td></tr>
+            <tr><td>Commitei no branch errado</td><td>Não se desespere: o commit está salvo. Peça ajuda ou pesquise "git cherry-pick" — nada foi perdido.</td></tr>
+            <tr><td>Quero descartar o que editei num arquivo</td><td><code>git restore nome-do-arquivo</code> devolve o arquivo ao último commit. <b>Perde o que você escreveu</b> — confira antes.</td></tr>
+            <tr><td><code>CONFLICT (content): Merge conflict in ...</code></td><td>Duas pessoas mudaram a mesma linha. O Git marca o trecho com <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> / <code>=======</code> / <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>: edite o arquivo deixando como deve ficar, apague os marcadores, e faça <code>git add</code> + <code>git commit</code>.</td></tr>
+            <tr><td>Push recusado: <code>rejected — fetch first</code></td><td>Alguém publicou algo antes de você. Rode <code>git pull</code>, resolva se houver conflito, e dê push de novo.</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-bottom:0">
+          <b>A regra de ouro:</b> commit feito é commit salvo. É muito difícil perder
+          trabalho já commitado no Git — o que se perde é o que nunca foi commitado.
+          Commite com frequência.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Sua vez</h2>
+      <div class="card">
+        <p style="margin-top:0">Faça o ciclo completo, no seu fork:</p>
+        <ol>
+          <li><code>git switch main</code> e <code>git pull</code></li>
+          <li>Crie o branch: <code>git switch -c meu-primeiro-branch</code></li>
+          <li>Crie um arquivo <code>ANOTACOES.md</code> na raiz e escreva três linhas sobre
+            o que você aprendeu na trilha de Fundamentos</li>
+          <li><code>git status</code> — veja o arquivo aparecer como não rastreado</li>
+          <li><code>git add ANOTACOES.md</code> e <code>git status</code> de novo — veja a diferença</li>
+          <li><code>git commit -m "adiciona anotações da trilha de fundamentos"</code></li>
+          <li><code>git log --oneline -3</code> — encontre o seu commit</li>
+          <li><code>git push -u origin meu-primeiro-branch</code></li>
+          <li>Abra o seu repositório no GitHub: o branch e o commit devem estar lá</li>
+        </ol>
+        <p style="margin-bottom:0" class="legenda">
+          Deixe esse branch publicado — o Módulo 3 começa exatamente dele.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <div class="card" style="border-left:3px solid var(--acento)">
+        <h2 style="margin-top:0;border:0">Olhar de QA</h2>
+        <p style="margin-bottom:0">O comando que mais vale pra QA neste módulo não é o <code>commit</code> — é o <code>git log</code> restrito a um caminho e o <code>git diff</code>. Eles respondem sozinhos a pergunta que abre todo trabalho de teste: <b>o que exatamente mudou?</b> Enquanto você depende de alguém te contar, a lista que você recebe nunca é a completa.</p>
+      </div>
+    </section>
+
+    <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
+      <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
+        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        progresso anda no começo do site. Fica salvo só no seu navegador.
+      </span>
+    </div>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="modulo-1.html"><button>← Módulo 1</button></a>
+      <a href="prova-2.html"><button>📝 Prova do módulo</button></a>
+      <a href="modulo-3.html"><button class="primario">Módulo 3 →</button></a>
+    </nav>
+  </main>
+  <script src="../assets/progresso.js"></script>
+</body>
+</html>

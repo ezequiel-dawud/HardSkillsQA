@@ -137,6 +137,23 @@ WHERE id IN (
     </section>
 
     <section class="secao">
+      <div class="card pegadinhas">
+        <h2 style="margin-top:0;border:0">Pegadinhas deste módulo</h2>
+        <p style="margin-top:0;font-size:14px">
+          Os erros que quase todo mundo comete aqui. Ler agora poupa meia hora de
+          confusão depois — e alguns deles são a causa de relatório errado em projeto real.
+        </p>
+        <ul>
+          <li><b>Zero linhas pode significar "está tudo certo" ou "a query está errada".</b> São duas conclusões opostas para o mesmo resultado. Antes de dizer "não há inconsistência", <b>prove que a query funciona</b>: rode uma versão sem o filtro, ou com o filtro invertido, e veja se ela consegue devolver alguma coisa.</li>
+          <li><b>Comparar número decimal com <code>=</code> falha por arredondamento.</b> <code>valor_total = SUM(quantidade * preco_unitario)</code> pode dar diferente por casas decimais invisíveis. Use <code>ROUND(..., 2)</code> dos dois lados, ou compare a diferença absoluta contra uma tolerância.</li>
+          <li><b>Achar a linha errada é metade do trabalho.</b> A outra metade é decidir se o <b>dado</b> está torto ou se a <b>regra</b> que você assumiu está errada. Antes de abrir o defeito, confirme qual é a regra — às vezes o defeito está na especificação (Fundamentos, Módulo 5).</li>
+          <li><b>Métrica sem denominador engana.</b> "40 defeitos no checkout" não diz nada sem saber quantas entregas houve. Prefira taxas, e diga sempre o período e o recorte.</li>
+          <li><b>A média esconde o caso ruim.</b> Tempo médio de correção de 3 dias pode conter um defeito parado há 200. Olhe também o máximo e a mediana antes de apresentar o número.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="secao">
       <h2>Prática</h2>
       <p class="legenda">Escreva a query e clique <strong>Rodar</strong> (ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>).</p>
       <div id="schema-ref" data-aberto></div>
@@ -157,6 +174,20 @@ LIMIT 10;</textarea>
         <div class="resultado" id="res-livre"></div>
       </div>
     </section>
+
+    <section class="secao">
+      <div class="card" style="border-left:3px solid var(--acento)">
+        <h2 style="margin-top:0;border:0">Olhar de QA</h2>
+        <p style="margin-bottom:0">Funções de texto e data são onde o dado sujo aparece: espaço sobrando no fim do nome, e-mail com maiúscula, data guardada como texto em formato inconsistente. Na prática, <b>boa parte do que parece bug de sistema é dado mal normalizado</b> — e conseguir provar isso com uma consulta, em vez de suspeitar, muda a conversa com o time inteiro.</p>
+      </div>
+    </section>
+
+    <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
+      <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
+        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        progresso anda no começo do site. Fica salvo só no seu navegador.
+      </span>
+    </div>
 
     <nav class="acoes" style="margin-top:32px">
       <a href="modulo-5.html"><button>← Módulo 5</button></a>
@@ -214,6 +245,8 @@ LIMIT 10;</textarea>
       gabarito: "SELECT DISTINCT pr.nome\nFROM produtos pr\nWHERE pr.id IN (\n  SELECT i.produto_id\n  FROM itens_pedido i\n  JOIN pedidos p ON p.id = i.pedido_id\n  WHERE p.status = 'cancelado'\n)\nORDER BY pr.nome;" },
   ];
   </script>
+  <script src="../assets/conferir.js"></script>
+  <script src="../assets/progresso.js"></script>
   <script type="module" src="app-pg.js"></script>
 </body>
 </html>

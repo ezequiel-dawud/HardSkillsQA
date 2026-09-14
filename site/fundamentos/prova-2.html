@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 2 (Fundamentos)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ Fundamentos / Provas</span></div>
+    <nav>
+      <a href="prova-1.html">1</a>
+      <a href="prova-2.html" class="atual">2</a>
+      <a href="prova-3.html">3</a>
+      <a href="prova-4.html">4</a>
+      <a href="prova-5.html">5</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 2</h1>
+    <p class="legenda">Níveis, tipos, caixa-preta × caixa-branca, smoke/regressão/reteste, a pirâmide. &nbsp;<a href="modulo-2.html">← rever o módulo</a></p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 2", trilha: "fundamentos", modulo: 2, indiceHref: "index.html",
+    questoes: [
+      { t: "mc",
+        enun: "Um teste confere se, ao salvar um pedido pela aplicação, a linha correspondente aparece na tabela <code>pedidos</code> com o valor certo. Em que nível ele está?",
+        ops: [
+          "Integração — duas peças (aplicação e banco) sendo exercitadas juntas",
+          "Unitário — testa uma função só",
+          "Aceite — confirma a necessidade de negócio",
+          "Sistema — exercita a aplicação inteira" ],
+        correta: 0,
+        exp: "Unitário roda isolado, sem banco. Aqui há duas peças conversando: é integração — exatamente o nível das trilhas de SQL e pytest." },
+
+      { t: "mc",
+        enun: "\"Teste de performance\" e \"teste de sistema\" são classificações do mesmo tipo?",
+        ops: [
+          "Não: performance é um <b>tipo</b> (que característica se investiga) e sistema é um <b>nível</b> (quanto do sistema é exercitado)",
+          "Sim: são dois níveis de teste diferentes",
+          "Sim: são dois tipos de teste não-funcional",
+          "Não: performance é caixa-branca e sistema é caixa-preta" ],
+        correta: 0,
+        exp: "São eixos independentes. Dá pra ter teste de performance no nível de componente e no nível de sistema." },
+
+      { t: "mc",
+        enun: "O defeito \"trocando o id na URL, consigo ver o pedido de outro cliente\" é de que tipo?",
+        ops: [ "Segurança", "Usabilidade", "Compatibilidade", "Confiabilidade" ],
+        correta: 0,
+        exp: "Acesso a dado que não deveria estar disponível é falha de segurança (controle de autorização). É um dos defeitos mais caros que existe." },
+
+      { t: "mc",
+        enun: "Corrigiram um bug do carrinho. Você executa de novo os passos do relatório e confirma que o problema sumiu. Como se chama isso — e o que ainda falta?",
+        ops: [
+          "É <b>reteste</b>; ainda falta a <b>regressão</b>, para ver se a correção não quebrou outra coisa",
+          "É <b>regressão</b>; ainda falta o <b>reteste</b> dos módulos vizinhos",
+          "É <b>smoke</b>; ainda falta o teste de aceite",
+          "É reteste, e com ele o trabalho está completo" ],
+        correta: 0,
+        exp: "Reteste confirma que <i>aquele</i> bug morreu. Regressão confirma que a correção não matou outra coisa. Fazer só o primeiro é o erro mais comum." },
+
+      { t: "mc",
+        enun: "Uma equipe tem quase nenhum teste unitário, centenas de testes de interface lentos e muito teste manual por cima. Como se chama esse padrão e qual o sintoma típico?",
+        ops: [
+          "Casquinha de sorvete (pirâmide invertida) — suíte lenta, falhas intermitentes e ninguém confiando no vermelho",
+          "Pirâmide de testes — o padrão recomendado",
+          "Teste baseado em risco — concentra esforço onde o usuário está",
+          "Shift left — antecipação de testes para o começo do ciclo" ],
+        correta: 0,
+        exp: "A pirâmide pede volume embaixo (rápido e barato) e pouco em cima. Invertida, a suíte custa caro, demora e perde credibilidade." },
+
+      { t: "mc",
+        enun: "Um projeto atingiu 95% de cobertura de código. O que isso garante?",
+        ops: [
+          "Que 95% das linhas foram <b>executadas</b> — não que os resultados foram verificados",
+          "Que 95% dos requisitos estão testados",
+          "Que restam no máximo 5% de defeitos",
+          "Que a suíte está no formato de pirâmide" ],
+        correta: 0,
+        exp: "Cobertura mede execução, não verificação. Dá pra rodar todas as linhas sem uma única asserção sobre o resultado." },
+
+      { t: "mc",
+        enun: "Qual destes cenários é o <b>pior</b> candidato à automação?",
+        ops: [
+          "Avaliar se o texto de erro soa agressivo para o usuário",
+          "Conferir que pedido acima de R$ 300 tem frete zero",
+          "Validar que a API devolve 404 para id inexistente",
+          "Verificar que nenhum produto tem estoque negativo" ],
+        correta: 0,
+        exp: "Automação precisa de resultado objetivo, que caiba num <code>assert</code>. Julgamento humano (tom, clareza, se o fluxo faz sentido) é trabalho de pessoa — e é onde o exploratório brilha." },
+
+      { t: "mc",
+        enun: "Você acabou de subir uma versão nova em homologação e tem 4 horas de teste pela frente. Por onde começa?",
+        ops: [
+          "Pelo <b>smoke</b>: poucos casos que provam que o básico está de pé, antes de investir tempo no resto",
+          "Pela regressão completa, para ter certeza de tudo",
+          "Pelo teste de aceite com a área de negócio",
+          "Pelo teste de carga, que é o mais demorado" ],
+        correta: 0,
+        exp: "Não faz sentido gastar quatro horas numa versão em que o login nem abre. Smoke primeiro; se passar, o resto." },
+
+      { t: "aberta",
+        enun: "Chegou a história: \"como cliente, quero salvar meu cartão para compras futuras\". Passe o pente dos <b>tipos</b> de teste por cima dela e escreva, para pelo menos quatro tipos diferentes, uma preocupação concreta.",
+        dica: "funcional, segurança, usabilidade, compatibilidade, acessibilidade, performance, confiabilidade — nem todos vão caber, e tudo bem.",
+        modelo: "<p>O que se espera é que você tenha saído do funcional. Por exemplo:</p><ul><li><b>Funcional:</b> salvar, listar, apagar cartão; cartão expirado continua na lista?; o que acontece ao tentar salvar o mesmo cartão duas vezes.</li><li><b>Segurança:</b> o número completo é armazenado? aparece em log? trocando o id na URL vejo o cartão de outra pessoa? preciso reautenticar para apagar?</li><li><b>Usabilidade:</b> a pessoa entende que os dados ficarão guardados? existe caminho óbvio para remover?</li><li><b>Compatibilidade:</b> o teclado numérico aparece no celular? o preenchimento automático do navegador atrapalha?</li><li><b>Acessibilidade:</b> os campos têm rótulo associado? o erro é anunciado por leitor de tela ou só muda de cor?</li><li><b>Confiabilidade:</b> se a adquirente cair no meio do salvamento, o cartão fica meio-salvo?</li></ul><p>Você não vai testar todos. O ponto é <b>ter passado por todos</b> e decidido conscientemente o que deixar de fora — isso é estratégia de teste.</p>" }
+    ]
+  };
+  </script>
+  <script src="../assets/progresso.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

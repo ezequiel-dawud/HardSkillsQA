@@ -157,13 +157,13 @@
       await fn(api, db, check, expect);
     } catch (e) {
       destino.innerHTML = '<p class="msg-erro">ERRO JS: ' + escapar(e && e.message ? e.message : e) + "</p>";
-      return;
+      return false;
     }
     if (resultados.length === 0) {
       destino.innerHTML =
         '<p class="msg-vazio">O código rodou, mas não chamou <code>check(...)</code> nenhuma vez. ' +
         "Um teste precisa <b>afirmar</b> algo — ex.: <code>check('status 200', r.status === 200)</code>.</p>";
-      return;
+      return false;
     }
     const todosOk = resultados.every((r) => r.ok);
     let html =
@@ -179,6 +179,7 @@
     }
     html += "</tbody></table>";
     destino.innerHTML = html;
+    return todosOk;
   }
 
   function montarExemplos() {
@@ -234,6 +235,8 @@
     const EXERCICIOS = window.EXERCICIOS;
     if (!cont || !Array.isArray(EXERCICIOS)) return;
 
+    if (window.Progresso) Progresso.registrarTotal(EXERCICIOS.length);
+
     EXERCICIOS.forEach((ex) => {
       const card = document.createElement("div");
       card.className = "card exercicio";
@@ -288,9 +291,14 @@
         '<div class="acoes"><button data-usar-gab>Usar essa no editor</button></div>';
       card.appendChild(gab);
 
-      bRodar.addEventListener("click", () => rodarCodigo(ta.value, res));
+      // exercício dado como feito quando TODOS os check(...) do aluno passam
+      const rodarEMarcar = async () => {
+        const ok = await rodarCodigo(ta.value, res);
+        if (ok && window.Progresso) Progresso.marcarExercicio(ex.id);
+      };
+      bRodar.addEventListener("click", rodarEMarcar);
       ta.addEventListener("keydown", (e) => {
-        if ((e.ctrlKey || e.metaKey) && e.key === "Enter") { e.preventDefault(); rodarCodigo(ta.value, res); }
+        if ((e.ctrlKey || e.metaKey) && e.key === "Enter") { e.preventDefault(); rodarEMarcar(); }
       });
       if (bDica) {
         bDica.addEventListener("click", () => {

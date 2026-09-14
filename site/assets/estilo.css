@@ -10,6 +10,8 @@
   --ok-fraco: #e3f5ea;
   --erro: #c0392b;
   --erro-fraco: #fbe7e5;
+  --aviso: #9a6700;
+  --aviso-fraco: #fff6dd;
   --codigo-bg: #0f172a;
   --codigo-fg: #e2e8f0;
   --sombra: 0 1px 2px rgba(16, 24, 40, .06), 0 1px 3px rgba(16, 24, 40, .1);
@@ -28,6 +30,8 @@
     --ok-fraco: #16281e;
     --erro: #f2837a;
     --erro-fraco: #2c1a18;
+    --aviso: #e3b341;
+    --aviso-fraco: #2b2312;
     --codigo-bg: #0b1020;
     --codigo-fg: #dbe3f0;
     --sombra: 0 1px 2px rgba(0, 0, 0, .3), 0 1px 3px rgba(0, 0, 0, .4);
@@ -425,3 +429,72 @@ body {
   text-transform: uppercase; color: var(--suave);
   border: 1px solid var(--borda); border-radius: 999px; padding: 1px 8px; margin-left: 6px;
 }
+
+
+/* ---- veredito da conferência automática dos exercícios ----------------- */
+.veredito { margin: 10px 0 0; }
+.veredito:empty { display: none; }
+.veredito {
+  font-size: 14px; line-height: 1.5;
+  border: 1px solid var(--borda); border-left-width: 4px;
+  border-radius: 8px; padding: 9px 12px;
+  background: var(--painel);
+}
+.veredito .vd-icone { margin-right: 4px; }
+.veredito code { font-size: 13px; }
+.v-ok     { border-color: var(--ok);    background: var(--ok-fraco);    color: var(--ok); }
+.v-ordem  { border-color: var(--aviso); background: var(--aviso-fraco); color: var(--aviso); }
+.v-erro   { border-color: var(--erro);  background: var(--erro-fraco);  color: var(--erro); }
+.v-neutro { border-color: var(--borda); color: var(--suave); }
+.v-ok b, .v-ordem b, .v-erro b { color: inherit; }
+
+/* ---- progresso: selos no índice e barra no hub ------------------------- */
+.selo {
+  display: inline-block; margin-left: 8px;
+  font-size: 12px; font-weight: 700; letter-spacing: .01em;
+  padding: 2px 8px; border-radius: 999px; white-space: nowrap;
+  vertical-align: middle;
+}
+.selo-ok   { background: var(--ok-fraco);    color: var(--ok);    border: 1px solid var(--ok); }
+.selo-meio { background: var(--acento-fraco); color: var(--acento); border: 1px solid var(--acento); }
+.modulo-link .selo { position: absolute; top: 12px; right: 12px; margin: 0; }
+.modulo-link { position: relative; }
+
+.trilha-progresso { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
+.tp-trilho {
+  flex: 1; height: 6px; border-radius: 999px;
+  background: var(--borda); overflow: hidden;
+}
+.tp-cheio { height: 100%; background: var(--acento); border-radius: 999px; transition: width .3s; }
+.trilha-progresso.completa .tp-cheio { background: var(--ok); }
+.tp-txt { font-size: 12px; color: var(--suave); white-space: nowrap; }
+.trilha-progresso.completa .tp-txt { color: var(--ok); font-weight: 700; }
+
+/* ---- caixa de pegadinhas ("cuidado com isso") -------------------------- */
+.pegadinhas { border-left: 4px solid var(--aviso); background: var(--aviso-fraco); }
+.pegadinhas h2, .pegadinhas h3 { color: var(--aviso); }
+.pegadinhas ul { margin: 0; padding-left: 20px; }
+.pegadinhas li { margin: 8px 0; }
+.pegadinhas li b { color: var(--texto); }
+
+/* ---- aquecimento (revisão do módulo anterior) -------------------------- */
+.aquecimento { border-left: 4px solid var(--acento); }
+.aquecimento summary { cursor: pointer; font-weight: 700; color: var(--acento); }
+.aquecimento .resp { margin: 8px 0 0; padding-left: 18px; font-size: 14px; color: var(--suave); }
+
+/* ---- questão aberta: texto corrido, não código ------------------------- */
+.editor-texto {
+  background: var(--painel); color: var(--texto);
+  font-family: inherit; font-size: 15px;
+  overflow-y: auto; resize: vertical; min-height: 110px;
+}
+.prova-veredito.certo:has(+ .prova-painel .modelo) { color: var(--acento); }
+.modelo {
+  font-size: 15px; line-height: 1.6;
+  border-left: 3px solid var(--acento); padding-left: 14px; margin-top: 10px;
+}
+.modelo p:first-child { margin-top: 0; }
+.modelo ul { padding-left: 20px; }
+
+.prog-contador { font-size: 13px; color: var(--suave); font-weight: 600; }
+.prog-contador:empty { display: none; }

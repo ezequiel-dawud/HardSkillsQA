@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 3 (CI/CD)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ CI/CD / Provas</span></div>
+    <nav>
+      <a href="prova-1.html">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html" class="atual">3</a>
+      <a href="prova-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 3</h1>
+    <p class="legenda">Código de saída, o portão de qualidade, required checks e o badge. &nbsp;<a href="modulo-3.html">← rever o módulo</a></p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 3", trilha: "cicd", modulo: 3, indiceHref: "index.html",
+    questoes: [
+      {
+            "t": "mc",
+            "enun": "O que é o <b>código de saída</b> de um comando?",
+            "ops": [
+                  "Um número devolvido ao terminar: 0 significa sucesso, qualquer outro número significa erro",
+                  "A quantidade de linhas impressas na saída",
+                  "O identificador do processo que executou o comando",
+                  "O tempo, em segundos, que o comando levou"
+            ],
+            "correta": 0,
+            "exp": "Você nunca vê esse número, mas o pipeline inteiro gira em torno dele."
+      },
+      {
+            "t": "mc",
+            "enun": "Como um teste que falha vira um ✗ no Pull Request?",
+            "ops": [
+                  "O pytest sai com código 1 → o passo falha → o job para → o run fica ✗ → o check aparece ✗ no PR",
+                  "O GitHub lê o relatório de testes e interpreta o resultado",
+                  "O pytest envia uma notificação direta ao Pull Request",
+                  "O revisor marca o check manualmente como reprovado"
+            ],
+            "correta": 0,
+            "exp": "É uma corrente simples e mecânica — e é isso que torna possível trocar o pytest pelo k6 sem mudar nada no pipeline."
+      },
+      {
+            "t": "mc",
+            "enun": "Por padrão, um check vermelho impede o merge?",
+            "ops": [
+                  "Não — é apenas um aviso. Para barrar de fato, é preciso configurar o check como obrigatório nas regras de proteção do branch",
+                  "Sim, o GitHub bloqueia automaticamente qualquer merge com check vermelho",
+                  "Sim, mas apenas em repositórios privados",
+                  "Não, e não existe forma de bloquear o merge"
+            ],
+            "correta": 0,
+            "exp": "É a trava que transforma \"temos testes\" em \"não entra código quebrado\" — e em time real quem costuma configurar isso é QA ou tech lead."
+      },
+      {
+            "t": "mc",
+            "enun": "O que o <b>badge</b> no README mostra?",
+            "ops": [
+                  "O resultado do último run daquele workflow no branch principal",
+                  "A média de aprovação dos testes no último mês",
+                  "A cobertura de código do projeto",
+                  "O número de Pull Requests abertos"
+            ],
+            "correta": 0,
+            "exp": "Um raio-x do estado do projeto à primeira vista — e um sinal ruim quando fica vermelho por semanas."
+      },
+      {
+            "t": "mc",
+            "enun": "Qual o risco de um time conviver com o pipeline permanentemente vermelho?",
+            "ops": [
+                  "O sinal perde o valor: quando o ✗ importar de verdade, ninguém vai olhar",
+                  "O GitHub suspende a execução de workflows do repositório",
+                  "Os testes param de rodar automaticamente",
+                  "O histórico de execuções é apagado"
+            ],
+            "correta": 0,
+            "exp": "Vermelho normalizado é o mesmo que não ter CI — só que pagando o custo de mantê-lo."
+      },
+      {
+            "t": "mc",
+            "enun": "O k6 também consegue reprovar o build. Como?",
+            "ops": [
+                  "Saindo com código 99 quando um <code>threshold</code> é violado",
+                  "Enviando um relatório que o GitHub interpreta",
+                  "Bloqueando o merge diretamente pela API do GitHub",
+                  "Marcando o check como falho por meio de uma ação específica"
+            ],
+            "correta": 0,
+            "exp": "Mesma mecânica do pytest: código de saída diferente de 0. É por isso que qualquer ferramenta de linha de comando pode virar um portão."
+      },
+      {
+            "t": "aberta",
+            "enun": "O time decidiu tornar o check de testes obrigatório para merge na <code>main</code>. Você é QA: que preparação faria antes de ligar essa trava, e o que combinaria com o time?",
+            "modelo": "<p>Ligar a trava com o pipeline instável transforma a proteção em obstáculo, e o time acaba pedindo para desligá-la. A preparação:</p><p><b>Antes de ligar</b></p><ul><li><b>A suíte precisa estar verde e estável.</b> Rodar o pipeline várias vezes seguidas sem mudar nada: se alterna entre verde e vermelho, existe teste instável (<i>flaky</i>) — e isso se resolve antes, não depois.</li><li><b>Eliminar ou isolar os testes instáveis.</b> Um teste que falha sozinho de vez em quando vai bloquear merges legítimos e destruir a confiança na trava.</li><li><b>Tempo de execução aceitável.</b> Se o pipeline demora 40 minutos, ninguém vai esperar. Separe o que roda em todo PR (rápido) do que roda à noite (completo).</li><li><b>Cobertura mínima do que importa.</b> Uma trava que protege dois testes bobos dá falsa sensação de segurança.</li><li><b>Mensagens de falha úteis.</b> Se quem vê o vermelho não entende o que fazer, a trava vira frustração. É aqui que a mensagem do assert, do Módulo 3 de pytest, faz diferença.</li></ul><p><b>O que combinar com o time</b></p><ul><li><b>Qual check é obrigatório</b> e quais ficam informativos.</li><li><b>O que fazer quando bloquear:</b> o combinado é corrigir, não desligar a trava. E quem ajuda quando alguém empaca.</li><li><b>Se existe exceção</b> — quem pode forçar merge, em que situação (incidente em produção, por exemplo) e como isso é registrado.</li><li><b>Quem cuida do pipeline.</b> Pipeline sem dono apodrece.</li><li><b>Quando revisar.</b> Combinar uma data para avaliar se está ajudando ou atrapalhando.</li></ul><p>E o passo que mais ajuda na adoção: <b>avisar antes e ligar em um momento calmo</b>, não na véspera de uma entrega grande. A trava precisa ser vista como rede de proteção do time — não como algo que QA impôs.</p>",
+            "dica": "pense no que acontece se a trava bloquear merges por um motivo que não é defeito real."
+      }
+]
+  };
+  </script>
+  <script src="../assets/progresso.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

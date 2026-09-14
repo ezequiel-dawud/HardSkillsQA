@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 1 (pytest)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ pytest / Provas</span></div>
+    <nav>
+      <a href="prova-1.html" class="atual">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html">3</a>
+      <a href="prova-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 1</h1>
+    <p class="legenda">Preparar a máquina: venv, instalar, rodar e ler a saída. &nbsp;<a href="modulo-1.html">← rever o módulo</a></p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 1", trilha: "pytest", modulo: 1, indiceHref: "index.html",
+    questoes: [
+      {
+            "t": "mc",
+            "enun": "O que é um <code>venv</code> e por que usá-lo?",
+            "ops": [
+                  "Um Python isolado só para este projeto — o que você instala nele não bagunça o resto da máquina",
+                  "Um servidor local que executa os testes",
+                  "Um arquivo de configuração que lista os testes a rodar",
+                  "Uma pasta onde o pytest guarda os relatórios"
+            ],
+            "correta": 0,
+            "exp": "E some quando você apaga a pasta. É por isso que cada projeto tem o seu."
+      },
+      {
+            "t": "mc",
+            "enun": "No relatório do pytest, qual a diferença entre <code>FAILED</code> e <code>ERROR</code>?",
+            "ops": [
+                  "<code>FAILED</code> é o <code>assert</code> que deu falso; <code>ERROR</code> é algo que quebrou <b>antes</b> do teste, como a fixture não achar o banco",
+                  "<code>ERROR</code> é mais grave que <code>FAILED</code>, mas ambos vêm do <code>assert</code>",
+                  "<code>FAILED</code> vem de teste automatizado e <code>ERROR</code> de teste manual",
+                  "São sinônimos; a escolha depende da versão do pytest"
+            ],
+            "correta": 0,
+            "exp": "A distinção importa na hora de investigar: ERROR quase sempre é problema de ambiente ou de preparo, não do código sob teste."
+      },
+      {
+            "t": "mc",
+            "enun": "O que significa <code>XFAIL</code> na saída?",
+            "ops": [
+                  "Teste marcado como \"sabidamente falhando\" — falhou como esperado e não deixa a suíte vermelha",
+                  "Teste que foi pulado e não chegou a rodar",
+                  "Teste que falhou por erro de sintaxe",
+                  "Teste que passou mas demorou demais"
+            ],
+            "correta": 0,
+            "exp": "Diferente de <code>skip</code>: o <code>skip</code> nem roda; o <code>xfail</code> roda e confere que ainda está quebrado."
+      },
+      {
+            "t": "mc",
+            "enun": "O que o CI olha para decidir se o build fica verde ou vermelho?",
+            "ops": [
+                  "O código de saída do processo — 0 só se nada falhou",
+                  "A quantidade de testes que passaram, comparada com a rodada anterior",
+                  "A última linha impressa no console",
+                  "O tempo total de execução da suíte"
+            ],
+            "correta": 0,
+            "exp": "É por isso que basta rodar <code>pytest</code> num passo do pipeline: se sair diferente de 0, o passo falha e o check fica vermelho."
+      },
+      {
+            "t": "mc",
+            "enun": "Você rodou <code>pytest</code> e apareceu <code>No module named pytest</code>. Causa mais provável?",
+            "ops": [
+                  "O venv não está ativo, ou você não rodou <code>pip install -r requirements.txt</code>",
+                  "O Python não está instalado",
+                  "O arquivo de teste está com o nome errado",
+                  "Falta o arquivo <code>conftest.py</code>"
+            ],
+            "correta": 0,
+            "exp": "Sinal de que o venv está ativo: o início da linha do terminal mostra <code>(.venv)</code>."
+      },
+      {
+            "t": "mc",
+            "enun": "Qual flag roda apenas os testes cujo nome contém \"orfao\"?",
+            "ops": [
+                  "<code>pytest -k orfao</code>",
+                  "<code>pytest -x orfao</code>",
+                  "<code>pytest -v orfao</code>",
+                  "<code>pytest --lf orfao</code>"
+            ],
+            "correta": 0,
+            "exp": "<code>-x</code> para no primeiro erro, <code>-v</code> detalha a saída e <code>--lf</code> roda só os que falharam na última rodada."
+      },
+      {
+            "t": "aberta",
+            "enun": "Um colega diz: \"rodei os testes na minha máquina e passou tudo, mas no CI está vermelho\". Liste as hipóteses que você levantaria, em ordem.",
+            "modelo": "<p>Uma boa resposta ataca as diferenças entre os dois ambientes, da mais comum para a menos:</p><ol><li><b>Dependências diferentes:</b> ele tem algo instalado no venv que não está no <code>requirements.txt</code>. O CI parte de uma máquina limpa — é justamente o que ele prova.</li><li><b>Arquivo não commitado:</b> o teste passa localmente porque usa um arquivo que existe só na máquina dele e nunca foi para o repositório.</li><li><b>Dados diferentes:</b> o banco local dele foi alterado por testes anteriores; o CI baixa o banco original do repositório.</li><li><b>Diretório de execução:</b> local ele roda de dentro de <code>trilha-3/</code>; o pipeline pode rodar de outro lugar, e caminhos relativos quebram.</li><li><b>Versão do Python ou do sistema:</b> local 3.11, pipeline 3.12; ou diferença de sistema operacional em caminhos e ordenação.</li><li><b>Ordem e isolamento:</b> local ele rodou só um arquivo; no CI a suíte inteira roda e um teste suja o estado do outro.</li><li><b>Teste instável (<i>flaky</i>):</b> depende de tempo, de ordem ou de rede. Rodar de novo passando é sintoma, não solução.</li></ol><p>A frase-chave da resposta: <b>\"na minha máquina funciona\" não existe no CI — não existe \"a minha máquina\", existe a máquina do pipeline.</b> Reproduzir localmente o que o pipeline faz (venv novo, instalar do requirements, rodar do mesmo diretório) resolve a maioria dos casos.</p>",
+            "dica": "o que é diferente entre a máquina dele e a do pipeline?"
+      }
+]
+  };
+  </script>
+  <script src="../assets/progresso.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

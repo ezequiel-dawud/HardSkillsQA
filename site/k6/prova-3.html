@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 3 (k6)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ k6 / Provas</span></div>
+    <nav>
+      <a href="prova-1.html">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html" class="atual">3</a>
+      <a href="prova-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 3</h1>
+    <p class="legenda">stages, thresholds como portão, e os tipos de teste de carga. &nbsp;<a href="modulo-3.html">← rever o módulo</a></p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 3", trilha: "k6", modulo: 3, indiceHref: "index.html",
+    questoes: [
+      {
+            "t": "mc",
+            "enun": "O que são <code>stages</code>?",
+            "ops": [
+                  "A rampa de carga no tempo: cada trecho tem uma duração e o número de VUs a atingir ao fim dele",
+                  "As etapas do fluxo do usuário dentro do roteiro",
+                  "Os ambientes onde o teste vai rodar",
+                  "Os limites de aprovação e reprovação do teste"
+            ],
+            "correta": 0,
+            "exp": "Carga real não começa no talo: sobe, segura e desce. O patamar do meio é onde as métricas contam de verdade."
+      },
+      {
+            "t": "mc",
+            "enun": "Qual é a <b>única</b> coisa no k6 que reprova o teste?",
+            "ops": [
+                  "O <code>threshold</code> — se violado, o <code>k6 run</code> termina com código de saída 99",
+                  "O <code>check</code> que retorna falso",
+                  "Um erro HTTP 500 na resposta",
+                  "O teste ultrapassar a duração configurada"
+            ],
+            "correta": 0,
+            "exp": "Checks alimentam a métrica; thresholds reprovam. Confundir os dois é ter um pipeline que nunca fica vermelho."
+      },
+      {
+            "t": "mc",
+            "enun": "O que significa <code>http_req_duration: [\"p(95)&lt;300\"]</code>?",
+            "ops": [
+                  "95% das requisições devem responder em menos de 300ms, senão o teste reprova",
+                  "A requisição deve responder em menos de 300ms em 95 tentativas",
+                  "O tempo médio deve ficar abaixo de 300ms com 95% de confiança",
+                  "No máximo 95 requisições podem passar de 300ms"
+            ],
+            "correta": 0,
+            "exp": "Percentil, não média: o p95 é o valor que 95% das requisições não ultrapassam."
+      },
+      {
+            "t": "mc",
+            "enun": "Qual tipo de teste responde \"a que ponto o sistema quebra, e como ele quebra?\"",
+            "ops": [
+                  "Stress — sobe além da carga esperada, em degraus",
+                  "Smoke — 1 a 2 VUs por poucos segundos",
+                  "Soak — carga média por várias horas",
+                  "Spike — salto brusco para carga altíssima e volta"
+            ],
+            "correta": 0,
+            "exp": "O \"como quebra\" importa tanto quanto o \"quando\": degrada devagar, ou cai de uma vez e não volta?"
+      },
+      {
+            "t": "mc",
+            "enun": "Qual teste você usaria para investigar suspeita de vazamento de memória?",
+            "ops": [
+                  "Soak — carga média sustentada por muitas horas",
+                  "Spike — pico repentino e volta",
+                  "Smoke — verificação rápida de que está de pé",
+                  "Load — carga esperada do dia normal"
+            ],
+            "correta": 0,
+            "exp": "Vazamento não aparece em 5 minutos: aparece na curva que degrada devagar ao longo de horas, com a carga constante."
+      },
+      {
+            "t": "mc",
+            "enun": "Um site vai aparecer num programa de TV às 21h. Qual teste representa melhor esse risco?",
+            "ops": [
+                  "Spike — salto brusco para carga altíssima e retorno",
+                  "Soak — carga média por muito tempo",
+                  "Load — carga esperada do dia normal",
+                  "Smoke — verificação básica de disponibilidade"
+            ],
+            "correta": 0,
+            "exp": "O risco não é o volume sustentado: é a subida instantânea, e se o sistema <b>se recupera</b> depois que o pico passa."
+      },
+      {
+            "t": "aberta",
+            "enun": "Escreva os <code>thresholds</code> de um checkout cuja meta é: 99% de disponibilidade, 95% das respostas abaixo de 800ms, e nenhuma resposta acima de 3s. Depois explique o que você faria se o teste reprovasse.",
+            "modelo": "<pre class=\"bloco\"><code>export const options = {\n  stages: [\n    { duration: \"1m\", target: 200 },   // sobe\n    { duration: \"5m\", target: 200 },   // patamar: e aqui que se mede\n    { duration: \"1m\", target: 0 },     // desce\n  ],\n  thresholds: {\n    http_req_failed:   [\"rate&lt;0.01\"],    // menos de 1% de erro\n    http_req_duration: [\"p(95)&lt;800\", \"max&lt;3000\"],\n    checks:            [\"rate&gt;0.99\"],\n  },\n};</code></pre><p><b>Se reprovar</b>, a sequência é investigar antes de concluir:</p><ol><li><b>Qual threshold estourou?</b> O resumo diz exatamente qual. Erro alto e tempo alto apontam para causas diferentes.</li><li><b>Quando começou a degradar?</b> Olhar a curva: foi desde o início (o sistema já não aguenta a carga base) ou só depois de certo ponto do patamar (esgotamento progressivo — conexões, memória, pool do banco)?</li><li><b>Onde?</b> Com <code>group()</code>, ver qual etapa puxou o p95 para cima. Frequentemente é uma só.</li><li><b>É o sistema ou o teste?</b> O gerador de carga saturou? A máquina que roda o k6 tem CPU e rede suficientes? Dado fixo demais criou disputa artificial por um registro? Ambiente de teste é menor que produção?</li><li><b>É dependência externa?</b> Pagamento ou antifraude em sandbox pode ser o gargalo — e aí você mediu o terceiro, não o seu sistema.</li><li><b>Relatar</b> com o número, a carga em que aconteceu, a curva e a etapa específica: <i>\"o p95 do checkout passa de 800ms a partir de 140 VUs; abaixo disso fica em 310ms\"</i> é acionável. <i>\"está lento\"</i> não é.</li></ol><p>E o mais importante: <b>reprovar não é falha do teste, é o teste funcionando</b>. A decisão do que fazer — aumentar capacidade, otimizar, ou aceitar e adiar — é do time, com a informação que você produziu.</p>",
+            "dica": "lembre que cada métrica aceita mais de um limite ao mesmo tempo."
+      }
+]
+  };
+  </script>
+  <script src="../assets/progresso.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

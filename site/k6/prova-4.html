@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 4 (k6)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ k6 / Provas</span></div>
+    <nav>
+      <a href="prova-1.html">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html">3</a>
+      <a href="prova-4.html" class="atual">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 4</h1>
+    <p class="legenda">SharedArray, correlação, dado que varia, e o portão no CI. &nbsp;<a href="modulo-4.html">← rever o módulo</a></p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 4", trilha: "k6", modulo: 4, indiceHref: "index.html",
+    questoes: [
+      {
+            "t": "mc",
+            "enun": "Por que dado fixo compromete um teste de carga?",
+            "ops": [
+                  "Porque mil requisições no mesmo registro batem em cache quente e num só caminho de código — o sistema parece mais rápido do que é",
+                  "Porque o k6 recusa requisições repetidas",
+                  "Porque consome mais memória do gerador de carga",
+                  "Porque o servidor bloqueia requisições idênticas"
+            ],
+            "correta": 0,
+            "exp": "Carga séria usa dados variados <b>e</b> reaproveita o que a resposta devolve."
+      },
+      {
+            "t": "mc",
+            "enun": "Para que serve <code>SharedArray</code>?",
+            "ops": [
+                  "Carregar a massa de dados uma vez e compartilhá-la entre todos os VUs, em vez de cada um carregar o arquivo inteiro na memória",
+                  "Compartilhar o resultado das requisições entre VUs",
+                  "Guardar as métricas coletadas durante o teste",
+                  "Sincronizar o início das iterações entre os VUs"
+            ],
+            "correta": 0,
+            "exp": "Com 200 VUs e um arquivo de 10MB, a diferença entre carregar uma vez e 200 vezes é o que decide se o gerador de carga aguenta."
+      },
+      {
+            "t": "mc",
+            "enun": "O que é <b>correlação</b> num teste de carga?",
+            "ops": [
+                  "Usar um valor devolvido por uma resposta na requisição seguinte — por exemplo, extrair o token do login e usá-lo nas demais chamadas",
+                  "Relacionar o tempo de resposta com o número de VUs",
+                  "Comparar os resultados de duas execuções diferentes do teste",
+                  "Agrupar requisições semelhantes na mesma métrica"
+            ],
+            "correta": 0,
+            "exp": "Sem correlação você testa endpoints isolados com valores inventados — não um usuário percorrendo o fluxo."
+      },
+      {
+            "t": "mc",
+            "enun": "Onde deve ficar o <code>open()</code> que lê o arquivo de dados?",
+            "ops": [
+                  "No contexto de init, fora da função default",
+                  "Dentro da função default, no início de cada iteração",
+                  "Dentro de um <code>group()</code>",
+                  "No bloco <code>thresholds</code> das options"
+            ],
+            "correta": 0,
+            "exp": "O k6 nem permite o contrário: <code>open()</code> só funciona no init, justamente para evitar reler o arquivo a cada iteração."
+      },
+      {
+            "t": "mc",
+            "enun": "Como o portão de performance reprova o build no GitHub Actions?",
+            "ops": [
+                  "O threshold violado faz o <code>k6 run</code> sair com código 99; o passo do pipeline falha e o check fica vermelho",
+                  "O k6 envia um webhook avisando o GitHub sobre a falha",
+                  "O GitHub analisa o relatório em JSON e decide",
+                  "É preciso um passo extra que compare as métricas com os limites"
+            ],
+            "correta": 0,
+            "exp": "É a mesma mecânica do pytest: código de saída diferente de 0 derruba o passo. O k6 já traz o portão embutido."
+      },
+      {
+            "t": "mc",
+            "enun": "O padrão <code>usuarios[(__VU - 1) % usuarios.length]</code> faz o quê?",
+            "ops": [
+                  "Distribui os usuários da lista entre os VUs de forma circular, um por VU",
+                  "Sorteia um usuário aleatório a cada iteração",
+                  "Usa sempre o primeiro usuário da lista",
+                  "Divide a lista em partes iguais entre as iterações"
+            ],
+            "correta": 0,
+            "exp": "Circular porque a lista costuma ser menor que o número de VUs — e assim ninguém fica sem usuário."
+      },
+      {
+            "t": "aberta",
+            "enun": "Sua equipe quer adicionar um portão de performance ao CI. Que cuidados você tomaria para que ele seja útil, e não uma fonte de falso alarme?",
+            "modelo": "<p>Portão de performance mal calibrado é pior que não ter: o time aprende a ignorar o vermelho (Módulo 3 de CI/CD). Os cuidados:</p><ul><li><b>Limite com folga sobre a realidade medida.</b> Meça primeiro em condições normais e coloque o threshold acima do observado, não colado nele. Threshold no limite do que já acontece falha por ruído.</li><li><b>Ambiente estável e dedicado.</b> Rodar carga numa máquina compartilhada, que às vezes está ocupada, produz números diferentes a cada execução. Se não der para isolar, o portão precisa ser mais frouxo — e isso deve estar documentado.</li><li><b>Percentil, não máximo.</b> Um <code>max&lt;3000</code> quebra com um único pico aleatório. Use p95 ou p99 como portão principal, e o máximo apenas para casos realmente inaceitáveis.</li><li><b>Carga curta no PR, longa fora dele.</b> Um smoke de carga de 1–2 minutos a cada PR; o teste de carga completo agendado à noite. Pipeline de PR que demora 40 minutos ninguém espera.</li><li><b>Só o fluxo que importa.</b> Portão no checkout e no login; não em toda rota do sistema.</li><li><b>Dado variado e massa recriada.</b> Senão a segunda execução mede cache e a base cresce indefinidamente entre rodadas.</li><li><b>Excluir o que não é seu.</b> Dependência externa em sandbox pode ser o gargalo — e você reprovaria o próprio build por causa do terceiro.</li><li><b>Revisar periodicamente.</b> O sistema muda; um limite definido há um ano pode estar frouxo demais ou apertado demais.</li><li><b>Combinar antes.</b> O time precisa concordar que o vermelho <b>barra a entrega</b>. Portão que todo mundo ignora é só um teste caro.</li></ul><p>A regra que resume tudo: <b>um portão só vale se o time confia nele o bastante para parar quando ele fecha.</b></p>",
+            "dica": "pense no que faz um teste falhar sem que haja problema real — e no que acontece com a confiança do time quando isso vira rotina."
+      }
+]
+  };
+  </script>
+  <script src="../assets/progresso.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

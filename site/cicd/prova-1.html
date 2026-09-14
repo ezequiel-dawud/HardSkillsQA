@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 1 (CI/CD)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ CI/CD / Provas</span></div>
+    <nav>
+      <a href="prova-1.html" class="atual">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html">3</a>
+      <a href="prova-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 1</h1>
+    <p class="legenda">O que é CI/CD, pipeline, loop de feedback, o ✓ e o ✗ no PR. &nbsp;<a href="modulo-1.html">← rever o módulo</a></p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 1", trilha: "cicd", modulo: 1, indiceHref: "index.html",
+    questoes: [
+      {
+            "t": "mc",
+            "enun": "O que significa <b>CI</b> (Integração Contínua)?",
+            "ops": [
+                  "Cada mudança de código é juntada ao projeto e testada na hora, várias vezes por dia",
+                  "O código é publicado automaticamente em produção assim que passa nos testes",
+                  "Os testes rodam uma vez por dia, em horário agendado",
+                  "Todo o código é integrado numa única entrega ao fim do ciclo"
+            ],
+            "correta": 0,
+            "exp": "Publicar automaticamente é o <i>Continuous Deployment</i>. A CI é sobre integrar e testar cedo e com frequência."
+      },
+      {
+            "t": "mc",
+            "enun": "Qual é o valor real do CI, do ponto de vista de quem testa?",
+            "ops": [
+                  "O tempo até você descobrir que quebrou — achar o defeito 2 minutos depois, isolado numa única mudança",
+                  "A redução do número de testes manuais necessários",
+                  "A geração automática de relatórios para a gestão",
+                  "A garantia de que o código está livre de defeitos"
+            ],
+            "correta": 0,
+            "exp": "Achar o defeito no meio de 20 mudanças de uma semana é o que custa caro. O CI entrega a causa isolada."
+      },
+      {
+            "t": "mc",
+            "enun": "O que é um <b>pipeline</b>?",
+            "ops": [
+                  "A lista de passos que a máquina executa, na ordem, a cada mudança — cada passo é um comando de terminal",
+                  "O servidor onde a aplicação é publicada",
+                  "O conjunto de testes automatizados de um projeto",
+                  "A ferramenta que hospeda o repositório"
+            ],
+            "correta": 0,
+            "exp": "Os mesmos comandos que você rodaria na sua máquina — só que automatizados e num computador limpo, igual para todo mundo."
+      },
+      {
+            "t": "mc",
+            "enun": "Por que o CI mata a frase \"mas na minha máquina funciona\"?",
+            "ops": [
+                  "Porque o pipeline roda num computador limpo e igual para todos — não existe \"a minha máquina\"",
+                  "Porque o CI corrige automaticamente as diferenças de ambiente",
+                  "Porque todos passam a usar o mesmo sistema operacional",
+                  "Porque o CI ignora configurações locais ao executar"
+            ],
+            "correta": 0,
+            "exp": "E quando o CI quebra e a máquina local não, a diferença entre os dois <b>é</b> o defeito — normalmente dependência não declarada."
+      },
+      {
+            "t": "mc",
+            "enun": "Qual a diferença entre Continuous Delivery e Continuous Deployment?",
+            "ops": [
+                  "Delivery deixa pronto para publicar e espera alguém apertar o botão; Deployment publica sozinho",
+                  "Delivery publica sozinho; Deployment espera aprovação",
+                  "São o mesmo conceito, com nomes diferentes",
+                  "Delivery vale para aplicações web e Deployment para aplicações móveis"
+            ],
+            "correta": 0,
+            "exp": "As duas pressupõem uma CI que funcione: ninguém publica automaticamente sem confiar nos testes."
+      },
+      {
+            "t": "mc",
+            "enun": "O que um ✓ verde num Pull Request realmente diz?",
+            "ops": [
+                  "Que todos os passos daquele pipeline terminaram bem — nada além do que aqueles testes cobrem",
+                  "Que a mudança está livre de defeitos",
+                  "Que o código foi revisado e aprovado por outra pessoa",
+                  "Que a mudança já está em produção"
+            ],
+            "correta": 0,
+            "exp": "Mesmo primeiro princípio do Módulo 1 de Fundamentos: teste que passa mostra ausência de falha <b>nos caminhos testados</b>, não ausência de defeito."
+      },
+      {
+            "t": "aberta",
+            "enun": "Explique para uma pessoa de negócio, sem jargão técnico, por que vale investir tempo montando um pipeline de CI — e o que muda no dia a dia do time.",
+            "modelo": "<p>Uma boa resposta troca jargão por consequência. Por exemplo:</p><blockquote><p>Hoje, quando alguém muda o sistema, ninguém consegue conferir <b>tudo</b> o que já funcionava — é trabalho demais para fazer à mão a cada mudança. Então mudanças entram sem serem completamente conferidas, e o problema aparece dias depois, misturado com o trabalho de outras dez pessoas. Aí custa caro: alguém precisa descobrir qual das dez mudanças causou, refazer, testar de novo e entregar de novo — às vezes com o cliente já afetado.</p><p>O pipeline é uma conferência automática que roda sozinha a cada mudança, em poucos minutos, sempre do mesmo jeito, sem esquecer nenhum passo. Se algo que funcionava parou de funcionar, a pessoa que fez a mudança descobre <b>enquanto ainda está com o assunto na cabeça</b>, e ninguém mais é afetado.</p><p>O que muda no dia a dia: o time entrega com mais frequência e com menos medo; menos problema chega ao cliente; e quando chega, a causa é encontrada em minutos, não em dias. O tempo que a equipe gasta hoje apagando incêndio e refazendo trabalho passa a ser gasto construindo.</p></blockquote><p><b>O que evitar na resposta:</b> falar de YAML, runners, jobs ou steps. A pessoa de negócio decide com base em <b>risco, custo e velocidade de entrega</b> — e o argumento mais forte é o do custo de descobrir tarde. Se puder, traga um exemplo real: \"o incidente do mês passado teria sido pego em três minutos\".</p>",
+            "dica": "fale de custo de descobrir tarde, retrabalho e impacto no cliente — não de ferramentas."
+      }
+]
+  };
+  </script>
+  <script src="../assets/progresso.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

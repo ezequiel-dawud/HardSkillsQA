@@ -19,13 +19,14 @@
       <p class="hero-kicker"><span class="prompt">$</span> trilhas de estudo pra QA</p>
       <h1>QA Learning</h1>
       <p class="legenda">
-        Trilhas de estudo pra crescer como QA. Cada uma tem a teoria curta e a prática
-        pra fazer de verdade — a maioria roda dentro do próprio navegador. Comece pela
-        que fizer sentido agora.
+        Trilhas de estudo pra crescer como QA, do zero. Cada uma tem a teoria curta e a
+        prática pra fazer de verdade — a maioria roda dentro do próprio navegador.
+        Nunca estudou QA? Comece pela trilha de <b>Fundamentos</b>; o caminho completo
+        está logo abaixo.
       </p>
       <div class="hero-stats">
-        <span class="chip-stat"><strong>6</strong> trilhas</span>
-        <span class="chip-stat"><strong>30</strong> módulos</span>
+        <span class="chip-stat"><strong>8</strong> trilhas</span>
+        <span class="chip-stat"><strong>38</strong> módulos</span>
         <span class="chip-stat"><strong>0</strong> instalação pra começar</span>
       </div>
     </div>
@@ -42,10 +43,75 @@
       </p>
     </div>
 
-    <h2>Trilhas</h2>
+    <div class="card card-info">
+      <h3 style="margin-top:0">Caminho recomendado</h3>
+      <p style="margin:0 0 10px; font-size:14px; color:var(--suave)">
+        Se você está começando do zero, siga nesta ordem. Cada trilha usa o que a anterior
+        deixou pronto.
+      </p>
+      <ol style="margin:0; font-size:14px; line-height:1.8">
+        <li><b>Fundamentos de Teste</b> — o que testar e por quê. <span style="color:var(--suave)">~3h30</span></li>
+        <li><b>Git e GitHub</b> — pra conseguir baixar o código e entregar o seu. <span style="color:var(--suave)">~2h</span></li>
+        <li><b>SQL para QA</b> — investigar e validar dados, a habilidade que mais muda o dia a dia. <span style="color:var(--suave)">~6h</span></li>
+        <li><b>Teste de API</b> — status, contrato, e cruzar a resposta com o banco. <span style="color:var(--suave)">~3h</span></li>
+        <li><b>Validação com pytest</b> — suas verificações viram testes que rodam sozinhos. <span style="color:var(--suave)">~3h</span></li>
+        <li><b>CI/CD para QA</b> — fazer tudo isso rodar a cada mudança e reprovar o build. <span style="color:var(--suave)">~2h30</span></li>
+      </ol>
+      <p style="margin:12px 0 0; font-size:14px; color:var(--suave)">
+        <b>PostgreSQL</b> e <b>Teste de carga com k6</b> são aprofundamentos: faça quando as
+        seis acima estiverem firmes, ou antes se o seu trabalho pedir. Os tempos são
+        estimativas fazendo os exercícios de verdade — não só lendo.
+      </p>
+    </div>
+
+    <h2>Comece por aqui</h2>
     <div class="grade-modulos grade-trilhas">
 
-      <a class="modulo-link" href="sql/index.html">
+      <a class="modulo-link" href="fundamentos/index.html" data-trilha="fundamentos" data-modulos="5">
+        <div class="trilha-topo">
+          <span class="trilha-icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1z"/>
+              <path d="M16 5h2a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h2"/>
+              <path d="m9 12 2 2 4-4"/>
+              <path d="M9 17h6"/>
+            </svg>
+          </span>
+          <div class="rot">Fundamentos</div>
+        </div>
+        <div class="tit">Fundamentos de Teste</div>
+        <div class="desc">
+          A base da profissão, antes de qualquer ferramenta: princípios, níveis e tipos,
+          técnicas pra escolher casos de teste, exploratório e relatar bug. 5 módulos.
+        </div>
+      </a>
+
+      <a class="modulo-link" href="git/index.html" data-trilha="git" data-modulos="3">
+        <div class="trilha-topo">
+          <span class="trilha-icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="7" cy="5" r="2.2"/>
+              <circle cx="7" cy="19" r="2.2"/>
+              <circle cx="17" cy="12" r="2.2"/>
+              <path d="M7 7.2v9.6"/>
+              <path d="M14.8 12H12a5 5 0 0 1-5-5"/>
+            </svg>
+          </span>
+          <div class="rot">Base</div>
+        </div>
+        <div class="tit">Git e GitHub para QA</div>
+        <div class="desc">
+          Baixar o código, versionar seus testes, ler o que mudou num Pull Request e
+          entender o vermelho do CI. Destrava as trilhas 3, 5 e 6. 3 módulos.
+        </div>
+      </a>
+
+    </div>
+
+    <h2>Trilhas técnicas</h2>
+    <div class="grade-modulos grade-trilhas">
+
+      <a class="modulo-link" href="sql/index.html" data-trilha="sql" data-modulos="7">
         <div class="trilha-topo">
           <span class="trilha-icone" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -63,7 +129,7 @@
         </div>
       </a>
 
-      <a class="modulo-link" href="pg/index.html">
+      <a class="modulo-link" href="pg/index.html" data-trilha="pg" data-modulos="7">
         <div class="trilha-topo">
           <span class="trilha-icone" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -82,7 +148,7 @@
         </div>
       </a>
 
-      <a class="modulo-link" href="pytest/index.html">
+      <a class="modulo-link" href="pytest/index.html" data-trilha="pytest" data-modulos="4">
         <div class="trilha-topo">
           <span class="trilha-icone" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -101,7 +167,7 @@
         </div>
       </a>
 
-      <a class="modulo-link" href="api/index.html">
+      <a class="modulo-link" href="api/index.html" data-trilha="api" data-modulos="4">
         <div class="trilha-topo">
           <span class="trilha-icone" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -119,7 +185,7 @@
         </div>
       </a>
 
-      <a class="modulo-link" href="k6/index.html">
+      <a class="modulo-link" href="k6/index.html" data-trilha="k6" data-modulos="4">
         <div class="trilha-topo">
           <span class="trilha-icone" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -138,7 +204,7 @@
         </div>
       </a>
 
-      <a class="modulo-link" href="cicd/index.html">
+      <a class="modulo-link" href="cicd/index.html" data-trilha="cicd" data-modulos="4">
         <div class="trilha-topo">
           <span class="trilha-icone" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -157,10 +223,35 @@
 
     </div>
 
+
+    <h2>Para fechar</h2>
+    <div class="grade-modulos grade-trilhas">
+
+      <a class="modulo-link" href="projeto/index.html">
+        <div class="trilha-topo">
+          <span class="trilha-icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2 3 7v6c0 5 3.8 8.4 9 9 5.2-.6 9-4 9-9V7z"/>
+              <path d="m8.5 12 2.5 2.5 4.5-5"/>
+            </svg>
+          </span>
+          <div class="rot">Projeto final</div>
+        </div>
+        <div class="tit">Uma história, do refinamento ao pipeline</div>
+        <div class="desc">
+          Sete etapas usando tudo junto: perguntas de refinamento, casos de teste com
+          técnica, investigação no banco, teste de API, automação em pytest, o PR com o
+          check verde e o relatório final. Vira portfólio.
+        </div>
+      </a>
+
+    </div>
+
     <footer class="rodape">
       <span>Feito por <a href="sobre.html">Ezequiel Dawud</a></span>
       <a href="https://www.linkedin.com/in/ezequiel-dawud-979387207/" target="_blank" rel="noopener">LinkedIn ↗</a>
     </footer>
   </main>
+  <script src="assets/progresso.js"></script>
 </body>
 </html>

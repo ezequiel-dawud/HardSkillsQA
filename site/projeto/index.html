@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Projeto final — QA Learning</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ Projeto final</span></div>
+    <nav>
+      <a href="../index.html">Trilhas</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <p style="margin:0 0 4px"><a href="../index.html" style="font-size:14px; color:var(--suave); text-decoration:none">← Todas as trilhas</a></p>
+    <h1>Projeto final</h1>
+    <p class="legenda">
+      Uma história de usuário, do refinamento ao pipeline — usando <strong>tudo</strong>
+      o que você aprendeu, na ordem em que se usa no trabalho. No fim você tem um
+      entregável que dá pra mostrar numa entrevista.
+    </p>
+
+    <div class="card card-info">
+      <h3 style="margin-top:0">Antes de começar</h3>
+      <p style="margin:0 0 8px;font-size:14px;color:var(--suave)">
+        Este projeto assume as trilhas de <b>Fundamentos</b>, <b>Git</b>, <b>SQL</b>,
+        <b>API</b>, <b>pytest</b> e <b>CI/CD</b>. Se faltar alguma, dá pra fazer as
+        etapas correspondentes depois — cada uma é independente.
+      </p>
+      <p style="margin:0;font-size:14px;color:var(--suave)">
+        Reserve <b>4 a 6 horas</b>, em mais de um dia se preferir. Trabalhe no seu fork
+        do repositório, num branch chamado <code>projeto-final</code>.
+      </p>
+    </div>
+
+    <section class="secao">
+      <h2>A história</h2>
+      <div class="card">
+        <p style="margin-top:0;font-size:16px;border-left:3px solid var(--acento);padding-left:14px">
+          <b>QA-501 — Cupom de primeira compra</b><br><br>
+          <i>Como cliente novo, quero aplicar o cupom <code>PRIMEIRA10</code> no meu
+          primeiro pedido, para ganhar 10% de desconto.</i>
+        </p>
+        <p><b>Regras informadas pelo time de produto:</b></p>
+        <ul>
+          <li>o cupom dá <b>10% de desconto</b> sobre o valor dos itens;</li>
+          <li>vale apenas para clientes que <b>nunca fizeram um pedido</b>;</li>
+          <li>o pedido precisa ter valor de itens <b>a partir de R$ 100,00</b>;</li>
+          <li>o desconto <b>não se acumula</b> com outras promoções;</li>
+          <li>o <code>valor_total</code> gravado no pedido já deve vir com o desconto aplicado.</li>
+        </ul>
+        <p style="margin-bottom:0" class="legenda">
+          Leia de novo, devagar. A história parece completa — e não é. Descobrir isso é a
+          primeira etapa.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>Etapa 1 — Refinamento: o que a história não diz</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          <b>Entregável:</b> um arquivo <code>projeto-final/01-perguntas.md</code> com
+          <b>no mínimo 8 perguntas</b> que você levaria à reunião de refinamento, cada uma
+          com uma frase dizendo <b>por que ela importa</b> (qual o risco se ninguém
+          responder).
+        </p>
+        <p><b>Como produzir as perguntas, em vez de esperar que apareçam:</b></p>
+        <ul>
+          <li>passe as <b>técnicas do Módulo 3 de Fundamentos</b> pela regra — toda vez que
+            você não souber preencher a coluna "resultado esperado", achou uma pergunta;</li>
+          <li>passe o <b>pente dos tipos</b> do Módulo 2 — segurança, performance,
+            usabilidade, acessibilidade;</li>
+          <li>pergunte pelos <b>limites que ninguém escreve</b>: zero, vazio, exatamente no
+            valor, um item só.</li>
+        </ul>
+        <p style="margin-bottom:0" class="legenda">
+          Dica de professor: as três perguntas mais valiosas desta história têm a ver com
+          <em>o que é "nunca fez um pedido"</em>, <em>o que acontece com pedido cancelado</em>
+          e <em>sobre qual valor incide o desconto</em>. Se você chegou nelas sozinho, está
+          pensando como QA.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>Etapa 2 — Casos de teste</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          <b>Entregável:</b> <code>projeto-final/02-casos-de-teste.md</code> com uma tabela
+          de casos, indicando para cada um <b>qual técnica o gerou</b>.
+        </p>
+        <p>Use as quatro, em ordem:</p>
+        <table class="dados">
+          <thead><tr><th>Técnica</th><th>O que ela deve fazer aparecer aqui</th></tr></thead>
+          <tbody>
+            <tr><td><b>Partição de equivalência</b></td><td>cliente novo × cliente com histórico; cupom válido, inexistente, expirado, já usado; campo vazio</td></tr>
+            <tr><td><b>Valor limite</b></td><td>itens somando R$ 99,99 / <b>R$ 100,00</b> / R$ 100,01; pedido com 1 item; carrinho vazio</td></tr>
+            <tr><td><b>Tabela de decisão</b></td><td>é cliente novo? × atinge o mínimo? × já tem outra promoção? — todas as combinações, e a mensagem esperada em cada uma</td></tr>
+            <tr><td><b>Transição de estado</b></td><td>aplicar o cupom e depois remover itens até cair abaixo de R$ 100; aplicar, cancelar o pedido, tentar usar o cupom de novo; usar o cupom em dois pedidos simultâneos</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-bottom:0">
+          Marque com <b>⚠</b> os casos cujo resultado esperado depende de uma pergunta da
+          Etapa 1 que ainda não foi respondida. Essa marcação é o que transforma a sua
+          tabela num instrumento de negociação com o time.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>Etapa 3 — Investigar os dados que já existem</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          Antes de testar a funcionalidade nova, entenda o terreno. <b>Entregável:</b>
+          <code>projeto-final/03-consultas.sql</code>, com as queries comentadas e o que
+          cada resultado significa.
+        </p>
+        <p>Responda, no banco de prática (Trilha de SQL):</p>
+        <ol>
+          <li>Quantos clientes <b>nunca fizeram um pedido</b>? (São os elegíveis ao cupom.)
+            <br><span class="legenda">Dica: é o padrão <code>LEFT JOIN ... WHERE ... IS NULL</code>. Cuidado com a pegadinha do Módulo 4.</span></li>
+          <li>E se pedidos <b>cancelados</b> não contarem como "já fez um pedido"? Quantos
+            clientes passam a ser elegíveis? <br><span class="legenda">A diferença entre as duas respostas é exatamente o custo de não ter perguntado na Etapa 1.</span></li>
+          <li>Quantos pedidos teriam atingido o mínimo de R$ 100,00 em itens?</li>
+          <li>Existem pedidos cujo <code>valor_total</code> <b>já não bate</b> com a soma
+            dos itens? Quantos, e quais? <br><span class="legenda">Se já há divergência hoje, qualquer teste do novo cálculo vai dar falso positivo. Isso precisa ser dito ao time <em>antes</em> da entrega.</span></li>
+          <li>Monte a <b>massa de teste</b>: um <code>INSERT</code> que cria um cliente novo,
+            sem nenhum pedido, para você usar nos testes manuais.</li>
+        </ol>
+        <p style="margin-bottom:0" class="legenda">
+          Faça a Etapa 3 dentro de uma transação e confira antes de confirmar — Módulo 7.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>Etapa 4 — Testar pela API</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          <b>Entregável:</b> <code>projeto-final/04-testes-api.md</code> — os cenários de
+          API que você executaria, com a verificação de cada um. Use a API falsa da Trilha 4
+          para praticar a mecânica.
+        </p>
+        <p>Cubra as três camadas, sem parar na primeira:</p>
+        <ul>
+          <li><b>Status</b> — 200/201 no sucesso; 400 no cupom inválido, no cliente não
+            elegível, no valor abaixo do mínimo; 405 nos métodos errados.</li>
+          <li><b>Contrato</b> — a resposta traz os campos de desconto? Com que tipo? O
+            <code>valor_total</code> vem como número? Existe campo a mais que não deveria
+            estar exposto?</li>
+          <li><b>Valor e efeito colateral</b> — o desconto devolvido é realmente 10% dos
+            itens? Depois do POST, um GET encontra o pedido? E — o mais importante —
+            <b>o que ficou gravado no banco bate com o que a API devolveu?</b></li>
+        </ul>
+        <p style="margin-bottom:0">
+          Inclua ao menos dois cenários de <b>abuso</b>: aplicar o cupom duas vezes no mesmo
+          pedido, e enviar o preço do item pelo corpo da requisição para ver se a API confia
+          no que o cliente mandou.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>Etapa 5 — Automatizar a validação</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          <b>Entregável:</b> <code>trilha-3/test_05_projeto_final.py</code> — um arquivo de
+          testes de verdade, rodando na sua máquina.
+        </p>
+        <p>Escreva, no mínimo:</p>
+        <ol>
+          <li>um teste que confirme que <b>nenhum pedido</b> tem <code>valor_total</code>
+            divergente da soma dos itens, com tolerância de arredondamento;</li>
+          <li>um teste <b>parametrizado</b> que confira o domínio de valores de três colunas
+            (status de pedido, severidade e resultado de execução);</li>
+          <li>um teste que confirme que não existe pedido apontando para cliente inexistente;</li>
+          <li>um teste com <code>@pytest.mark.xfail(strict=True)</code> para uma regra que
+            você <b>sabe</b> que o dado atual viola — com a razão documentada.</li>
+        </ol>
+        <p style="margin-bottom:0">
+          Requisitos de qualidade: toda mensagem de <code>assert</code> deve listar
+          <b>quais linhas</b> falharam. Lembre que, no CI, essa mensagem é o relatório de bug.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>Etapa 6 — Colocar no pipeline</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          <b>Entregável:</b> o seu branch com os testes rodando no GitHub Actions.
+        </p>
+        <ol>
+          <li>Commit e push do branch <code>projeto-final</code>.</li>
+          <li>Abra um <b>Pull Request</b> com descrição em três seções: o que muda, por quê,
+            como testar.</li>
+          <li>Veja o workflow rodar na aba <b>Actions</b>. Abra o log e encontre a linha em
+            que os seus testes executaram.</li>
+          <li><b>Quebre de propósito:</b> mude uma asserção para algo falso, dê push e
+            confirme que o check fica ✗ no PR. Depois conserte e veja voltar ao ✓.</li>
+          <li>Acrescente o <b>badge</b> do workflow no seu <code>README.md</code>.</li>
+        </ol>
+        <p style="margin-bottom:0" class="legenda">
+          O passo 4 é o mais importante: até você ver o vermelho aparecer por causa de uma
+          mudança sua, o pipeline é abstração.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>Etapa 7 — Relatar e fechar</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          <b>Entregável:</b> <code>projeto-final/07-relatorio.md</code>, com duas partes.
+        </p>
+        <p><b>a) Um relatório de defeito completo</b> — use um achado real das Etapas 3 ou 4
+          (os pedidos com <code>valor_total</code> divergente servem). Estrutura do Módulo 5
+          de Fundamentos: título na fórmula, ambiente, pré-condições, passos, esperado com a
+          razão, obtido, evidência, e <b>severidade e prioridade justificadas
+          separadamente</b>.</p>
+        <p><b>b) Um resumo de sessão</b>, nos quatro itens:</p>
+        <ul>
+          <li><b>O que cobri</b> — cenários, camadas, o que foi automatizado;</li>
+          <li><b>O que achei</b> — defeitos, ambiguidades, inconsistências de dados;</li>
+          <li><b>O que não deu tempo</b> — dito explicitamente, sem constrangimento;</li>
+          <li><b>O que me preocupa</b> — os riscos que você não conseguiu descartar.</li>
+        </ul>
+        <p style="margin-bottom:0">
+          Esse resumo é o que uma pessoa que decide precisa ler antes de liberar a entrega.
+          Escrever bem os quatro itens é a habilidade mais transferível deste curso inteiro.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Checklist do entregável</h2>
+      <div class="card">
+        <p style="margin-top:0">Ao fim, o seu branch deve conter:</p>
+        <table class="dados">
+          <thead><tr><th>Arquivo</th><th>Etapa</th><th>O que demonstra</th></tr></thead>
+          <tbody>
+            <tr><td><code>projeto-final/01-perguntas.md</code></td><td>1</td><td>que você acha ambiguidade antes de o código existir</td></tr>
+            <tr><td><code>projeto-final/02-casos-de-teste.md</code></td><td>2</td><td>que você usa técnica, e não intuição, para escolher o que testar</td></tr>
+            <tr><td><code>projeto-final/03-consultas.sql</code></td><td>3</td><td>que você investiga dados sozinho, sem depender de ninguém</td></tr>
+            <tr><td><code>projeto-final/04-testes-api.md</code></td><td>4</td><td>que você testa status, contrato e valor — e cruza com a fonte</td></tr>
+            <tr><td><code>trilha-3/test_05_projeto_final.py</code></td><td>5</td><td>que você automatiza o que vale a pena repetir</td></tr>
+            <tr><td>PR aberto, com check ✓</td><td>6</td><td>que você entrega dentro do fluxo de um time</td></tr>
+            <tr><td><code>projeto-final/07-relatorio.md</code></td><td>7</td><td>que você comunica risco de forma que alguém possa decidir</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card" style="border-left:3px solid var(--acento)">
+        <h3 style="margin-top:0">Por que isso vale como portfólio</h3>
+        <p style="margin-bottom:0">
+          Quase todo candidato júnior a QA chega na entrevista dizendo que "fez um curso de
+          Selenium". Poucos chegam com um repositório onde dá pra ver as perguntas que
+          fizeram no refinamento, a tabela de casos com a técnica que gerou cada um, as
+          consultas que usaram para investigar, os testes automatizados rodando num
+          pipeline, e um relatório que distingue severidade de prioridade. Esse conjunto
+          conta uma história sobre como você pensa — e é isso que a pessoa entrevistando
+          está tentando descobrir.
+        </p>
+      </div>
+    </section>
+
+    <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
+      <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
+        Concluiu o projeto final? Marque aqui. Fica salvo só no seu navegador.
+      </span>
+    </div>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="../index.html"><button class="primario">← Todas as trilhas</button></a>
+    </nav>
+  </main>
+  <script src="../assets/progresso.js"></script>
+</body>
+</html>

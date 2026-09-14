@@ -10,6 +10,8 @@
      { t:"sql",     enun, dica?, ordenado?, gab }          -> compara o RESULTADO da query
      { t:"escrita", enun, dica?, gab, checa }              -> roda o comando e confere com um SELECT
      { t:"mc",      enun, ops:[...], correta:idx, exp? }   -> múltipla escolha
+     { t:"aberta",  enun, dica?, modelo }                   -> resposta escrita, NÃO entra na nota
+                                                               (mostra uma resposta modelo pra você se comparar)
 
    Correção: roda a resposta do aluno E o gabarito no mesmo banco e compara os
    conjuntos de linhas. Nome/apelido de coluna não importa; a ORDEM das colunas
@@ -20,9 +22,19 @@
   "use strict";
 
   const P = window.PROVA;
-  const M = window.PROVA_MOTOR;
   const raiz = document.getElementById("prova");
-  if (!P || !M || !raiz) return;
+  if (!P || !raiz) return;
+
+  // Prova conceitual (só múltipla escolha / resposta aberta) não precisa de banco:
+  // nesse caso um motor de mentira basta pro resto do código não ter caso especial.
+  const semBanco = P.questoes.every((q) => q.t === "mc" || q.t === "aberta");
+  const M = window.PROVA_MOTOR || (semBanco ? {
+    nome: "conceitual",
+    pronto: () => Promise.resolve(),
+    resetar: async () => {},
+    executar: async () => ({ colunas: [], linhas: [] }),
+  } : null);
+  if (!M) return;
 
   const CHAVE = "prova:" + location.pathname + ":";
   const guardar = (k, v) => { try { localStorage.setItem(CHAVE + k, v); } catch (e) {} };
@@ -94,6 +106,8 @@
 
   /* ---- estado -------------------------------------------------------------- */
   const N = P.questoes.length;
+  // questões abertas são pra você se comparar com o modelo — não entram na nota
+  const NG = P.questoes.filter((q) => q.t !== "aberta").length;
   const respostas = new Array(N).fill("");
   const escolhas = new Array(N).fill(-1);
   const els = []; // { editor?, radios?, veredito, painel }
@@ -103,22 +117,27 @@
   function montar() {
     const intro = document.createElement("div");
     intro.className = "card prova-intro";
+    const temAberta = N !== NG;
     intro.innerHTML =
       "<p style='margin-top:0'><strong>Como funciona.</strong> Responda as " + N +
-      " questões e clique <strong>Corrigir prova</strong> no fim. A correção é automática: " +
-      "para as questões de query, o resultado da sua consulta é comparado com o esperado.</p>" +
-      "<ul style='margin:0'>" +
-      "<li>Nome ou apelido de coluna não importa; a <b>ordem das colunas</b> importa — peça na ordem do enunciado.</li>" +
-      "<li>A ordem das <b>linhas</b> só é cobrada quando o enunciado pede um <code>ORDER BY</code> específico.</li>" +
-      "<li>Suas respostas ficam salvas neste navegador. Motor: <b>" + esc(M.nome) + "</b>.</li>" +
-      "</ul>";
+      " questões e clique <strong>Corrigir prova</strong> no fim. A correção é automática" +
+      (semBanco ? "." : ": para as questões de query, o resultado da sua consulta é comparado com o esperado.") +
+      "</p><ul style='margin:0'>" +
+      (semBanco ? "" :
+        "<li>Nome ou apelido de coluna não importa; a <b>ordem das colunas</b> importa — peça na ordem do enunciado.</li>" +
+        "<li>A ordem das <b>linhas</b> só é cobrada quando o enunciado pede um <code>ORDER BY</code> específico.</li>") +
+      (temAberta ?
+        "<li>As questões marcadas como <b>abertas</b> não entram na nota (" + NG + " valem nota): " +
+        "elas mostram uma <b>resposta modelo</b> pra você comparar com a sua — escrever bem é parte do trabalho.</li>" : "") +
+      "<li>Suas respostas ficam salvas neste navegador." +
+      (semBanco ? "" : " Motor: <b>" + esc(M.nome) + "</b>.") + "</li></ul>";
     raiz.appendChild(intro);
 
     const melhor = ler("melhor");
     if (melhor != null) {
       const b = document.createElement("p");
       b.className = "prova-melhor";
-      b.textContent = "Melhor nota até agora nesta prova: " + melhor + "/" + N;
+      b.textContent = "Melhor nota até agora nesta prova: " + melhor + "/" + NG;
       raiz.appendChild(b);
     }
 
@@ -138,8 +157,18 @@
         const lista = document.createElement("div");
         lista.className = "prova-ops";
         ref.radios = [];
-        q.ops.forEach((op, j) => {
-          const id = "q" + i + "op" + j;
+        // A ordem de EXIBIÇÃO das alternativas é embaralhada a cada carregamento.
+        // Sem isso, quem escreve a prova tende a deixar a certa sempre na mesma
+        // posição e o aluno aprende a posição, não o conteúdo. `escolhas` e o
+        // localStorage continuam guardando o índice ORIGINAL da alternativa.
+        const ordem = q.ops.map((_, j) => j);
+        for (let k = ordem.length - 1; k > 0; k--) {
+          const t = Math.floor(Math.random() * (k + 1));
+          const tmp = ordem[k]; ordem[k] = ordem[t]; ordem[t] = tmp;
+        }
+        ref.ordem = ordem;
+        ordem.forEach((orig, pos) => {
+          const id = "q" + i + "op" + pos;
           const linha = document.createElement("label");
           linha.className = "prova-op";
           linha.htmlFor = id;
@@ -147,17 +176,17 @@
           r.type = "radio";
           r.name = "q" + i;
           r.id = id;
-          r.value = String(j);
+          r.value = String(orig);
           r.addEventListener("change", () => {
-            escolhas[i] = j;
-            guardar("mc" + i, String(j));
+            escolhas[i] = orig;
+            guardar("mc" + i, String(orig));
           });
           const sp = document.createElement("span");
-          sp.innerHTML = op;
+          sp.innerHTML = q.ops[orig];
           linha.appendChild(r);
           linha.appendChild(sp);
           lista.appendChild(linha);
-          ref.radios.push(r);
+          ref.radios[orig] = r; // indexado pelo original, pro restore funcionar
         });
         card.appendChild(lista);
         const salvo = ler("mc" + i);
@@ -165,6 +194,31 @@
           ref.radios[+salvo].checked = true;
           escolhas[i] = +salvo;
         }
+      } else if (q.t === "aberta") {
+        const tag = document.createElement("p");
+        tag.className = "dica";
+        tag.innerHTML = "\u{270D}\u{FE0F} <b>Questão aberta</b> — não entra na nota. " +
+          "Escreva com suas palavras; na correção aparece uma resposta modelo pra você comparar.";
+        card.appendChild(tag);
+        if (q.dica) {
+          const d = document.createElement("p");
+          d.className = "dica";
+          d.innerHTML = "\u{1F4A1} " + q.dica;
+          card.appendChild(d);
+        }
+        const ta = document.createElement("textarea");
+        ta.className = "editor editor-texto";
+        ta.rows = 5;
+        ta.placeholder = "Escreva sua resposta aqui...";
+        const salvo = ler("ab" + i);
+        if (salvo != null) ta.value = salvo;
+        respostas[i] = ta.value;
+        ta.addEventListener("input", () => {
+          respostas[i] = ta.value;
+          guardar("ab" + i, ta.value);
+        });
+        card.appendChild(ta);
+        ref.editor = ta;
       } else {
         if (q.dica) {
           const d = document.createElement("p");
@@ -298,10 +352,21 @@
       let detalhe = "";
 
       try {
+        if (q.t === "aberta") {
+          const resp = (ref.editor.value || "").trim();
+          ref.veredito.className = "prova-veredito " + (resp ? "certo" : "errado");
+          ref.veredito.textContent = resp ? "\u{270D} respondida (não entra na nota)" : "\u{270D} em branco";
+          ref.painel.innerHTML =
+            '<details class="prova-gab" open><summary>Resposta modelo — compare com a sua</summary>' +
+            '<div class="modelo">' + q.modelo + "</div></details>";
+          continue;
+        }
         if (q.t === "mc") {
           ok = escolhas[i] === q.correta;
+          // a letra mostrada é a POSIÇÃO exibida nesta rodada, não o índice original
+          const posCerta = ref.ordem ? ref.ordem.indexOf(q.correta) : q.correta;
           detalhe = '<p class="dica">Resposta certa: <b>' +
-            esc(letra(q.correta)) + ")</b> " + q.ops[q.correta] +
+            esc(letra(posCerta)) + ")</b> " + q.ops[q.correta] +
             (q.exp ? "<br>" + q.exp : "") + "</p>";
         } else if (q.t === "escrita") {
           const resp = (ref.editor.value || "").trim();
@@ -351,15 +416,17 @@
     btn.textContent = "Corrigir prova";
     document.getElementById("btn-refazer").hidden = false;
 
-    const pct = Math.round((100 * acertos) / N);
+    const pct = Math.round((100 * acertos) / NG);
     const passou = pct >= 70;
     const melhorAnt = parseInt(ler("melhor") || "-1", 10);
     if (acertos > melhorAnt) guardar("melhor", String(acertos));
+    // alimenta o progresso mostrado no índice da trilha
+    if (window.Progresso) Progresso.registrarProva(acertos, NG);
 
     const placar = document.getElementById("prova-placar");
     placar.className = passou ? "ok" : "abaixo";
     placar.innerHTML =
-      "<h2 style='border:0;margin:8px 0'>Nota: " + acertos + "/" + N + " (" + pct + "%)</h2>" +
+      "<h2 style='border:0;margin:8px 0'>Nota: " + acertos + "/" + NG + " (" + pct + "%)</h2>" +
       "<p style='margin:0'>" +
       (passou
         ? "Passou. ✅ De 70% pra cima considera-se que o módulo está firme."

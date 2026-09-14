@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 1 (k6)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ k6 / Provas</span></div>
+    <nav>
+      <a href="prova-1.html" class="atual">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html">3</a>
+      <a href="prova-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 1</h1>
+    <p class="legenda">O que é teste de carga, VU, iteração, duração, think time. &nbsp;<a href="modulo-1.html">← rever o módulo</a></p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 1", trilha: "k6", modulo: 1, indiceHref: "index.html",
+    questoes: [
+      {
+            "t": "mc",
+            "enun": "Que pergunta o teste de carga responde, diferente dos testes funcionais?",
+            "ops": [
+                  "Se o sistema aguenta muita gente fazendo a coisa certa ao mesmo tempo — quanto demora e quantas requisições falham sob pressão",
+                  "Se o sistema faz a coisa certa para cada entrada possível",
+                  "Se o código está livre de erros de sintaxe",
+                  "Se a interface é usável em telas pequenas"
+            ],
+            "correta": 0,
+            "exp": "É teste <b>não-funcional</b>: ninguém olha se a resposta está correta, olha-se tempo e taxa de erro."
+      },
+      {
+            "t": "mc",
+            "enun": "O que é um <b>VU</b> no k6?",
+            "ops": [
+                  "Um usuário simulado, que roda o roteiro em loop de forma independente e paralela",
+                  "Uma requisição HTTP individual",
+                  "A unidade de medida do tempo de resposta",
+                  "Uma passada completa pelo roteiro"
+            ],
+            "correta": 0,
+            "exp": "Passada completa pelo roteiro é a <b>iteração</b>. 50 VUs = 50 roteiros acontecendo ao mesmo tempo."
+      },
+      {
+            "t": "mc",
+            "enun": "Por que o <code>sleep()</code> (think time) importa no roteiro?",
+            "ops": [
+                  "Porque sem ele os VUs viram um martelo irreal batendo sem parar; com ele, 10 VUs parecem 10 pessoas navegando",
+                  "Porque dá tempo ao servidor de limpar a memória entre requisições",
+                  "Porque o k6 exige uma pausa entre requisições",
+                  "Porque reduz o custo de execução do teste"
+            ],
+            "correta": 0,
+            "exp": "Sem think time você mede um cenário que não existe — e normalmente conclui que o sistema é pior do que é."
+      },
+      {
+            "t": "mc",
+            "enun": "O que é o <b>p95</b> do tempo de resposta?",
+            "ops": [
+                  "O valor que 95% das requisições não ultrapassam",
+                  "A média dos 95 tempos de resposta mais rápidos",
+                  "O percentual de requisições que responderam com sucesso",
+                  "O tempo total dividido por 95"
+            ],
+            "correta": 0,
+            "exp": "Percentil é mais honesto que média: a média esconde os casos lentos, e são justamente eles que o usuário reclama."
+      },
+      {
+            "t": "mc",
+            "enun": "Qual o objetivo de um <b>smoke test</b> de carga?",
+            "ops": [
+                  "Confirmar, com 1–2 VUs e poucos segundos, que o script e o alvo estão de pé antes de investir numa carga longa",
+                  "Descobrir o ponto em que o sistema quebra",
+                  "Medir a degradação ao longo de várias horas",
+                  "Simular um pico repentino de acessos"
+            ],
+            "correta": 0,
+            "exp": "Mesmo raciocínio do smoke funcional: não faz sentido rodar 40 minutos de carga se o script está com a URL errada."
+      },
+      {
+            "t": "mc",
+            "enun": "Como uma meta de performance vira algo útil para QA?",
+            "ops": [
+                  "Virando um critério verificável — \"o checkout responde em menos de 800ms no p95 com 200 usuários\" — que o k6 confere sozinho e o CI pode reprovar",
+                  "Virando um relatório apresentado ao time depois de cada entrega",
+                  "Virando um alerta de monitoramento em produção",
+                  "Virando uma média histórica acompanhada mês a mês"
+            ],
+            "correta": 0,
+            "exp": "Meta sem número e sem carga associada não é meta — é desejo. \"Tem que ser rápido\" não reprova nada."
+      },
+      {
+            "t": "aberta",
+            "enun": "Seu time vai lançar uma promoção que deve triplicar o acesso ao site. Que perguntas você faria antes de desenhar o teste de carga?",
+            "modelo": "<p>O teste de carga só é útil se as perguntas de negócio forem respondidas antes. As essenciais:</p><ul><li><b>Quanta carga?</b> Qual o volume normal hoje (usuários simultâneos, requisições por segundo) e qual o esperado no pico? Triplicar o quê — acessos, pedidos, faturamento?</li><li><b>Qual é a meta?</b> Qual tempo de resposta é aceitável e em qual percentil? Qual taxa de erro é tolerável? Sem isso não existe portão, só relatório.</li><li><b>Quais fluxos importam?</b> Todo mundo vai para a home, ou para uma página de campanha específica? O gargalo tende a ser o caminho do dinheiro — busca, carrinho, checkout.</li><li><b>Qual é a forma da curva?</b> A carga sobe aos poucos ou é um pico às 00h do dia da promoção? Isso decide entre um teste de <i>load</i> e um de <i>spike</i>.</li><li><b>Onde testar?</b> O ambiente tem a mesma capacidade que produção? Se for menor, os números não se transferem direto — e isso precisa estar dito no relatório.</li><li><b>Quais dependências externas?</b> Pagamento, antifraude, frete. Vão aguentar? Podem ser simuladas? Testar contra o sandbox de terceiros pode medir o terceiro, não você.</li><li><b>Dados:</b> temos massa variada suficiente? Mil requisições no mesmo produto medem o cache, não o sistema.</li><li><b>O que fazemos com o resultado?</b> Se não passar, há plano — aumentar capacidade, limitar acesso, adiar? Teste cujo resultado não muda nenhuma decisão é tempo gasto.</li></ul><p>A pergunta que mais falta na prática é a segunda: <b>qual é o número que define passar ou reprovar</b>.</p>",
+            "dica": "pense em: quanta carga, qual meta, quais fluxos, qual ambiente, quais dependências."
+      }
+]
+  };
+  </script>
+  <script src="../assets/progresso.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

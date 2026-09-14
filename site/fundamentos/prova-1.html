@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 1 (Fundamentos)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ Fundamentos / Provas</span></div>
+    <nav>
+      <a href="prova-1.html" class="atual">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html">3</a>
+      <a href="prova-4.html">4</a>
+      <a href="prova-5.html">5</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 1</h1>
+    <p class="legenda">O que é testar, erro × defeito × falha, os sete princípios, verificação × validação. &nbsp;<a href="modulo-1.html">← rever o módulo</a></p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 1", trilha: "fundamentos", modulo: 1, indiceHref: "index.html",
+    questoes: [
+      { t: "mc",
+        enun: "Sua suíte de 500 testes rodou inteira e passou. O que isso permite afirmar?",
+        ops: [
+          "Que aqueles 500 caminhos funcionaram nesta execução — nada além disso",
+          "Que o sistema está livre de defeitos",
+          "Que a qualidade está garantida para a entrega",
+          "Que os requisitos foram todos atendidos" ],
+        correta: 0,
+        exp: "Primeiro princípio: teste mostra a presença de defeitos, nunca a ausência. O que não foi testado continua sendo uma incógnita." },
+
+      { t: "mc",
+        enun: "Uma pessoa desenvolvedora entendeu errado a regra e escreveu <code>preco * 0.9</code> onde deveria ser <code>preco * 0.85</code>. O cliente vê R$ 90 na tela em vez de R$ 85. O que é o quê?",
+        ops: [
+          "Erro = o engano humano; defeito = a linha de código errada; falha = o R$ 90 na tela",
+          "Erro = o R$ 90 na tela; defeito = o engano humano; falha = a linha de código",
+          "Os três termos descrevem a mesma coisa, em níveis de formalidade diferentes",
+          "Erro = a linha de código; defeito = o R$ 90 na tela; falha = o prejuízo do cliente" ],
+        correta: 0,
+        exp: "Erro é humano, defeito está no código (mesmo sem ninguém executar), falha é o defeito se manifestando em execução. Você observa e relata <b>falhas</b>." },
+
+      { t: "mc",
+        enun: "Você encontrou dois defeitos no módulo de checkout em vinte minutos. Qual a decisão mais alinhada aos princípios de teste?",
+        ops: [
+          "Continuar investigando o checkout — defeitos tendem a se agrupar",
+          "Sair do checkout, já que ele claramente está sendo bem coberto",
+          "Distribuir o tempo restante igualmente entre todos os módulos",
+          "Parar de testar e esperar as duas correções antes de continuar" ],
+        correta: 0,
+        exp: "Princípio do agrupamento de defeitos: poucos módulos concentram a maioria dos problemas. Onde apareceram dois, costuma haver mais." },
+
+      { t: "mc",
+        enun: "A suíte de regressão passa 100% há seis meses, sem nenhum caso novo. Qual princípio explica por que isso é um sinal de alerta, e não de tranquilidade?",
+        ops: [
+          "Paradoxo do pesticida — testes repetidos param de encontrar defeitos novos",
+          "Teste exaustivo é impossível",
+          "Ausência de defeitos é uma ilusão",
+          "Teste depende do contexto" ],
+        correta: 0,
+        exp: "Os mesmos testes matam sempre as mesmas pragas. Sem casos novos e sem exploratório, a suíte vira uma certidão de que nada mudou — não de que está tudo bem." },
+
+      { t: "mc",
+        enun: "Qual destas perguntas é de <b>validação</b> (e não de verificação)?",
+        ops: [
+          "Pedir CPF nesta tela não vai afastar o cliente estrangeiro? Era isso mesmo que queríamos?",
+          "O campo aceita no máximo 11 dígitos, como diz a história?",
+          "A API devolve 404 quando o id não existe, como está no contrato?",
+          "O total do pedido bate com a soma dos itens no banco?" ],
+        correta: 0,
+        exp: "Verificação compara com a especificação (\"construímos certo?\"). Validação questiona se a especificação resolve o problema real (\"construímos a coisa certa?\")." },
+
+      { t: "mc",
+        enun: "Em que momento a atuação do QA gera mais economia para o projeto?",
+        ops: [
+          "No refinamento, perguntando o que a história não especifica",
+          "Na homologação, executando a suíte completa de regressão",
+          "Em produção, monitorando os incidentes e reagindo rápido",
+          "No pull request, revisando os testes automatizados" ],
+        correta: 0,
+        exp: "<i>Shift left</i>: um requisito ambíguo resolvido numa conversa custa minutos; o mesmo problema em produção custa investigação, correção, nova entrega e cliente insatisfeito. As outras atividades também valem — só custam mais caro." },
+
+      { t: "mc",
+        enun: "Uma regra só quebra em 29 de fevereiro. Hoje é 3 de março e nada deu errado no último ano. Como descrever a situação?",
+        ops: [
+          "Existe um defeito; ele ainda não produziu falha porque ninguém passou por aquele caminho",
+          "Não existe defeito, já que nenhum usuário foi afetado",
+          "Existe uma falha latente, mas nenhum defeito no código",
+          "É um defeito de severidade zero, já que não houve impacto" ],
+        correta: 0,
+        exp: "Defeito existe independentemente de execução. \"Nunca deu problema\" não é evidência de correção — é evidência de que ninguém passou por ali ainda." },
+
+      { t: "mc",
+        enun: "Qual frase você <b>não</b> deve escrever num relatório de fim de ciclo?",
+        ops: [
+          "O sistema está sem bugs e pronto para produção",
+          "Não encontramos defeitos nos fluxos de login, compra e cancelamento",
+          "Os fluxos de relatório e exportação não foram cobertos por falta de tempo",
+          "Restam dois defeitos conhecidos de severidade baixa, ambos documentados" ],
+        correta: 0,
+        exp: "Você nunca pode afirmar ausência de defeitos. Pode — e deve — dizer exatamente o que cobriu, o que não cobriu e o que sabe que continua errado." },
+
+      { t: "aberta",
+        enun: "Seu time vai começar uma funcionalidade nova de \"parcelamento no cartão\". Escreva <b>quatro perguntas</b> que você levaria para a reunião de refinamento, antes de qualquer linha de código.",
+        dica: "pense nos limites (Módulo 3 vai formalizar isso), no que acontece quando dá errado, e em quem se machuca.",
+        modelo: "<p>Não existe resposta única — o que se espera é que as perguntas ataquem <b>ambiguidade</b> e <b>risco</b>, não detalhe de tela. Por exemplo:</p><ul><li><b>Limites:</b> qual o número mínimo e máximo de parcelas? Existe valor mínimo por parcela? O que acontece com R$ 0,01 a menos que o mínimo?</li><li><b>Regra de negócio:</b> tem juros a partir de qual parcela? O juro entra no total exibido antes ou depois da confirmação?</li><li><b>Caminho de erro:</b> o que o cliente vê se o cartão for recusado na terceira tentativa? O pedido fica em que estado?</li><li><b>Dados e integração:</b> quem é a fonte da verdade do valor parcelado — o nosso sistema ou a adquirente? Se as duas discordarem, qual vale?</li><li><b>Quem se machuca:</b> isso afeta todos os clientes ou só um segmento? Qual o prejuízo se calcular a mais? E a menos?</li></ul><p>Se as suas perguntas foram do tipo \"onde fica o botão\" ou \"qual a cor do aviso\", releia a seção <i>Onde o QA entra no fluxo</i>: o valor está em achar o que ninguém escreveu.</p>" }
+    ]
+  };
+  </script>
+  <script src="../assets/progresso.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Git Módulo 3 — Pull Request e o papel do QA</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ Git</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html" class="atual">3</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 3 — Pull Request e o papel do QA</h1>
+    <p class="legenda">Abrir um PR, ler um diff com olhos de quem testa, e entender o ✓ e o ✗ do CI</p>
+
+    <details class="card aquecimento">
+      <summary>Aquecimento — 2 perguntas do Módulo 2</summary>
+      <p class="resp"><b>1.</b> Para que serve a área de preparo (<i>staging</i>)?<br>
+        <i>Para escolher o que entra em cada commit</i> — commit é uma unidade de sentido,
+        não um backup de tudo que você mexeu no dia.</p>
+      <p class="resp"><b>2.</b> Por que trabalhar em branch e não direto na <code>main</code>?<br>
+        <i>Porque o branch cria o "antes de entrar"</i>: o CI roda, o PR mostra o resultado,
+        e a <code>main</code> só recebe o que passou.</p>
+    </details>
+
+    <section class="secao">
+      <h2>O que é um Pull Request</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          O <b>Pull Request</b> (no GitLab, <i>Merge Request</i>) é o pedido formal:
+          <em>"peguei este branch, fiz estas mudanças, por favor revisem e juntem na
+          <code>main</code>"</em>.
+        </p>
+        <p>Ele é muito mais do que um botão de juntar. Um PR reúne, num lugar só:</p>
+        <ul>
+          <li>o <b>diff</b> — todas as linhas adicionadas e removidas, arquivo por arquivo;</li>
+          <li>a <b>discussão</b> — comentários presos a linhas específicas do código;</li>
+          <li>os <b>checks do CI</b> — o ✓ ou ✗ de cada pipeline que rodou;</li>
+          <li>a <b>aprovação</b> — quem revisou e liberou.</li>
+        </ul>
+        <p style="margin-bottom:0">
+          <b>Para QA, o PR é o melhor momento do processo.</b> É onde você descobre o que
+          mudou antes de a mudança existir em qualquer ambiente — em vez de receber a
+          versão pronta e adivinhar o que testar.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">Abrindo o seu</h3>
+        <ol>
+          <li>Depois do <code>git push</code>, abra o seu repositório no GitHub. Aparece
+            uma faixa amarela: <b>"Compare &amp; pull request"</b>.</li>
+          <li>Escreva um <b>título</b> que diga o que muda (mesma lógica do título de bug
+            do Módulo 5 de Fundamentos) e uma <b>descrição</b> com: o que muda, por quê, e
+            <b>como testar</b>.</li>
+          <li>Clique em <b>Create pull request</b>.</li>
+          <li>Espere: em alguns segundos os <b>checks</b> aparecem no rodapé do PR. É o CI
+            rodando sozinho.</li>
+        </ol>
+        <p style="margin-bottom:0" class="legenda">
+          Se você está trabalhando no seu próprio fork, abra o PR do seu branch para a
+          <code>main</code> <em>do seu próprio repositório</em> — assim o pipeline roda na
+          sua conta e você pode mexer nele à vontade.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>Ler um diff com olhos de QA</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          Você não precisa saber programar para tirar valor de um diff. Precisa saber
+          fazer perguntas. Ao abrir a aba <b>Files changed</b>:
+        </p>
+        <ul>
+          <li><b>Quais arquivos foram tocados?</b> Se a história era sobre o carrinho e o
+            diff mexe em autenticação, isso é uma pergunta — não uma acusação, uma pergunta.</li>
+          <li><b>Algum número mudou?</b> Limites, percentuais, tamanhos máximos. Todo número
+            alterado é um caso de valor limite esperando por você (Fundamentos, Módulo 3).</li>
+          <li><b>Alguma condição mudou?</b> Um <code>&gt;</code> que virou <code>&gt;=</code>,
+            um <code>and</code> que virou <code>or</code>. São as mudanças de uma linha que
+            mais causam defeito.</li>
+          <li><b>O que foi removido?</b> Linhas vermelhas são risco: uma validação apagada
+            é um caminho que ficou aberto.</li>
+          <li><b>Veio teste junto?</b> Um PR que muda comportamento sem tocar em nenhum
+            teste é uma pergunta legítima na revisão.</li>
+          <li><b>Mexeu em migração de banco?</b> Então existe risco de dados, e vale
+            conferir no banco depois de subir — é exatamente o que a Trilha de SQL te
+            prepara pra fazer.</li>
+        </ul>
+        <p style="margin-bottom:0">
+          Comentário de QA em PR não precisa ser sobre código. <i>"Essa condição agora
+          aceita valor igual a 300 — o requisito diz 'acima de 300'. Qual é o certo?"</i>
+          é o tipo de comentário que evita bug antes de ele existir.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>Os checks: o ✓ e o ✗</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          No rodapé do PR aparece uma lista de verificações automáticas. Neste repositório
+          existem duas, que você vai conhecer por dentro na Trilha de CI/CD:
+        </p>
+        <pre class="bloco"><code>✓  trilha-3-pytest / pytest      Successful in 42s
+✗  trilha-5-k6 / carga           Failing after 1m 10s     Details</code></pre>
+        <ul>
+          <li><b>✓ verde</b> — aquele pipeline rodou e todos os comandos terminaram bem.</li>
+          <li><b>✗ vermelho</b> — algum comando falhou. Clique em <b>Details</b> pra ver o
+            log completo: a saída é a mesma que apareceria no seu terminal.</li>
+          <li><b>🟡 amarelo</b> — ainda rodando.</li>
+        </ul>
+        <p>
+          <b>O que fazer diante de um ✗:</b> abra o log, role até o fim (a falha
+          normalmente está nas últimas linhas), e leia a mensagem. Na prática ela cai em
+          três casos: um teste falhou de verdade (ótimo, o CI fez o trabalho dele), o
+          ambiente do pipeline quebrou (faltou dependência), ou o teste é instável
+          (<i>flaky</i>) — e aí você tem um problema mais sério do que o bug.
+        </p>
+        <p style="margin-bottom:0">
+          <b>Nunca normalize o vermelho.</b> Um time que convive com checks falhando
+          perde o sinal: quando o ✗ importar de verdade, ninguém vai olhar.
+        </p>
+      </div>
+
+      <div class="card" style="border-left:3px solid var(--acento)">
+        <h3 style="margin-top:0">Olhar de QA</h3>
+        <p style="margin-bottom:0">
+          Aprender Git não é sobre decorar comandos — é sobre conseguir participar da
+          conversa onde as decisões acontecem. Com Git você lê o que mudou em vez de
+          perguntar, comenta na linha exata em vez de mandar mensagem solta, versiona os
+          seus próprios testes, e entende por que o build está vermelho. É o que transforma
+          QA de "quem recebe a versão pronta" em parte do time que a constrói.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Sua vez</h2>
+      <div class="card">
+        <ol style="margin-top:0">
+          <li>Abra um Pull Request do branch que você publicou no Módulo 2.</li>
+          <li>Escreva uma descrição com três seções: <b>o que muda</b>, <b>por quê</b>,
+            <b>como testar</b>.</li>
+          <li>Espere os checks e veja o resultado. Clique em <b>Details</b> em um deles e
+            leia o log até achar a linha onde os testes rodaram.</li>
+          <li>Vá na aba <b>Files changed</b> e deixe um comentário numa linha específica do
+            seu próprio arquivo — só pra ver como funciona.</li>
+          <li>Faça o <b>merge</b> do PR e depois rode, na sua máquina:
+            <code>git switch main</code> e <code>git pull</code>. A sua mudança está lá.</li>
+        </ol>
+        <p style="margin-bottom:0">
+          Feito isso, você tem o ciclo completo de trabalho de um time de software — e está
+          pronto pras Trilhas de <b>pytest</b> e <b>CI/CD</b>, que partem exatamente daqui.
+        </p>
+      </div>
+    </section>
+
+    <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
+      <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
+        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        progresso anda no começo do site. Fica salvo só no seu navegador.
+      </span>
+    </div>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="modulo-2.html"><button>← Módulo 2</button></a>
+      <a href="prova-3.html"><button>📝 Prova do módulo</button></a>
+      <a href="index.html"><button class="primario">Fim da trilha ✓</button></a>
+    </nav>
+  </main>
+  <script src="../assets/progresso.js"></script>
+</body>
+</html>

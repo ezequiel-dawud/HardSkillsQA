@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 3 (Git)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ Git / Provas</span></div>
+    <nav>
+      <a href="prova-1.html">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html" class="atual">3</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 3</h1>
+    <p class="legenda">Pull Request, ler diff com olhos de QA, os checks do CI. &nbsp;<a href="modulo-3.html">← rever o módulo</a></p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 3", trilha: "git", modulo: 3, indiceHref: "index.html",
+    questoes: [
+      {
+            "t": "mc",
+            "enun": "O que um Pull Request reúne, além da proposta de juntar o código?",
+            "ops": [
+                  "O diff completo, a discussão presa a linhas específicas, os checks do CI e as aprovações",
+                  "Apenas a lista de arquivos alterados",
+                  "O histórico de todos os branches do repositório",
+                  "O relatório de cobertura de código do projeto"
+            ],
+            "correta": 0,
+            "exp": "É por isso que o PR é o melhor momento do processo para QA: tudo que você precisa saber sobre a mudança está num lugar só."
+      },
+      {
+            "t": "mc",
+            "enun": "Por que o PR é um bom momento para QA atuar?",
+            "ops": [
+                  "Porque você descobre o que mudou <b>antes</b> de a mudança existir em qualquer ambiente, em vez de receber a versão pronta e adivinhar",
+                  "Porque é quando o código já está em produção e dá para testar de verdade",
+                  "Porque é obrigatório que QA aprove todo PR",
+                  "Porque é o único lugar onde se pode abrir um relatório de bug"
+            ],
+            "correta": 0,
+            "exp": "Receber a versão pronta e adivinhar o que testar é o modo caro de trabalhar. O diff responde à pergunta de graça."
+      },
+      {
+            "t": "mc",
+            "enun": "Num diff, o que merece mais atenção de quem testa?",
+            "ops": [
+                  "Números e condições que mudaram, e linhas removidas — um <code>&gt;</code> que virou <code>&gt;=</code> ou uma validação apagada",
+                  "A quantidade total de linhas alteradas",
+                  "O nome das variáveis criadas",
+                  "A indentação e o estilo do código"
+            ],
+            "correta": 0,
+            "exp": "Todo número alterado é um caso de valor limite esperando por você. Linha vermelha é caminho que ficou aberto."
+      },
+      {
+            "t": "mc",
+            "enun": "Um check do CI está <b>✗ vermelho</b> no PR. Qual a primeira coisa a fazer?",
+            "ops": [
+                  "Abrir o log em <b>Details</b> e ler as últimas linhas, onde a falha costuma estar",
+                  "Refazer o push, porque normalmente é falha temporária",
+                  "Ignorar e testar manualmente, já que o CI erra bastante",
+                  "Fechar o PR e abrir outro"
+            ],
+            "correta": 0,
+            "exp": "O log do CI é a mesma saída que apareceria no seu terminal. E cuidado com o hábito de \"rodar de novo até passar\": isso esconde teste instável."
+      },
+      {
+            "t": "mc",
+            "enun": "Por que um time não deve conviver com checks permanentemente vermelhos?",
+            "ops": [
+                  "Porque o sinal perde valor: quando o ✗ importar de verdade, ninguém vai olhar",
+                  "Porque o GitHub bloqueia o repositório após muitas falhas",
+                  "Porque cada falha consome cota de execução paga",
+                  "Porque o Git impede novos commits enquanto houver falha"
+            ],
+            "correta": 0,
+            "exp": "Vermelho normalizado é o mesmo que não ter CI — com o custo de mantê-lo."
+      },
+      {
+            "t": "mc",
+            "enun": "Uma descrição de PR útil para quem vai testar contém, no mínimo:",
+            "ops": [
+                  "O que muda, por que muda e como testar",
+                  "A lista de arquivos alterados e o número de linhas",
+                  "O nome de quem revisou e a data prevista de entrega",
+                  "O link para a documentação da linguagem usada"
+            ],
+            "correta": 0,
+            "exp": "\"Como testar\" é a seção que mais economiza tempo de QA — e a que mais falta."
+      },
+      {
+            "t": "aberta",
+            "enun": "Escreva a descrição de um Pull Request que altera a regra de frete de <i>\"grátis acima de R$ 300\"</i> para <i>\"grátis a partir de R$ 250\"</i>. Use as três seções, e escreva a de \"como testar\" como QA.",
+            "modelo": "<pre class=\"bloco\"><code>## O que muda\nO valor mínimo para frete grátis passa de R$ 300,00 (exclusivo) para\nR$ 250,00 (inclusivo). Afeta o cálculo no carrinho, no checkout e no\nresumo do pedido.\n\n## Por quê\nCampanha de julho (ticket QA-318). Decisão de negócio, vale para todas\nas regiões a partir da subida.\n\n## Como testar\n- Carrinho de R$ 249,99 → deve cobrar frete\n- Carrinho de R$ 250,00 → deve ser GRÁTIS (a regra agora é inclusiva)\n- Carrinho de R$ 250,01 → grátis\n- Carrinho de R$ 300,00 → grátis (continua valendo)\n- Conferir que o valor exibido no carrinho, no checkout e no resumo\n  final é o mesmo — a regra mudou nos três lugares?\n- Pedido criado com frete grátis: conferir no banco que o valor_total\n  gravado bate com a soma dos itens (sem frete residual)\n- Pedido feito ANTES da subida e finalizado DEPOIS: cobra qual regra?\n</code></pre><p><b>O que se espera:</b> que a seção \"como testar\" tenha virado uma análise de <b>valor limite</b> (249,99 / 250,00 / 250,01), que você tenha notado a mudança de <i>exclusivo</i> para <i>inclusivo</i> — o detalhe que o texto da campanha esconde — e que tenha pensado em consistência entre telas e no dado gravado no banco. O último item, do pedido que atravessa a mudança, é o que separa uma descrição boa de uma excelente.</p>",
+            "dica": "a mudança de \"acima de\" para \"a partir de\" não é só o número: mudou a inclusividade da fronteira."
+      }
+]
+  };
+  </script>
+  <script src="../assets/progresso.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

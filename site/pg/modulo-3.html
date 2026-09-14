@@ -143,6 +143,23 @@ LIMIT 5;</code></pre>
     </section>
 
     <section class="secao">
+      <div class="card pegadinhas">
+        <h2 style="margin-top:0;border:0">Pegadinhas deste módulo</h2>
+        <p style="margin-top:0;font-size:14px">
+          Os erros que quase todo mundo comete aqui. Ler agora poupa meia hora de
+          confusão depois — e alguns deles são a causa de relatório errado em projeto real.
+        </p>
+        <ul>
+          <li><b><code>COUNT(*)</code> e <code>COUNT(coluna)</code> dão respostas diferentes.</b> <code>COUNT(*)</code> conta linhas; <code>COUNT(coluna)</code> ignora as linhas em que aquela coluna é <code>NULL</code>. Usar um pelo outro é a origem de metade dos números errados em relatório de QA.</li>
+          <li><b><code>AVG</code> também ignora <code>NULL</code> — e isso muda a média.</b> <code>AVG(duracao)</code> sobre 100 linhas com 40 nulas é a média de 60, não de 100. Se o vazio deveria contar como zero, use <code>AVG(COALESCE(duracao, 0))</code>.</li>
+          <li><b><code>WHERE</code> filtra antes de agrupar; <code>HAVING</code>, depois.</b> Filtrar por valor de linha no <code>HAVING</code> funciona em alguns bancos e é lento em todos. E o contrário — <code>WHERE COUNT(*) > 5</code> — simplesmente não existe: agregação não cabe no <code>WHERE</code>.</li>
+          <li><b>Grupo sem nenhuma linha não aparece no resultado.</b> Se você agrupa defeitos por módulo, o módulo com <b>zero</b> defeitos não vem na lista — ele some. Quem lê o relatório conclui que o módulo não existe, e não que ele está limpo.</li>
+          <li><b>Cuidado ao somar percentuais já calculados.</b> A média das taxas de falha por suíte <b>não</b> é a taxa de falha geral: suítes com tamanhos diferentes pesam diferente. Some os numeradores e os denominadores, e divida no fim.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="secao">
       <h2>Prática</h2>
       <p class="legenda">Escreva a query e clique <strong>Rodar</strong> (ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>).</p>
       <div id="schema-ref" data-aberto></div>
@@ -161,6 +178,13 @@ LIMIT 5;</code></pre>
         <div class="resultado" id="res-livre"></div>
       </div>
     </section>
+
+    <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
+      <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
+        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        progresso anda no começo do site. Fica salvo só no seu navegador.
+      </span>
+    </div>
 
     <nav class="acoes" style="margin-top:32px">
       <a href="modulo-2.html"><button>← Módulo 2</button></a>
@@ -218,6 +242,8 @@ LIMIT 5;</code></pre>
       gabarito: "SELECT EXTRACT(DOW FROM data_pedido) AS dia_semana, COUNT(*) AS qtd\nFROM pedidos\nGROUP BY dia_semana\nORDER BY dia_semana;" },
   ];
   </script>
+  <script src="../assets/conferir.js"></script>
+  <script src="../assets/progresso.js"></script>
   <script type="module" src="app-pg.js"></script>
 </body>
 </html>

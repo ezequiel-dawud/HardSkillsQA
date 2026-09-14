@@ -63,8 +63,23 @@ check('valor_total bate', r.json.valor_total === noBanco.valor_total,
       </div>
     </section>
 
+    <section class="secao">
+      <div class="card" style="border-left:3px solid var(--acento)">
+        <h2 style="margin-top:0;border:0">Olhar de QA</h2>
+        <p style="margin-bottom:0">Este módulo é o que mais muda a sua posição num time. Enquanto a maioria consegue dizer "a tela mostrou confirmado", você consegue dizer "a API devolveu R$ 240,00 e a linha gravada tem 0,00 — aqui está o id". <b>Duas fontes independentes para a mesma informação</b> é o que transforma suspeita em evidência. É também o que reduz um dia de investigação a um minuto, porque separa na hora um defeito de escrita de um defeito de leitura.</p>
+      </div>
+    </section>
+
+    <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
+      <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
+        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        progresso anda no começo do site. Fica salvo só no seu navegador.
+      </span>
+    </div>
+
     <nav class="acoes" style="margin-top:32px">
       <a href="modulo-3.html"><button>← Módulo 3</button></a>
+      <a href="prova-4.html"><button>📝 Prova do módulo</button></a>
       <a href="index.html"><button class="primario">Fim da trilha ✓</button></a>
     </nav>
   </main>
@@ -107,6 +122,7 @@ check('valor_total bate', r.json.valor_total === noBanco.valor_total,
       gabarito: "const doCliente = (await api('GET', '/clientes/1/pedidos')).json;\nconst geral = new Set((await api('GET', '/pedidos')).json.map(p => p.id));\ncheck('todo pedido do cliente 1 está na lista geral',\n      doCliente.every(p => geral.has(p.id)),\n      doCliente.length + ' pedidos do cliente');" },
   ];
   </script>
+  <script src="../assets/progresso.js"></script>
   <script src="app-api.js"></script>
 </body>
 </html>

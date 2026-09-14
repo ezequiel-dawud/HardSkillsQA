@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Trilha Git e GitHub para QA</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ Git</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html">3</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <p style="margin:0 0 4px"><a href="../index.html" style="font-size:14px; color:var(--suave); text-decoration:none">← Todas as trilhas</a></p>
+    <h1>Trilha Git e GitHub para QA</h1>
+    <p class="legenda">
+      O mínimo de Git pra <strong>baixar o código, versionar seus testes, ler o que mudou
+      num Pull Request e entender o vermelho do CI</strong>. Três módulos curtos, direto
+      ao que se usa.
+    </p>
+
+    <div class="card card-info">
+      <h3 style="margin-top:0">Por que esta trilha existe</h3>
+      <p style="margin:0;font-size:14px;color:var(--suave)">
+        As trilhas de <strong>pytest</strong>, <strong>k6</strong> e <strong>CI/CD</strong>
+        pedem clonar o repositório, criar branch, commitar e abrir Pull Request. Se você
+        nunca fez isso, é aqui que se resolve — em cerca de <strong>duas horas no total</strong>,
+        fazendo de verdade. Não precisa saber programar.
+      </p>
+    </div>
+
+    <h2>Módulos</h2>
+    <div class="grade-modulos">
+      <a class="modulo-link" href="modulo-1.html">
+        <div class="rot">Módulo 1</div>
+        <div class="tit">Por que Git existe, e pegar o código</div>
+        <div class="desc">o problema que ele resolve, Git × GitHub, vocabulário, instalar, fork e clone</div>
+      </a>
+      <a class="modulo-link" href="modulo-2.html">
+        <div class="rot">Módulo 2</div>
+        <div class="tit">O ciclo do dia a dia</div>
+        <div class="desc">as três áreas, status/add/commit/push, branch, ler diff e log, conflitos sem pânico</div>
+      </a>
+      <a class="modulo-link" href="modulo-3.html">
+        <div class="rot">Módulo 3</div>
+        <div class="tit">Pull Request e o papel do QA</div>
+        <div class="desc">abrir um PR, ler um diff com olhos de quem testa, os checks do CI</div>
+      </a>
+    </div>
+
+    <h2>Provas por módulo</h2>
+    <p class="legenda">
+      Múltipla escolha, corrigida na hora, com uma questão aberta por prova.
+      Nota <strong>≥ 70%</strong> = módulo firme.
+    </p>
+    <div class="acoes">
+      <a href="prova-1.html"><button>Prova 1</button></a>
+      <a href="prova-2.html"><button>Prova 2</button></a>
+      <a href="prova-3.html"><button>Prova 3</button></a>
+    </div>
+
+    <h2>Cola de comandos</h2>
+    <div class="card">
+      <pre class="bloco"><code># começar
+git clone https://github.com/SEU-USUARIO/HardSkillsQA.git
+cd HardSkillsQA
+
+# antes de começar algo novo
+git switch main
+git pull
+git switch -c nome-do-branch
+
+# o ciclo
+git status                       # onde estou / o que mudou
+git diff                         # o que eu mudei, linha a linha
+git add caminho/do/arquivo
+git commit -m "mensagem que explica o que muda"
+git push -u origin nome-do-branch
+
+# investigar
+git log --oneline -10            # últimos commits
+git log --oneline -- trilha-3/   # commits que tocaram nessa pasta
+git show a1b2c3d                 # o que aquele commit mudou
+git restore arquivo              # desfaz edição não commitada (perde o que escreveu)</code></pre>
+    </div>
+  </main>
+  <script src="../assets/progresso.js"></script>
+</body>
+</html>

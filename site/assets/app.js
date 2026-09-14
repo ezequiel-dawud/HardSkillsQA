@@ -169,10 +169,10 @@ function rodar(sql, destino) {
   destino.innerHTML = "";
   if (!db) {
     destino.innerHTML = '<p class="msg-erro">Banco ainda não carregou.</p>';
-    return;
+    return false;
   }
   const texto = sql.trim();
-  if (!texto) return;
+  if (!texto) return false;
 
   try {
     const statements = db.exec(texto); // array de {columns, values}
@@ -192,9 +192,40 @@ function rodar(sql, destino) {
         mudou +
         " linha(s) afetada(s).</p>";
     }
+    return true;
   } catch (e) {
     destino.innerHTML =
       '<p class="msg-erro">ERRO SQL: ' + escapar(String(e.message || e)) + "</p>";
+    return false;
+  }
+}
+
+/* roda uma query só pra pegar os dados (sem desenhar nada) — usado pela
+   conferência automática, que precisa do resultado do gabarito pra comparar. */
+function execLinhas(sql) {
+  const r = db.exec(sql);
+  const u = r.length ? r[r.length - 1] : null;
+  if (!u) return { colunas: [], linhas: [] };
+  return { colunas: u.columns, linhas: u.values };
+}
+
+/* compara o que o aluno escreveu com o gabarito e pinta o veredito */
+function conferirExercicio(ex, sqlAluno, rodouOk, vd) {
+  if (!window.Conferir || !vd) return;
+  if (!ex.gabarito || !rodouOk || !sqlAluno.trim()) { Conferir.limpar(vd); return; }
+
+  if (!Conferir.somenteLeitura(sqlAluno) || !Conferir.somenteLeitura(ex.gabarito)) {
+    Conferir.pintar(vd, Conferir.NEUTRO_ESCRITA);
+    return;
+  }
+  try {
+    const got = execLinhas(sqlAluno);
+    const esp = execLinhas(ex.gabarito);
+    const v = Conferir.julgar(esp, got, ex.gabarito);
+    Conferir.pintar(vd, v);
+    if (v.estado === "ok" && window.Progresso) Progresso.marcarExercicio(ex.id);
+  } catch (e) {
+    Conferir.limpar(vd);
   }
 }
 
@@ -358,6 +389,8 @@ function montarExercicios() {
   const cont = document.getElementById("exercicios");
   if (!cont || typeof EXERCICIOS === "undefined") return;
 
+  if (window.Progresso) Progresso.registrarTotal(EXERCICIOS.length);
+
   EXERCICIOS.forEach((ex) => {
     const card = document.createElement("div");
     card.className = "card exercicio";
@@ -409,6 +442,11 @@ function montarExercicios() {
     card.appendChild(acoes);
     if (dicaBox) card.appendChild(dicaBox);
 
+    // banner de veredito da conferência automática (fica acima da tabela)
+    const vd = document.createElement("div");
+    vd.className = "veredito";
+    card.appendChild(vd);
+
     const resultado = document.createElement("div");
     resultado.className = "resultado";
     card.appendChild(resultado);
@@ -423,11 +461,15 @@ function montarExercicios() {
       '<div class="acoes"><button data-usar-gab>Usar essa no editor</button></div>';
     card.appendChild(gab);
 
-    bRodar.addEventListener("click", () => rodar(ta.value, resultado));
+    const rodarEConferir = () => {
+      const ok = rodar(ta.value, resultado);
+      conferirExercicio(ex, ta.value, ok, vd);
+    };
+    bRodar.addEventListener("click", rodarEConferir);
     ta.addEventListener("keydown", (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
         e.preventDefault();
-        rodar(ta.value, resultado);
+        rodarEConferir();
       }
     });
     if (bDica) {

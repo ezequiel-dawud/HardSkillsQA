@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 3 (pytest)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ pytest / Provas</span></div>
+    <nav>
+      <a href="prova-1.html">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html" class="atual">3</a>
+      <a href="prova-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 3</h1>
+    <p class="legenda">Validação de dados vira teste; o padrão da lista vazia; xfail. &nbsp;<a href="modulo-3.html">← rever o módulo</a></p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 3", trilha: "pytest", modulo: 3, indiceHref: "index.html",
+    questoes: [
+      {
+            "t": "mc",
+            "enun": "Qual é o padrão usado para transformar uma query de validação em teste?",
+            "ops": [
+                  "A query traz <b>só as linhas que violam a regra</b>, e o assert confere que a lista veio vazia",
+                  "A query traz todas as linhas, e o teste conta quantas estão certas",
+                  "A query é comparada com um arquivo de resultado esperado salvo no repositório",
+                  "O teste roda a query duas vezes e compara os resultados"
+            ],
+            "correta": 0,
+            "exp": "<code>assert ruins == []</code>. Simples, direto, e a mensagem lista quais linhas quebraram."
+      },
+      {
+            "t": "mc",
+            "enun": "Por que a mensagem do assert deve listar os ids das linhas com problema?",
+            "ops": [
+                  "Porque no CI ninguém está olhando a tela na hora da falha — a mensagem é o que permite investigar depois",
+                  "Porque o pytest exige mensagem em todo assert",
+                  "Porque sem ela o teste não falha corretamente",
+                  "Porque aumenta a cobertura de código do projeto"
+            ],
+            "correta": 0,
+            "exp": "Num pipeline, a mensagem do assert é o relatório de bug. Vale o mesmo cuidado do título de um defeito."
+      },
+      {
+            "t": "mc",
+            "enun": "Nem toda validação é \"tem que dar zero\". Qual é um exemplo legítimo de assert sobre proporção?",
+            "ops": [
+                  "<code>assert sem_defeito / total_falhas &lt;= 0.30</code> — vigiar um teto aceitável em vez de exigir perfeição",
+                  "<code>assert total_falhas == 0</code> — nenhuma execução pode falhar",
+                  "<code>assert len(linhas) &gt; 0</code> — sempre deve haver linhas",
+                  "<code>assert True</code> — garantir que o teste roda"
+            ],
+            "correta": 0,
+            "exp": "Regras \"moles\" existem: não é erro grave, mas você quer ser avisado se passar do teto. O assert aceita qualquer expressão booleana."
+      },
+      {
+            "t": "mc",
+            "enun": "Qual a diferença entre <code>skip</code> e <code>xfail</code>?",
+            "ops": [
+                  "<code>skip</code> nem executa o teste; <code>xfail</code> executa e confere que ele continua quebrado",
+                  "<code>skip</code> é para testes lentos e <code>xfail</code> para testes rápidos",
+                  "<code>xfail</code> ignora o resultado; <code>skip</code> registra a falha",
+                  "São equivalentes; <code>xfail</code> é apenas a forma mais nova"
+            ],
+            "correta": 0,
+            "exp": "Por isso <code>xfail</code> é honesto: ele continua monitorando o problema, em vez de fingir que ele não existe."
+      },
+      {
+            "t": "mc",
+            "enun": "Para que serve o <code>strict=True</code> no <code>@pytest.mark.xfail</code>?",
+            "ops": [
+                  "Se o teste um dia <b>passar</b> (o dado foi corrigido), o pytest reprova o build de propósito, lembrando de remover o marcador",
+                  "Faz o teste falhar imediatamente, sem executar",
+                  "Impede que o teste seja pulado por outras marcações",
+                  "Exige que a razão do xfail esteja documentada"
+            ],
+            "correta": 0,
+            "exp": "É o que evita a maior armadilha do xfail: marcador esquecido escondendo um teste que já poderia estar verde."
+      },
+      {
+            "t": "mc",
+            "enun": "No projeto, três testes estão marcados como <code>xfail</code>. O que isso significa?",
+            "ops": [
+                  "Os testes estão corretos — o banco de prática tem bugs plantados de propósito, e eles os encontram",
+                  "Os testes estão mal escritos e precisam ser corrigidos",
+                  "Os testes dependem de uma funcionalidade ainda não implementada",
+                  "Os testes são lentos demais para rodar no CI"
+            ],
+            "correta": 0,
+            "exp": "Tirar o marcador e ver o vermelho é o exercício do módulo: o teste vermelho <b>é</b> o bug report."
+      },
+      {
+            "t": "aberta",
+            "enun": "Na tabela <code>defeitos</code>, a regra é: defeito com status <code>fechado</code> ou <code>resolvido</code> precisa ter <code>data_fechamento</code> preenchida. Escreva o teste e explique o que você faria se ele ficasse vermelho num projeto real.",
+            "modelo": "<pre class=\"bloco\"><code>def test_defeito_fechado_tem_data_de_fechamento(db):\n    ruins = db.execute(\n        \"\"\"\n        SELECT id, status\n        FROM defeitos\n        WHERE status IN ('fechado', 'resolvido')\n          AND data_fechamento IS NULL\n        \"\"\"\n    ).fetchall()\n    assert ruins == [], f\"defeitos fechados sem data: {[r['id'] for r in ruins]}\"</code></pre><p><b>Se ficasse vermelho num projeto real</b>, a sequência seria:</p><ol><li><b>Confirmar no banco:</b> rodar a query à mão e olhar as linhas — quantas são, de quando, de qual módulo.</li><li><b>Decidir o que é o defeito:</b> o dado está torto (alguém fechou sem preencher) ou a <em>regra</em> é que está errada (existe um fluxo legítimo de fechar sem data)? Essa pergunta é do Módulo 5 de Fundamentos: pode ser que o defeito esteja na especificação.</li><li><b>Abrir o relatório</b> com os ids como evidência, severidade e prioridade justificadas separadamente.</li><li><b>Manter o teste vermelho</b>, ou marcá-lo com <code>xfail(strict=True)</code> enquanto o dado não é corrigido — nunca apagá-lo. Com <code>strict</code>, no dia da correção o build avisa que o marcador pode sair.</li></ol><p>O que <b>não</b> se faz: afrouxar o assert para a suíte ficar verde. Isso transforma o teste num enfeite.</p>",
+            "dica": "lembre que a regra também vale ao contrário: aberto não pode ter data de fechamento."
+      }
+]
+  };
+  </script>
+  <script src="../assets/progresso.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

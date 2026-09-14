@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 4 (pytest)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ pytest / Provas</span></div>
+    <nav>
+      <a href="prova-1.html">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html">3</a>
+      <a href="prova-4.html" class="atual">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 4</h1>
+    <p class="legenda">parametrize e rodar no CI (GitHub Actions). &nbsp;<a href="modulo-4.html">← rever o módulo</a></p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 4", trilha: "pytest", modulo: 4, indiceHref: "index.html",
+    questoes: [
+      {
+            "t": "mc",
+            "enun": "Para que serve <code>@pytest.mark.parametrize</code>?",
+            "ops": [
+                  "Rodar a mesma função de teste com valores diferentes, virando um caso separado no relatório para cada um",
+                  "Passar configurações de ambiente para o teste",
+                  "Definir a ordem em que os testes executam",
+                  "Repetir o teste até que ele passe"
+            ],
+            "correta": 0,
+            "exp": "Se um dos casos quebrar, você vê exatamente qual — sem ambiguidade e sem copiar a função N vezes."
+      },
+      {
+            "t": "mc",
+            "enun": "Qual a vantagem de parametrizar em vez de escrever três funções quase iguais?",
+            "ops": [
+                  "Menos duplicação, e o relatório continua mostrando cada caso separadamente",
+                  "Os testes passam a rodar em paralelo automaticamente",
+                  "O pytest deixa de exigir o prefixo <code>test_</code>",
+                  "Reduz o tempo de execução pela metade"
+            ],
+            "correta": 0,
+            "exp": "Você ganha a economia da duplicação <b>sem</b> perder a granularidade do relatório — que é o motivo de não juntar tudo num teste só."
+      },
+      {
+            "t": "mc",
+            "enun": "No workflow do projeto, quando o pipeline de pytest dispara?",
+            "ops": [
+                  "A cada push que mexa em <code>trilha-3/</code> ou no banco, e também manualmente pelo botão <b>Run workflow</b>",
+                  "Uma vez por dia, em horário agendado",
+                  "Somente quando um Pull Request é aprovado",
+                  "A cada commit em qualquer arquivo do repositório"
+            ],
+            "correta": 0,
+            "exp": "Filtrar por caminho evita rodar a suíte inteira quando alguém só mexeu no README."
+      },
+      {
+            "t": "mc",
+            "enun": "O que faz o check do commit ficar vermelho?",
+            "ops": [
+                  "O passo do pipeline terminar com código de saída diferente de 0",
+                  "Qualquer mensagem de aviso impressa no log",
+                  "A execução passar de um tempo limite configurado",
+                  "Um teste marcado como <code>xfail</code> falhar"
+            ],
+            "correta": 0,
+            "exp": "<code>xfail</code> que falha é o comportamento esperado e mantém a suíte verde — é justamente o que permite os três bugs plantados conviverem com um CI verde."
+      },
+      {
+            "t": "mc",
+            "enun": "Por que rodar os testes no CI é diferente de rodar na sua máquina?",
+            "ops": [
+                  "Porque o pipeline usa um computador limpo e igual para todo mundo, o que elimina o \"na minha máquina funciona\"",
+                  "Porque o CI usa uma versão especial do pytest, mais rigorosa",
+                  "Porque no CI os testes rodam em paralelo e portanto mais rápido",
+                  "Porque o CI ignora os testes marcados como lentos"
+            ],
+            "correta": 0,
+            "exp": "Não existe \"a minha máquina\": existe a máquina do pipeline, descrita no arquivo do workflow."
+      },
+      {
+            "t": "mc",
+            "enun": "O que significa um teste <code>xfail</code> virar <code>XPASS</code> com <code>strict=True</code>?",
+            "ops": [
+                  "O problema que ele vigiava foi corrigido — e o build reprova de propósito, para lembrar de remover o marcador",
+                  "O teste passou por acaso e deve ser ignorado",
+                  "O teste foi pulado por falta de dependências",
+                  "O marcador está mal configurado e precisa de um <code>reason</code>"
+            ],
+            "correta": 0,
+            "exp": "É um alarme útil: sem ele, o marcador fica lá para sempre escondendo um teste que já poderia estar protegendo o projeto."
+      },
+      {
+            "t": "aberta",
+            "enun": "Escreva um teste parametrizado que confirme que a coluna <code>id</code> não se repete em <code>clientes</code>, <code>produtos</code> e <code>pedidos</code>. Explique por que parametrizar é melhor aqui do que um único teste com três queries.",
+            "modelo": "<pre class=\"bloco\"><code>@pytest.mark.parametrize(\"tabela\", [\"clientes\", \"produtos\", \"pedidos\"])\ndef test_id_nao_se_repete(db, tabela):\n    ruins = db.execute(\n        f\"SELECT id, COUNT(*) AS qtd FROM {tabela} \"\n        f\"GROUP BY id HAVING COUNT(*) &gt; 1\"\n    ).fetchall()\n    assert ruins == [], f\"{tabela}: ids repetidos {[r['id'] for r in ruins]}\"</code></pre><p><b>Por que parametrizar é melhor que um teste com três queries:</b></p><ul><li><b>Granularidade no relatório:</b> aparecem três casos — <code>[clientes]</code>, <code>[produtos]</code>, <code>[pedidos]</code>. Se um quebrar, você lê qual no próprio nome, sem abrir o log.</li><li><b>Não para no primeiro:</b> num teste único com três asserts, o primeiro que falha interrompe a função e você nunca descobre se as outras duas tabelas também estão com problema. Parametrizado, os três casos rodam sempre.</li><li><b>Fácil de estender:</b> acrescentar <code>itens_pedido</code> é acrescentar uma string na lista.</li></ul><p>Esses dois primeiros pontos são o motivo real: parametrizar não é só evitar repetição de código — é preservar a informação que o relatório entrega.</p>",
+            "dica": "pense no que aparece no relatório quando um dos três casos falha."
+      }
+]
+  };
+  </script>
+  <script src="../assets/progresso.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

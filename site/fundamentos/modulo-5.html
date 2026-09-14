@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fundamentos Módulo 5 — Relatar bug</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ Fundamentos</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html">4</a>
+      <a href="modulo-5.html" class="atual">5</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 5 — Relatar bug</h1>
+    <p class="legenda">A anatomia de um relatório que é corrigido, severidade × prioridade, e o ciclo de vida do defeito</p>
+
+    <details class="card aquecimento">
+      <summary>Aquecimento — 2 perguntas do Módulo 4</summary>
+      <p class="resp"><b>1.</b> O que uma carta de teste precisa ter?<br>
+        <i>Explorar</i> (a área), <i>com</i> (dados, contas, ferramentas) e <i>para</i>
+        (que risco ou informação você busca) — mais tempo marcado.</p>
+      <p class="resp"><b>2.</b> O que é um oráculo?<br>
+        <i>O que te permite afirmar que algo está errado</i>: a especificação, a consistência
+        interna, o comportamento anterior, o propósito — e os dados no banco.</p>
+    </details>
+
+    <section class="secao">
+      <h2>O relatório é o produto do seu trabalho</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          Um defeito que você encontrou mas ninguém conseguiu reproduzir <b>não vai ser
+          corrigido</b>. Nesse caso o trabalho de achar foi desperdiçado — e, pior, você
+          gastou o tempo de outra pessoa tentando entender.
+        </p>
+        <p style="margin-bottom:0">
+          Por isso: o relatório <em>é</em> a entrega. Ele tem um leitor específico — quem
+          vai corrigir — e um objetivo único: <b>fazer essa pessoa ver o problema na
+          máquina dela, sozinha, em menos de dois minutos</b>. Tudo que serve a isso entra;
+          tudo que não serve, sai.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>Anatomia</h2>
+      <div class="card">
+        <table class="dados">
+          <thead><tr><th>Campo</th><th>Para que serve</th></tr></thead>
+          <tbody>
+            <tr><td><b>Título</b></td><td>a pessoa decide em 3 segundos se é com ela. É o campo mais lido e o mais maltratado.</td></tr>
+            <tr><td><b>Ambiente e versão</b></td><td>dev / homolog / produção, versão do sistema, navegador e aparelho. Sem isso, "na minha máquina funciona" é inevitável.</td></tr>
+            <tr><td><b>Pré-condições</b></td><td>o estado necessário antes de começar: que tipo de usuário, que dado precisa existir.</td></tr>
+            <tr><td><b>Passos</b></td><td>numerados, do zero, sem pular nada que pareça óbvio. Quem lê não estava lá.</td></tr>
+            <tr><td><b>Resultado esperado</b></td><td>o que deveria acontecer — <b>e por quê</b>: a regra, a história, a tela de referência.</td></tr>
+            <tr><td><b>Resultado obtido</b></td><td>o que aconteceu de fato. Descreva, não interprete.</td></tr>
+            <tr><td><b>Evidência</b></td><td>print, vídeo curto, log, resposta da API, a linha do banco. Uma imagem economiza um parágrafo.</td></tr>
+            <tr><td><b>Severidade e prioridade</b></td><td>dois campos diferentes — a seção abaixo é inteira sobre isso.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">Título: a fórmula que funciona</h3>
+        <pre class="bloco"><code>[onde]  o quê acontece  [quando / em que condição]</code></pre>
+        <table class="dados">
+          <thead><tr><th>Ruim</th><th>Bom</th></tr></thead>
+          <tbody>
+            <tr><td>Erro no checkout</td><td>[Checkout] Frete cobrado em pedido acima de R$ 300, que deveria ser grátis</td></tr>
+            <tr><td>Não funciona</td><td>[Login] Botão "Entrar" não responde no Safari iOS 17</td></tr>
+            <tr><td>Bug no carrinho urgente!!!</td><td>[Carrinho] Cupom continua aplicado após remover itens e ficar abaixo do mínimo de R$ 50</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-bottom:0" class="legenda">
+          Teste do título: se a pessoa ler só ele e conseguir dizer onde procurar no código,
+          está bom.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Antes e depois</h2>
+      <div class="card pegadinhas">
+        <h3 style="margin-top:0">❌ Como chega (e volta)</h3>
+        <pre class="bloco"><code>Título: desconto errado
+
+Descrição: testei o desconto e veio errado, acho que o
+cálculo está trocado. Dá uma olhada aí.</code></pre>
+        <p style="margin-bottom:0">
+          Problemas: título não diz onde nem o quê; não dá pra reproduzir; não diz qual
+          valor veio nem qual era o esperado; não diz o ambiente; e <b>chuta o defeito</b>
+          em vez de relatar a falha (Módulo 1). O resultado previsível é a pergunta "como
+          você fez?" e mais um dia perdido.
+        </p>
+      </div>
+
+      <div class="card" style="border-left:4px solid var(--ok)">
+        <h3 style="margin-top:0;color:var(--ok)">✅ Como deveria chegar</h3>
+        <pre class="bloco"><code>Título: [Checkout] Desconto de 25% aplicado para cliente VIP com cupom,
+        quando o esperado é 20%
+
+Ambiente: homolog, v2.14.0 — Chrome 128, Windows 11
+
+Pré-condições:
+  - cliente com perfil VIP (usei vip.teste@exemplo.com)
+  - cupom PROMO15 ativo e ainda não utilizado
+
+Passos:
+  1. Entrar como vip.teste@exemplo.com
+  2. Adicionar "Monitor 24pol" (R$ 1.000,00) ao carrinho
+  3. Ir para o checkout
+  4. Aplicar o cupom PROMO15
+  5. Observar o resumo do pedido
+
+Esperado:  desconto de 20% (R$ 200,00), total R$ 800,00.
+           Regra da história QA-142: VIP + cupom = 20%, os descontos
+           não são somados.
+
+Obtido:    desconto de 25% (R$ 250,00), total R$ 750,00.
+           Parece que os 10% do VIP e os 15% do cupom foram somados.
+
+Evidência: print do resumo (anexo), e a resposta da API:
+           POST /pedidos → {"desconto": 250.00, "total": 750.00}
+
+Severidade: alta      Prioridade: P1
+Observação: acontece com qualquer cupom, não só o PROMO15.</code></pre>
+        <p style="margin-bottom:0">
+          Note três detalhes de quem tem experiência: o <b>esperado cita a regra</b>
+          (QA-142) em vez de ser opinião; a hipótese sobre a causa aparece como
+          "<em>parece que</em>", separada do fato; e a última linha diz que o problema
+          <b>é mais amplo do que o passo a passo sugere</b> — informação que economiza uma
+          rodada inteira de conversa.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>Severidade × Prioridade</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          São <b>duas perguntas diferentes</b>, feitas por pessoas diferentes. Confundir as
+          duas é o mal-entendido mais comum de quem está começando — e um dos poucos temas
+          que cai em praticamente toda entrevista de QA.
+        </p>
+        <ul>
+          <li><b>Severidade</b> — <em>o tamanho do estrago</em> quando o defeito acontece.
+            É uma avaliação técnica, e normalmente quem reporta é quem define.</li>
+          <li><b>Prioridade</b> — <em>a urgência de corrigir</em>. É uma decisão de negócio:
+            depende de quanta gente é afetada, do impacto financeiro, de contrato, de
+            imagem, do que mais está na fila.</li>
+        </ul>
+        <p>
+          Por serem independentes, existem os quatro cruzamentos — e os dois cruzamentos
+          "estranhos" é que provam que os campos são mesmo diferentes:
+        </p>
+        <table class="dados">
+          <thead><tr><th></th><th>Prioridade alta (P1)</th><th>Prioridade baixa (P4)</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><b>Severidade<br>crítica</b></td>
+              <td>Checkout derruba o sistema pra todo mundo.<br><i>Óbvio: pare tudo.</i></td>
+              <td><b>Sistema quebra</b> ao gerar relatório num formato que <b>dois clientes</b> usam, uma vez por ano.<br><i>Estrago enorme, mas quase ninguém é afetado — pode esperar.</i></td>
+            </tr>
+            <tr>
+              <td><b>Severidade<br>baixa</b></td>
+              <td><b>Nome da empresa escrito errado</b> na página inicial, no dia do lançamento.<br><i>Não quebra nada, mas é a primeira coisa que todo mundo vê — corrija agora.</i></td>
+              <td>Texto desalinhado por 2 pixels numa tela interna.<br><i>Óbvio: entra na fila.</i></td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="margin-bottom:0">
+          <b>Guarde os dois exemplos do meio</b> — o do relatório anual e o do nome errado
+          na home. Eles são a resposta pronta pra pergunta "qual a diferença entre
+          severidade e prioridade?".
+        </p>
+      </div>
+
+      <div class="card pegadinhas">
+        <h3 style="margin-top:0">Não infle a severidade pra ser atendido</h3>
+        <p style="margin-bottom:0">
+          É tentador marcar tudo como crítico pra o bug não morrer na fila. Funciona uma
+          vez. Depois, o time aprende a descontar o que você diz — e aí o seu crítico de
+          verdade vira só mais um. <b>Severidade é escala técnica, não é o volume da sua
+          voz.</b> Se algo é severidade média mas precisa sair hoje, o campo certo pra
+          isso é a <em>prioridade</em>, e o lugar certo é uma conversa explicando o porquê.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>O ciclo de vida do defeito</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          O banco que você vai usar nas outras trilhas tem uma tabela <code>defeitos</code>
+          com exatamente os estados que um bug percorre na vida real:
+        </p>
+        <pre class="bloco"><code>aberto ──→ em_analise ──→ resolvido ──→ fechado
+                              │              │
+                              └──────────────┴──→ reaberto ──┐
+                                                      ▲      │
+                                                      └──────┘</code></pre>
+        <ul>
+          <li><b>aberto</b> — você reportou, ninguém pegou ainda.</li>
+          <li><b>em_analise</b> — alguém está investigando ou corrigindo.</li>
+          <li><b>resolvido</b> — a correção foi feita. <b>Ainda não acabou:</b> falta você
+            fazer o <em>reteste</em> (Módulo 2).</li>
+          <li><b>fechado</b> — você retestou e confirmou. Só QA fecha.</li>
+          <li><b>reaberto</b> — o reteste falhou, ou o problema voltou depois. É um sinal
+            importante: muitos reabertos indicam correção apressada ou relatório incompleto.</li>
+        </ul>
+        <p style="margin-bottom:0">
+          <b>Repare no gancho com o Módulo 3:</b> isso é uma máquina de estados, e as
+          transições proibidas valem teste — dá pra fechar um defeito que nunca foi
+          resolvido? E há uma regra de dados fácil de verificar: todo defeito
+          <code>fechado</code> ou <code>resolvido</code> precisa ter
+          <code>data_fechamento</code> preenchida; todo <code>aberto</code> precisa ter
+          <code>data_fechamento</code> nula. <i>Nas trilhas de SQL e de pytest você escreve
+          exatamente essas verificações — e elas encontram dado inconsistente de verdade.</i>
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">Os campos da tabela <code>defeitos</code>, e por que cada um existe</h3>
+        <table class="dados">
+          <thead><tr><th>Coluna</th><th>Para que serve no dia a dia</th></tr></thead>
+          <tbody>
+            <tr><td><code>titulo</code></td><td>a triagem inteira acontece lendo só esta coluna</td></tr>
+            <tr><td><code>modulo</code></td><td>permite ver onde os defeitos se agrupam (princípio 4 do Módulo 1)</td></tr>
+            <tr><td><code>severidade</code></td><td>tamanho do estrago — técnico</td></tr>
+            <tr><td><code>prioridade</code></td><td>urgência — negócio</td></tr>
+            <tr><td><code>status</code></td><td>onde o defeito está no ciclo acima</td></tr>
+            <tr><td><code>ambiente</code></td><td>dev / homolog / <b>producao</b> — defeito crítico que escapou pra produção é a métrica mais dolorida e mais útil de um time de QA</td></tr>
+            <tr><td><code>data_abertura</code> / <code>data_fechamento</code></td><td>a diferença entre as duas é o <b>tempo de correção</b>; a segunda nula significa "ainda aberto"</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-bottom:0" class="legenda">
+          Quando você chegar na Trilha de SQL, vai reconhecer essa tabela — e as consultas
+          vão fazer sentido de negócio, não só de sintaxe.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>As três situações difíceis</h2>
+      <div class="card">
+        <h3 style="margin-top:0">"Não consegui reproduzir"</h3>
+        <p>
+          Antes de reportar, tente de novo <b>do zero</b>, em outra conta e, se der, em
+          outra máquina. Se acontece só às vezes, diga isso e diga a frequência real
+          ("3 vezes em 10 tentativas"). Junte tudo que possa ser a diferença: horário, dado
+          usado, se havia outra aba aberta, o log do console. <b>Bug intermitente é bug</b> —
+          o que não pode é você esconder que é intermitente.
+        </p>
+
+        <h3>"Isso é duplicado"</h3>
+        <p>
+          Procure antes de abrir. Se for o mesmo defeito, acrescente sua informação no
+          relatório existente em vez de abrir outro — outro ambiente, outro caminho de
+          reprodução, mais uma ocorrência. Isso <em>aumenta</em> a prioridade do que já
+          existe, o que é melhor do que dividir a atenção em dois registros.
+        </p>
+
+        <h3>"Não é bug, é o comportamento esperado"</h3>
+        <p style="margin-bottom:0">
+          Acontece, e não tem problema. A resposta profissional não é insistir — é
+          perguntar <b>onde está escrito</b>. Se estiver documentado, ótimo: você aprendeu
+          algo e o relatório fecha. Se ninguém souber dizer, <b>o defeito mudou de lugar</b>:
+          não está no código, está na especificação. Aí o registro certo é "comportamento
+          indefinido: ninguém sabe qual deveria ser" — e isso precisa ser decidido por
+          alguém, não silenciado.
+        </p>
+      </div>
+
+      <div class="card" style="border-left:3px solid var(--acento)">
+        <h3 style="margin-top:0">Olhar de QA</h3>
+        <p style="margin-bottom:0">
+          Escreva o relatório <b>do lado</b> de quem vai corrigir, não contra. Descreva o
+          comportamento, nunca a pessoa; separe fato de hipótese; e entregue de bandeja
+          tudo que economize tempo de investigação. A diferença entre "o checkout está um
+          desastre" e "o checkout soma os dois descontos quando o cliente é VIP" não é só
+          educação — é que a segunda frase pode ser corrigida.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Sua vez</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          Pegue um achado da sessão exploratória do Módulo 4 — ou este aqui, se preferir:
+        </p>
+        <p style="border-left:3px solid var(--acento);padding-left:14px">
+          <i>"No app de delivery, se você adicionar um item ao carrinho, esperar 20 minutos
+          sem mexer, e então finalizar o pedido, o preço cobrado é o antigo — mesmo que o
+          restaurante tenha reajustado o cardápio nesse meio-tempo."</i>
+        </p>
+        <p style="margin-bottom:0">
+          Escreva o relatório completo: título na fórmula, ambiente, pré-condições, passos
+          numerados, esperado com a razão, obtido, evidência que você juntaria, severidade
+          e prioridade — <b>com uma frase justificando cada uma das duas</b>. A prova traz
+          essa mesma questão, com uma resposta modelo pra você comparar.
+        </p>
+      </div>
+    </section>
+
+    <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
+      <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
+        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        progresso anda no começo do site. Fica salvo só no seu navegador.
+      </span>
+    </div>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="modulo-4.html"><button>← Módulo 4</button></a>
+      <a href="prova-5.html"><button>📝 Prova do módulo</button></a>
+      <a href="index.html"><button class="primario">Fim da trilha ✓</button></a>
+    </nav>
+  </main>
+  <script src="../assets/progresso.js"></script>
+</body>
+</html>

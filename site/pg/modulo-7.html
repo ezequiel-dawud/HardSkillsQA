@@ -130,6 +130,23 @@ WHERE pos &lt;= 5;</code></pre>
     </section>
 
     <section class="secao">
+      <div class="card pegadinhas">
+        <h2 style="margin-top:0;border:0">Pegadinhas deste módulo</h2>
+        <p style="margin-top:0;font-size:14px">
+          Os erros que quase todo mundo comete aqui. Ler agora poupa meia hora de
+          confusão depois — e alguns deles são a causa de relatório errado em projeto real.
+        </p>
+        <ul>
+          <li><b><code>UPDATE</code> ou <code>DELETE</code> sem <code>WHERE</code> atinge a tabela inteira.</b> E não pede confirmação. <b>Hábito que salva:</b> escreva primeiro como <code>SELECT</code> com o mesmo <code>WHERE</code>, confira quais linhas voltam, e só então troque o começo por <code>UPDATE</code> ou <code>DELETE</code>.</li>
+          <li><b>Sem <code>BEGIN</code>, cada comando já está confirmado.</b> Na maioria das ferramentas não existe "desfazer". Em dado que importa, abra a transação antes, confira o resultado, e só então <code>COMMIT</code> — ou <code>ROLLBACK</code>.</li>
+          <li><b>Conte antes de escrever.</b> <code>SELECT COUNT(*)</code> com o mesmo <code>WHERE</code> diz quantas linhas você está prestes a mudar. Se o número surpreender, pare.</li>
+          <li><b><code>INSERT</code> sem nomear as colunas quebra quando a tabela muda.</b> <code>INSERT INTO t VALUES (...)</code> depende da ordem das colunas. Nomeie sempre: <code>INSERT INTO t (a, b) VALUES (...)</code>.</li>
+          <li><b>Massa de teste criada por você também precisa ser limpa.</b> Dado de teste esquecido em ambiente compartilhado vira o "bug" que outra pessoa vai investigar na semana que vem.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="secao">
       <h2>Prática</h2>
       <p class="legenda">Escreva a query e clique <strong>Rodar</strong> (ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>).</p>
       <div id="schema-ref" data-aberto></div>
@@ -149,6 +166,20 @@ ORDER BY categoria, pos_na_categoria;</textarea>
         <div class="resultado" id="res-livre"></div>
       </div>
     </section>
+
+    <section class="secao">
+      <div class="card" style="border-left:3px solid var(--acento)">
+        <h2 style="margin-top:0;border:0">Olhar de QA</h2>
+        <p style="margin-bottom:0"><i>Window functions</i> respondem perguntas que agregação simples não alcança: "qual a posição deste pedido no histórico do cliente?", "este defeito demorou mais que os anteriores do mesmo módulo?", "quanto tempo passou entre uma execução e a seguinte do mesmo caso de teste?". É a ferramenta de quem analisa <b>tendência</b>, e não só o retrato de hoje — e tendência é o que se leva para uma reunião de qualidade.</p>
+      </div>
+    </section>
+
+    <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
+      <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
+        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        progresso anda no começo do site. Fica salvo só no seu navegador.
+      </span>
+    </div>
 
     <nav class="acoes" style="margin-top:32px">
       <a href="modulo-6.html"><button>← Módulo 6</button></a>
@@ -206,6 +237,8 @@ ORDER BY categoria, pos_na_categoria;</textarea>
       gabarito: "SELECT categoria,\n       COUNT(*) AS qtd,\n       ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 1) AS fracao_pct\nFROM produtos\nGROUP BY categoria\nORDER BY qtd DESC;" },
   ];
   </script>
+  <script src="../assets/conferir.js"></script>
+  <script src="../assets/progresso.js"></script>
   <script type="module" src="app-pg.js"></script>
 </body>
 </html>

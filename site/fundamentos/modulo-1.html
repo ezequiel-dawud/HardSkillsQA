@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fundamentos Módulo 1 — O que é testar</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ Fundamentos</span></div>
+    <nav>
+      <a href="modulo-1.html" class="atual">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html">4</a>
+      <a href="modulo-5.html">5</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 1 — O que é testar</h1>
+    <p class="legenda">Qualidade, defeito × falha, os princípios que mudam como você trabalha, e onde o QA entra</p>
+
+    <section class="secao">
+      <h2>A pergunta que o teste responde</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          Quase todo mundo começa achando que testar é <em>provar que o sistema funciona</em>.
+          É o contrário. Testar é <b>procurar evidência de que ele não funciona</b> — e,
+          quando você procura bem e não acha, aí sim isso vira confiança.
+        </p>
+        <p>Por isso a definição que vale a pena guardar é esta:</p>
+        <p style="font-size:17px;border-left:3px solid var(--acento);padding-left:14px;margin:16px 0">
+          <b>Testar é gerar informação sobre o risco de um software, pra que alguém
+          possa decidir.</b>
+        </p>
+        <p style="margin-bottom:0">
+          Repare nas duas partes. <b>Informação</b>: o QA normalmente não é quem decide
+          se libera — ele entrega o que se sabe (e o que não se sabe) pra quem decide.
+          E <b>risco</b>: não existe testar tudo, então você sempre escolhe onde olhar.
+          Escolher bem é a habilidade central da profissão — o Módulo 3 é inteiro sobre isso.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>Erro → Defeito → Falha</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          Três palavras que o mercado usa como sinônimo e que não são. Saber separar muda
+          a forma como você escreve um relatório de bug:
+        </p>
+        <ul>
+          <li><b>Erro</b> (<i>error</i>, engano) — a ação humana que deu origem ao problema.
+            A pessoa desenvolvedora entendeu que o desconto era de 10% quando era 15%.</li>
+          <li><b>Defeito</b> (<i>defect</i>, bug) — a consequência do erro <em>no código</em>.
+            A linha <code>preco * 0.9</code> está lá, parada, errada, mesmo que ninguém
+            passe por ela.</li>
+          <li><b>Falha</b> (<i>failure</i>) — o defeito se manifestando quando o sistema roda.
+            O cliente vê R$ 90 na tela quando deveria ver R$ 85.</li>
+        </ul>
+        <p style="margin-bottom:0">
+          <b>Por que importa:</b> você observa <em>falhas</em> e reporta <em>falhas</em> —
+          "o total mostrado é 90, o esperado é 85". Quem investiga acha o <em>defeito</em>.
+          Um relatório que tenta adivinhar o defeito ("acho que a variável do desconto está
+          trocada") e erra faz o time gastar tempo defendendo código em vez de olhar o
+          sintoma. Relate o que você <b>viu</b>.
+        </p>
+      </div>
+
+      <div class="card pegadinhas">
+        <h3 style="margin-top:0">Um defeito existe mesmo sem falha</h3>
+        <p style="margin-bottom:0">
+          Código errado num caminho que ninguém executa é defeito sem falha. É o que
+          acontece com a regra que só quebra em 29 de fevereiro, ou só com CPF começando
+          em zero. O defeito está ali desde sempre — a falha só aparece quando alguém
+          finalmente passa por aquele caminho. É por isso que <b>"nunca deu problema"
+          não é evidência de que está certo</b>.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>Os princípios que mudam o dia a dia</h2>
+      <p class="legenda">São sete, clássicos. Não decore a lista — entenda o que cada um faz você mudar de verdade.</p>
+
+      <div class="card">
+        <h3 style="margin-top:0">1. Teste mostra a presença de defeitos, nunca a ausência</h3>
+        <p style="margin-bottom:0">
+          Se você rodou 500 casos e todos passaram, você provou que <em>aqueles 500
+          caminhos</em> funcionam. Nada além disso. <b>Muda o quê:</b> nunca escreva
+          "o sistema está sem bugs" num relatório. Escreva "não encontramos defeitos nos
+          cenários X, Y e Z; não cobrimos W".
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">2. Teste exaustivo é impossível</h3>
+        <p style="margin-bottom:0">
+          Um formulário com 5 campos de 10 valores possíveis cada já dá 100 000
+          combinações. Some navegadores, permissões e estados do banco e o número perde o
+          sentido. <b>Muda o quê:</b> seu trabalho não é cobrir tudo — é escolher o
+          subconjunto que encontra mais defeito por hora gasta. Isso tem técnica, e está
+          no Módulo 3.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">3. Testar cedo custa menos (<i>shift left</i>)</h3>
+        <p style="margin-bottom:0">
+          Um requisito ambíguo pego na reunião de refinamento custa uma conversa de cinco
+          minutos. O mesmo problema descoberto em produção custa investigação, correção,
+          nova entrega, cliente irritado — e às vezes dinheiro de verdade.
+          <b>Muda o quê:</b> a pergunta "e se o CEP não existir?" feita <em>antes</em> de
+          alguém programar vale mais do que qualquer bug que você ache depois. Estar na
+          reunião é parte do trabalho de QA.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">4. Defeitos andam em bando (agrupamento)</h3>
+        <p style="margin-bottom:0">
+          Na prática, poucos módulos concentram a maior parte dos defeitos — geralmente os
+          mais complexos, os mais mexidos, ou os que um time novo acabou de assumir.
+          <b>Muda o quê:</b> achou dois bugs no checkout? Não vá embora testar outra coisa.
+          Fique ali, tem mais. <i>(Na Trilha de SQL você vai medir isso de verdade: contar
+          defeitos por módulo é literalmente um dos exercícios.)</i>
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">5. Paradoxo do pesticida</h3>
+        <p style="margin-bottom:0">
+          Rodar sempre a mesma bateria de testes é como usar sempre o mesmo veneno: mata o
+          que já matava e para de achar coisa nova. <b>Muda o quê:</b> uma suíte de
+          regressão que passa 100% há seis meses talvez não esteja te protegendo — talvez
+          esteja só te tranquilizando. Revise, acrescente casos, e reserve tempo pra teste
+          exploratório (Módulo 4).
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">6. Teste depende do contexto</h3>
+        <p style="margin-bottom:0">
+          Um app de banco, um jogo mobile e um painel interno usado por 3 pessoas não se
+          testam do mesmo jeito nem com o mesmo rigor. <b>Muda o quê:</b> desconfie de
+          receita pronta ("todo projeto precisa de 80% de cobertura"). A pergunta certa é
+          sempre "o que dá errado <em>aqui</em>, e quanto custa?".
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">7. Ausência de defeitos é uma ilusão</h3>
+        <p style="margin-bottom:0">
+          Dá pra entregar um sistema sem nenhum bug conhecido e ainda assim inútil — porque
+          resolve o problema errado. <b>Muda o quê:</b> além de "funciona como
+          especificado?", cabe a pergunta "isso resolve o problema de quem vai usar?".
+          QA que só confere a especificação deixa passar o defeito mais caro de todos.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>Verificação × Validação</h2>
+      <div class="card">
+        <p style="margin-top:0">Duas perguntas diferentes, fáceis de confundir:</p>
+        <table class="dados">
+          <thead><tr><th></th><th>Verificação</th><th>Validação</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><b>Pergunta</b></td>
+              <td>Construímos o produto <b>corretamente</b>?</td>
+              <td>Construímos o <b>produto certo</b>?</td>
+            </tr>
+            <tr>
+              <td><b>Compara com</b></td>
+              <td>a especificação, o requisito, o contrato da API</td>
+              <td>a necessidade real de quem usa</td>
+            </tr>
+            <tr>
+              <td><b>Exemplo</b></td>
+              <td>o campo aceita no máximo 11 dígitos, como está escrito na história</td>
+              <td>pedir CPF nessa tela afasta o usuário estrangeiro — era isso mesmo?</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="margin-bottom:0">
+          A maior parte do teste automatizado é <b>verificação</b>. A validação costuma vir
+          de conversa, de teste exploratório e de olhar quem usa. Um QA que só verifica é
+          substituível por um script; um QA que também valida, não.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>Onde o QA entra no fluxo</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          O mito é que QA é a última etapa — a bancada no fim da esteira. Num time moderno
+          a atuação é distribuída:
+        </p>
+        <pre class="bloco"><code>refinamento  →  desenvolvimento  →  pull request  →  homologação  →  produção
+     ↑                 ↑                 ↑                ↑              ↑
+ perguntar o      combinar o que     ler o diff,      testar o que    monitorar,
+ que não está     será testado,      rodar a suíte,   foi entregue,   investigar
+ escrito, achar   preparar massa     revisar os       exploratório,   incidente,
+ caso esquecido   de teste           testes           cruzar dados    olhar métrica
+                                     automatizados    no banco</code></pre>
+        <p style="margin-bottom:0">
+          Repare que boa parte do valor está <b>antes</b> de o software existir. Um caso de
+          teste esquecido que você levanta no refinamento não vira bug nunca.
+        </p>
+      </div>
+
+      <div class="card" style="border-left:3px solid var(--acento)">
+        <h3 style="margin-top:0">Olhar de QA</h3>
+        <p style="margin-bottom:0">
+          Quando alguém disser "testa aí pra ver se está tudo certo", a resposta
+          profissional não é sair clicando. É perguntar: <b>o que mudou?</b>,
+          <b>o que isso pode ter quebrado que não é óbvio?</b>, <b>quem se machuca se der
+          errado?</b> e <b>quanto tempo eu tenho?</b>. Essas quatro perguntas transformam
+          uma tarefa vaga numa estratégia — e são o que separa quem está começando de quem
+          o time escuta.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Pra fixar</h2>
+      <div class="card">
+        <p style="margin-top:0">Responda mentalmente antes de ir pra prova:</p>
+        <ol>
+          <li>Um teste que passa prova o quê, exatamente?</li>
+          <li>Você viu o total do carrinho errado na tela. Isso é erro, defeito ou falha?</li>
+          <li>Por que "rodamos a regressão inteira e passou" não é garantia de qualidade?</li>
+          <li>Qual princípio explica por que vale insistir num módulo onde você já achou bug?</li>
+          <li>Qual a diferença entre verificação e validação, em uma frase?</li>
+        </ol>
+        <p style="margin-bottom:0" class="legenda">
+          Travou em alguma? Volte na seção correspondente antes da prova — ela cobra isso.
+        </p>
+      </div>
+    </section>
+
+    <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
+      <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
+        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        progresso anda no começo do site. Fica salvo só no seu navegador.
+      </span>
+    </div>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="index.html"><button>← Índice</button></a>
+      <a href="prova-1.html"><button>📝 Prova do módulo</button></a>
+      <a href="modulo-2.html"><button class="primario">Módulo 2 →</button></a>
+    </nav>
+  </main>
+  <script src="../assets/progresso.js"></script>
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fundamentos Módulo 2 — Tipos e níveis de teste</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ Fundamentos</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html" class="atual">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html">4</a>
+      <a href="modulo-5.html">5</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 2 — Tipos e níveis de teste</h1>
+    <p class="legenda">O vocabulário que o time usa todo dia — e o mapa de onde cada trilha deste curso se encaixa</p>
+
+    <details class="card aquecimento">
+      <summary>Aquecimento — 2 perguntas do Módulo 1</summary>
+      <p class="resp"><b>1.</b> O usuário vê o preço errado na tela. Isso é erro, defeito ou falha?<br>
+        <i>Falha</i> — é o defeito se manifestando durante a execução. O defeito é a linha de
+        código errada; o erro foi o engano humano que a escreveu.</p>
+      <p class="resp"><b>2.</b> Por que testar cedo custa menos?<br>
+        <i>Porque o custo de corrigir cresce a cada etapa</i>: uma pergunta no refinamento
+        custa cinco minutos; o mesmo problema em produção custa investigação, correção,
+        nova entrega e cliente insatisfeito.</p>
+    </details>
+
+    <section class="secao">
+      <h2>Duas perguntas diferentes: em que nível e de que tipo</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          Quando alguém fala "teste de integração" e outra pessoa fala "teste de
+          performance", elas não estão falando de coisas do mesmo tipo. São dois eixos
+          independentes:
+        </p>
+        <ul>
+          <li><b>Nível</b> — <em>o quanto do sistema</em> está sendo testado de uma vez:
+            uma função, dois componentes conversando, o sistema inteiro.</li>
+          <li><b>Tipo</b> — <em>que característica</em> você está investigando:
+            funciona? é rápido? é seguro? é usável?</li>
+        </ul>
+        <p style="margin-bottom:0">
+          Dá pra ter teste de performance no nível de componente e no nível de sistema.
+          Dá pra ter teste funcional em todos os níveis. Misturar os dois eixos é a
+          confusão mais comum de quem está começando.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>Os quatro níveis</h2>
+
+      <div class="card">
+        <h3 style="margin-top:0">1. Unitário (<i>unit</i>)</h3>
+        <p style="margin-bottom:0">
+          Testa a menor peça isolada — uma função, uma classe. Sem banco, sem rede, sem
+          tela. Roda em milissegundos. Normalmente escrito por quem desenvolve.
+          <br><b>Exemplo:</b> a função <code>calcular_desconto(100, "VIP")</code> devolve 85?
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">2. Integração</h3>
+        <p style="margin-bottom:0">
+          Testa duas ou mais peças conversando: o código e o banco, o serviço e a API de
+          pagamento, dois microsserviços. É aqui que aparecem os defeitos que o teste
+          unitário nunca acha — contrato trocado, campo com nome diferente, transação que
+          não fecha.
+          <br><b>Exemplo:</b> ao salvar um pedido, ele realmente aparece na tabela
+          <code>pedidos</code> com o <code>valor_total</code> certo?
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">3. Sistema</h3>
+        <p style="margin-bottom:0">
+          O sistema inteiro montado, testado de ponta a ponta, como um usuário usaria.
+          É o nível onde mais gente pensa quando ouve "teste".
+          <br><b>Exemplo:</b> entrar no site, buscar um produto, adicionar ao carrinho,
+          pagar e receber o e-mail de confirmação.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">4. Aceite (<i>UAT</i>)</h3>
+        <p style="margin-bottom:0">
+          Confirma que o que foi construído atende a necessidade de quem pediu. Quem
+          conduz muitas vezes é a área de negócio, não o time técnico. Aqui a pergunta é
+          de <b>validação</b> (Módulo 1), não de verificação.
+          <br><b>Exemplo:</b> o time comercial consegue fechar uma venda de ponta a ponta
+          com o novo fluxo, do jeito que trabalha?
+        </p>
+      </div>
+
+      <div class="card pegadinhas">
+        <h3 style="margin-top:0">Cuidado com o vocabulário do seu time</h3>
+        <p style="margin-bottom:0">
+          "Teste de integração" significa coisas diferentes em empresas diferentes — em
+          algumas é "código + banco", em outras é "todos os serviços de pé". "E2E" às vezes
+          quer dizer teste de sistema, às vezes teste via interface. <b>Não brigue pelo
+          nome:</b> pergunte <em>o que exatamente sobe</em> quando aquele teste roda. É a
+          resposta que importa.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>Tipos: funcional e não-funcional</h2>
+      <div class="card">
+        <p style="margin-top:0"><b>Funcional</b> — o sistema faz o que deveria fazer?
+          É a maior parte do trabalho e o foco das trilhas de SQL, API e pytest deste curso.</p>
+        <p><b>Não-funcional</b> — <em>como</em> ele faz. Os principais:</p>
+        <table class="dados">
+          <thead><tr><th>Tipo</th><th>Pergunta</th><th>Exemplo de defeito</th></tr></thead>
+          <tbody>
+            <tr><td><b>Performance / carga</b></td><td>aguenta quanta gente, e em quanto tempo responde?</td><td>a busca leva 8s quando há 200 usuários simultâneos</td></tr>
+            <tr><td><b>Segurança</b></td><td>dá pra acessar o que não deveria?</td><td>trocando o id na URL, vejo o pedido de outro cliente</td></tr>
+            <tr><td><b>Usabilidade</b></td><td>a pessoa consegue usar sem sofrer?</td><td>a mensagem de erro não diz qual campo está errado</td></tr>
+            <tr><td><b>Compatibilidade</b></td><td>funciona nos navegadores e aparelhos que importam?</td><td>o botão de pagar fica fora da tela no celular</td></tr>
+            <tr><td><b>Acessibilidade</b></td><td>funciona pra quem usa leitor de tela, teclado, alto contraste?</td><td>o campo não tem rótulo associado; o leitor de tela lê "editar texto"</td></tr>
+            <tr><td><b>Confiabilidade</b></td><td>se recupera quando algo cai?</td><td>o pedido some se a API de pagamento demorar</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-bottom:0">
+          <b>Na prática:</b> defeito não-funcional costuma ser mais caro e mais difícil de
+          corrigir tarde, porque mexe em arquitetura. É mais um motivo pra perguntar sobre
+          eles cedo — "quantos usuários simultâneos a gente espera?" é pergunta de
+          refinamento, não de véspera de entrega.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>Caixa-preta, caixa-branca</h2>
+      <div class="card">
+        <ul style="margin-top:0">
+          <li><b>Caixa-preta</b> — você testa pela entrada e pela saída, sem olhar o código.
+            É o que o Módulo 3 ensina (partição de equivalência, valor limite, tabela de
+            decisão). Serve pra qualquer nível.</li>
+          <li><b>Caixa-branca</b> — você usa o código como guia: quais ramos do
+            <code>if</code> foram executados, quais linhas nunca rodaram. É o mundo da
+            <em>cobertura de código</em>.</li>
+          <li><b>Caixa-cinza</b> — o meio do caminho, e o que mais se parece com o trabalho
+            real de QA: você não escreveu o código, mas sabe que existe um banco por trás e
+            vai conferir lá o que a tela não mostra. <i>É exatamente o que você faz nas
+            trilhas de SQL e de API deste curso.</i></li>
+        </ul>
+        <p style="margin-bottom:0" class="legenda">
+          Cobertura de código alta não significa bem testado: dá pra executar 100% das
+          linhas sem verificar nenhum resultado. Cobertura mede o que foi <em>executado</em>,
+          não o que foi <em>verificado</em>.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>Testes que você vai ouvir o time citar</h2>
+      <div class="card">
+        <table class="dados">
+          <thead><tr><th>Nome</th><th>O que é</th><th>Quando roda</th></tr></thead>
+          <tbody>
+            <tr><td><b>Smoke</b></td><td>um punhado de casos que provam que o básico está de pé (login abre, home carrega)</td><td>logo depois de subir uma versão, antes de gastar tempo com o resto</td></tr>
+            <tr><td><b>Regressão</b></td><td>rodar de novo o que já funcionava, pra ver se a mudança quebrou algo</td><td>a cada entrega — é o principal candidato a ser automatizado</td></tr>
+            <tr><td><b>Reteste / confirmação</b></td><td>testar de novo <em>só o bug corrigido</em>, seguindo os passos do relatório</td><td>quando um defeito volta como "resolvido"</td></tr>
+            <tr><td><b>Sanity</b></td><td>checagem rápida e focada numa área específica que acabou de mudar</td><td>correção pontual, sem tempo pra regressão completa</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-bottom:0">
+          <b>Reteste ≠ regressão.</b> Reteste confirma que <em>aquele</em> bug morreu.
+          Regressão confirma que a correção não matou outra coisa. Os dois são necessários,
+          e é comum ver time fazer só o primeiro.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>A pirâmide de testes</h2>
+      <div class="card">
+        <pre class="bloco"><code>            /\            poucos, lentos, caros de manter
+           /  \           E2E / interface — o fluxo inteiro pelo navegador
+          /____\
+         /      \         alguns, médios
+        /        \        INTEGRAÇÃO — código + banco, serviço + API
+       /__________\
+      /            \      muitos, rápidos, baratos
+     /              \     UNITÁRIO — funções isoladas, milissegundos
+    /________________\</code></pre>
+        <p>
+          A ideia: quanto mais alto, mais caro e mais frágil o teste. Então concentre
+          volume embaixo e use o topo com parcimônia, só pros fluxos que realmente
+          importam (o do dinheiro, normalmente).
+        </p>
+        <p style="margin-bottom:0">
+          <b>O anti-padrão é a casquinha de sorvete</b> — pirâmide invertida: quase nada
+          de unitário, muito teste de interface, e uma bola gigante de teste manual em
+          cima. O sintoma é conhecido: a suíte demora 2 horas, falha sozinha metade das
+          vezes, e ninguém confia no vermelho.
+        </p>
+      </div>
+
+      <div class="card pegadinhas">
+        <h3 style="margin-top:0">A pirâmide é uma heurística, não uma lei</h3>
+        <p style="margin-bottom:0">
+          Ela nasceu num contexto específico (aplicações com muita lógica própria). Num
+          sistema que é basicamente cola entre serviços de terceiros, quase toda a lógica
+          está nas bordas — e aí o teste de integração é que deve pesar. Volte ao
+          princípio 6 do Módulo 1: <em>depende do contexto</em>.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>Manual × automatizado: quando vale automatizar</h2>
+      <div class="card">
+        <p style="margin-top:0">Automação não é sempre melhor. Ela troca <b>tempo agora</b>
+          por <b>tempo depois</b>, e cobra manutenção. Vale quando:</p>
+        <ul>
+          <li>o teste vai rodar <b>muitas vezes</b> (regressão, a cada entrega);</li>
+          <li>o resultado é <b>objetivo</b> (dá pra escrever um <code>assert</code>);</li>
+          <li>o cenário é <b>estável</b> — automatizar tela que muda toda semana é jogar
+            trabalho fora;</li>
+          <li>fazer na mão é <b>lento ou chato o bastante</b> pra você acabar pulando.</li>
+        </ul>
+        <p style="margin-bottom:0">
+          E não vale quando o julgamento é humano: "essa tela está confusa?", "esse texto
+          soa agressivo?", "o fluxo faz sentido?". Isso é trabalho de pessoa — e é onde o
+          teste exploratório (Módulo 4) brilha.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>O mapa: onde cada trilha deste curso se encaixa</h2>
+      <div class="card card-info">
+        <table class="dados">
+          <thead><tr><th>Trilha</th><th>Nível</th><th>Tipo</th><th>O que você vai fazer</th></tr></thead>
+          <tbody>
+            <tr><td><b>SQL / PostgreSQL</b></td><td>integração (dados)</td><td>funcional</td><td>conferir no banco o que a tela esconde; achar dado que viola a regra de negócio</td></tr>
+            <tr><td><b>Teste de API</b></td><td>integração / sistema</td><td>funcional + contrato</td><td>status, corpo da resposta, e cruzar o que a API devolve com o que está no banco</td></tr>
+            <tr><td><b>pytest</b></td><td>integração</td><td>funcional</td><td>transformar aquelas verificações em teste automatizado de regressão</td></tr>
+            <tr><td><b>k6</b></td><td>sistema</td><td><b>não-funcional</b> (performance)</td><td>medir tempo de resposta e taxa de erro sob carga</td></tr>
+            <tr><td><b>CI/CD</b></td><td>—</td><td>infraestrutura de teste</td><td>fazer tudo isso rodar sozinho a cada mudança, e reprovar o build</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-bottom:0">
+          Guarde esta tabela. Numa entrevista, "o que você já testou?" é uma pergunta que
+          se responde muito melhor com <em>nível e tipo</em> do que com nome de ferramenta.
+        </p>
+      </div>
+
+      <div class="card" style="border-left:3px solid var(--acento)">
+        <h3 style="margin-top:0">Olhar de QA</h3>
+        <p style="margin-bottom:0">
+          Ao pegar uma história nova, faça a varredura dos tipos como quem passa um pente:
+          funcional, performance, segurança, usabilidade, compatibilidade, acessibilidade.
+          Você não vai testar todos — mas <b>ter pensado em todos</b> e ter decidido
+          conscientemente pular quatro é diferente de nem ter lembrado que existiam.
+          Essa varredura de 2 minutos é onde nascem as melhores perguntas de refinamento.
+        </p>
+      </div>
+    </section>
+
+    <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
+      <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
+        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        progresso anda no começo do site. Fica salvo só no seu navegador.
+      </span>
+    </div>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="modulo-1.html"><button>← Módulo 1</button></a>
+      <a href="prova-2.html"><button>📝 Prova do módulo</button></a>
+      <a href="modulo-3.html"><button class="primario">Módulo 3 →</button></a>
+    </nav>
+  </main>
+  <script src="../assets/progresso.js"></script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 2 (API)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ API / Provas</span></div>
+    <nav>
+      <a href="prova-1.html">1</a>
+      <a href="prova-2.html" class="atual">2</a>
+      <a href="prova-3.html">3</a>
+      <a href="prova-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 2</h1>
+    <p class="legenda">Contrato da resposta: campos, tipos, formato, consistência entre rotas. &nbsp;<a href="modulo-2.html">← rever o módulo</a></p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 2", trilha: "api", modulo: 2, indiceHref: "index.html",
+    questoes: [
+      {
+            "t": "mc",
+            "enun": "O que é o <b>contrato</b> de uma resposta de API?",
+            "ops": [
+                  "A promessa de forma: quais campos existem, de que tipo e em que formato",
+                  "O tempo máximo de resposta acordado com o cliente",
+                  "A documentação escrita da API, publicada no portal",
+                  "O conjunto de status codes que a API pode devolver"
+            ],
+            "correta": 0,
+            "exp": "Quebra de contrato é dos defeitos mais chatos, porque quem consome a API muitas vezes só descobre em produção."
+      },
+      {
+            "t": "mc",
+            "enun": "A rota devolve <code>\"preco\": \"1299.90\"</code> (entre aspas) enquanto a lista devolve <code>\"preco\": 1299.9</code> (número). Isso é problema?",
+            "ops": [
+                  "Sim — o mesmo campo mudando de tipo entre rotas quebra quem consome, que precisa tratar os dois casos",
+                  "Não, porque o valor numérico é o mesmo nos dois",
+                  "Não, desde que a documentação avise",
+                  "Sim, mas apenas se o consumidor for uma aplicação móvel"
+            ],
+            "correta": 0,
+            "exp": "Consistência entre rotas faz parte do contrato: o mesmo recurso deve ter o mesmo formato onde quer que apareça."
+      },
+      {
+            "t": "mc",
+            "enun": "Qual verificação confirma que um campo de data está no formato <code>AAAA-MM-DD</code>?",
+            "ops": [
+                  "Uma expressão regular como <code>/^\\d{4}-\\d{2}-\\d{2}$/</code> aplicada ao valor",
+                  "<code>typeof obj.data === 'string'</code>",
+                  "<code>obj.data !== undefined</code>",
+                  "<code>Array.isArray(obj.data)</code>"
+            ],
+            "correta": 0,
+            "exp": "Os três últimos verificam presença ou tipo — nenhum garante o formato. Contrato tem três camadas: existe, é do tipo certo, está no formato certo."
+      },
+      {
+            "t": "mc",
+            "enun": "Ao verificar o contrato de uma lista, o que é mais seguro?",
+            "ops": [
+                  "Percorrer <b>todos</b> os itens verificando os campos, e não apenas o primeiro",
+                  "Verificar o primeiro e o último item da lista",
+                  "Verificar apenas o tamanho da lista",
+                  "Verificar um item sorteado aleatoriamente a cada execução"
+            ],
+            "correta": 0,
+            "exp": "Item com campo faltando costuma ser exatamente aquele fora do padrão — e nunca é o primeiro. Sorteio aleatório, além disso, torna o teste instável."
+      },
+      {
+            "t": "mc",
+            "enun": "Um <code>check</code> de contrato ficou vermelho. Qual a primeira hipótese?",
+            "ops": [
+                  "Pode ser um defeito real da API — se o enunciado descreve o contrato esperado e a verificação falha, você achou algo",
+                  "O teste está errado e precisa ser ajustado para passar",
+                  "O servidor está sobrecarregado",
+                  "A versão do cliente HTTP está desatualizada"
+            ],
+            "correta": 0,
+            "exp": "O reflexo de \"ajustar o teste até ficar verde\" é como defeito de contrato chega em produção."
+      },
+      {
+            "t": "mc",
+            "enun": "Por que status 200 não é garantia de resposta correta?",
+            "ops": [
+                  "Porque 200 diz apenas que a requisição foi processada — o corpo pode vir com campo faltando, tipo trocado ou valor errado",
+                  "Porque o status é definido pelo servidor web, não pela aplicação",
+                  "Porque 200 pode ser devolvido em cache, sem processar",
+                  "Porque o correto para leitura seria 204"
+            ],
+            "correta": 0,
+            "exp": "Status, contrato e valor são três camadas de verificação diferentes. Parar na primeira é o erro mais comum."
+      },
+      {
+            "t": "aberta",
+            "enun": "Escreva as verificações de contrato para um item de <code>/produtos/{id}</code> que deve ter: <code>id</code> (número), <code>nome</code> (texto), <code>categoria</code> (texto), <code>preco</code> (número), <code>estoque</code> (número inteiro ≥ 0), <code>ativo</code> (booleano).",
+            "modelo": "<pre class=\"bloco\"><code>const r = await api('GET', '/produtos/7');\nconst p = r.json;\n\ncheck('status 200', r.status === 200);\n\n// presença + tipo\ncheck('id numerico',        typeof p.id === 'number');\ncheck('nome texto',         typeof p.nome === 'string');\ncheck('categoria texto',    typeof p.categoria === 'string');\ncheck('preco numerico',     typeof p.preco === 'number', 'veio ' + typeof p.preco);\ncheck('estoque numerico',   typeof p.estoque === 'number');\ncheck('ativo booleano',     typeof p.ativo === 'boolean', 'veio ' + typeof p.ativo);\n\n// regras além do tipo\ncheck('nome nao vazio',     p.nome.trim().length &gt; 0);\ncheck('preco positivo',     p.preco &gt; 0);\ncheck('estoque inteiro',    Number.isInteger(p.estoque));\ncheck('estoque nao negativo', p.estoque &gt;= 0);\n\n// nenhum campo a mais nem a menos\nconst esperados = ['id','nome','categoria','preco','estoque','ativo'];\ncheck('sem campo faltando', esperados.every(c =&gt; c in p));\ncheck('sem campo extra',    Object.keys(p).every(c =&gt; esperados.includes(c)),\n      Object.keys(p).join(','));</code></pre><p><b>O que separa uma resposta completa:</b></p><ul><li><b>Tipo, não só presença.</b> <code>p.preco !== undefined</code> passaria com <code>\"1299.90\"</code> em texto — e é exatamente esse o defeito que se quer pegar.</li><li><b>Regras além do tipo:</b> estoque inteiro e não negativo, preço positivo, nome não vazio. O tipo certo com valor absurdo continua sendo defeito.</li><li><b>Campo a mais.</b> Verificar que não vieram campos inesperados pega vazamento de dado interno — um <code>custo</code> ou <code>senha_hash</code> que escapou para a resposta pública. Quase ninguém testa isso, e é o achado mais valioso da lista.</li><li><b>Mensagem no check</b> (<code>'veio ' + typeof p.preco</code>) — quando ficar vermelho, você já sabe o que veio.</li></ul>",
+            "dica": "não pare na presença do campo: teste o tipo, e depois as regras de valor. E pense no campo que veio a mais."
+      }
+]
+  };
+  </script>
+  <script src="../assets/progresso.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

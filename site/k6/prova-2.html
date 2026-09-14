@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 2 (k6)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ k6 / Provas</span></div>
+    <nav>
+      <a href="prova-1.html">1</a>
+      <a href="prova-2.html" class="atual">2</a>
+      <a href="prova-3.html">3</a>
+      <a href="prova-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 2</h1>
+    <p class="legenda">Anatomia do script: options, default function, http, check, sleep, group. &nbsp;<a href="modulo-2.html">← rever o módulo</a></p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 2", trilha: "k6", modulo: 2, indiceHref: "index.html",
+    questoes: [
+      {
+            "t": "mc",
+            "enun": "O que roda dentro da <code>export default function</code>?",
+            "ops": [
+                  "O roteiro de um VU numa iteração — o k6 repete isso em loop",
+                  "A configuração de carga e os thresholds",
+                  "O carregamento dos arquivos de dados, uma única vez",
+                  "A geração do relatório final"
+            ],
+            "correta": 0,
+            "exp": "O que está fora dela (imports, constantes, leitura de arquivo) roda uma vez, no contexto de init."
+      },
+      {
+            "t": "mc",
+            "enun": "Qual a diferença entre um <code>check()</code> do k6 e um <code>assert</code> do pytest?",
+            "ops": [
+                  "O <code>check</code> falso <b>não interrompe</b> a iteração — ele alimenta a métrica de checks; para reprovar o teste é preciso um <code>threshold</code>",
+                  "O <code>check</code> interrompe a execução e o <code>assert</code> não",
+                  "São equivalentes, apenas com nomes diferentes",
+                  "O <code>check</code> só funciona com respostas HTTP"
+            ],
+            "correta": 0,
+            "exp": "É a confusão mais comum de quem vem de teste funcional: encher o script de checks e achar que o build vai reprovar. Não vai — quem reprova é o threshold."
+      },
+      {
+            "t": "mc",
+            "enun": "Para que serve <code>group()</code>?",
+            "ops": [
+                  "Organizar o relatório por trecho do fluxo, separando as métricas de cada etapa",
+                  "Agrupar VUs em lotes que rodam juntos",
+                  "Definir quais checks pertencem ao mesmo threshold",
+                  "Reunir várias requisições numa única conexão"
+            ],
+            "correta": 0,
+            "exp": "Sem grupos, o p95 do teste inteiro mistura o login rápido com o checkout lento — e você não sabe qual etapa é o gargalo."
+      },
+      {
+            "t": "mc",
+            "enun": "O que é <code>__VU</code> e para que serve?",
+            "ops": [
+                  "O número do usuário virtual (1, 2, 3…), útil para gerar dado diferente por usuário",
+                  "O total de VUs configurado no teste",
+                  "O tempo de execução acumulado daquele VU",
+                  "O número da iteração atual"
+            ],
+            "correta": 0,
+            "exp": "É o que permite que cada VU faça login com um usuário distinto — e não mil vezes com o mesmo, medindo cache."
+      },
+      {
+            "t": "mc",
+            "enun": "Onde deve ficar a leitura de um arquivo de dados no script?",
+            "ops": [
+                  "Fora da função default, no contexto de init — assim é lido uma vez, e não a cada iteração",
+                  "Dentro da função default, no começo de cada iteração",
+                  "Dentro de um <code>group()</code> específico",
+                  "No objeto <code>options</code>"
+            ],
+            "correta": 0,
+            "exp": "<code>open()</code> só funciona no init, justamente para impedir o desperdício de reler o arquivo milhares de vezes."
+      },
+      {
+            "t": "mc",
+            "enun": "O que a resposta de <code>http.get()</code> devolve, além do corpo?",
+            "ops": [
+                  "<code>.status</code>, <code>.headers</code>, <code>.timings</code> e <code>.json(\"caminho\")</code>",
+                  "Apenas o corpo em texto",
+                  "Apenas o status e o tempo total",
+                  "Um objeto que precisa ser convertido manualmente com <code>JSON.parse</code>"
+            ],
+            "correta": 0,
+            "exp": "<code>.timings</code> é o que permite investigar <i>onde</i> o tempo foi gasto — conexão, espera pelo servidor, download."
+      },
+      {
+            "t": "aberta",
+            "enun": "Escreva (em pseudocódigo ou JavaScript) o roteiro de um VU que: busca a lista de produtos, escolhe um produto, e adiciona ao carrinho — com think time e checks adequados. Explique suas escolhas.",
+            "modelo": "<pre class=\"bloco\"><code>import http from \"k6/http\";\nimport { check, sleep, group } from \"k6\";\n\nconst BASE = \"http://localhost:8000\";\n\nexport default function () {\n  let produtos;\n\n  group(\"listar produtos\", () =&gt; {\n    const r = http.get(`${BASE}/produtos`);\n    check(r, {\n      \"lista: status 200\": (res) =&gt; res.status === 200,\n      \"lista: veio conteudo\": (res) =&gt; res.json(\"length\") &gt; 0,\n    });\n    produtos = r.json();\n  });\n\n  sleep(Math.random() * 2 + 1);   // 1 a 3s: a pessoa olhando a lista\n\n  // produto diferente por VU e por iteracao: evita medir so o cache\n  const p = produtos[Math.floor(Math.random() * produtos.length)];\n\n  group(\"adicionar ao carrinho\", () =&gt; {\n    const r = http.post(\n      `${BASE}/carrinho`,\n      JSON.stringify({ produto_id: p.id, quantidade: 1 }),\n      { headers: { \"Content-Type\": \"application/json\" } }\n    );\n    check(r, {\n      \"carrinho: status 201\": (res) =&gt; res.status === 201,\n      \"carrinho: devolveu item\": (res) =&gt; res.json(\"id\") !== undefined,\n    });\n  });\n\n  sleep(1);\n}</code></pre><p><b>As escolhas que importam:</b></p><ul><li><b>Think time variável</b> (<code>Math.random() * 2 + 1</code>) em vez de fixo: VUs com pausa idêntica sincronizam e produzem ondas artificiais de requisições.</li><li><b>Produto sorteado</b> em vez do primeiro da lista: com dado fixo você mede o cache quente de um registro só, e o sistema parece mais rápido do que é.</li><li><b>Correlação:</b> o id usado no POST vem da resposta do GET, como um usuário real faria — em vez de um id inventado que pode nem existir.</li><li><b>Grupos:</b> separam o p95 da listagem do p95 da escrita, que têm perfis de custo bem diferentes. Sem isso o gargalo fica escondido na média.</li><li><b>Checks enxutos:</b> status e um campo essencial. Carga não é o lugar de validar contrato inteiro — isso é trabalho do teste funcional, e custaria CPU do gerador de carga.</li></ul><p>E o que <b>falta</b> neste script para ele reprovar um build: os <code>thresholds</code>. Sem eles, todos os checks podem falhar e o k6 ainda sai com código 0.</p>",
+            "dica": "pense em think time variável, dado que varia, correlação e por que agrupar."
+      }
+]
+  };
+  </script>
+  <script src="../assets/progresso.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

@@ -180,10 +180,26 @@ export default function () {
       </div>
     </section>
 
+    <section class="secao">
+      <div class="card" style="border-left:3px solid var(--acento)">
+        <h2 style="margin-top:0;border:0">Olhar de QA</h2>
+        <p style="margin-bottom:0">Teste de carga só é útil quando a meta é um número. "Tem que ser rápido" não reprova nada; "o checkout responde em menos de 800ms no p95 com 200 usuários simultâneos" é um critério que a ferramenta verifica sozinha e o pipeline faz valer. <b>A pergunta mais importante do teste de carga é feita antes de escrever o script</b>: qual é o número que define passar ou reprovar — e quem decidiu esse número?</p>
+      </div>
+    </section>
+
+    <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
+      <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
+        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        progresso anda no começo do site. Fica salvo só no seu navegador.
+      </span>
+    </div>
+
     <nav class="acoes" style="margin-top:32px">
       <a href="index.html"><button>← Índice</button></a>
+      <a href="prova-1.html"><button>📝 Prova do módulo</button></a>
       <a href="modulo-2.html"><button class="primario">Módulo 2 →</button></a>
     </nav>
   </main>
+  <script src="../assets/progresso.js"></script>
 </body>
 </html>

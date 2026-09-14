@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 1 (API)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ API / Provas</span></div>
+    <nav>
+      <a href="prova-1.html" class="atual">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html">3</a>
+      <a href="prova-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 1</h1>
+    <p class="legenda">GET, status code, corpo JSON, 200 × 404 × 405. &nbsp;<a href="modulo-1.html">← rever o módulo</a></p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 1", trilha: "api", modulo: 1, indiceHref: "index.html",
+    questoes: [
+      {
+            "t": "mc",
+            "enun": "O que o status code de uma resposta HTTP informa?",
+            "ops": [
+                  "Um resumo do que aconteceu com a requisição: 200 ok, 201 criado, 400 pedido malformado, 401/403 sem permissão, 404 não existe, 405 método errado, 500 a API quebrou",
+                  "O tempo que a API levou para responder",
+                  "O tamanho do corpo devolvido, em bytes",
+                  "A versão do protocolo HTTP usada"
+            ],
+            "correta": 0,
+            "exp": "É a primeira coisa que se verifica em qualquer teste de API — e sozinha já pega uma parte grande dos defeitos."
+      },
+      {
+            "t": "mc",
+            "enun": "A API respondeu <b>405</b> a um <code>DELETE /produtos/1</code>. O que isso significa?",
+            "ops": [
+                  "O recurso existe, mas esse método não é permitido nele",
+                  "O recurso não foi encontrado",
+                  "Faltou autenticação na requisição",
+                  "A API quebrou ao processar a exclusão"
+            ],
+            "correta": 0,
+            "exp": "404 seria \"não existe\"; 401/403, falta de permissão. O 405 diz: o caminho existe, o verbo não é aceito ali."
+      },
+      {
+            "t": "mc",
+            "enun": "Você pediu <code>/produtos?categoria=Monitores</code> e recebeu 200 com uma lista. Qual verificação é a mais valiosa?",
+            "ops": [
+                  "Que <b>todos</b> os itens devolvidos têm categoria 'Monitores' — o filtro pode estar sendo ignorado",
+                  "Que a lista tem exatamente o mesmo tamanho da lista sem filtro",
+                  "Que o primeiro item da lista tem categoria 'Monitores'",
+                  "Que a resposta veio em menos de 300ms"
+            ],
+            "correta": 0,
+            "exp": "Filtro ignorado é um defeito clássico e silencioso: devolve 200, devolve lista, e a lista está errada. Conferir só o primeiro item não pega isso."
+      },
+      {
+            "t": "mc",
+            "enun": "Por que testar o caminho de erro (por exemplo, buscar um id inexistente) é tão importante quanto o caminho feliz?",
+            "ops": [
+                  "Porque é onde mais aparece comportamento não especificado — a API pode devolver 200 com corpo vazio, ou 500, em vez do 404 correto",
+                  "Porque o caminho de erro é executado com mais frequência em produção",
+                  "Porque só assim é possível medir o tempo de resposta",
+                  "Porque o caminho feliz já é coberto pelos testes unitários"
+            ],
+            "correta": 0,
+            "exp": "O caminho feliz quase sempre foi testado por quem escreveu. O que ninguém testou é o que acontece quando dá errado."
+      },
+      {
+            "t": "mc",
+            "enun": "O que <code>r.ok</code> normalmente representa?",
+            "ops": [
+                  "Que o status está na faixa 2xx",
+                  "Que o corpo da resposta é um JSON válido",
+                  "Que a requisição não deu timeout",
+                  "Que a resposta bate com o contrato esperado"
+            ],
+            "correta": 0,
+            "exp": "Cuidado: <code>ok</code> só olha o status. Uma resposta 200 com o corpo completamente errado continua sendo <code>ok</code>."
+      },
+      {
+            "t": "mc",
+            "enun": "Um teste de API que só verifica <code>status === 200</code> é suficiente?",
+            "ops": [
+                  "Não — 200 diz que a requisição foi processada, não que o conteúdo devolvido está correto",
+                  "Sim, desde que a API tenha documentação atualizada",
+                  "Sim, porque toda resposta 200 é validada pelo próprio servidor",
+                  "Não, porque o correto seria sempre esperar 201"
+            ],
+            "correta": 0,
+            "exp": "É o erro mais comum em suítes de API: verde por todo lado e nenhuma garantia sobre os dados."
+      },
+      {
+            "t": "aberta",
+            "enun": "Você recebeu a rota nova <code>GET /clientes?estado=SP&amp;ativo=true</code>. Liste os casos de teste que escreveria — incluindo os que não são caminho feliz.",
+            "modelo": "<p>Uma boa lista cruza o que você aprendeu em Fundamentos com o específico de API:</p><p><b>Caminho feliz e conteúdo</b></p><ul><li>200, e a resposta é uma lista</li><li><b>todos</b> os itens têm <code>estado === 'SP'</code> — e <b>todos</b> têm <code>ativo === true</code> (os dois filtros aplicados, não só um)</li><li>a contagem bate com o que existe no banco para esse critério</li></ul><p><b>Partição e limites</b></p><ul><li>estado que existe mas sem nenhum cliente ativo → 200 com lista vazia (e não 404)</li><li>estado inexistente ('ZZ') → o que se espera: lista vazia ou 400?</li><li><code>ativo=false</code> → devolve os inativos, não os ativos</li><li>filtro sozinho: só <code>estado</code>, só <code>ativo</code>, nenhum dos dois</li></ul><p><b>Entrada inválida</b></p><ul><li><code>ativo=talvez</code>, <code>ativo=1</code>, <code>ativo=</code> (vazio) — a API valida ou ignora em silêncio?</li><li><code>estado=sp</code> minúsculo — é sensível a caixa?</li><li>parâmetro desconhecido (<code>?xpto=1</code>) — é ignorado ou dá 400?</li><li>tentativa de injeção no parâmetro, para ver se a consulta é montada com segurança</li></ul><p><b>Contrato e método</b></p><ul><li>cada item tem os mesmos campos e tipos da rota <code>/clientes/{id}</code></li><li><code>POST</code> ou <code>DELETE</code> nessa rota → 405</li></ul><p><b>Cruzamento com o banco</b></p><ul><li>a lista devolvida é igual à que a mesma consulta traz direto no banco — é aqui que se pega API que \"mente\" (Módulo 4)</li></ul><p>O item que mais separa respostas boas das ótimas é o <b>\"todos os itens atendem aos dois filtros\"</b>: filtro parcialmente aplicado devolve 200 e passa despercebido.</p>",
+            "dica": "pense em filtro ignorado, lista vazia × 404, valor inválido no parâmetro, e método errado."
+      }
+]
+  };
+  </script>
+  <script src="../assets/progresso.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

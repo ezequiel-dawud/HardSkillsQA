@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 3 (API)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ API / Provas</span></div>
+    <nav>
+      <a href="prova-1.html">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html" class="atual">3</a>
+      <a href="prova-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 3</h1>
+    <p class="legenda">POST, 201, 400, validação de entrada e efeito colateral. &nbsp;<a href="modulo-3.html">← rever o módulo</a></p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 3", trilha: "api", modulo: 3, indiceHref: "index.html",
+    questoes: [
+      {
+            "t": "mc",
+            "enun": "Qual status normalmente indica que um recurso foi criado com sucesso por um POST?",
+            "ops": [
+                  "201 Created, com o recurso criado no corpo da resposta",
+                  "200 OK, sempre, com o corpo vazio",
+                  "204 No Content",
+                  "301 Moved Permanently"
+            ],
+            "correta": 0,
+            "exp": "E o corpo devolvido costuma trazer o <code>id</code> novo e os campos com valor padrão preenchidos — que também merecem verificação."
+      },
+      {
+            "t": "mc",
+            "enun": "Você envia um POST sem um campo obrigatório. O que deve acontecer?",
+            "ops": [
+                  "400 Bad Request, <b>nada criado</b>, e uma mensagem explicando o que faltou",
+                  "201, com o campo preenchido com um valor padrão qualquer",
+                  "500, porque a aplicação não conseguiu processar",
+                  "200, com o corpo indicando o erro"
+            ],
+            "correta": 0,
+            "exp": "Os três elementos importam: o status, a ausência de efeito e a mensagem útil. Uma API que recusa sem dizer o motivo é uma API difícil de usar."
+      },
+      {
+            "t": "mc",
+            "enun": "Qual é a verificação mais importante — e mais esquecida — depois de um POST recusado com 400?",
+            "ops": [
+                  "Confirmar que <b>nada foi criado</b>: contar os registros antes e depois",
+                  "Confirmar que a mensagem de erro está em português",
+                  "Confirmar que o tempo de resposta foi menor que o do POST válido",
+                  "Confirmar que o status não foi 500"
+            ],
+            "correta": 0,
+            "exp": "Criação parcial é um defeito sério e silencioso: a API responde erro, o usuário tenta de novo, e ficam dois registros."
+      },
+      {
+            "t": "mc",
+            "enun": "O que é testar o <b>efeito colateral</b> de um POST?",
+            "ops": [
+                  "Fazer um GET em seguida e confirmar que o recurso criado aparece de verdade",
+                  "Verificar se o POST não deixou a API mais lenta",
+                  "Repetir o POST várias vezes para ver se quebra",
+                  "Conferir se o POST devolveu os mesmos campos enviados"
+            ],
+            "correta": 0,
+            "exp": "É onde mora o defeito de \"cadastrou mas não salvou\": a resposta diz 201, e o dado não está lá."
+      },
+      {
+            "t": "mc",
+            "enun": "Um POST cria um defeito com <code>status</code> padrão <code>'aberto'</code>, mesmo sem esse campo no corpo enviado. Isso deve ser testado?",
+            "ops": [
+                  "Sim — valores padrão fazem parte do contrato e quebram silenciosamente quando alguém muda a regra",
+                  "Não, porque o campo não foi enviado pelo cliente",
+                  "Não, porque valores padrão são responsabilidade do banco",
+                  "Sim, mas apenas em teste unitário"
+            ],
+            "correta": 0,
+            "exp": "Defeito criado já como 'resolvido' por causa de um padrão trocado é o tipo de bug que ninguém vê até virar relatório errado."
+      },
+      {
+            "t": "mc",
+            "enun": "Por que enviar a mesma requisição de criação duas vezes é um bom teste?",
+            "ops": [
+                  "Porque revela se a API cria duplicado, e como ela trata um pedido repetido (clique duplo, rede instável, nova tentativa)",
+                  "Porque mede a variação do tempo de resposta",
+                  "Porque valida o formato do corpo enviado",
+                  "Porque garante que o cache está funcionando"
+            ],
+            "correta": 0,
+            "exp": "Duplo clique e nova tentativa automática são realidade em produção. É o \"passeio do sabotador\" do Módulo 4 de Fundamentos, aplicado à API."
+      },
+      {
+            "t": "aberta",
+            "enun": "Descreva a bateria de testes para <code>POST /pedidos</code>, que recebe <code>cliente_id</code> e uma lista de itens, e deve devolver 201 com o pedido criado.",
+            "modelo": "<p><b>Sucesso</b></p><ul><li>201; o corpo traz <code>id</code> novo, <code>status</code> inicial correto e <code>data_pedido</code> preenchida</li><li><code>valor_total</code> devolvido bate com a soma de <code>quantidade × preco_unitario</code> dos itens enviados</li><li><b>efeito colateral:</b> <code>GET /pedidos/{id}</code> em seguida encontra o pedido, com os mesmos valores</li><li>os itens também foram gravados, e na quantidade certa</li></ul><p><b>Entrada inválida → 400, e nada criado</b> (contando antes e depois em cada caso)</p><ul><li>sem <code>cliente_id</code>; sem lista de itens; lista de itens vazia</li><li><code>cliente_id</code> inexistente — não pode criar pedido órfão</li><li>produto inexistente na lista de itens</li><li><code>quantidade</code> igual a 0, negativa, decimal, ou em texto</li><li>quantidade acima do estoque disponível</li><li>preço enviado pelo cliente diferente do preço real do produto — <b>a API confia no que o cliente mandou?</b> Esse é o teste que vale dinheiro</li></ul><p><b>Limites</b> (Fundamentos, Módulo 3)</p><ul><li>1 item; muitos itens (100); o mesmo produto repetido duas vezes na lista</li><li>quantidade no limite exato do estoque</li></ul><p><b>Repetição e concorrência</b></p><ul><li>enviar a mesma requisição duas vezes seguidas — cria dois pedidos?</li><li>dois pedidos simultâneos para o último item em estoque — o estoque fica negativo?</li></ul><p><b>Segurança e método</b></p><ul><li>criar pedido para o <code>cliente_id</code> de outra pessoa, estando autenticado como você</li><li><code>GET</code> ou <code>PUT</code> nessa rota → 405</li></ul><p><b>Cruzamento com o banco</b></p><ul><li>o <code>valor_total</code> gravado bate com a soma dos itens gravados — a mesma verificação que você escreve em SQL e em pytest</li><li>o estoque do produto foi decrementado</li></ul><p>Os dois achados mais valiosos dessa lista são <b>o preço vindo do cliente</b> e <b>o estoque em concorrência</b>: os dois devolvem 201 alegremente e causam prejuízo real.</p>",
+            "dica": "sucesso, inválido (com efeito colateral), limites, repetição, e cruzamento com o banco."
+      }
+]
+  };
+  </script>
+  <script src="../assets/progresso.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

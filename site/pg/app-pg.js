@@ -165,10 +165,10 @@ async function rodar(sql, destino) {
   destino.innerHTML = "";
   if (!db) {
     destino.innerHTML = '<p class="msg-erro">Banco ainda não carregou.</p>';
-    return;
+    return false;
   }
   const texto = sql.trim();
-  if (!texto) return;
+  if (!texto) return false;
 
   try {
     const resultados = await db.exec(texto); // array de {rows, fields, affectedRows}
@@ -188,9 +188,41 @@ async function rodar(sql, destino) {
       destino.innerHTML =
         '<p class="msg-ok">OK — comando executado. ' + n + " linha(s) afetada(s).</p>";
     }
+    return true;
   } catch (e) {
     destino.innerHTML =
       '<p class="msg-erro">ERRO SQL: ' + escapar(String(e.message || e)) + "</p>";
+    return false;
+  }
+}
+
+/* roda uma query só pra pegar os dados (sem desenhar) — a conferência
+   automática precisa do resultado do gabarito pra comparar com o do aluno. */
+async function execLinhas(sql) {
+  const res = await db.exec(sql);
+  const u = res[res.length - 1];
+  if (!u || !u.fields || u.fields.length === 0) return { colunas: [], linhas: [] };
+  const colunas = u.fields.map((f) => f.name);
+  return { colunas, linhas: u.rows.map((r) => colunas.map((c) => r[c])) };
+}
+
+/* compara o que o aluno escreveu com o gabarito e pinta o veredito */
+async function conferirExercicio(ex, sqlAluno, rodouOk, vd) {
+  if (!window.Conferir || !vd) return;
+  if (!ex.gabarito || !rodouOk || !sqlAluno.trim()) { Conferir.limpar(vd); return; }
+
+  if (!Conferir.somenteLeitura(sqlAluno) || !Conferir.somenteLeitura(ex.gabarito)) {
+    Conferir.pintar(vd, Conferir.NEUTRO_ESCRITA);
+    return;
+  }
+  try {
+    const got = await execLinhas(sqlAluno);
+    const esp = await execLinhas(ex.gabarito);
+    const v = Conferir.julgar(esp, got, ex.gabarito);
+    Conferir.pintar(vd, v);
+    if (v.estado === "ok" && window.Progresso) Progresso.marcarExercicio(ex.id);
+  } catch (e) {
+    Conferir.limpar(vd);
   }
 }
 
@@ -350,6 +382,8 @@ function montarExercicios() {
   const EXERCICIOS = window.EXERCICIOS;
   if (!cont || !Array.isArray(EXERCICIOS)) return;
 
+  if (window.Progresso) Progresso.registrarTotal(EXERCICIOS.length);
+
   EXERCICIOS.forEach((ex) => {
     const card = document.createElement("div");
     card.className = "card exercicio";
@@ -399,6 +433,11 @@ function montarExercicios() {
     card.appendChild(acoes);
     if (dicaBox) card.appendChild(dicaBox);
 
+    // banner de veredito da conferência automática (fica acima da tabela)
+    const vd = document.createElement("div");
+    vd.className = "veredito";
+    card.appendChild(vd);
+
     const resultado = document.createElement("div");
     resultado.className = "resultado";
     card.appendChild(resultado);
@@ -413,11 +452,15 @@ function montarExercicios() {
       '<div class="acoes"><button data-usar-gab>Usar essa no editor</button></div>';
     card.appendChild(gab);
 
-    bRodar.addEventListener("click", () => rodar(ta.value, resultado));
+    const rodarEConferir = async () => {
+      const ok = await rodar(ta.value, resultado);
+      await conferirExercicio(ex, ta.value, ok, vd);
+    };
+    bRodar.addEventListener("click", rodarEConferir);
     ta.addEventListener("keydown", (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
         e.preventDefault();
-        rodar(ta.value, resultado);
+        rodarEConferir();
       }
     });
     if (bDica) {

@@ -138,10 +138,26 @@ python verificar.py 2</code></pre>
       </div>
     </section>
 
+    <section class="secao">
+      <div class="card" style="border-left:3px solid var(--acento)">
+        <h2 style="margin-top:0;border:0">Olhar de QA</h2>
+        <p style="margin-bottom:0">Aqui mora a confusão que faz muita gente ter um teste de carga que nunca reprova: <code>check()</code> <b>não</b> falha o teste. Ele alimenta uma métrica; quem reprova é o <code>threshold</code> do próximo módulo. E preste atenção no realismo do roteiro: sem think time e com dado fixo, você mede o cache de um registro só — e conclui que o sistema aguenta muito mais gente do que ele realmente aguenta.</p>
+      </div>
+    </section>
+
+    <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
+      <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
+        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        progresso anda no começo do site. Fica salvo só no seu navegador.
+      </span>
+    </div>
+
     <nav class="acoes" style="margin-top:32px">
       <a href="modulo-1.html"><button>← Módulo 1</button></a>
+      <a href="prova-2.html"><button>📝 Prova do módulo</button></a>
       <a href="modulo-3.html"><button class="primario">Módulo 3 →</button></a>
     </nav>
   </main>
+  <script src="../assets/progresso.js"></script>
 </body>
 </html>

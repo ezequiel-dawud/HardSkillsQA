@@ -62,8 +62,23 @@ check('status inicial aberto', r.json.status === 'aberto');</textarea>
       </div>
     </section>
 
+    <section class="secao">
+      <div class="card" style="border-left:3px solid var(--acento)">
+        <h2 style="margin-top:0;border:0">Olhar de QA</h2>
+        <p style="margin-bottom:0">Depois de todo POST bem-sucedido, pergunte-se duas coisas que o status sozinho não responde: <b>gravou mesmo?</b> (faça o GET seguinte) e <b>gravou só o que deveria?</b> (no caso do 400, conte os registros antes e depois). Criação silenciosa depois de um erro é um defeito sério: a pessoa tenta de novo e ficam dois registros. E teste sempre o envio repetido — clique duplo e nova tentativa automática são realidade em produção, não hipótese.</p>
+      </div>
+    </section>
+
+    <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
+      <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
+        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        progresso anda no começo do site. Fica salvo só no seu navegador.
+      </span>
+    </div>
+
     <nav class="acoes" style="margin-top:32px">
       <a href="modulo-2.html"><button>← Módulo 2</button></a>
+      <a href="prova-3.html"><button>📝 Prova do módulo</button></a>
       <a href="modulo-4.html"><button class="primario">Módulo 4 →</button></a>
     </nav>
   </main>
@@ -106,6 +121,7 @@ check('status inicial aberto', r.json.status === 'aberto');</textarea>
       gabarito: "const r = await api('POST', '/defeitos', { titulo: 'x', severidade: 'alta' });\ncheck('nasce aberto', r.json.status === 'aberto', 'veio ' + r.json.status);" },
   ];
   </script>
+  <script src="../assets/progresso.js"></script>
   <script src="app-api.js"></script>
 </body>
 </html>

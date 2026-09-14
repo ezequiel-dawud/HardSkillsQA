@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 5 (Fundamentos)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ Fundamentos / Provas</span></div>
+    <nav>
+      <a href="prova-1.html">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html">3</a>
+      <a href="prova-4.html">4</a>
+      <a href="prova-5.html" class="atual">5</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 5</h1>
+    <p class="legenda">Anatomia do relatório, título, severidade × prioridade, ciclo de vida do defeito. &nbsp;<a href="modulo-5.html">← rever o módulo</a></p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 5", trilha: "fundamentos", modulo: 5, indiceHref: "index.html",
+    questoes: [
+      { t: "mc",
+        enun: "Qual a diferença entre severidade e prioridade?",
+        ops: [
+          "Severidade é o tamanho do estrago (técnico); prioridade é a urgência de corrigir (negócio)",
+          "Severidade é definida pelo time de negócio; prioridade, por quem desenvolve",
+          "São sinônimos, usados por ferramentas diferentes",
+          "Severidade vale para produção; prioridade, para homologação" ],
+        correta: 0,
+        exp: "São independentes — por isso existem os quatro cruzamentos, inclusive os dois \"estranhos\" que provam que os campos são mesmo diferentes." },
+
+      { t: "mc",
+        enun: "O sistema <b>quebra por completo</b> ao gerar um relatório num formato que apenas dois clientes usam, uma vez por ano. Como classificar?",
+        ops: [
+          "Severidade crítica, prioridade baixa",
+          "Severidade crítica, prioridade crítica",
+          "Severidade baixa, prioridade baixa",
+          "Severidade baixa, prioridade alta" ],
+        correta: 0,
+        exp: "O estrago é total (severidade crítica), mas o alcance é mínimo e a data está longe (prioridade baixa). É o exemplo clássico de por que os dois campos existem." },
+
+      { t: "mc",
+        enun: "O <b>nome da empresa está escrito errado</b> na página inicial, no dia do lançamento. Como classificar?",
+        ops: [
+          "Severidade baixa, prioridade alta",
+          "Severidade crítica, prioridade alta",
+          "Severidade baixa, prioridade baixa",
+          "Severidade média, prioridade baixa" ],
+        correta: 0,
+        exp: "Não quebra nenhuma função (severidade baixa), mas é a primeira coisa que todo mundo vê num dia crítico (prioridade alta). O par inverso do caso anterior." },
+
+      { t: "mc",
+        enun: "Qual destes títulos serve ao propósito de um relatório de bug?",
+        ops: [
+          "[Checkout] Frete cobrado em pedido acima de R$ 300, que deveria ser grátis",
+          "Erro no checkout",
+          "URGENTE!!! Checkout quebrado, corrigir hoje",
+          "O sistema está calculando o frete errado, acho que é o arredondamento" ],
+        correta: 0,
+        exp: "A fórmula é <b>[onde] o quê acontece [em que condição]</b>. O último ainda chuta a causa — relate a falha observada, não o defeito suposto." },
+
+      { t: "mc",
+        enun: "Um defeito está com status <code>resolvido</code>. O que falta antes de virar <code>fechado</code>?",
+        ops: [
+          "O <b>reteste</b>: alguém de QA reexecutar os passos do relatório e confirmar a correção",
+          "Nada — resolvido e fechado são o mesmo estado",
+          "A aprovação do time de negócio",
+          "A execução da suíte de carga" ],
+        correta: 0,
+        exp: "Quem corrige marca como resolvido; quem testa fecha. Pular o reteste é como bugs \"corrigidos\" voltam para produção." },
+
+      { t: "mc",
+        enun: "Na tabela <code>defeitos</code>, qual regra de consistência faz sentido verificar automaticamente?",
+        ops: [
+          "Todo defeito <code>fechado</code> ou <code>resolvido</code> precisa ter <code>data_fechamento</code> preenchida; todo <code>aberto</code> precisa tê-la nula",
+          "Todo defeito precisa ter severidade <code>critica</code> ou <code>alta</code>",
+          "Todo defeito precisa estar ligado a uma execução de teste",
+          "Nenhum defeito pode ter ambiente <code>producao</code>" ],
+        correta: 0,
+        exp: "É exatamente o tipo de verificação que vira <code>assert</code> nas trilhas de SQL e pytest — e que encontra dado inconsistente de verdade." },
+
+      { t: "mc",
+        enun: "Você reportou um bug e a resposta foi \"isso é o comportamento esperado\". Qual a reação profissional?",
+        ops: [
+          "Perguntar onde está documentado; se ninguém souber dizer, o defeito é da especificação e precisa ser decidido",
+          "Insistir que é bug até convencerem o contrário",
+          "Fechar o relatório e seguir em frente",
+          "Reabrir o relatório com severidade maior" ],
+        correta: 0,
+        exp: "Se está documentado, você aprendeu algo e o relatório fecha. Se ninguém sabe, o defeito mudou de lugar: está na especificação — e isso não pode ser silenciado." },
+
+      { t: "mc",
+        enun: "Um bug acontece só em 3 de cada 10 tentativas. O que fazer?",
+        ops: [
+          "Reportar dizendo explicitamente a frequência e tudo que possa diferir entre as tentativas",
+          "Não reportar até conseguir reproduzir 100% das vezes",
+          "Reportar como se fosse determinístico, para não enfraquecer o relatório",
+          "Reportar com severidade crítica, já que é imprevisível" ],
+        correta: 0,
+        exp: "Bug intermitente é bug. O que não pode é esconder que é intermitente — e a informação sobre o que variou entre as tentativas costuma ser a pista da correção." },
+
+      { t: "aberta",
+        enun: "Escreva o relatório completo deste achado:<br><br><i>\"No app de delivery, se você adicionar um item ao carrinho, esperar 20 minutos sem mexer e então finalizar o pedido, o preço cobrado é o antigo — mesmo que o restaurante tenha reajustado o cardápio nesse meio-tempo.\"</i><br><br>Inclua severidade e prioridade <b>com uma frase justificando cada uma</b>.",
+        dica: "título na fórmula [onde] o quê [quando]; esperado com a razão; separe fato de hipótese.",
+        modelo: "<pre class=\"bloco\"><code>Título: [Carrinho] Pedido finalizado cobra o preço antigo quando o\n        cardápio é reajustado com o item já no carrinho\n\nAmbiente: homolog, v4.8.1 — Android 14, app 4.8.1\n\nPré-condições:\n  - restaurante de teste com o item \"Pizza Margherita\" a R$ 40,00\n  - acesso ao painel do restaurante para alterar o preço\n\nPassos:\n  1. Como cliente, adicionar \"Pizza Margherita\" (R$ 40,00) ao carrinho\n  2. Não finalizar; deixar o app aberto na tela do carrinho\n  3. No painel do restaurante, alterar o preço do item para R$ 55,00\n  4. Aguardar 20 minutos\n  5. Voltar ao app e finalizar o pedido\n\nEsperado:  o app revalida o preço na finalização e cobra R$ 55,00,\n           ou avisa que o preço mudou e pede confirmação.\n           (Regra de cardápio: o preço vigente é o do momento do pedido.)\n\nObtido:    o pedido é finalizado por R$ 40,00, sem aviso.\n           O restaurante recebe o pedido com o valor antigo.\n\nEvidência: vídeo dos passos 1 a 5 (anexo); resposta da API na\n           finalização: POST /pedidos → {\"item\":\"...\",\"preco\":40.00}\n           enquanto GET /cardapio já devolve 55.00.\n\nSeveridade: alta\n  → há perda financeira direta e recorrente para o restaurante, e o\n    dado gravado no pedido fica divergente do cardápio vigente.\n\nPrioridade: P1\n  → o cenário é trivial de reproduzir e acontece em qualquer reajuste\n    de cardápio, que é operação diária da base inteira de restaurantes.\n\nObservação: não testei se o mesmo ocorre com item removido do cardápio\n            durante a espera — vale uma sessão à parte.</code></pre><p><b>O que se espera que você tenha feito:</b> título dizendo onde/o quê/quando; passos que qualquer pessoa reproduz sem estar do seu lado; o esperado <b>citando a regra</b> em vez de opinião; evidência que já entrega a pista (as duas respostas da API divergindo); severidade e prioridade <b>justificadas separadamente</b> — uma pelo estrago, outra pelo alcance; e a observação final delimitando o que você <em>não</em> cobriu.</p><p>Se você justificou severidade e prioridade com a mesma frase, releia a seção da matriz: são perguntas diferentes.</p>" }
+    ]
+  };
+  </script>
+  <script src="../assets/progresso.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

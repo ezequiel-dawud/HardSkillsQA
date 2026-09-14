@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 4 (Fundamentos)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ Fundamentos / Provas</span></div>
+    <nav>
+      <a href="prova-1.html">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html">3</a>
+      <a href="prova-4.html" class="atual">4</a>
+      <a href="prova-5.html">5</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 4</h1>
+    <p class="legenda">Sessões, carta de teste, heurísticas, oráculos, exploratório × roteirizado. &nbsp;<a href="modulo-4.html">← rever o módulo</a></p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 4", trilha: "fundamentos", modulo: 4, indiceHref: "index.html",
+    questoes: [
+      { t: "mc",
+        enun: "O que distingue teste exploratório de \"ficar clicando pra ver o que acontece\"?",
+        ops: [
+          "Carta com objetivo, tempo marcado e anotação do que foi feito e encontrado",
+          "O uso de ferramentas de automação durante a sessão",
+          "O fato de ser feito por uma pessoa sênior",
+          "A existência de um roteiro de passos definido antes de começar" ],
+        correta: 0,
+        exp: "Exploratório tem método — só que o método está em como você investiga, não numa lista de passos escrita de antemão. Se tivesse roteiro prévio, seria teste roteirizado." },
+
+      { t: "mc",
+        enun: "Qual destas é uma boa carta de teste?",
+        ops: [
+          "Explorar o cupom no carrinho, com conta nova e antiga e cupom expirado, para descobrir se dá pra burlar o limite de um cupom por pedido",
+          "Explorar o carrinho",
+          "Clicar em \"aplicar cupom\" e conferir se o desconto é de 10%",
+          "Testar tudo o que mudou na versão 2.14" ],
+        correta: 0,
+        exp: "A carta precisa ser específica o bastante pra focar e aberta o bastante pra você descobrir o inesperado. \"Explorar o carrinho\" é vago; o terceiro item é um caso de teste, não uma carta." },
+
+      { t: "mc",
+        enun: "Qual princípio do Módulo 1 justifica reservar tempo para exploratório mesmo tendo uma suíte automatizada grande?",
+        ops: [
+          "O paradoxo do pesticida — a suíte só encontra o que alguém já imaginou",
+          "Teste depende do contexto",
+          "Defeitos se agrupam",
+          "Verificação e validação são coisas diferentes" ],
+        correta: 0,
+        exp: "Testes repetidos param de achar coisa nova. O defeito que ninguém imaginou não está em nenhum roteiro — por definição." },
+
+      { t: "mc",
+        enun: "Você está numa sessão e travou aos 20 minutos. Qual heurística ataca o ângulo mais esquecido e mais produtivo?",
+        ops: [
+          "O <b>T de Tempo</b> do SFDIPOT: ordem dos eventos, dois cliques rápidos, duas abas, sessão expirando, timeout",
+          "Reler a especificação do começo ao fim",
+          "Aumentar o tempo da sessão para 3 horas",
+          "Repetir os mesmos passos com dados diferentes" ],
+        correta: 0,
+        exp: "Tempo e simultaneidade são o ângulo que mais rende defeito e o que menos gente lembra de olhar. Sessão longa demais vira clique automático." },
+
+      { t: "mc",
+        enun: "O que é um <b>oráculo</b> em teste?",
+        ops: [
+          "Aquilo que te permite afirmar que um comportamento está errado",
+          "A ferramenta que executa os testes automaticamente",
+          "A pessoa mais experiente do time, que decide o que testar",
+          "O banco de dados onde os resultados dos testes são guardados" ],
+        correta: 0,
+        exp: "Especificação, consistência interna, comportamento anterior, propósito — e os dados no banco. Sem oráculo você está passeando pelo sistema, não testando." },
+
+      { t: "mc",
+        enun: "A tela mostra \"pedido confirmado\", mas a linha em <code>pedidos</code> ficou com <code>valor_total = 0</code>. Que oráculo você usou?",
+        ops: [
+          "Os dados — o banco como fonte da verdade, contradizendo a interface",
+          "Consistência com o passado",
+          "Comparação com um produto concorrente",
+          "A especificação escrita da história" ],
+        correta: 0,
+        exp: "É o oráculo mais forte que existe, e o que as trilhas de SQL e de API te ensinam a usar. A tela pode mentir; a linha gravada, não." },
+
+      { t: "mc",
+        enun: "Em qual situação o teste roteirizado/automatizado é claramente preferível ao exploratório?",
+        ops: [
+          "Regressão de um fluxo estável que precisa rodar a cada entrega e reprovar o build",
+          "Uma funcionalidade nova, ainda sem especificação escrita",
+          "Investigar a vizinhança de um bug que acabou de ser corrigido",
+          "Avaliar se o novo fluxo de cadastro faz sentido para o usuário" ],
+        correta: 0,
+        exp: "Automação vale quando o fluxo é estável, o resultado é objetivo e vai rodar muitas vezes. Os outros três dependem de julgamento e descoberta." },
+
+      { t: "mc",
+        enun: "Terminada a sessão, qual é o item mais valioso do fechamento — e o que quase ninguém escreve?",
+        ops: [
+          "O que <b>me preocupa</b> — os riscos que você percebeu e não conseguiu descartar",
+          "O número de casos executados",
+          "O tempo total gasto na sessão",
+          "A lista de telas visitadas" ],
+        correta: 0,
+        exp: "\"Cobri / achei / não deu tempo / me preocupa\". O último transforma você de executor em alguém que o time consulta antes de subir pra produção." },
+
+      { t: "aberta",
+        enun: "Escreva a <b>carta de teste</b> completa para uma sessão de 60 minutos sobre a funcionalidade \"recuperação de senha\" de um app de banco — e liste três coisas que você tentaria primeiro.",
+        dica: "use o formato Explorar… com… para… e pense no passeio do sabotador e no T de tempo.",
+        modelo: "<p><b>Carta</b></p><pre class=\"bloco\"><code>Explorar  o fluxo de recuperação de senha\ncom       conta existente, conta inexistente, e-mail e SMS,\n          dois navegadores ao mesmo tempo e o painel de rede aberto\npara      descobrir se é possível descobrir quais e-mails estão\n          cadastrados, reutilizar um link de recuperação, ou\n          assumir a conta de outra pessoa\n\nTempo: 60 min      Ambiente: homolog, v3.2</code></pre><p><b>Três coisas para tentar primeiro</b> (as mais produtivas):</p><ul><li><b>Enumeração de contas:</b> a mensagem para e-mail cadastrado é diferente da de e-mail inexistente? Se for, qualquer pessoa descobre quem é cliente do banco. É o defeito clássico desse fluxo.</li><li><b>Reuso e expiração do link (T de tempo):</b> usar o link duas vezes; usar depois de expirado; pedir dois links e tentar o primeiro; usar o link logado em outra conta na mesma máquina.</li><li><b>Sabotador:</b> pedir 50 recuperações seguidas (tem limite?); interromper no meio e voltar pelo botão do navegador; trocar o e-mail na URL da requisição.</li></ul><p>Se a sua carta ficou parecida com \"testar se o e-mail chega\", ela está estreita demais: isso é um caso de teste. A carta define um <b>território de investigação</b> e um <b>risco</b>.</p>" }
+    ]
+  };
+  </script>
+  <script src="../assets/progresso.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

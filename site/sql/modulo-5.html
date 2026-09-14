@@ -87,6 +87,23 @@ WHERE preco &gt; (SELECT AVG(preco) FROM produtos);</code></pre>
     </section>
 
     <section class="secao">
+      <div class="card pegadinhas">
+        <h2 style="margin-top:0;border:0">Pegadinhas deste módulo</h2>
+        <p style="margin-top:0;font-size:14px">
+          Os erros que quase todo mundo comete aqui. Ler agora poupa meia hora de
+          confusão depois — e alguns deles são a causa de relatório errado em projeto real.
+        </p>
+        <ul>
+          <li><b><code>NOT IN</code> com <code>NULL</code> na subconsulta devolve <b>zero linhas</b>.</b> Se a subconsulta de <code>WHERE id NOT IN (SELECT cliente_id FROM pedidos)</code> contiver um único <code>NULL</code>, o resultado é vazio — sempre, sem erro. Prefira <code>NOT EXISTS</code>, que não tem esse problema, ou acrescente <code>WHERE cliente_id IS NOT NULL</code> na subconsulta.</li>
+          <li><b>Subconsulta escalar precisa devolver exatamente uma linha.</b> <code>= (SELECT ...)</code> que devolve duas linhas dá erro; que devolve nenhuma vira <code>NULL</code> e a comparação falha em silêncio.</li>
+          <li><b>CTE não é otimização — é legibilidade.</b> <code>WITH</code> deixa a query compreensível, mas em vários bancos não torna nada mais rápido. Use pela clareza, que já é motivo suficiente.</li>
+          <li><b><code>EXISTS</code> costuma ser melhor que <code>IN</code> em lista grande.</b> <code>EXISTS</code> para assim que acha a primeira linha; <code>IN</code> pode materializar a lista inteira.</li>
+          <li><b>Subconsulta correlacionada roda uma vez por linha.</b> Funciona bem em 60 clientes e trava em 6 milhões. Em banco de produção, desconfie — e teste com volume antes de rodar.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="secao">
       <h2>Prática</h2>
       <p class="legenda">Rode com o botão ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.</p>
       <div id="schema-ref"></div>
@@ -102,6 +119,13 @@ WHERE preco &gt; (SELECT AVG(preco) FROM produtos);</code></pre>
         <div class="resultado" id="res-livre"></div>
       </div>
     </section>
+
+    <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
+      <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
+        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        progresso anda no começo do site. Fica salvo só no seu navegador.
+      </span>
+    </div>
 
     <nav class="acoes" style="margin-top:32px">
       <a href="modulo-4.html"><button>← Módulo 4</button></a>
@@ -148,6 +172,8 @@ WHERE preco &gt; (SELECT AVG(preco) FROM produtos);</code></pre>
   </script>
   <script>window.ASSETS_BASE="../assets/";window.DB_URL="pratica.db";</script>
   <script src="../assets/sql-wasm.js"></script>
+  <script src="../assets/conferir.js"></script>
+  <script src="../assets/progresso.js"></script>
   <script src="../assets/app.js"></script>
 </body>
 </html>

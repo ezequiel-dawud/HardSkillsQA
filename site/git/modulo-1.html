@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Git Módulo 1 — Por que Git existe, e pegar o código</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ Git</span></div>
+    <nav>
+      <a href="modulo-1.html" class="atual">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html">3</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 1 — Por que Git existe, e pegar o código</h1>
+    <p class="legenda">O modelo mental, instalar, e trazer um repositório para a sua máquina</p>
+
+    <section class="secao">
+      <h2>O problema que o Git resolve</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          Você já viveu isso com documentos:
+        </p>
+        <pre class="bloco"><code>plano_de_teste.docx
+plano_de_teste_v2.docx
+plano_de_teste_v2_FINAL.docx
+plano_de_teste_v2_FINAL_agora_vai.docx
+plano_de_teste_revisado_joao.docx</code></pre>
+        <p>
+          Ninguém sabe qual é o atual, ninguém sabe o que mudou entre um e outro, e se
+          duas pessoas editam ao mesmo tempo alguém perde trabalho.
+        </p>
+        <p style="margin-bottom:0">
+          <b>Git é o sistema que resolve isso para código.</b> Ele guarda a
+          <em>história inteira</em> do projeto: cada mudança, quem fez, quando, e por quê.
+          Dá pra voltar no tempo, comparar duas versões linha a linha, e trabalhar em
+          paralelo sem pisar no pé de ninguém.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">Git ≠ GitHub</h3>
+        <p style="margin-bottom:0">
+          <b>Git</b> é o programa que roda na sua máquina e controla as versões.
+          <b>GitHub</b> é um site que hospeda repositórios Git na internet, e acrescenta
+          coisas em volta: Pull Requests, revisão de código, issues e — o que mais importa
+          pra QA — o <b>CI</b>, que roda os testes sozinho a cada mudança. Existem
+          concorrentes (GitLab, Bitbucket) com as mesmas ideias.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>O vocabulário mínimo</h2>
+      <div class="card">
+        <table class="dados">
+          <thead><tr><th>Palavra</th><th>O que é</th></tr></thead>
+          <tbody>
+            <tr><td><b>repositório</b> (repo)</td><td>a pasta do projeto, com toda a história junto</td></tr>
+            <tr><td><b>commit</b></td><td>um ponto salvo na história: um conjunto de mudanças com uma mensagem explicando</td></tr>
+            <tr><td><b>branch</b> (ramo)</td><td>uma linha paralela de trabalho, pra você mexer sem afetar o principal</td></tr>
+            <tr><td><b><code>main</code></b></td><td>o branch principal, o que vale. (Em projetos antigos pode se chamar <code>master</code>.)</td></tr>
+            <tr><td><b>clone</b></td><td>baixar um repositório inteiro, com história, pra sua máquina</td></tr>
+            <tr><td><b>fork</b></td><td>fazer uma <em>cópia sua</em> de um repositório de outra pessoa, na sua conta do GitHub</td></tr>
+            <tr><td><b>push / pull</b></td><td>enviar seus commits pro servidor / trazer os commits dos outros</td></tr>
+            <tr><td><b>Pull Request</b> (PR)</td><td>o pedido "revisem e aceitem minhas mudanças". É onde o CI mostra ✓ ou ✗</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-bottom:0" class="legenda">
+          Não precisa decorar agora — você vai usar cada um nos próximos dois módulos.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>1. Instalar</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          Antes de tudo, veja se já tem. Abra o terminal e digite:
+        </p>
+        <pre class="bloco"><code>git --version</code></pre>
+        <p>
+          Se responder algo como <code>git version 2.45.1</code>, pule para o passo 2.
+        </p>
+        <ul>
+          <li><b>Windows:</b> baixe em <code>git-scm.com/download/win</code>. Pode aceitar
+            todas as opções padrão do instalador. Ele instala junto o <b>Git Bash</b>, um
+            terminal que entende os mesmos comandos do Linux/macOS — <b>use ele</b> para
+            seguir este curso, evita metade dos problemas.</li>
+          <li><b>macOS:</b> <code>brew install git</code>, ou simplesmente digite
+            <code>git</code> no terminal e aceite instalar as ferramentas de linha de
+            comando.</li>
+          <li><b>Linux:</b> <code>sudo apt install git</code> (ou o gerenciador da sua
+            distribuição).</li>
+        </ul>
+        <p style="margin-bottom:0">
+          Depois de instalar, diga ao Git quem é você — esse nome vai em todo commit que
+          você fizer:
+        </p>
+        <pre class="bloco"><code>git config --global user.name "Seu Nome"
+git config --global user.email "seu@email.com"</code></pre>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>2. Criar a conta e fazer o <i>fork</i></h2>
+      <div class="card">
+        <p style="margin-top:0">
+          Crie uma conta em <code>github.com</code> (gratuita). Depois, no repositório do
+          curso, clique no botão <b>Fork</b>, no canto superior direito.
+        </p>
+        <p>
+          <b>Por que fork e não só clone?</b> Você não tem permissão pra enviar mudanças
+          no repositório de outra pessoa. O fork cria uma cópia <em>na sua conta</em>, onde
+          você manda. É lá que você vai commitar, e é lá que <b>os pipelines de CI vão
+          rodar com o seu nome</b> — o que a Trilha de CI/CD precisa.
+        </p>
+        <p style="margin-bottom:0" class="legenda">
+          Depois do fork, o endereço do seu repositório é
+          <code>github.com/SEU-USUARIO/HardSkillsQA</code>.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao teoria">
+      <h2>3. Clonar para a sua máquina</h2>
+      <div class="card">
+        <p style="margin-top:0">
+          No <em>seu</em> fork, clique no botão verde <b>Code</b> e copie o endereço HTTPS.
+          Então, no terminal, vá até a pasta onde você guarda projetos e rode:
+        </p>
+        <pre class="bloco"><code>cd Documentos                 # ou onde você quiser guardar
+git clone https://github.com/SEU-USUARIO/HardSkillsQA.git
+cd HardSkillsQA</code></pre>
+        <p>
+          Pronto: a pasta está na sua máquina, com a história inteira. Confira com:
+        </p>
+        <pre class="bloco"><code>ls              # lista os arquivos (dir, no cmd do Windows)
+git status      # mostra em que estado o repositório está
+git log --oneline -5   # os 5 últimos commits, um por linha</code></pre>
+        <p style="margin-bottom:0">
+          <b>Por que isso importa pro curso:</b> as trilhas de <b>pytest</b> e <b>k6</b>
+          rodam a partir desses arquivos, e o banco que os testes usam mora em
+          <code>pratica/pratica.db</code> — por isso precisa ser o repositório inteiro,
+          não só uma pasta baixada solta.
+        </p>
+      </div>
+
+      <div class="card pegadinhas">
+        <h3 style="margin-top:0">Erros comuns nesta etapa</h3>
+        <table class="dados">
+          <thead><tr><th>Mensagem</th><th>O que é / correção</th></tr></thead>
+          <tbody>
+            <tr><td><code>'git' não é reconhecido…</code></td><td>o Git não está instalado ou não está no PATH. Feche e reabra o terminal depois de instalar; no Windows, use o <b>Git Bash</b>.</td></tr>
+            <tr><td><code>repository not found</code></td><td>endereço errado, ou você copiou o do repositório original sem ter feito o fork. Confira se aparece o <em>seu</em> usuário na URL.</td></tr>
+            <tr><td><code>Permission denied</code> ao dar push</td><td>você clonou o repositório <em>de outra pessoa</em> em vez do seu fork. Faça o fork e clone de novo a partir dele.</td></tr>
+            <tr><td>pede usuário e senha e recusa a senha</td><td>o GitHub não aceita mais a senha da conta no terminal. Gere um <b>Personal Access Token</b> (Settings → Developer settings → Tokens) e use o token no lugar da senha.</td></tr>
+            <tr><td>clonou dentro do OneDrive e ficou lento/estranho</td><td>prefira uma pasta fora de pastas sincronizadas — a sincronização briga com os arquivos internos do Git.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card" style="border-left:3px solid var(--acento)">
+        <h3 style="margin-top:0">Olhar de QA</h3>
+        <p style="margin-bottom:0">
+          Git não é "coisa de quem desenvolve". Para QA ele é a porta de entrada de três
+          coisas do dia a dia: <b>ler o diff</b> de um Pull Request pra saber o que
+          realmente mudou (e portanto o que testar), <b>versionar seus próprios testes
+          automatizados</b>, e <b>entender o vermelho do CI</b>. Quem não passa dessa porta
+          fica dependendo de alguém contar o que mudou — e o que contam nunca é a lista
+          completa.
+        </p>
+      </div>
+    </section>
+
+    <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
+      <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
+        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        progresso anda no começo do site. Fica salvo só no seu navegador.
+      </span>
+    </div>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="index.html"><button>← Índice</button></a>
+      <a href="prova-1.html"><button>📝 Prova do módulo</button></a>
+      <a href="modulo-2.html"><button class="primario">Módulo 2 →</button></a>
+    </nav>
+  </main>
+  <script src="../assets/progresso.js"></script>
+</body>
+</html>

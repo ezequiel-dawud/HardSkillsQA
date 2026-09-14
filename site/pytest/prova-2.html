@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prova — Módulo 2 (pytest)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ pytest / Provas</span></div>
+    <nav>
+      <a href="prova-1.html">1</a>
+      <a href="prova-2.html" class="atual">2</a>
+      <a href="prova-3.html">3</a>
+      <a href="prova-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 2</h1>
+    <p class="legenda">Anatomia de um teste: função test_, assert, fixture, conftest.py. &nbsp;<a href="modulo-2.html">← rever o módulo</a></p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 2", trilha: "pytest", modulo: 2, indiceHref: "index.html",
+    questoes: [
+      {
+            "t": "mc",
+            "enun": "Como o pytest descobre quais funções são testes?",
+            "ops": [
+                  "Funções cujo nome começa com <code>test_</code>, em arquivos <code>test_*.py</code>",
+                  "Funções listadas no arquivo <code>pytest.ini</code>",
+                  "Funções decoradas com <code>@pytest.test</code>",
+                  "Todas as funções de todos os arquivos do projeto"
+            ],
+            "correta": 0,
+            "exp": "Convenção em vez de configuração: é por isso que basta digitar <code>pytest</code> e ele acha tudo."
+      },
+      {
+            "t": "mc",
+            "enun": "O que é uma <b>fixture</b>?",
+            "ops": [
+                  "Uma função que faz o preparo (abrir conexão, criar massa, limpar depois) e entrega o resultado pronto para o teste",
+                  "Um valor fixo usado como entrada em vários testes",
+                  "Um teste que não pode ser alterado",
+                  "Um relatório gerado ao fim da execução"
+            ],
+            "correta": 0,
+            "exp": "O teste só pede pelo nome, como parâmetro: <code>def test_x(db):</code> recebe a conexão pronta."
+      },
+      {
+            "t": "mc",
+            "enun": "Na fixture <code>db</code> do projeto, o que o <code>yield</code> faz?",
+            "ops": [
+                  "Divide a fixture em \"antes\" e \"depois\": o que vem depois do <code>yield</code> é a limpeza, executada ao fim do teste",
+                  "Interrompe o teste caso o banco não exista",
+                  "Devolve o resultado do teste para o relatório",
+                  "Executa a fixture novamente para cada assert"
+            ],
+            "correta": 0,
+            "exp": "No projeto, o <code>finally: con.close()</code> depois do yield é o que garante que a conexão sempre fecha."
+      },
+      {
+            "t": "mc",
+            "enun": "Por que a fixture <code>db</code> copia o banco em vez de abrir o original?",
+            "ops": [
+                  "Para que um teste que escreva no banco não suje o teste seguinte, nem estrague o arquivo de prática",
+                  "Porque o SQLite não permite duas conexões no mesmo arquivo",
+                  "Para acelerar a execução dos testes",
+                  "Porque o pytest exige que fixtures usem arquivos temporários"
+            ],
+            "correta": 0,
+            "exp": "Isolamento entre testes é um dos fundamentos de uma suíte confiável: teste que depende da ordem é teste que vai falhar sozinho um dia."
+      },
+      {
+            "t": "mc",
+            "enun": "O que há de especial no arquivo <code>conftest.py</code>?",
+            "ops": [
+                  "O pytest o carrega automaticamente — as fixtures dele ficam disponíveis para todos os testes da pasta e subpastas, sem nenhum <code>import</code>",
+                  "Ele lista quais testes devem rodar em cada ambiente",
+                  "Ele guarda as configurações de conexão com o banco de produção",
+                  "Ele precisa ser importado no topo de cada arquivo de teste"
+            ],
+            "correta": 0,
+            "exp": "Você nunca escreve <code>import conftest</code>. Só põe a fixture lá e usa pelo nome."
+      },
+      {
+            "t": "mc",
+            "enun": "Quando um <code>assert</code> falha, o que o pytest mostra?",
+            "ops": [
+                  "Os dois lados da comparação — o que se esperava e o que veio — reescrevendo o assert",
+                  "Apenas a linha do arquivo onde a falha ocorreu",
+                  "A mensagem padrão \"AssertionError\", sem detalhes",
+                  "O log completo de todas as chamadas do teste"
+            ],
+            "correta": 0,
+            "exp": "É essa reescrita que faz o <code>assert</code> puro do Python bastar, sem precisar de <code>assertEqual</code> e companhia."
+      },
+      {
+            "t": "aberta",
+            "enun": "Escreva um teste que verifique que <b>não existe produto com preço negativo</b> na tabela <code>produtos</code>. Depois explique por que a mensagem do assert importa.",
+            "modelo": "<pre class=\"bloco\"><code>def test_nenhum_produto_com_preco_negativo(db):\n    ruins = db.execute(\n        \"SELECT id, nome, preco FROM produtos WHERE preco &lt; 0\"\n    ).fetchall()\n    assert ruins == [], (\n        f\"produtos com preço negativo: {[(r['id'], r['preco']) for r in ruins]}\"\n    )</code></pre><p><b>A receita</b> (a mesma do Módulo 3): a query traz <b>só as linhas que violam a regra</b>; o assert passa quando não veio nenhuma.</p><p><b>Por que a mensagem importa:</b> sem ela, o relatório diz apenas que uma lista não estava vazia — e você tem que ir ao banco descobrir quais linhas eram. Com ela, o próprio vermelho do CI já entrega os ids para investigar. Num pipeline, onde ninguém está olhando a tela no momento da falha, a mensagem do assert <b>é</b> o relatório de bug. Escrevê-la bem é o mesmo cuidado do título de um defeito: quem lê não estava lá.</p>",
+            "dica": "use o padrão \"traz as linhas erradas, assert que veio vazio\"."
+      }
+]
+  };
+  </script>
+  <script src="../assets/progresso.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+</body>
+</html>

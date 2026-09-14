@@ -135,6 +135,23 @@ WHERE reportado_por IS DISTINCT FROM 'ezequiel';</code></pre>
     </section>
 
     <section class="secao">
+      <div class="card pegadinhas">
+        <h2 style="margin-top:0;border:0">Pegadinhas deste módulo</h2>
+        <p style="margin-top:0;font-size:14px">
+          Os erros que quase todo mundo comete aqui. Ler agora poupa meia hora de
+          confusão depois — e alguns deles são a causa de relatório errado em projeto real.
+        </p>
+        <ul>
+          <li><b><code>NULL</code> não é igual a nada — nem a outro <code>NULL</code>.</b> <code>WHERE data_fechamento = NULL</code> devolve <b>zero linhas sempre</b>, mesmo havendo milhares com o campo vazio. O certo é <code>IS NULL</code>. Não dá erro: dá resultado vazio, que é pior.</li>
+          <li><b><code>&lt;&gt;</code> descarta as linhas com <code>NULL</code> em silêncio.</b> <code>WHERE status &lt;&gt; 'fechado'</code> <b>não</b> traz as linhas cujo status é <code>NULL</code> — porque <code>NULL &lt;&gt; 'fechado'</code> não é verdadeiro, é desconhecido. Se você quer essas linhas, precisa de <code>OR status IS NULL</code>. Esta é uma das maiores fontes de relatório com número errado.</li>
+          <li><b>Qualquer conta com <code>NULL</code> vira <code>NULL</code>.</b> <code>valor_total + frete</code> some se o frete for nulo. Use <code>COALESCE(frete, 0)</code> quando o vazio deve valer zero.</li>
+          <li><b><code>NULL</code>, string vazia e zero são três coisas diferentes.</b> <code>NULL</code> = nunca preenchido; <code>''</code> = preenchido com nada; <code>0</code> = preenchido com zero. Tratar os três como "vazio" no teste é como defeito de importação de dados passa despercebido.</li>
+          <li><b><code>CASE</code> sem <code>ELSE</code> devolve <code>NULL</code>.</b> Se nenhuma condição bater e não houver <code>ELSE</code>, o resultado é nulo — e a soma daquela coluna some junto.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="secao">
       <h2>Prática</h2>
       <p class="legenda">Escreva a query e clique <strong>Rodar</strong> (ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>).</p>
       <div id="schema-ref" data-aberto></div>
@@ -151,6 +168,13 @@ WHERE reportado_por IS DISTINCT FROM 'ezequiel';</code></pre>
         <div class="resultado" id="res-livre"></div>
       </div>
     </section>
+
+    <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
+      <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
+        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        progresso anda no começo do site. Fica salvo só no seu navegador.
+      </span>
+    </div>
 
     <nav class="acoes" style="margin-top:32px">
       <a href="modulo-1.html"><button>← Módulo 1</button></a>
@@ -208,6 +232,8 @@ WHERE reportado_por IS DISTINCT FROM 'ezequiel';</code></pre>
       gabarito: "SELECT caso_teste, resultado, defeito_id\nFROM execucoes_teste\nWHERE resultado <> 'passou' AND defeito_id IS NOT NULL;" },
   ];
   </script>
+  <script src="../assets/conferir.js"></script>
+  <script src="../assets/progresso.js"></script>
   <script type="module" src="app-pg.js"></script>
 </body>
 </html>
