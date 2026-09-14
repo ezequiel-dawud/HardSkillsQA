@@ -39,6 +39,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; } /* senão um display de classe (ex.: .selo) ganha do hidden */
 
 body {
   margin: 0;
@@ -226,6 +227,28 @@ button.primario:hover { filter: brightness(1.05); }
 
 .gabarito { margin-top: 12px; display: none; }
 .gabarito.aberto { display: block; }
+
+/* "Ver tabela" (assets/ver-tabela.js): conteúdo da tabela do exercício */
+.ver-tabela { margin-top: 12px; }
+.vt-tab { margin: 0 0 14px; }
+.vt-tab h4 { margin: 0 0 4px; font-size: 15px; }
+.vt-tab h4 code {
+  background: var(--acento-fraco); color: var(--acento); padding: 2px 8px; border-radius: 6px;
+}
+.vt-tab h4 span { font-weight: 400; font-size: 12px; color: var(--suave); margin-left: 6px; }
+.vt-tab > p { margin: 0 0 8px; font-size: 14px; color: var(--suave); }
+.vt-rolagem {
+  max-height: 340px; overflow: auto;
+  border: 1px solid var(--borda); border-radius: 8px;
+}
+.vt-rolagem table.dados { display: table; overflow: visible; }
+.vt-rolagem table.dados th { position: sticky; top: 0; z-index: 1; }
+.vt-rolagem table.dados th[title] { cursor: help; }
+.ver-tabela .vt-rodape { margin: 0; font-size: 13px; color: var(--suave); }
+.ver-tabela .msg-erro {
+  color: var(--erro); background: var(--erro-fraco); border: 1px solid var(--erro);
+  border-radius: 8px; padding: 8px 12px; font-size: 14px; margin: 0;
+}
 
 .aviso-servidor {
   background: var(--erro-fraco); border: 1px solid var(--erro); color: var(--erro);

@@ -427,11 +427,23 @@ function montarExercicios() {
     const bResp = document.createElement("button");
     bResp.textContent = "Ver resposta";
 
+    // "Ver tabela": o conteúdo das tabelas que o exercício usa (../assets/ver-tabela.js)
+    const verTab = window.VerTabela && VerTabela.criar({
+      sql: ex.gabarito,
+      executar: async (sql) => {
+        if (!db) throw new Error("o banco ainda não carregou");
+        return execLinhas(sql);
+      },
+      esquema: ESQUEMA,
+    });
+
     acoes.appendChild(bRodar);
     if (bDica) acoes.appendChild(bDica);
     acoes.appendChild(bResp);
+    if (verTab) acoes.appendChild(verTab.botao);
     card.appendChild(acoes);
     if (dicaBox) card.appendChild(dicaBox);
+    if (verTab) card.appendChild(verTab.painel);
 
     // banner de veredito da conferência automática (fica acima da tabela)
     const vd = document.createElement("div");

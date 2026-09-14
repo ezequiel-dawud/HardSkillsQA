@@ -261,7 +261,11 @@
         bt.textContent = "Testar (ver meu resultado)";
         bt.addEventListener("click", () => provaTeste(i));
         acoes.appendChild(bt);
+        // "Ver tabela": o conteúdo das tabelas da questão (assets/ver-tabela.js)
+        const verTab = window.VerTabela && VerTabela.criar({ sql: q.gab, executar: M.executar });
+        if (verTab) acoes.appendChild(verTab.botao);
         card.appendChild(acoes);
+        if (verTab) card.appendChild(verTab.painel);
       }
 
       const ver = document.createElement("div");
@@ -416,7 +420,8 @@
     btn.textContent = "Corrigir prova";
     document.getElementById("btn-refazer").hidden = false;
 
-    const pct = Math.round((100 * acertos) / NG);
+    // floor, não round: 69,6% não pode aparecer como "70%" e ser reprovado no progresso
+    const pct = Math.floor((100 * acertos) / NG);
     const passou = pct >= 70;
     const melhorAnt = parseInt(ler("melhor") || "-1", 10);
     if (acertos > melhorAnt) guardar("melhor", String(acertos));
@@ -429,8 +434,10 @@
       "<h2 style='border:0;margin:8px 0'>Nota: " + acertos + "/" + NG + " (" + pct + "%)</h2>" +
       "<p style='margin:0'>" +
       (passou
-        ? "Passou. ✅ De 70% pra cima considera-se que o módulo está firme."
-        : "Abaixo de 70%. Revise o módulo e refaça — as questões erradas mostram o gabarito acima.") +
+        ? "Passou. ✅ De 70% pra cima considera-se que o módulo está firme — ele já conta como " +
+          "concluído na barra de progresso da trilha."
+        : "Abaixo de 70%. Revise o módulo e refaça — as questões erradas mostram o gabarito acima. " +
+          "A sua melhor nota já faz a barra da trilha andar um pouco; com 70% o módulo conta inteiro.") +
       "</p>";
     placar.scrollIntoView({ behavior: "smooth", block: "center" });
   }

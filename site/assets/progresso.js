@@ -6,9 +6,14 @@
      mod:<pagina>      -> "1"        módulo dado como concluído
      prova:<pagina>    -> "8/9"      melhor nota naquela prova
 
-   Um módulo se marca sozinho como concluído quando o aluno acerta 70% ou mais
-   dos exercícios — o mesmo corte das provas. Também dá pra marcar na mão, pros
-   módulos de leitura (pytest, k6, CI/CD), que não têm exercício na página.
+   Um módulo conta como concluído quando o aluno acerta 70% ou mais dos
+   exercícios, OU passa na prova dele (prova-N.html ao lado do modulo-N.html,
+   com o mesmo corte de 70%), OU marca na mão — o jeito dos módulos de leitura
+   (pytest, k6, CI/CD), que não têm exercício na página.
+
+   A barra de cada trilha no hub enche com o andamento de cada módulo: um
+   concluído vale inteiro; um começado vale a fração que já foi feita (a maior
+   entre exercícios acertados e nota da prova).
 
    Se o aluno entrar numa conta (assets/conta.js), cada escrita também vai pro
    servidor — por isso toda gravação passa por gravar()/apagar().
@@ -97,7 +102,22 @@
     const p = pagina || aqui();
     const total = Number(ler("extot:" + p) || 0);
     const feitos = chaves("ex:" + p + ":").length;
-    return { total, feitos, concluido: ler("mod:" + p) === "1" };
+    const marcado = ler("mod:" + p) === "1";
+    // a prova do módulo mora ao lado dele: /sql/modulo-3.html -> /sql/prova-3.html
+    const prova = /modulo-\d+\.html$/.test(p)
+      ? situacaoProva(p.replace(/modulo-(\d+)\.html$/, "prova-$1.html"))
+      : null;
+    const pelaProva = !!(prova && prova.passou);
+    return { total, feitos, marcado, prova, pelaProva, concluido: marcado || pelaProva };
+  }
+
+  // quanto do módulo já andou, de 0 a 1 — é o que enche a barra da trilha
+  function andamentoModulo(pagina) {
+    const s = situacaoModulo(pagina);
+    if (s.concluido) return 1;
+    const ex = s.total ? Math.min(s.feitos / s.total, 1) : 0;
+    const pr = s.prova && s.prova.total ? s.prova.acertos / s.prova.total : 0;
+    return Math.max(ex, pr);
   }
 
   function situacaoProva(pagina) {
@@ -142,16 +162,22 @@
       const pasta = card.getAttribute("data-trilha");
       const n = Number(card.getAttribute("data-modulos"));
       const base = caminhoDe(pasta + "/");
-      let feitos = 0;
+      let feitos = 0, andando = 0, soma = 0;
       for (let i = 1; i <= n; i++) {
-        if (situacaoModulo(base + "modulo-" + i + ".html").concluido) feitos++;
+        const a = andamentoModulo(base + "modulo-" + i + ".html");
+        soma += a;
+        if (a === 1) feitos++;
+        else if (a > 0) andando++;
       }
       const barra = document.createElement("div");
       barra.className = "trilha-progresso" + (feitos === n ? " completa" : "");
       barra.innerHTML =
         '<div class="tp-trilho"><div class="tp-cheio" style="width:' +
-        Math.round((100 * feitos) / n) + '%"></div></div>' +
-        '<span class="tp-txt">' + (feitos === n ? "trilha completa ✓" : feitos + " de " + n + " módulos") + "</span>";
+        Math.round((100 * soma) / n) + '%"></div></div>' +
+        '<span class="tp-txt">' + (feitos === n
+          ? "trilha completa ✓"
+          : feitos + " de " + n + " módulos" + (andando ? " · " + andando + " em andamento" : "")) +
+        "</span>";
       card.appendChild(barra);
     });
   }
@@ -163,19 +189,27 @@
     const contador = document.createElement("span");
     contador.className = "prog-contador";
 
+    // passou na prova: o módulo já conta, não tem o que marcar nem desmarcar
+    const pelaProva = selo("", "selo-ok");
+
     const b = document.createElement("button");
     const pinta = () => {
       const s = situacaoModulo();
+      const soPelaProva = s.pelaProva && !s.marcado;
+      pelaProva.hidden = !soPelaProva;
+      b.hidden = soPelaProva;
+      if (s.prova) pelaProva.textContent = "✓ Concluído pela prova (" + s.prova.acertos + "/" + s.prova.total + ")";
       b.className = s.concluido ? "primario" : "";
       b.textContent = s.concluido ? "✓ Módulo concluído (desmarcar)" : "Marcar módulo como concluído";
       contador.textContent = s.total
         ? s.feitos + " de " + s.total + " exercícios conferidos"
         : "";
     };
-    b.addEventListener("click", () => marcarModulo(!situacaoModulo().concluido));
+    b.addEventListener("click", () => marcarModulo(!situacaoModulo().marcado));
     aoMudar(pinta);
     pinta();
     alvo.appendChild(contador);
+    alvo.appendChild(pelaProva);
     alvo.appendChild(b);
   }
 
