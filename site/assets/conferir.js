@@ -64,6 +64,12 @@
   }
 
   /* ---- o veredito ------------------------------------------------------- */
+  const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+  // "<code>id</code>, <code>nome</code>" — nomes das colunas que o gabarito devolve
+  const listaColunas = (colunas) =>
+    (colunas || []).map((c) => "<code>" + esc(c) + "</code>").join(", ");
+
   /* esp/got: { colunas, linhas } — linhas é array de arrays. */
   function julgar(esp, got, gabarito) {
     const ordenado = pedeOrdem(gabarito);
@@ -86,8 +92,8 @@
       return {
         estado: "erro",
         msg: "As linhas certas, mas o número de colunas não bate: esperava <b>" +
-             a[0].length + "</b> e vieram <b>" + b[0].length + "</b>. " +
-             "Peça exatamente as colunas do enunciado (a ordem delas conta).",
+             a[0].length + "</b> (" + listaColunas(esp.colunas) + ") e vieram <b>" +
+             b[0].length + "</b>. Peça essas colunas, nessa ordem.",
       };
     }
 
@@ -108,7 +114,7 @@
       estado: "erro",
       msg: "O número de linhas bate, mas <b>os valores não</b>. Compare uma linha da sua " +
            "tabela com o que o enunciado pede — costuma ser a coluna errada, ou a ordem " +
-           "das colunas trocada.",
+           "das colunas trocada. Colunas esperadas: " + listaColunas(esp.colunas) + ".",
     };
   }
 
