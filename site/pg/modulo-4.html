@@ -212,7 +212,7 @@ LIMIT 10;</textarea>
       dica: "<code>WHERE nome ILIKE '%costa%'</code>; mostre <code>INITCAP(nome)</code>.",
       gabarito: "SELECT INITCAP(nome) AS nome\nFROM clientes\nWHERE nome ILIKE '%costa%';" },
     { id: "4.3",
-      enunciado: "Quantos clientes existem por domínio de e-mail. Colunas dominio e qtd.",
+      enunciado: "Quantos clientes existem por domínio de e-mail. Colunas dominio e qtd, do domínio com mais clientes pro com menos.",
       dica: "<code>SPLIT_PART(email, '@', 2) AS dominio</code>, <code>GROUP BY dominio</code>.",
       gabarito: "SELECT SPLIT_PART(email, '@', 2) AS dominio, COUNT(*) AS qtd\nFROM clientes\nGROUP BY dominio\nORDER BY qtd DESC;" },
     { id: "4.4",
