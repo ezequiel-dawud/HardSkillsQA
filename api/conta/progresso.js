@@ -7,13 +7,25 @@
      ex:<pagina>:<id>  "1"      exercício feito      (v: null desfaz)
      extot:<pagina>    "10"     total de exercícios
      mod:<pagina>      "1"      módulo concluído     (v: null desmarca)
-     prova:<pagina>    "8/9"    melhor nota — só troca se a nova acertou mais */
+     prova:<pagina>    "8/9"    melhor nota — só troca se a nova acertou mais
+
+   Cada chamada custa 3 idas ao banco (busca o usuário, lê o progresso, grava o
+   que mudou), então esta é a rota cara: sem limite, um laço aqui queima a cota
+   do Redis e derruba a conta de todo mundo. O limite é por IP — pôr por nome
+   deixaria qualquer um travar a sincronização de uma pessoa específica só
+   mandando o nome dela. */
 
 const { redis, lote } = require("../_lib/banco");
 const c = require("../_lib/comum");
 
 const MAX_MUDANCAS = 5000;
 const MAX_CHAVES = 5000;
+
+// uso normal é muito menor: o navegador junta as mudanças num envio só a cada
+// 800 ms (site/assets/conta.js) e só envia quando algo muda. A folga aqui é pra
+// caber uma sala inteira de gente estudando atrás do mesmo IP.
+const ENVIOS_POR_IP = 240;
+const JANELA_SEG = 5 * 60;
 
 const FORMATO = {
   ex: /^1$/,
@@ -34,6 +46,12 @@ const acertos = (nota) => Number(String(nota).split("/")[0]);
 module.exports = c.rota(async (req, res, corpo) => {
   const n = c.validarNome(corpo.nome);
   if (n.erro) return c.responder(res, 400, { erro: n.erro });
+
+  // antes das 3 idas ao banco: barrar cedo é o que segura a cota
+  if ((await c.contar("progresso:ip:" + c.ipDe(req), JANELA_SEG)) > ENVIOS_POR_IP) {
+    return c.responder(res, 429, { erro: "Progresso salvo demais de uma vez. Ele continua guardado neste navegador e sobe sozinho daqui a pouco." });
+  }
+
   if (!(await c.buscarUsuario(n.chave))) {
     return c.responder(res, 404, { erro: "Essa conta não existe mais." });
   }

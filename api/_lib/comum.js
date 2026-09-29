@@ -30,9 +30,17 @@ function ipDe(req) {
   return String(h["x-real-ip"] || h["x-forwarded-for"] || "").split(",")[0].trim() || "desconhecido";
 }
 
-// soma 1 no contador e (re)começa a janela; devolve o total
+// soma 1 no contador da janela e devolve o total.
+//
+// O prazo é marcado só quando a chave nasce (SET ... NX EX). Antes o EXPIRE
+// corria a cada chamada, então a janela nunca vencia enquanto continuasse
+// chegando requisição: quem estourava o limite e insistia ficava preso pra
+// sempre. Agora a janela vence na hora marcada e a pessoa volta a passar.
 async function contar(chave, janelaSeg) {
-  const [n] = await lote([["INCR", chave], ["EXPIRE", chave, janelaSeg]]);
+  const [, n] = await lote([
+    ["SET", chave, "0", "EX", janelaSeg, "NX"],
+    ["INCR", chave],
+  ]);
   return n;
 }
 
