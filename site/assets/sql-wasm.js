@@ -1,3 +1,8 @@
+/*! sql.js 1.13.0 - https://github.com/sql-js/sql.js
+    Copyright (c) 2017 sql.js authors (see AUTHORS)
+    Licenca MIT - texto completo em sql-wasm.LICENSE.txt, ao lado deste arquivo.
+    Embute o SQLite, que e de dominio publico.
+    Arquivo nao modificado, fora este cabecalho. Mesma licenca vale pro sql-wasm.wasm. */
 
 // We are modularizing this manually because the current modularize setting in Emscripten has some issues:
 // https://github.com/kripken/emscripten/issues/5820
