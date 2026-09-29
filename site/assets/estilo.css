@@ -445,6 +445,51 @@ body {
 }
 .baixar-nota { font-size: 13px; color: var(--suave); }
 
+/* Barras de rolagem dos blocos que rolam (tabelas largas, código, editores).
+   A barra nativa do Windows é grossa e clara demais e rouba a atenção do
+   conteúdo. `scrollbar-*` é o padrão; o `::-webkit-scrollbar` abaixo dá o
+   acabamento arredondado em Chrome e Edge. */
+table.dados, .vt-rolagem, .prova-tab, .teoria pre, pre.bloco, .editor-wrap {
+  scrollbar-width: thin;
+  scrollbar-color: var(--borda) transparent;
+}
+table.dados::-webkit-scrollbar, .vt-rolagem::-webkit-scrollbar,
+.prova-tab::-webkit-scrollbar, .teoria pre::-webkit-scrollbar,
+pre.bloco::-webkit-scrollbar, .editor-wrap::-webkit-scrollbar {
+  width: 10px; height: 10px;
+}
+table.dados::-webkit-scrollbar-track, .vt-rolagem::-webkit-scrollbar-track,
+.prova-tab::-webkit-scrollbar-track, .teoria pre::-webkit-scrollbar-track,
+pre.bloco::-webkit-scrollbar-track, .editor-wrap::-webkit-scrollbar-track {
+  background: transparent;
+}
+table.dados::-webkit-scrollbar-thumb, .vt-rolagem::-webkit-scrollbar-thumb,
+.prova-tab::-webkit-scrollbar-thumb, .teoria pre::-webkit-scrollbar-thumb,
+pre.bloco::-webkit-scrollbar-thumb, .editor-wrap::-webkit-scrollbar-thumb {
+  background: var(--borda);
+  border: 2px solid transparent;      /* afina o polegar sem mudar a area de clique */
+  background-clip: padding-box;
+  border-radius: 999px;
+}
+table.dados::-webkit-scrollbar-thumb:hover, .vt-rolagem::-webkit-scrollbar-thumb:hover,
+.prova-tab::-webkit-scrollbar-thumb:hover, .teoria pre::-webkit-scrollbar-thumb:hover,
+pre.bloco::-webkit-scrollbar-thumb:hover, .editor-wrap::-webkit-scrollbar-thumb:hover {
+  background: var(--suave);
+  background-clip: padding-box;
+}
+
+/* Os blocos de código têm fundo escuro nos dois temas, então a borda clara do
+   tema claro sumiria neles: aqui o polegar é o próprio texto, translúcido. */
+.teoria pre, pre.bloco { scrollbar-color: rgba(255, 255, 255, .25) transparent; }
+.teoria pre::-webkit-scrollbar-thumb, pre.bloco::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, .25);
+  background-clip: padding-box;
+}
+.teoria pre::-webkit-scrollbar-thumb:hover, pre.bloco::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, .42);
+  background-clip: padding-box;
+}
+
 /* rodapé */
 .rodape {
   display: flex; flex-wrap: wrap; gap: 8px 18px;
