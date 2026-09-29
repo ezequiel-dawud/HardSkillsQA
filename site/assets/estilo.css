@@ -427,6 +427,13 @@ body {
 .link-botao:hover { filter: brightness(1.06); }
 .link-botao svg { width: 16px; height: 16px; }
 
+/* bloco "baixar o código": botão de download + a observação ao lado */
+.baixar {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 10px 14px; margin: 0 0 14px;
+}
+.baixar-nota { font-size: 13px; color: var(--suave); }
+
 /* rodapé */
 .rodape {
   display: flex; flex-wrap: wrap; gap: 8px 18px;
