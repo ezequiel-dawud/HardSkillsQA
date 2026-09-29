@@ -54,9 +54,10 @@ criar uma conta — é só um nome de usuário.
 **As trilhas que rodam na sua máquina** (pytest, k6 e CI/CD) precisam dos
 arquivos daqui:
 
-- **Sem Git:** [baixe o .zip](https://github.com/ezequiel-dawud/HardSkillsQA/archive/refs/heads/main.zip)
-  e descompacte. Menos de 1 MB.
-- **Com Git:** `git clone https://github.com/ezequiel-dawud/HardSkillsQA.git`
+- **Sem Git:** cada trilha tem um `.zip` só com o que ela usa — 26 KB na de pytest,
+  15 KB na de k6. O botão está no módulo 1 de cada uma.
+- **Com Git:** `git clone https://github.com/ezequiel-dawud/HardSkillsQA.git` traz
+  tudo, e é o que você vai precisar na trilha de CI/CD.
 
 Pra trilha de CI/CD você vai precisar de um **fork**, porque o exercício é ver o
 pipeline rodar no seu próprio repositório. A trilha de Git ensina isso do zero.
@@ -70,8 +71,17 @@ python site/servir.py
 Abre em `http://localhost:8000`. Precisa ser por HTTP — abrir o `.html` direto
 com `file://` não funciona, porque o WebAssembly é carregado por `fetch`.
 
-Não tem build, não tem dependência, não tem `npm install`. É HTML, CSS e
-JavaScript sem framework.
+É HTML, CSS e JavaScript sem framework, sem dependência e sem `npm install`.
+
+A única etapa de build monta os `.zip` por trilha, a partir dos próprios arquivos
+do repositório (por isso eles nunca desatualizam). Ela roda sozinha no deploy; pra
+ter os downloads funcionando também no servidor local:
+
+```bash
+node ferramentas/gerar_downloads.mjs
+```
+
+Os arquivos gerados vão para `site/downloads/` e não são versionados.
 
 ## Estrutura
 

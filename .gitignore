@@ -6,3 +6,6 @@ venv/
 .vercel
 .DS_Store
 Thumbs.db
+
+# gerados no build por ferramentas/gerar_downloads.mjs
+site/downloads/

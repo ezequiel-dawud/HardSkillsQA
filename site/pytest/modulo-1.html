@@ -46,19 +46,30 @@
       <div class="card">
         <p style="margin-top:0">Baixe, descompacte, e pronto. Não precisa de Git nem de conta no GitHub:</p>
         <div class="baixar">
-          <a class="link-botao" href="https://github.com/ezequiel-dawud/HardSkillsQA/archive/refs/heads/main.zip">
+          <a class="link-botao" href="../downloads/qa-learning-pytest.zip" download>
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3a1 1 0 0 1 1 1v9.59l3.3-3.3a1 1 0 1 1 1.4 1.42l-5 5a1 1 0 0 1-1.4 0l-5-5a1 1 0 1 1 1.4-1.42l3.3 3.3V4a1 1 0 0 1 1-1zM5 19a1 1 0 1 1 0-2h14a1 1 0 1 1 0 2H5z"/></svg>
-            Baixar o código (.zip)
+            Baixar só esta trilha (.zip)
           </a>
-          <span class="baixar-nota">menos de 1 MB</span>
+          <span class="baixar-nota">26 KB · 9 arquivos, sem mais nada junto</span>
         </div>
+        <p style="margin-bottom:0">Dentro do ZIP vêm só duas pastas — e são exatamente as duas de que
+          esta trilha precisa:</p>
+        <pre class="bloco"><code>trilha-3/     os testes que você vai escrever
+pratica/      o banco pratica.db, o mesmo da Trilha 1</code></pre>
         <p><b>Já usa Git?</b> <code>git clone https://github.com/ezequiel-dawud/HardSkillsQA.git</code>
-          faz o mesmo — e é o que a <a href="../git/index.html">Trilha 2</a> ensina.</p>
-        <p style="margin-bottom:0">A pasta que sai do ZIP se chama <code>HardSkillsQA-main</code> (com
-          <code>-main</code> no fim; quem clona fica só com <code>HardSkillsQA</code>). O que interessa
-          nesta trilha está em <code>trilha-3/</code>, e o banco que os testes usam mora em
-          <code>pratica/pratica.db</code> — por isso precisa ser o repositório inteiro, não só a
-          pasta <code>trilha-3</code>.</p>
+          traz o repositório completo — é o caminho da <a href="../git/index.html">Trilha 2</a>, e o que
+          você vai precisar na <a href="../cicd/index.html">Trilha 6 (CI/CD)</a>. Aí a pasta se chama
+          <code>HardSkillsQA</code> e os testes ficam em <code>HardSkillsQA/trilha-3/</code>.</p>
+        <div class="card card-info" style="margin-bottom:0">
+          <p style="margin:0; font-size:14px">
+            <b>No Windows, atenção a uma pegadinha:</b> o "Extrair Tudo" cria uma pasta com o nome do
+            arquivo <i>e</i> mantém o que vem dentro dele — às vezes você acaba com
+            <code>qa-learning-pytest\qa-learning-pytest\</code>. A pasta certa é a que tem
+            <code>trilha-3</code> e <code>pratica</code> <b>logo dentro</b>. Se você baixar duas vezes,
+            o Windows ainda acrescenta <code>(1)</code> no nome — não tem problema, só confira onde
+            você está antes de rodar os comandos.
+          </p>
+        </div>
       </div>
     </section>
 
@@ -83,10 +94,27 @@
         <p style="margin-top:0">Um <b>venv</b> ("virtual environment") é uma cópia local do Python
           só pra este projeto — o que você instalar aqui não bagunça o resto da máquina, e some
           quando você apaga a pasta.</p>
-        <p><b>Windows / PowerShell</b>, de dentro de <code>trilha-3/</code>:</p>
-        <pre class="bloco"><code>python -m venv .venv
+        <p><b>Windows / PowerShell.</b> Abra o terminal na pasta que você descompactou e rode
+          <b>uma linha de cada vez</b>, esperando cada uma terminar:</p>
+        <pre class="bloco"><code>cd trilha-3
+python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt</code></pre>
+        <div class="card card-info">
+          <p style="margin:0; font-size:14px">
+            <b>Não cole as quatro de uma vez.</b> O PowerShell executa a primeira e fica mostrando
+            <code>&gt;&gt;</code>, esperando você terminar de digitar — e aí a saída fica confusa.
+            Se isso acontecer, aperte <b>Enter</b> numa linha vazia para sair desse estado.
+            E nunca copie os <code>&gt;&gt;</code> da tela de volta pro terminal: eles são o
+            <i>prompt</i>, não fazem parte do comando. Colar de volta dá
+            <code>O termo '&gt;&gt;' não é reconhecido</code>.
+          </p>
+        </div>
+        <p style="margin:10px 0 0">O <code>cd trilha-3</code> é o passo em que todo mundo tropeça: o
+          <code>requirements.txt</code> mora lá dentro, não na pasta de cima. Se aparecer
+          <code>Could not open requirements file</code>, é porque você ficou uma pasta acima —
+          rode <code>dir</code> (ou <code>ls</code>) e confira que você vê os arquivos
+          <code>test_01…</code>, <code>test_02…</code> e <code>test_03…</code>.</p>
         <p style="margin:10px 0 0"><b>macOS / Linux</b>: só muda a ativação —
           <code>source .venv/bin/activate</code>.</p>
         <p style="margin:10px 0 0; font-size:14px; color:var(--suave)">

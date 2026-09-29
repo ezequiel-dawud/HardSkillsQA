@@ -104,18 +104,23 @@
     <section class="secao">
       <h2>2. Pegar o projeto e subir o alvo</h2>
       <div class="card">
-        <p style="margin-top:0">O código desta trilha fica em <code>trilha-5/</code>, dentro do
-          repositório. Não precisa de Git nem de conta no GitHub:</p>
+        <p style="margin-top:0">Não precisa de Git nem de conta no GitHub:</p>
         <div class="baixar">
-          <a class="link-botao" href="https://github.com/ezequiel-dawud/HardSkillsQA/archive/refs/heads/main.zip">
+          <a class="link-botao" href="../downloads/qa-learning-k6.zip" download>
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3a1 1 0 0 1 1 1v9.59l3.3-3.3a1 1 0 1 1 1.4 1.42l-5 5a1 1 0 0 1-1.4 0l-5-5a1 1 0 1 1 1.4-1.42l3.3 3.3V4a1 1 0 0 1 1-1zM5 19a1 1 0 1 1 0-2h14a1 1 0 1 1 0 2H5z"/></svg>
-            Baixar o código (.zip)
+            Baixar só esta trilha (.zip)
           </a>
-          <span class="baixar-nota">menos de 1 MB · descompacta em <code>HardSkillsQA-main/</code></span>
+          <span class="baixar-nota">15 KB · só a pasta <code>trilha-5/</code></span>
         </div>
         <p><b>Já usa Git?</b> <code>git clone https://github.com/ezequiel-dawud/HardSkillsQA.git</code>
-          faz o mesmo. De qualquer jeito, você vai usar <b>dois terminais</b>, ambos abertos em
-          <code>trilha-5/</code>.</p>
+          traz o repositório completo, que é o que você vai precisar na
+          <a href="../cicd/index.html">Trilha 6 (CI/CD)</a>.</p>
+        <p>Agora abra <b>dois terminais</b> e, em cada um, entre na pasta da trilha:</p>
+        <pre class="bloco"><code>cd trilha-5</code></pre>
+        <p style="margin:10px 0 0; font-size:14px; color:var(--suave)">Todos os comandos daqui pra
+          frente supõem que você está dentro de <code>trilha-5/</code>. Se der
+          <code>can't open file</code> ou <code>No such file</code>, é quase sempre isso: você está
+          na pasta de cima.</p>
         <p><b>Terminal 1 — o alvo de treino</b> (um HTTP falso que fica mais lento sob carga):</p>
         <pre class="bloco"><code>python mock/servidor.py</code></pre>
         <p style="margin:10px 0 0">Deixe rodando. Ele escuta em <code>http://127.0.0.1:8787</code>.
