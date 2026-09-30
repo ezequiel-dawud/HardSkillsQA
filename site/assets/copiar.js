@@ -9,6 +9,10 @@
   document.querySelectorAll(".teoria pre, pre.bloco").forEach(function (pre) {
     if (pre.querySelector(".btn-copiar")) return;
 
+    // rotulo-bloco marca "não cole no terminal" — não faz sentido oferecer copiar ali
+    var anterior = pre.previousElementSibling;
+    if (anterior && anterior.classList.contains("rotulo-bloco")) return;
+
     pre.classList.add("tem-copiar");
 
     var btn = document.createElement("button");
