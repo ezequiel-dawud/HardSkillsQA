@@ -457,7 +457,7 @@ body {
   border: 1px solid var(--acento); border-radius: 999px;
   padding: 7px 16px;
 }
-.link-botao:hover { filter: brightness(1.06); }
+.link-botao:hover { color: #fff; filter: brightness(1.06); }
 .link-botao svg { width: 16px; height: 16px; }
 
 /* bloco "baixar o código": botão de download + a observação ao lado */
