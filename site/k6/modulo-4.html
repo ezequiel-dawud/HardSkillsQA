@@ -40,6 +40,12 @@
   <main class="container">
     <h1>Módulo 4 — Dados e CI</h1>
     <p class="legenda">Carga com dado que varia, pegar valores da resposta, e o portão de performance no GitHub Actions.</p>
+    <p style="margin:0 0 14px; font-size:14px; color:var(--suave)">
+      Os trechos de código desta página explicam a sintaxe — não são pra colar no terminal. Eles
+      já estão montados no arquivo real <code>scripts/04_dados.js</code> (vem pronto no projeto).
+      Abra esse arquivo no editor pra ver <code>SharedArray</code> e a correlação de token no
+      contexto — é nele que você roda o teste, na seção <a href="#rodar">Rodar</a> mais abaixo.
+    </p>
 
     <section class="secao">
       <h2>Por que dado fixo não serve</h2>
@@ -98,7 +104,7 @@ http.post(`${BASE}/pedidos`,
     </section>
 
     <section class="secao">
-      <h2>Rodar</h2>
+      <h2 id="rodar">Rodar</h2>
       <div class="card">
         <p style="margin-top:0"><code>scripts/04_dados.js</code> junta as duas coisas: usuário da
           lista, login → token, email único por iteração. Com o mock ligado:</p>
