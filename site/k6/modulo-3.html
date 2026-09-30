@@ -47,6 +47,7 @@
         <p style="margin-top:0">Carga real não começa no talo — ela <b>sobe</b>, <b>segura</b> e
           <b>desce</b>. <code>stages</code> troca o <code>vus</code>/<code>duration</code> fixos por
           uma curva:</p>
+        <p class="rotulo-bloco">🧩 trecho de exemplo — não roda sozinho, não cole no terminal</p>
         <pre class="bloco"><code>export const options = {
   stages: [
     { duration: "20s", target: 20 },  // sobe de 0 a 20 VUs em 20s
@@ -67,6 +68,7 @@
         <p style="margin-top:0">É a única coisa no k6 que <b>reprova</b> o teste. Cada regra é uma
           condição sobre uma métrica; se ela não for cumprida, o <code>k6 run</code> termina com
           <b>código de saída 99</b> — e o CI marca o build como vermelho.</p>
+        <p class="rotulo-bloco">🧩 trecho de exemplo — não roda sozinho, não cole no terminal</p>
         <pre class="bloco"><code>thresholds: {
   http_req_failed: ["rate&lt;0.01"],       // menos de 1% de erro
   http_req_duration: ["p(95)&lt;300"],     // 95% das respostas abaixo de 300ms
@@ -176,5 +178,6 @@ python verificar.py 3</code></pre>
   </main>
   <script src="../assets/progresso.js"></script>
   <script src="../assets/conta.js"></script>
+  <script src="../assets/copiar.js" defer></script>
 </body>
 </html>

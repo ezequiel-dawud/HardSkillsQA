@@ -10,7 +10,7 @@ A teoria fica no site (`site/k6/`). Aqui está o projeto pra rodar na sua máqui
 
 | Ferramenta | Pra quê | Como |
 |---|---|---|
-| **k6** | roda os testes de carga | `winget install k6 --source winget` (Windows). Depois feche e reabra o terminal e teste com `k6 version`. |
+| **k6** | roda os testes de carga | `winget install k6 --source winget` (Windows). Depois feche e reabra o terminal e teste com `k6 version`. Se ainda der "não reconhecido", reiniciar o computador resolve (fechar só o terminal às vezes não é suficiente) — veja o passo a passo em `site/k6/modulo-1.html`. |
 | **Python 3** | o servidor-alvo de treino e o corretor | você já tem da Trilha 3. Nada de `pip install` aqui — só biblioteca padrão. |
 
 Sem conta, sem login, sem Docker. O k6 é grátis e open source.

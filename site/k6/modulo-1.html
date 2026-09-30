@@ -94,6 +94,22 @@
         </p>
         <pre class="bloco"><code>k6 version</code></pre>
         <p style="margin:10px 0 0; font-size:14px; color:var(--suave)">
+          <b>Se der "k6 não é reconhecido" mesmo depois de reabrir o terminal</b> (comum no Windows):
+          fechar a janela do terminal não é suficiente porque o PATH atualizado só chega a
+          processos novos depois que a sessão é renovada. <b>Se você usa VS Code, abrir uma aba
+          de terminal nova não conta</b> — ela herda o PATH do VS Code que já estava aberto antes
+          da instalação; feche o VS Code inteiro (todas as janelas) e reabra, ou melhor, reinicie
+          o computador (ou saia e entre de novo na conta do Windows) e tente outra vez. Para testar
+          sem reiniciar agora, em cada aba de terminal onde for usar o k6:
+        </p>
+        <pre class="bloco"><code>$env:Path += ";C:\Program Files\k6\"
+k6 version</code></pre>
+        <p style="margin:10px 0 0; font-size:14px; color:var(--suave)">
+          (Esse comando vale só para a aba atual do terminal — se abrir outra aba, precisa rodar
+          de novo. Depois de reiniciar o computador, <code>k6 version</code> volta a funcionar
+          sozinho em qualquer terminal, sem precisar dele.)
+        </p>
+        <p style="margin:10px 0 0; font-size:14px; color:var(--suave)">
           Se o <code>winget</code> não cooperar: baixe o <code>.zip</code> em
           <a href="https://github.com/grafana/k6/releases">github.com/grafana/k6/releases</a>,
           extraia o <code>k6.exe</code> numa pasta e chame por caminho completo. Não precisa de admin.
@@ -136,8 +152,9 @@
       <div class="card">
         <p style="margin-top:0">O <b>smoke test</b> é o mais simples que existe: 1 VU, poucas
           iterações, só pra ver se o alvo está de pé e o script funciona. Ninguém roda carga de
-          verdade sem passar por aqui. O arquivo já está pronto em
-          <code>scripts/01_smoke.js</code>:</p>
+          verdade sem passar por aqui. O arquivo já vem pronto no projeto — isto aqui é só
+          pra você ver o conteúdo, <b>não precisa digitar nem colar isto no terminal</b>:</p>
+        <p class="rotulo-bloco">📄 arquivo já existe em scripts/01_smoke.js — não cole no terminal</p>
         <pre class="bloco"><code>import http from "k6/http";
 import { check, sleep } from "k6";
 
@@ -239,5 +256,6 @@ export default function () {
   </main>
   <script src="../assets/progresso.js"></script>
   <script src="../assets/conta.js"></script>
+  <script src="../assets/copiar.js" defer></script>
 </body>
 </html>

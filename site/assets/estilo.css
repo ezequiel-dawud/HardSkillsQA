@@ -105,12 +105,34 @@ h3 { font-size: 16px; margin: 24px 0 8px; }
   font-family: "SF Mono", "Cascadia Code", Consolas, monospace;
 }
 .teoria pre, pre.bloco {
+  position: relative;
   background: var(--codigo-bg); color: var(--codigo-fg);
   padding: 14px 16px; border-radius: 10px; overflow-x: auto;
   font-family: "SF Mono", "Cascadia Code", Consolas, monospace; font-size: 13.5px;
   line-height: 1.55;
 }
 .teoria pre code, pre.bloco code { background: none; color: inherit; padding: 0; }
+.teoria pre.tem-copiar, pre.bloco.tem-copiar { padding-top: 40px; }
+
+.btn-copiar {
+  position: absolute; top: 8px; right: 8px;
+  border: 1px solid var(--borda); border-radius: 6px;
+  background: color-mix(in srgb, var(--codigo-bg) 40%, #ffffff 8%);
+  color: var(--codigo-fg); opacity: .6;
+  font: 12px/1 "SF Mono", "Cascadia Code", Consolas, monospace;
+  padding: 5px 9px; cursor: pointer;
+  transition: opacity .15s, border-color .15s, color .15s;
+}
+.btn-copiar:hover, .btn-copiar:focus-visible { opacity: 1; border-color: var(--acento); color: var(--acento); }
+.btn-copiar.copiado { opacity: 1; border-color: var(--ok); color: var(--ok); }
+
+.rotulo-bloco {
+  margin: 14px 0 0; padding: 7px 14px; font-size: 12.5px; color: var(--suave);
+  background: var(--acento-fraco); border: 1px solid var(--borda); border-bottom: none;
+  border-radius: 10px 10px 0 0;
+  font-family: "SF Mono", "Cascadia Code", Consolas, monospace;
+}
+.rotulo-bloco + pre.bloco { margin-top: 0; border-top-left-radius: 0; border-top-right-radius: 0; }
 .teoria ul { padding-left: 22px; }
 .teoria li { margin: 4px 0; }
 

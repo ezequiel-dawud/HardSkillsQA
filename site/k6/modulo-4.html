@@ -54,6 +54,7 @@
     <section class="secao">
       <h2><code>SharedArray</code> — a massa de dados</h2>
       <div class="card">
+        <p class="rotulo-bloco">🧩 trecho de exemplo — não roda sozinho, não cole no terminal</p>
         <pre class="bloco"><code>import { SharedArray } from "k6/data";
 
 // open() so funciona no contexto de init (fora da funcao default).
@@ -74,6 +75,7 @@ export default function () {
     <section class="secao">
       <h2>Correlação — usar a resposta A na requisição B</h2>
       <div class="card">
+        <p class="rotulo-bloco">🧩 trecho de exemplo — não roda sozinho, não cole no terminal</p>
         <pre class="bloco"><code>// 1) login devolve um token
 const login = http.post(`${BASE}/login`,
   JSON.stringify({ usuario: u.usuario, email: u.email }),
@@ -115,7 +117,9 @@ python verificar.py 4</code></pre>
       <h2>Portão de performance no CI</h2>
       <div class="card">
         <p style="margin-top:0">O mesmo teste que você roda na mão pode rodar a cada push. O
-          workflow <code>.github/workflows/trilha-5-k6.yml</code> faz:</p>
+          workflow <code>.github/workflows/trilha-5-k6.yml</code> já vem pronto no projeto — isto
+          aqui é só pra você ver o conteúdo, não precisa copiar nem colar no terminal:</p>
+        <p class="rotulo-bloco">📄 .github/workflows/trilha-5-k6.yml (trecho) — não cole no terminal</p>
         <pre class="bloco"><code>      - name: Instalar o k6
         uses: grafana/setup-k6-action@v1
 
@@ -184,5 +188,6 @@ python verificar.py 4</code></pre>
   </main>
   <script src="../assets/progresso.js"></script>
   <script src="../assets/conta.js"></script>
+  <script src="../assets/copiar.js" defer></script>
 </body>
 </html>
