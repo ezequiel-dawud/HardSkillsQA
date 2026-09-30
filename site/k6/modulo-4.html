@@ -113,6 +113,12 @@ http.post(`${BASE}/pedidos`,
           Terminal 1</b> antes de continuar:
         </p>
         <pre class="bloco"><code>python mock/servidor.py</code></pre>
+        <p style="margin:10px 0 0; font-size:14px; color:var(--suave)">
+          Espere aparecer <code>[mock] ouvindo em http://localhost:8787</code> antes de trocar de
+          terminal — se o k6 começar a bater no mock cedo demais, as primeiras requisições vêm com
+          "conexão recusada" e podem reprovar o portão de erro à toa. Se isso acontecer, é só
+          rodar o <code>k6 run</code> de novo com o mock já de pé.
+        </p>
         <p style="margin:10px 0 0">Com o mock ligado, no Terminal 2:</p>
         <pre class="bloco"><code>k6 run scripts/04_dados.js</code></pre>
         <p style="margin:10px 0 0"><b>Agora vá ao Terminal 1 e aperte Ctrl+C</b> pra encerrar o
