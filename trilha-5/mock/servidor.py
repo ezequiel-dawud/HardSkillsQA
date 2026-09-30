@@ -253,8 +253,15 @@ class Handler(BaseHTTPRequestHandler):
         _registrar(rota, 404)
 
 
+class Servidor(ThreadingHTTPServer):
+    # padrao do socketserver e 5 -- baixo demais pra uma rampa de VUs do k6
+    # abrindo conexao quase ao mesmo tempo; o Windows recusa (RST) o que
+    # estoura essa fila antes da thread de accept dar conta.
+    request_queue_size = 128
+
+
 def main():
-    srv = ThreadingHTTPServer(("127.0.0.1", PORTA), Handler)
+    srv = Servidor(("127.0.0.1", PORTA), Handler)
     atexit.register(_gravar_relatorio)
     signal.signal(signal.SIGINT, lambda *_: threading.Thread(target=srv.shutdown).start())
     print(f"[mock] ouvindo em http://localhost:{PORTA}  (Ctrl+C encerra)")
