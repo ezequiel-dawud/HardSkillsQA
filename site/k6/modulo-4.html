@@ -108,10 +108,11 @@ http.post(`${BASE}/pedidos`,
       <div class="card">
         <p style="margin-top:0"><code>scripts/04_dados.js</code> junta as duas coisas: usuário da
           lista, login → token, email único por iteração. Com o mock ligado:</p>
-        <pre class="bloco"><code>k6 run scripts/04_dados.js
-
-# encerre o mock no Terminal 1 com Ctrl+C, depois:
-python verificar.py 4</code></pre>
+        <pre class="bloco"><code>k6 run scripts/04_dados.js</code></pre>
+        <p style="margin:10px 0 0"><b>Agora vá ao Terminal 1 e aperte Ctrl+C</b> pra encerrar o
+          mock — sem isso o corretor não consegue ler o relatório do servidor. Só depois disso, de
+          volta no Terminal 2:</p>
+        <pre class="bloco"><code>python verificar.py 4</code></pre>
         <p style="margin-bottom:0">O corretor lê o relatório do mock e confere:
           <code>emails_distintos</code> alto (o dado variou), <code>tokens_reaproveitados &gt; 0</code>
           (a correlação funcionou), <code>tokens_distintos = 10</code> (todos os usuários da lista

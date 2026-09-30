@@ -134,11 +134,13 @@
           threshold de <code>p(95)&lt;300</code> <b>apertado de propósito</b>. O alvo de treino
           fica mais lento quanto mais carga recebe, então sob 20 VUs o p95 passa de 300ms e o
           portão <b>reprova</b>. Com o mock ligado:</p>
-        <pre class="bloco"><code>k6 run scripts/03_carga.js
-# ... o k6 termina com codigo 99 (portao reprovado) — esperado
-
-# encerre o mock no Terminal 1 com Ctrl+C, depois:
-python verificar.py 3</code></pre>
+        <pre class="bloco"><code>k6 run scripts/03_carga.js</code></pre>
+        <p style="margin:10px 0 0; font-size:14px; color:var(--suave)">O k6 termina com código 99
+          (portão reprovado) — é o esperado, não é falha sua.</p>
+        <p style="margin:10px 0 0"><b>Agora vá ao Terminal 1 e aperte Ctrl+C</b> pra encerrar o
+          mock — sem isso o corretor não consegue checar o lado do servidor. Só depois disso, de
+          volta no Terminal 2:</p>
+        <pre class="bloco"><code>python verificar.py 3</code></pre>
         <p style="margin-bottom:0">O corretor confere o que <b>você</b> montou (a rampa chegou a
           20 VUs? os dois thresholds existem? o servidor sentiu a carga simultânea?) e mostra uma
           nota dizendo que o portão reprovou — que é o certo aqui.</p>

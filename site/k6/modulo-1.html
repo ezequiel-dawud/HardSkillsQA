@@ -144,6 +144,13 @@ k6 version</code></pre>
         <pre class="bloco"><code>python mock/servidor.py</code></pre>
         <p style="margin:10px 0 0">Deixe rodando. Ele escuta em <code>http://127.0.0.1:8787</code>.
           Não precisa instalar nada — é só biblioteca padrão do Python.</p>
+        <p style="margin:10px 0 0; font-size:14px; color:var(--suave)">
+          <b>Enquanto o k6 roda, pode aparecer um traceback longo aqui</b> terminando em
+          <code>ConnectionResetError</code> ou <code>WinError 10054</code>. É inofensivo: é só o
+          jeito como o k6 fecha a conexão, que o servidor de testes do Python registra como erro
+          mas não afeta as próximas requisições. O servidor continua no ar — confira pelo resumo
+          que aparece no Terminal 2.
+        </p>
       </div>
     </section>
 
