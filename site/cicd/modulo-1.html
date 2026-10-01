@@ -152,11 +152,26 @@
     <section class="secao">
       <h2>Se você só baixou o ZIP</h2>
       <div class="card">
-        <p style="margin:0">O GitHub Actions só roda se o código estiver num repositório no
-          GitHub. Pra ter o seu: crie uma conta em <a href="https://github.com">github.com</a>
-          (grátis), instale o <a href="https://desktop.github.com">GitHub Desktop</a> ou use o
-          botão <b>"Add file → Upload files"</b> no site pra subir a pasta do projeto. A partir
-          daí a aba <b>Actions</b> aparece sozinha e os dois workflows já vêm junto.</p>
+        <p style="margin-top:0">O GitHub Actions só roda se o código estiver num repositório no
+          GitHub — e precisa ser o repositório <b>inteiro</b> (com a pasta
+          <code>.github/workflows/</code> junto), não só a pastinha da trilha que você baixou.
+          O jeito certo é dar <b>fork</b>: uma cópia completa do projeto, na sua conta, que já
+          vem com os workflows prontos — nada de subir arquivo por arquivo.</p>
+        <ol style="margin:0">
+          <li>Crie uma conta grátis em <a href="https://github.com">github.com</a>, se ainda não
+            tiver.</li>
+          <li>Abra a página do repositório deste projeto no GitHub e clique no botão
+            <b>Fork</b> (canto superior direito). Isso cria
+            <code>github.com/SEU-USUARIO/HardSkillsQA</code> — uma cópia só sua, separada da
+            original. Mexer nela não afeta o projeto de ninguém.</li>
+          <li>Traga essa cópia pra sua máquina: instale o
+            <a href="https://desktop.github.com">GitHub Desktop</a> e use
+            <b>"Clone a repository"</b> apontando pro seu fork, ou rode no terminal
+            <code>git clone</code> com a URL do seu fork.</li>
+          <li>Abra a pasta clonada no VS Code. A partir daí a aba <b>Actions</b> do seu fork já
+            aparece sozinha, com os dois workflows (<code>trilha-3-pytest.yml</code> e
+            <code>trilha-5-k6.yml</code>) prontos pra rodar.</li>
+        </ol>
       </div>
     </section>
 
