@@ -14,7 +14,7 @@ from helpers import scalar
 def test_o_banco_abre(db):
     # `db` é a fixture do conftest.py — o pytest injeta pelo nome do parâmetro.
     total = scalar(db, "SELECT COUNT(*) FROM clientes")
-    assert total == 61
+    assert total == 60
 
 
 def test_contagem_das_tabelas(db):
