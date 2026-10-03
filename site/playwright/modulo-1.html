@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- meta: gerado por site/assets/og/meta.py -->
+  <meta name="description" content="O que é automação de navegador, instalar o Playwright, subir o site de treino e rodar o primeiro teste de login. Módulo 1 da trilha Automação web com…" />
+  <link rel="canonical" href="https://qa-learning-nine.vercel.app/playwright/modulo-1.html" />
+  <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href="/favicon.ico" sizes="48x48" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="QA Learning" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:url" content="https://qa-learning-nine.vercel.app/playwright/modulo-1.html" />
+  <meta property="og:title" content="Playwright Módulo 1 — Preparar e primeiro teste — QA Learning" />
+  <meta property="og:description" content="O que é automação de navegador, instalar o Playwright, subir o site de treino e rodar o primeiro teste de login. Módulo 1 da trilha Automação web com…" />
+  <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-playwright.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Playwright Módulo 1 — Preparar e primeiro teste — QA Learning" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <!-- /meta -->
+  <title>Playwright Módulo 1 — Preparar e primeiro teste</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ Playwright</span></div>
+    <nav>
+      <a href="modulo-1.html" class="atual">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 1 — Preparar e primeiro teste</h1>
+    <p class="legenda">O que é automação de navegador, instalar o Playwright, subir o site de treino e rodar o primeiro teste de login.</p>
+
+    <section class="secao">
+      <h2>O que é automação de navegador</h2>
+      <div class="card">
+        <p style="margin-top:0">Até agora suas verificações rodaram contra banco (SQL), API ou um
+          processo de linha de comando. Automação web é diferente: o script abre um
+          <b>navegador de verdade</b> (ou uma versão sem interface dele) e interage com a página
+          como um usuário faria — clica, digita, espera a tela mudar, lê o que apareceu.</p>
+        <p style="margin-bottom:0">O <b>Playwright</b> é a ferramenta que faz isso hoje com menos
+          dor: controla Chromium, Firefox e WebKit com a mesma API, <b>espera sozinho</b> um
+          elemento existir/estar visível antes de interagir (sem <code>sleep()</code> arbitrário
+          espalhado pelo teste) e vem com um corretor de testes embutido (<code>@playwright/test</code>),
+          que é o que esta trilha usa.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>O alvo: um site feito pra isso</h2>
+      <div class="card">
+        <p style="margin-top:0">Testar contra um site de produção de verdade é ruim pra aprender:
+          qualquer mudança visual quebra o seu seletor, e você não controla os cenários de erro.
+          Por isso esta trilha usa o <b>QA Treino</b> — um site fake, separado do QA Learning, com um
+          <code>data-testid="pagina-elemento-papel"</code> em cada elemento importante. É a mesma
+          convenção que Playwright e Testing Library recomendam: o seletor testa
+          <b>comportamento</b>, não aparência.</p>
+        <p style="margin-bottom:0">Ele tem uma loja com login obrigatório, cadastro com validação,
+          lista de produtos com carregamento assíncrono e paginação, modal, upload de arquivo,
+          drag-and-drop, carrinho em <code>localStorage</code>, e uma página que força erro 500 sob
+          demanda — tudo o que esta trilha (e as próximas, de Cypress) vai usar.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>1. Instalar o Node.js (se ainda não tem)</h2>
+      <div class="card">
+        <p style="margin-top:0">Confira se já tem:</p>
+        <pre class="bloco"><code>node --version</code></pre>
+        <p style="margin:10px 0 0">Se não tiver, baixe o instalador LTS em
+          <a href="https://nodejs.org">nodejs.org</a> e reabra o terminal depois.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>2. Subir o site de treino</h2>
+      <div class="card">
+        <p style="margin-top:0">O QA Treino é um repositório próprio. Pegue o código (clone ou
+          baixe o zip pelo GitHub) e, de dentro dele:</p>
+        <p><b>Terminal 1 — o alvo</b>:</p>
+        <pre class="bloco"><code>npm run dev</code></pre>
+        <p style="margin:10px 0 0">Deixe rodando. Ele serve o site em
+          <code>http://localhost:3000</code> — é só Node, sem instalar nada e sem conta em
+          lugar nenhum.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>3. Instalar o Playwright na trilha</h2>
+      <div class="card">
+        <p style="margin-top:0">Agora, de dentro de <code>trilha-7/</code> (no repositório do
+          QA Learning), <b>Terminal 2</b>:</p>
+        <pre class="bloco"><code>npm install
+npx playwright install chromium</code></pre>
+        <p style="margin:10px 0 0; font-size:14px; color:var(--suave)">
+          O segundo comando baixa o navegador que o Playwright controla (só a primeira vez; são
+          uns 150 MB). Instalamos só o Chromium aqui pra ficar leve — Firefox e WebKit entram
+          depois, se você quiser testar em mais de um motor.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>4. <code>data-testid</code> e locators</h2>
+      <div class="card">
+        <p style="margin-top:0">A forma de "achar" um elemento na página chama-se <b>locator</b>.
+          Dá pra localizar por texto, por CSS, por papel de acessibilidade — mas o mais estável pra
+          teste automatizado é por <code>data-testid</code>, porque não muda quando o design muda:</p>
+        <pre class="bloco"><code>await page.getByTestId("login-email-input").fill("maria@exemplo.com");
+await page.getByTestId("login-submit-button").click();</code></pre>
+        <p style="margin-bottom:0">No login do QA Treino: <code>login-email-input</code>,
+          <code>login-password-input</code>, <code>login-submit-button</code>, e
+          <code>login-error-message</code> quando a credencial está errada. A lista completa fica no
+          <code>README.md</code> do repositório do site de treino.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>5. O primeiro teste</h2>
+      <div class="card">
+        <p style="margin-top:0">O arquivo já vem pronto no projeto — isto aqui é só pra você ver o
+          conteúdo, <b>não precisa digitar nem colar isto no terminal</b>:</p>
+        <p class="rotulo-bloco">📄 arquivo já existe em tests/01_primeiro_teste.spec.js — não cole no terminal</p>
+        <pre class="bloco"><code>const { test, expect } = require("@playwright/test");
+
+test("a pagina de login carrega", async ({ page }) => {
+  await page.goto("/login.html");
+  await expect(page.getByTestId("login-form")).toBeVisible();
+});
+
+test("login com credenciais validas entra na loja", async ({ page }) => {
+  await page.goto("/login.html");
+  await page.getByTestId("login-email-input").fill("maria@exemplo.com");
+  await page.getByTestId("login-password-input").fill("SenhaForte123");
+  await page.getByTestId("login-submit-button").click();
+
+  await expect(page).toHaveURL(/index\.html/);
+  await expect(page.getByTestId("nav-account-name")).toHaveText("Maria");
+});</code></pre>
+        <p style="margin:10px 0 0">Repare: <code>page.goto("/login.html")</code> é relativo —
+          o <code>baseURL</code> (<code>http://localhost:3000</code>) já está configurado em
+          <code>playwright.config.js</code>. E não existe nenhum <code>sleep()</code> antes de ler o
+          nome "Maria" no header: o <code>expect()</code> do Playwright <b>espera sozinho</b> até uns
+          5 segundos até a condição ficar verdadeira, ou falha com uma mensagem clara.</p>
+        <p style="margin:10px 0 0"><b>Terminal 2</b>, de dentro de <code>trilha-7/</code> (com o
+          site de treino ligado no Terminal 1):</p>
+        <pre class="bloco"><code>npx playwright test tests/01_primeiro_teste.spec.js</code></pre>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>6. Ler o resultado</h2>
+      <div class="card">
+        <p style="margin-top:0">O Playwright imprime cada teste com <code>ok</code> ou
+          <code>failed</code> e grava um relatório (<code>resultado.json</code>, configurado em
+          <code>playwright.config.js</code>) que o corretor lê:</p>
+        <pre class="bloco"><code>Running 2 tests using 2 workers
+
+  ok 1 [chromium] › a pagina de login carrega (712ms)
+  ok 2 [chromium] › login com credenciais validas entra na loja (2.0s)
+
+  2 passed (5.2s)</code></pre>
+        <p>Quando um teste falha, o Playwright mostra <b>os dois lados</b>: o que o
+          <code>expect()</code> esperava e o que achou — e, por padrão, guarda um
+          <b>trace</b> (configurado como <code>retain-on-failure</code>) que dá pra abrir depois com
+          <code>npx playwright show-trace</code> e ver a página exatamente no momento da falha, passo a
+          passo. É o equivalente ao "print na tela na hora que quebrou", só que automático.</p>
+        <p style="margin-bottom:0">Rode o corretor pra conferir os critérios do módulo:</p>
+        <pre class="bloco"><code>python verificar.py 1</code></pre>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Exercício</h2>
+      <div class="card">
+        <p style="margin-top:0">Em <code>tests/01_primeiro_teste.spec.js</code>, escreva um
+          terceiro teste chamado <code>"login com senha errada mostra mensagem de erro"</code>: vai
+          em <code>/login.html</code>, preenche o e-mail certo e uma senha errada, clica em
+          <code>login-submit-button</code> e confere que <code>login-error-message</code> fica
+          visível. Rode <code>npx playwright test tests/01_primeiro_teste.spec.js</code> e depois
+          <code>python verificar.py 1</code> até dar 4 <code>[ok]</code>. O gabarito está em
+          <code>trilha-7/GABARITO.md</code>.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <div class="card">
+        <p style="margin:0; font-size:14px; color:var(--suave)">
+          Repare que os locators (<code>page.getByTestId(...)</code>) ficaram espalhados direto
+          nos testes acima. Pra um arquivo com dois testes, tudo bem — mas isso não escala. O
+          <a href="modulo-2.html">Módulo 2</a> mostra como organizar isso com <b>Page Object
+          Model</b>, o padrão que o resto da trilha usa daqui pra frente.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <div class="card" style="border-left:3px solid var(--acento)">
+        <h2 style="margin-top:0;border:0">Olhar de QA</h2>
+        <p style="margin-bottom:0">Automação de UI é a camada <b>mais lenta e mais frágil</b> da
+          pirâmide de testes — qualquer mudança de layout pode quebrar um seletor ruim, e cada
+          teste abre um navegador de verdade. Por isso ela não substitui os testes de API e
+          unitários que você já viu: ela cobre o que só existe <b>no navegador</b> (JavaScript do
+          cliente, CSS que esconde algo, um formulário que não submete). <b>A pergunta antes de
+          automatizar uma tela</b> é a mesma de sempre: esse cenário já está coberto numa camada
+          mais barata e mais rápida? Se não, UI é o lugar certo.</p>
+      </div>
+    </section>
+
+    <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
+      <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
+        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        progresso anda no começo do site. Fica salvo só no seu navegador.
+      </span>
+    </div>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="index.html"><button>← Índice</button></a>
+      <a href="prova-1.html"><button>📝 Prova do módulo</button></a>
+      <a href="modulo-2.html"><button class="primario">Módulo 2 →</button></a>
+    </nav>
+  </main>
+  <script src="../assets/progresso.js"></script>
+  <script src="../assets/conta.js"></script>
+  <script src="../assets/copiar.js" defer></script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

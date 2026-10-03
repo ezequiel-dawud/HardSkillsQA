@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- meta: gerado por site/assets/og/meta.py -->
+  <meta name="description" content="Agrupar testes com test.describe, organizar o projeto com Page Object Model, e conferir mensagem de validação de campo. Módulo 2 da trilha Automação web com…" />
+  <link rel="canonical" href="https://qa-learning-nine.vercel.app/playwright/modulo-2.html" />
+  <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href="/favicon.ico" sizes="48x48" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="QA Learning" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:url" content="https://qa-learning-nine.vercel.app/playwright/modulo-2.html" />
+  <meta property="og:title" content="Playwright Módulo 2 — Page Object Model, formulário e validação — QA Learning" />
+  <meta property="og:description" content="Agrupar testes com test.describe, organizar o projeto com Page Object Model, e conferir mensagem de validação de campo. Módulo 2 da trilha Automação web com…" />
+  <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-playwright.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Playwright Módulo 2 — Page Object Model, formulário e validação — QA Learning" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <!-- /meta -->
+  <title>Playwright Módulo 2 — Page Object Model, formulário e validação</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ Playwright</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html" class="atual">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 2 — Page Object Model, formulário e validação</h1>
+    <p class="legenda">Agrupar testes com <code>test.describe</code>, organizar o projeto com Page Object Model, e conferir mensagem de validação de campo.</p>
+
+    <section class="secao">
+      <h2>1. Agrupar testes com <code>describe</code> e <code>beforeEach</code></h2>
+      <div class="card">
+        <p style="margin-top:0">Quando vários testes compartilham a mesma página ou o mesmo
+          preparo, agrupe com <code>test.describe</code> e repita a parte comum num
+          <code>test.beforeEach</code> — ele roda antes de <b>cada</b> teste do grupo, com uma
+          página nova e limpa:</p>
+        <pre class="bloco"><code>test.describe("cadastro", () => {
+  test("campos obrigatorios mostram erro ao submeter em branco", async ({ page }) => {
+    await page.goto("/cadastro.html");
+    // ...
+  });
+
+  test("cadastro valido mostra mensagem de sucesso", async ({ page }) => {
+    await page.goto("/cadastro.html");
+    // ...
+  });
+});</code></pre>
+        <p style="margin-bottom:0">Repare: cada teste recebe um <code>page</code> novo — o
+          Playwright isola testes entre si (contexto de navegador zerado), então um teste nunca
+          vê o estado que o anterior deixou. É o que torna a ordem de execução irrelevante.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>2. Por que organizar com Page Object Model</h2>
+      <div class="card">
+        <p style="margin-top:0">O Módulo 1 escreveu <code>page.getByTestId("login-email-input")</code>
+          direto no teste — funciona bem pra um arquivo com dois testes. Mas pensa em escala: a
+          trilha inteira (e um projeto de automação de verdade) acaba com <b>dezenas</b> de
+          testes tocando as mesmas páginas. Se o <code>data-testid</code> de um campo mudar, você
+          teria que caçar e trocar em todo teste que usa aquela página.</p>
+        <p><b>Page Object Model (POM)</b> resolve isso: cada página do site vira uma
+          <b>classe</b>, que guarda os locators e as ações daquela página. O teste chama métodos
+          com nome de negócio (<code>cadastro.preencher(...)</code>), não detalhes de seletor:</p>
+        <pre class="bloco"><code>// pages/CadastroPage.js
+class CadastroPage {
+  constructor(page) {
+    this.page = page;
+    this.nameInput = page.getByTestId("signup-name-input");
+    this.emailInput = page.getByTestId("signup-email-input");
+    this.passwordInput = page.getByTestId("signup-password-input");
+    this.submitButton = page.getByTestId("signup-submit-button");
+    this.successMessage = page.getByTestId("signup-success-message");
+    this.nameError = page.getByTestId("signup-field-error-name");
+    this.emailError = page.getByTestId("signup-field-error-email");
+    this.passwordError = page.getByTestId("signup-field-error-password");
+  }
+
+  async goto() {
+    await this.page.goto("/cadastro.html");
+  }
+
+  async preencher({ nome = "", email = "", senha = "" }) {
+    await this.nameInput.fill(nome);
+    await this.emailInput.fill(email);
+    await this.passwordInput.fill(senha);
+  }
+
+  async submeter() {
+    await this.submitButton.click();
+  }
+}
+
+module.exports = { CadastroPage };</code></pre>
+        <p style="margin-bottom:0">Arquivo já existe em <code>pages/CadastroPage.js</code>. Se o
+          <code>data-testid</code> de um campo mudar amanhã, você corrige em <b>um lugar</b> — a
+          classe — e todo teste que usa <code>CadastroPage</code> continua funcionando.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>3. Usando a Page Object no teste</h2>
+      <div class="card">
+        <p style="margin-top:0">O teste cria a página no <code>beforeEach</code> e usa seus
+          métodos e locators — repare como fica mais curto e mais fácil de ler, quase uma frase:</p>
+        <pre class="bloco"><code>const { CadastroPage } = require("../pages/CadastroPage");
+
+test.describe("cadastro", () => {
+  let cadastro;
+
+  test.beforeEach(async ({ page }) => {
+    cadastro = new CadastroPage(page);
+    await cadastro.goto();
+  });
+
+  test("cadastro valido mostra mensagem de sucesso", async () => {
+    await cadastro.preencher({ nome: "Joana", email: "joana@exemplo.com", senha: "SenhaForte123" });
+    await cadastro.submeter();
+
+    await expect(cadastro.successMessage).toBeVisible();
+  });
+});</code></pre>
+        <p style="margin-bottom:0">Note que o teste não chama <code>page.getByTestId</code> nem
+          uma vez — isso é o que fica "escondido" dentro da Page Object. O teste descreve
+          <b>comportamento</b> (preencher, submeter, ver sucesso); a classe sabe
+          <b>como</b> fazer isso nesta página específica.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>4. <code>toBeVisible</code> e <code>toBeHidden</code></h2>
+      <div class="card">
+        <p style="margin-top:0">Validação de formulário é o lugar clássico pra testar os dois
+          lados de uma asserção: o erro <b>certo</b> aparece, e os errados <b>não</b> aparecem.
+          <code>toBeHidden()</code> é o oposto de <code>toBeVisible()</code> — também espera
+          sozinho, só que até o elemento <b>sumir</b> (ou não existir, ou estar com
+          <code>display:none</code>):</p>
+        <pre class="bloco"><code>await expect(cadastro.passwordError).toBeVisible();
+await expect(cadastro.nameError).toBeHidden();</code></pre>
+        <p style="margin-bottom:0">Testar só o "caminho feliz" (tudo certo) ou só o erro mais
+          óbvio deixa passar bug de validação cruzada — por exemplo, um campo que acende o erro
+          errado, ou todos os erros acendendo juntos quando só um campo estava errado.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>5. Os testes deste módulo</h2>
+      <div class="card">
+        <p style="margin-top:0"><b>Arquivo já existe</b> em
+          <code>tests/02_selecionadores.spec.js</code> — não precisa digitar, só rodar (com o
+          site de treino ligado):</p>
+        <pre class="bloco"><code>npx playwright test tests/02_selecionadores.spec.js</code></pre>
+        <p style="margin:10px 0 0; font-size:14px; color:var(--suave)">
+          <b>Bug real encontrado nesta trilha:</b> o formulário de cadastro tinha
+          <code>required</code> nos campos, e a validação <b>nativa do navegador</b> bloqueava o
+          envio antes do JavaScript customizado rodar — as mensagens de erro por campo nunca
+          apareciam de verdade. A correção foi adicionar <code>novalidate</code> no
+          <code>&lt;form&gt;</code>, pra deixar a validação customizada (a que tem
+          <code>data-testid</code> e o teste consegue verificar) ser a única a rodar. Se você
+          testou um formulário e a asserção nunca falha nem passa do jeito esperado, vale suspeitar
+          disso: o navegador pode estar resolvendo antes do seu código.
+        </p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Exercício</h2>
+      <div class="card">
+        <p style="margin-top:0">Em <code>tests/02_selecionadores.spec.js</code>, dentro do
+          mesmo <code>describe("cadastro", ...)</code>, escreva um teste chamado
+          <code>"senha curta mostra so o erro de senha"</code> usando a <code>cadastro</code>
+          (a <code>CadastroPage</code> já criada no <code>beforeEach</code>): preenche nome e
+          e-mail válidos, senha com menos de 6 caracteres, submete, e confere que <b>só</b> o erro
+          de senha aparece (os de nome e e-mail continuam escondidos). Rode
+          <code>npx playwright test tests/02_selecionadores.spec.js</code> e depois
+          <code>python verificar.py 2</code> até dar 4 <code>[ok]</code>. Gabarito em
+          <code>trilha-7/GABARITO.md</code>.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <div class="card" style="border-left:3px solid var(--acento)">
+        <h2 style="margin-top:0;border:0">Olhar de QA</h2>
+        <p>Formulário de validação é um dos lugares onde teste
+          automatizado paga mais rápido: são várias combinações de campo válido/inválido, fáceis
+          de esquecer num teste manual repetitivo, e cada uma é uma linha de teste aqui. O cuidado
+          é não parar no "apareceu uma mensagem de erro" — confira <b>qual</b> mensagem, e que as
+          outras <b>não</b> apareceram. Teste que só confere "tem erro na tela" aceita um sistema
+          que mostra a mensagem errada pro campo certo.</p>
+        <p style="margin-bottom:0">E sobre organização: Page Object Model não é burocracia —
+          é o que separa um projeto de automação que qualquer um do time consegue manter de um
+          que só quem escreveu entende. Nos próximos módulos, repare como o Módulo 3 reaproveita
+          o login que o Módulo 1 já testou, em vez de reescrever o fluxo de novo — é o POM
+          pagando o investimento.</p>
+      </div>
+    </section>
+
+    <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
+      <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
+        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        progresso anda no começo do site. Fica salvo só no seu navegador.
+      </span>
+    </div>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="index.html"><button>← Índice</button></a>
+      <a href="prova-2.html"><button>📝 Prova do módulo</button></a>
+      <a href="modulo-3.html"><button class="primario">Módulo 3 →</button></a>
+    </nav>
+  </main>
+  <script src="../assets/progresso.js"></script>
+  <script src="../assets/conta.js"></script>
+  <script src="../assets/copiar.js" defer></script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

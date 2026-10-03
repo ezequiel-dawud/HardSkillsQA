@@ -1,0 +1,12 @@
+{
+  "name": "trilha-7-playwright",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Trilha 7 do QA Learning: automacao web com Playwright.",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0"
+  }
+}

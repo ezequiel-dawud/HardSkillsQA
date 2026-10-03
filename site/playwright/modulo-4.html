@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- meta: gerado por site/assets/og/meta.py -->
+  <meta name="description" content="page.route pra mock/intercept de rede, um atalho de login mais rápido, e o que muda quando os testes rodam no CI. Módulo 4 da trilha Automação web com…" />
+  <link rel="canonical" href="https://qa-learning-nine.vercel.app/playwright/modulo-4.html" />
+  <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href="/favicon.ico" sizes="48x48" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="QA Learning" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:url" content="https://qa-learning-nine.vercel.app/playwright/modulo-4.html" />
+  <meta property="og:title" content="Playwright Módulo 4 — Rede e preparo pra CI — QA Learning" />
+  <meta property="og:description" content="page.route pra mock/intercept de rede, um atalho de login mais rápido, e o que muda quando os testes rodam no CI. Módulo 4 da trilha Automação web com…" />
+  <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-playwright.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Playwright Módulo 4 — Rede e preparo pra CI — QA Learning" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <!-- /meta -->
+  <title>Playwright Módulo 4 — Rede e preparo pra CI</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ Playwright</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html" class="atual">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 4 — Rede e preparo pra CI</h1>
+    <p class="legenda"><code>page.route</code> pra mock/intercept de rede, um atalho de login mais rápido, e o que muda quando os testes rodam no CI.</p>
+
+    <section class="secao">
+      <h2>1. Erro de verdade vs. erro mockado</h2>
+      <div class="card">
+        <p style="margin-top:0">O QA Treino tem uma rota que sempre responde <code>500</code>
+          (<code>/api/erro</code>), pra testar como a tela reage a um erro de servidor sem
+          depender de derrubar nada de verdade. Mais uma Page Object nova,
+          <code>pages/RedePage.js</code>:</p>
+        <pre class="bloco"><code>const rede = new RedePage(page);
+await rede.goto();
+await rede.forceErrorButton.click();
+await expect(rede.errorMessage).toContainText("500");</code></pre>
+        <p style="margin-bottom:0">Isso testa o <b>servidor real</b>. Mas às vezes você quer
+          testar como a tela reage a um erro <b>que o servidor não produz hoje</b> — um timeout,
+          um 503 de manutenção, um corpo de resposta estranho. É aí que entra
+          <code>page.route</code>: ele intercepta a requisição antes dela sair do navegador e
+          você decide a resposta:</p>
+        <pre class="bloco"><code>await page.route("**/api/erro", (route) =>
+  route.fulfill({
+    status: 503,
+    contentType: "application/json",
+    body: JSON.stringify({ erro: "Fora do ar pra manutencao (mock)." }),
+  })
+);
+await rede.goto();
+await rede.forceErrorButton.click();
+await expect(rede.errorMessage).toContainText("503");</code></pre>
+        <p style="margin-bottom:0">O padrão (<code>**/api/erro</code>) usa glob: <code>**</code>
+          casa qualquer coisa antes, então funciona não importa a origem exata
+          (<code>localhost:3000</code> hoje, outra coisa amanhã).</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>2. Pular o login com <code>addInitScript</code></h2>
+      <div class="card">
+        <p style="margin-top:0">O login em si já foi testado no Módulo 1. Repetir a tela de
+          login em <b>todo</b> teste que só precisa <i>estar</i> logado custa tempo (e é mais um
+          lugar pra flakiness acontecer). <code>page.addInitScript</code> injeta um script que
+          roda antes de qualquer script da página, em toda navegação — dá pra escrever a sessão
+          direto. Como isso não pertence a nenhuma página específica (é sobre a sessão, não sobre
+          o login.html), virou um método estático na própria <code>LoginPage</code>:</p>
+        <pre class="bloco"><code>// dentro de pages/LoginPage.js
+static async pularLogin(page, nome = "Maria") {
+  await page.addInitScript((nomeInjetado) => {
+    localStorage.setItem("qa-treino-sessao", JSON.stringify({ nome: nomeInjetado }));
+  }, nome);
+}</code></pre>
+        <p>No teste:</p>
+        <pre class="bloco"><code>await LoginPage.pularLogin(page, "Maria");
+await page.goto("/index.html");
+await expect(page.getByTestId("nav-account-name")).toHaveText("Maria");</code></pre>
+        <p style="margin-bottom:0"><b>Quando usar qual:</b> se o teste é <i>sobre</i> o
+          login (Módulo 1), passe pela UI de verdade. Se o login é só um pré-requisito pra testar
+          outra coisa (carrinho, paginação, mock de produto), pular direto é mais rápido e mais
+          estável — menos passos, menos chance de um deles falhar por motivo que não tem nada a
+          ver com o que você está testando.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>3. Os testes deste módulo</h2>
+      <div class="card">
+        <p style="margin-top:0"><b>Arquivo já existe</b> em
+          <code>tests/04_rede_ci.spec.js</code> — não precisa digitar, só rodar:</p>
+        <pre class="bloco"><code>npx playwright test tests/04_rede_ci.spec.js</code></pre>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>4. O que muda pra rodar em CI</h2>
+      <div class="card">
+        <p style="margin-top:0">Os comandos que você já roda (<code>npx playwright test</code>)
+          já executam <b>headless</b> por padrão — sem abrir janela de navegador — então já
+          funcionam num servidor de CI sem alteração nenhuma. As diferenças de verdade são de
+          <b>infraestrutura</b>: o CI precisa subir o site de treino antes dos testes (mesmo
+          <code>npm run dev</code> que você já usa, só que em background) e instalar os navegadores
+          do Playwright na máquina do runner. Um workflow do GitHub Actions pra isso, pra ler (não
+          precisa rodar agora — depende dos dois repositórios estarem públicos, que ainda não é o
+          caso):</p>
+        <pre class="bloco"><code>name: Playwright
+on: [push, pull_request]
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: npm ci
+        working-directory: trilha-7
+      - run: npx playwright install --with-deps chromium
+        working-directory: trilha-7
+      - run: npm run dev &
+        working-directory: qa-learning-treino
+      - run: npx playwright test
+        working-directory: trilha-7</code></pre>
+        <p style="margin-bottom:0">É a mesma lógica da <a href="../cicd/index.html">Trilha 6</a>:
+          o pipeline só automatiza os mesmos comandos que você já roda à mão, um atrás do outro.
+          Se tiver curiosidade de como isso se encaixa num workflow de verdade, vale revisar
+          aquela trilha.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Exercício</h2>
+      <div class="card">
+        <p style="margin-top:0">Em <code>tests/04_rede_ci.spec.js</code>, escreva um teste
+          chamado <code>"produto mockado aparece na lista"</code> que combina as duas técnicas do
+          módulo: pule o login com <code>LoginPage.pularLogin(page, "Maria")</code> e use
+          <code>page.route</code> em
+          <code>"**/api/produtos*"</code> pra devolver um produto inventado
+          (<code>{ id: 999, nome: "Produto Mockado", preco: 9.9, emoji: "🧪" }</code>), depois
+          confira que <code>product-card-999</code> aparece com esse nome. Rode
+          <code>python verificar.py 4</code> até dar 5 <code>[ok]</code>. Gabarito em
+          <code>trilha-7/GABARITO.md</code>.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <div class="card" style="border-left:3px solid var(--acento)">
+        <h2 style="margin-top:0;border:0">Olhar de QA</h2>
+        <p style="margin-bottom:0">Mockar rede é uma faca de dois gumes. Pra baixo: testa como a
+          <b>tela</b> reage a um cenário (erro, vazio, dado estranho) sem precisar reproduzir esse
+          cenário no servidor de verdade — mais rápido, mais estável, cobre casos difíceis de
+          forçar. Pra cima: se você mockar <b>tudo</b>, nunca testa se o front-end e o back-end
+          ainda concordam sobre o formato da resposta — um contrato quebrado passa despercebido.
+          A prática mais segura: ter <b>alguns</b> testes de ponta a ponta contra o servidor real
+          (como os Módulos 1 a 3 fizeram) e usar mock pontualmente pros cenários que o servidor
+          real não reproduz de forma confiável.</p>
+      </div>
+    </section>
+
+    <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
+      <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
+        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        progresso anda no começo do site. Fica salvo só no seu navegador.
+      </span>
+    </div>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="index.html"><button>← Índice</button></a>
+      <a href="prova-4.html"><button>📝 Prova do módulo</button></a>
+    </nav>
+  </main>
+  <script src="../assets/progresso.js"></script>
+  <script src="../assets/conta.js"></script>
+  <script src="../assets/copiar.js" defer></script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

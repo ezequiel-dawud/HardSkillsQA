@@ -20,6 +20,7 @@ TRILHAS = {
     "pytest":      ("Validação com pytest", "og-pytest"),
     "k6":          ("Teste de carga com k6","og-k6"),
     "cicd":        ("CI/CD para QA",        "og-cicd"),
+    "playwright":  ("Automação web com Playwright", "og-playwright"),
     "projeto":     ("Projeto final",        "og-projeto"),
 }
 
@@ -31,6 +32,7 @@ CAUDA = {
     "pytest":      "Teoria curta no site e prática rodando na sua máquina.",
     "k6":          "Teoria curta no site e prática rodando na sua máquina.",
     "cicd":        "Teoria curta e pipelines de verdade pra ler e mexer.",
+    "playwright":  "Teoria curta no site e prática rodando na sua máquina.",
     "fundamentos": "Teoria curta e exercícios corrigidos na hora.",
     "git":         "Teoria curta e exercícios corrigidos na hora.",
 }
@@ -39,6 +41,7 @@ CAUDA = {
 MAO = {
     "index.html": "Trilhas práticas pra crescer como QA: fundamentos de teste, Git, SQL, PostgreSQL, teste de API, pytest, carga com k6 e CI/CD. Grátis, em português, e a maior parte roda no próprio navegador.",
     "sobre.html": "Quem faz o QA Learning: Ezequiel Dawud, QA / analista de testes. Por que o curso existe e como mandar sugestão ou correção.",
+    "avisos.html": "Ideias e trilhas em estudo para o QA Learning: automação no navegador, novas frentes de teste e como sugerir o que vem a seguir.",
 }
 
 def limpar(t):

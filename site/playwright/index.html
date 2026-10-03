@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- meta: gerado por site/assets/og/meta.py -->
+  <meta name="description" content="Escrever scripts que controlam um navegador de verdade: clicar, preencher formulário, esperar carregamento assíncrono, e mockar rede pra testar cenário de…" />
+  <link rel="canonical" href="https://qa-learning-nine.vercel.app/playwright/index.html" />
+  <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href="/favicon.ico" sizes="48x48" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="QA Learning" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:url" content="https://qa-learning-nine.vercel.app/playwright/index.html" />
+  <meta property="og:title" content="Trilha Automação web com Playwright — QA Learning" />
+  <meta property="og:description" content="Escrever scripts que controlam um navegador de verdade: clicar, preencher formulário, esperar carregamento assíncrono, e mockar rede pra testar cenário de…" />
+  <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-playwright.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Trilha Automação web com Playwright — QA Learning" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <!-- /meta -->
+  <title>Trilha Automação web com Playwright</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ Playwright</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <p style="margin:0 0 4px"><a href="../index.html" style="font-size:14px; color:var(--suave); text-decoration:none">← Todas as trilhas</a></p>
+    <h1>Trilha Automação web com Playwright</h1>
+    <p class="legenda">
+      Escrever scripts que controlam um <strong>navegador de verdade</strong>: clicar,
+      preencher formulário, esperar carregamento assíncrono, e <strong>mockar rede</strong>
+      pra testar cenário de erro sem depender do servidor cair de verdade.
+    </p>
+
+    <div class="card">
+      <h3 style="margin-top:0">Esta trilha roda na sua máquina</h3>
+      <p style="margin:0 0 10px; font-size:14px; color:var(--suave)">
+        Como as Trilhas 3 e 5, não tem prática rodando na página — o Playwright controla
+        um navegador instalado no seu computador. O projeto está no repositório, na pasta
+        <code>trilha-7/</code>. Siga com o <code>trilha-7/README.md</code> aberto do lado.
+      </p>
+      <p style="margin:0; font-size:14px; color:var(--suave)">
+        O alvo é um site de treino separado, feito só pra automação
+        (<a href="https://github.com/ezequiel-dawud/qa-learning-treino">qa-learning-treino</a>),
+        com um <code>data-testid</code> em cada elemento importante. Você vai precisar do
+        <b>Node.js</b> que já instalou — sem conta, sem Docker, sem <code>pip install</code>.
+      </p>
+    </div>
+
+    <h2>Provas por módulo</h2>
+    <p class="legenda">
+      Questões de múltipla escolha corrigidas na hora, mais uma <strong>questão aberta</strong>
+      por prova — ela não entra na nota e existe pra você comparar o seu texto com uma
+      resposta modelo. Nota <strong>≥ 70%</strong> = módulo firme.
+      Faça depois de estudar o módulo correspondente.
+    </p>
+    <div class="acoes">
+      <a href="prova-1.html"><button>Prova 1</button></a>
+      <a href="prova-2.html"><button>Prova 2</button></a>
+      <a href="prova-3.html"><button>Prova 3</button></a>
+      <a href="prova-4.html"><button>Prova 4</button></a>
+    </div>
+
+    <h2>Módulos</h2>
+    <div class="grade-modulos">
+      <a class="modulo-link" href="modulo-1.html">
+        <div class="rot">Módulo 1</div>
+        <div class="tit">Preparar e primeiro teste</div>
+        <div class="desc">o que é automação de navegador, instalar o Playwright, subir o site de treino, <code>data-testid</code>, locators, primeiro teste de login</div>
+      </a>
+      <a class="modulo-link" href="modulo-2.html">
+        <div class="rot">Módulo 2</div>
+        <div class="tit">Page Object Model, formulário e validação</div>
+        <div class="desc"><code>test.describe</code>/<code>beforeEach</code>, organizar o projeto com Page Object Model, <code>expect().toBeVisible/toBeHidden</code>, validação de campo</div>
+      </a>
+      <a class="modulo-link" href="modulo-3.html">
+        <div class="rot">Módulo 3</div>
+        <div class="tit">Cenários do site de treino</div>
+        <div class="desc">login compartilhado entre testes, loading assíncrono, paginação, estado vazio, modal, upload de arquivo, drag and drop</div>
+      </a>
+      <a class="modulo-link" href="modulo-4.html">
+        <div class="rot">Módulo 4</div>
+        <div class="tit">Rede e preparo pra CI</div>
+        <div class="desc"><code>page.route</code> pra mock/intercept, atalho de login via <code>localStorage</code>, rodar headless, o que muda pro CI</div>
+      </a>
+    </div>
+
+    <h2>Pré-requisito</h2>
+    <p class="legenda">
+      Ter o código na máquina e o Node.js instalado. O Módulo 1 cobre a instalação
+      passo a passo. Fazer a <a href="../pytest/index.html">Trilha 3 (pytest)</a> antes
+      ajuda a pegar o jeito de "teoria + projeto que roda local", mas não é obrigatório.
+    </p>
+  </main>
+  <script src="../assets/progresso.js"></script>
+  <script src="../assets/conta.js"></script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

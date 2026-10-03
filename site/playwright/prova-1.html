@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- meta: gerado por site/assets/og/meta.py -->
+  <meta name="description" content="Prova do módulo 1 da trilha Automação web com Playwright — O que é automação de navegador, data-testid, locators, o primeiro teste de login. Corrigida na…" />
+  <link rel="canonical" href="https://qa-learning-nine.vercel.app/playwright/prova-1.html" />
+  <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href="/favicon.ico" sizes="48x48" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="QA Learning" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:url" content="https://qa-learning-nine.vercel.app/playwright/prova-1.html" />
+  <meta property="og:title" content="Prova — Módulo 1 (Playwright) — QA Learning" />
+  <meta property="og:description" content="Prova do módulo 1 da trilha Automação web com Playwright — O que é automação de navegador, data-testid, locators, o primeiro teste de login. Corrigida na…" />
+  <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-playwright.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Prova — Módulo 1 (Playwright) — QA Learning" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <!-- /meta -->
+  <title>Prova — Módulo 1 (Playwright)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ Playwright / Provas</span></div>
+    <nav>
+      <a href="prova-1.html" class="atual">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html">3</a>
+      <a href="prova-4.html">4</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova — Módulo 1</h1>
+    <p class="legenda">O que é automação de navegador, data-testid, locators, o primeiro teste de login. &nbsp;<a href="modulo-1.html">← rever o módulo</a></p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 1", trilha: "playwright", modulo: 1, indiceHref: "index.html",
+    questoes: [
+      {
+            "t": "mc",
+            "enun": "O que diferencia automação de navegador dos testes que você já fez (SQL, API, pytest)?",
+            "ops": [
+                  "O script abre um navegador de verdade (ou sem interface) e interage com a página como um usuário faria: clica, digita, espera a tela mudar",
+                  "Ela não precisa de asserções, só de cliques",
+                  "Ela substitui completamente os testes de API, porque cobre mais código",
+                  "Ela roda exclusivamente dentro do próprio navegador do desenvolvedor, nunca em CI"
+            ],
+            "correta": 0,
+            "exp": "É a camada que cobre o que só existe no navegador — JS do cliente, CSS que esconde algo — e não substitui as camadas mais baratas."
+      },
+      {
+            "t": "mc",
+            "enun": "Por que o Playwright não precisa de <code>sleep()</code> espalhado pelo teste pra esperar a página carregar?",
+            "ops": [
+                  "Porque o <code>expect()</code> e as ações esperam sozinhos (auto-wait) até a condição ficar verdadeira, até um timeout",
+                  "Porque todas as páginas de teste são instantâneas",
+                  "Porque o Playwright desliga o JavaScript da página",
+                  "Porque ele roda os testes em modo síncrono forçado"
+            ],
+            "correta": 0,
+            "exp": "Auto-wait é uma das maiores diferenças pra ferramentas mais antigas: menos teste instável (flaky) por causa de timing."
+      },
+      {
+            "t": "mc",
+            "enun": "Por que esta trilha usa um site de treino separado em vez de testar um site de produção qualquer?",
+            "ops": [
+                  "Porque dá pra controlar os cenários de erro e os seletores não quebram por mudança visual — o site tem <code>data-testid</code> dedicado",
+                  "Porque sites de produção não podem ser acessados por script",
+                  "Porque o Playwright só funciona em localhost",
+                  "Porque é mais rápido de carregar que qualquer site real"
+            ],
+            "correta": 0,
+            "exp": "Testar produção sem controle do cenário é uma das causas mais comuns de teste de UI frágil."
+      },
+      {
+            "t": "mc",
+            "enun": "Qual a vantagem de localizar um elemento por <code>data-testid</code> em vez de por classe CSS ou texto visível?",
+            "ops": [
+                  "Não depende de algo que muda por motivo visual e sem relação com o comportamento sendo testado",
+                  "É a única forma que o Playwright reconhece",
+                  "Deixa o teste mais rápido de executar",
+                  "Funciona mesmo se o elemento não existir na página"
+            ],
+            "correta": 0,
+            "exp": "Classe CSS e texto mudam por motivo de design; <code>data-testid</code> existe só pra teste e só muda se o comportamento mudar."
+      },
+      {
+            "t": "mc",
+            "enun": "O que o Playwright guarda automaticamente (com <code>trace: \"retain-on-failure\"</code>) quando um teste falha?",
+            "ops": [
+                  "Um trace que permite reabrir a execução depois e ver a página passo a passo no momento da falha",
+                  "Um vídeo de todas as execuções, mesmo as que passaram",
+                  "Apenas o texto do erro, sem contexto visual",
+                  "Nada — é preciso configurar uma ferramenta externa"
+            ],
+            "correta": 0,
+            "exp": "O trace é o equivalente automático a um print no momento certo — dá pra inspecionar com <code>npx playwright show-trace</code>."
+      },
+      {
+            "t": "aberta",
+            "enun": "Seu time quer automatizar o login do sistema, mas o único seletor disponível hoje é uma classe CSS (<code>.btn-azul-grande</code>) no botão de entrar. Como você conduziria isso antes de escrever o teste?",
+            "modelo": "<p>Escrever o teste em cima de <code>.btn-azul-grande</code> funciona no curto prazo, mas é uma dívida: qualquer redesign (cor, tamanho, biblioteca de UI) quebra o teste sem o comportamento ter mudado nada. A conduta:</p><ul><li><b>Conversar com quem desenvolve</b> antes de escrever o teste — pedir pra adicionar um <code>data-testid</code> estável no botão (e nos outros elementos do fluxo) é geralmente uma mudança de uma linha.</li><li><b>Explicar o motivo em termos de custo</b>, não de preferência pessoal: cada vez que o design mexe, alguém vai ter que consertar o teste — e isso tende a acontecer bem mais vezes que uma mudança real de comportamento no login.</li><li><b>Se não der pra mudar agora</b> (código de terceiro, prioridade do time), usar o seletor mais estável disponível — texto visível do botão, papel de acessibilidade (<code>role=button</code>) — e documentar no próprio teste que é um seletor provisório, não o ideal.</li><li><b>Propor a convenção pra frente</b>: um padrão de <code>data-testid</code> combinado com o time facilita qualquer automação futura, não só a sua.</li></ul><p>No fim, seletor de teste é também uma decisão de arquitetura do produto — vale a conversa, não só o contorno técnico.</p>",
+            "dica": "pense em: por que o seletor quebra, quem pode mudar isso, e o que fazer enquanto isso não acontece."
+      }
+    ]
+  };
+  </script>
+  <script src="../assets/progresso.js"></script>
+  <script src="../assets/conta.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

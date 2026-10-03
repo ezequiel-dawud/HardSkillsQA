@@ -48,6 +48,7 @@ CARDS = [
     ("og-pytest",     "Validação com pytest","Suas verificações viram testes que rodam sozinhos.","4 módulos","4 provas",   "roda na sua máquina"),
     ("og-k6",         "Teste de carga com k6","Carga de verdade: stages, thresholds e portão no CI.","4 módulos","4 provas", "roda na sua máquina"),
     ("og-cicd",       "CI/CD para QA",      "Ler um pipeline e fazer o build reprovar quando quebra.","4 módulos","4 provas","leitura + prática"),
+    ("og-playwright", "Playwright",         "Automação web de verdade: clicar, esperar, mockar rede.","4 módulos","4 provas","roda na sua máquina"),
     ("og-projeto",    "Projeto final",      "Juntar as seis trilhas num caso de teste de ponta a ponta.","1 entrega","6 trilhas","fecha o curso"),
 ]
 
