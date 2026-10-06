@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/fundamentos/modulo-1.html" />
-  <meta property="og:title" content="Fundamentos Módulo 1 — O que é testar — QA Learning" />
+  <meta property="og:title" content="Fundamentos Módulo 1: O que é testar | QA Learning" />
   <meta property="og:description" content="Qualidade, defeito × falha, os princípios que mudam como você trabalha, e onde o QA entra. Módulo 1 da trilha Fundamentos de Teste, no QA Learning." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-fundamentos.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Fundamentos Módulo 1 — O que é testar — QA Learning" />
+  <meta property="og:image:alt" content="Fundamentos Módulo 1: O que é testar | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Fundamentos Módulo 1 — O que é testar</title>
+  <title>Fundamentos Módulo 1: O que é testar</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -39,7 +39,7 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 1 — O que é testar</h1>
+    <h1>Módulo 1: O que é testar</h1>
     <p class="legenda">Qualidade, defeito × falha, os princípios que mudam como você trabalha, e onde o QA entra</p>
 
     <section class="secao">
@@ -47,7 +47,7 @@
       <div class="card">
         <p style="margin-top:0">
           Quase todo mundo começa achando que testar é <em>provar que o sistema funciona</em>.
-          É o contrário. Testar é <b>procurar evidência de que ele não funciona</b> — e,
+          É o contrário. Testar é <b>procurar evidência de que ele não funciona</b>, e
           quando você procura bem e não acha, aí sim isso vira confiança.
         </p>
         <p>Por isso a definição que vale a pena guardar é esta:</p>
@@ -57,9 +57,9 @@
         </p>
         <p style="margin-bottom:0">
           Repare nas duas partes. <b>Informação</b>: o QA normalmente não é quem decide
-          se libera — ele entrega o que se sabe (e o que não se sabe) pra quem decide.
+          se libera: ele entrega o que se sabe (e o que não se sabe) pra quem decide.
           E <b>risco</b>: não existe testar tudo, então você sempre escolhe onde olhar.
-          Escolher bem é a habilidade central da profissão — o Módulo 3 é inteiro sobre isso.
+          Escolher bem é a habilidade central da profissão, e o Módulo 3 é inteiro sobre isso.
         </p>
       </div>
     </section>
@@ -72,16 +72,16 @@
           a forma como você escreve um relatório de bug:
         </p>
         <ul>
-          <li><b>Erro</b> (<i>error</i>, engano) — a ação humana que deu origem ao problema.
+          <li><b>Erro</b> (<i>error</i>, engano): a ação humana que deu origem ao problema.
             A pessoa desenvolvedora entendeu que o desconto era de 10% quando era 15%.</li>
-          <li><b>Defeito</b> (<i>defect</i>, bug) — a consequência do erro <em>no código</em>.
+          <li><b>Defeito</b> (<i>defect</i>, bug): a consequência do erro <em>no código</em>.
             A linha <code>preco * 0.9</code> está lá, parada, errada, mesmo que ninguém
             passe por ela.</li>
-          <li><b>Falha</b> (<i>failure</i>) — o defeito se manifestando quando o sistema roda.
+          <li><b>Falha</b> (<i>failure</i>): o defeito se manifestando quando o sistema roda.
             O cliente vê R$ 90 na tela quando deveria ver R$ 85.</li>
         </ul>
         <p style="margin-bottom:0">
-          <b>Por que importa:</b> você observa <em>falhas</em> e reporta <em>falhas</em> —
+          <b>Por que importa:</b> você observa <em>falhas</em> e reporta <em>falhas</em>:
           "o total mostrado é 90, o esperado é 85". Quem investiga acha o <em>defeito</em>.
           Um relatório que tenta adivinhar o defeito ("acho que a variável do desconto está
           trocada") e erra faz o time gastar tempo defendendo código em vez de olhar o
@@ -94,7 +94,7 @@
         <p style="margin-bottom:0">
           Código errado num caminho que ninguém executa é defeito sem falha. É o que
           acontece com a regra que só quebra em 29 de fevereiro, ou só com CPF começando
-          em zero. O defeito está ali desde sempre — a falha só aparece quando alguém
+          em zero. O defeito está ali desde sempre; a falha só aparece quando alguém
           finalmente passa por aquele caminho. É por isso que <b>"nunca deu problema"
           não é evidência de que está certo</b>.
         </p>
@@ -103,7 +103,7 @@
 
     <section class="secao teoria">
       <h2>Os princípios que mudam o dia a dia</h2>
-      <p class="legenda">São sete, clássicos. Não decore a lista — entenda o que cada um faz você mudar de verdade.</p>
+      <p class="legenda">São sete, clássicos. Não decore a lista: entenda o que cada um faz você mudar de verdade.</p>
 
       <div class="card">
         <h3 style="margin-top:0">1. Teste mostra a presença de defeitos, nunca a ausência</h3>
@@ -120,7 +120,7 @@
         <p style="margin-bottom:0">
           Um formulário com 5 campos de 10 valores possíveis cada já dá 100 000
           combinações. Some navegadores, permissões e estados do banco e o número perde o
-          sentido. <b>Muda o quê:</b> seu trabalho não é cobrir tudo — é escolher o
+          sentido. <b>Muda o quê:</b> seu trabalho não é cobrir tudo, é escolher o
           subconjunto que encontra mais defeito por hora gasta. Isso tem técnica, e está
           no Módulo 3.
         </p>
@@ -131,7 +131,7 @@
         <p style="margin-bottom:0">
           Um requisito ambíguo pego na reunião de refinamento custa uma conversa de cinco
           minutos. O mesmo problema descoberto em produção custa investigação, correção,
-          nova entrega, cliente irritado — e às vezes dinheiro de verdade.
+          nova entrega, cliente irritado, e às vezes dinheiro de verdade.
           <b>Muda o quê:</b> a pergunta "e se o CEP não existir?" feita <em>antes</em> de
           alguém programar vale mais do que qualquer bug que você ache depois. Estar na
           reunião é parte do trabalho de QA.
@@ -141,7 +141,7 @@
       <div class="card">
         <h3 style="margin-top:0">4. Defeitos andam em bando (agrupamento)</h3>
         <p style="margin-bottom:0">
-          Na prática, poucos módulos concentram a maior parte dos defeitos — geralmente os
+          Na prática, poucos módulos concentram a maior parte dos defeitos, geralmente os
           mais complexos, os mais mexidos, ou os que um time novo acabou de assumir.
           <b>Muda o quê:</b> achou dois bugs no checkout? Não vá embora testar outra coisa.
           Fique ali, tem mais. <i>(Na Trilha de SQL você vai medir isso de verdade: contar
@@ -154,7 +154,7 @@
         <p style="margin-bottom:0">
           Rodar sempre a mesma bateria de testes é como usar sempre o mesmo veneno: mata o
           que já matava e para de achar coisa nova. <b>Muda o quê:</b> uma suíte de
-          regressão que passa 100% há seis meses talvez não esteja te protegendo — talvez
+          regressão que passa 100% há seis meses talvez não esteja te protegendo: talvez
           esteja só te tranquilizando. Revise, acrescente casos, e reserve tempo pra teste
           exploratório (Módulo 4).
         </p>
@@ -173,7 +173,7 @@
       <div class="card">
         <h3 style="margin-top:0">7. Ausência de defeitos é uma ilusão</h3>
         <p style="margin-bottom:0">
-          Dá pra entregar um sistema sem nenhum bug conhecido e ainda assim inútil — porque
+          Dá pra entregar um sistema sem nenhum bug conhecido e ainda assim inútil, porque
           resolve o problema errado. <b>Muda o quê:</b> além de "funciona como
           especificado?", cabe a pergunta "isso resolve o problema de quem vai usar?".
           QA que só confere a especificação deixa passar o defeito mais caro de todos.
@@ -201,7 +201,7 @@
             <tr>
               <td><b>Exemplo</b></td>
               <td>o campo aceita no máximo 11 dígitos, como está escrito na história</td>
-              <td>pedir CPF nessa tela afasta o usuário estrangeiro — era isso mesmo?</td>
+              <td>pedir CPF nessa tela afasta o usuário estrangeiro: era isso mesmo?</td>
             </tr>
           </tbody>
         </table>
@@ -217,7 +217,7 @@
       <h2>Onde o QA entra no fluxo</h2>
       <div class="card">
         <p style="margin-top:0">
-          O mito é que QA é a última etapa — a bancada no fim da esteira. Num time moderno
+          O mito é que QA é a última etapa, a bancada no fim da esteira. Num time moderno
           a atuação é distribuída:
         </p>
         <pre class="bloco"><code>refinamento  →  desenvolvimento  →  pull request  →  homologação  →  produção
@@ -240,7 +240,7 @@
           profissional não é sair clicando. É perguntar: <b>o que mudou?</b>,
           <b>o que isso pode ter quebrado que não é óbvio?</b>, <b>quem se machuca se der
           errado?</b> e <b>quanto tempo eu tenho?</b>. Essas quatro perguntas transformam
-          uma tarefa vaga numa estratégia — e são o que separa quem está começando de quem
+          uma tarefa vaga numa estratégia, e são o que separa quem está começando de quem
           o time escuta.
         </p>
       </div>
@@ -258,14 +258,14 @@
           <li>Qual a diferença entre verificação e validação, em uma frase?</li>
         </ol>
         <p style="margin-bottom:0" class="legenda">
-          Travou em alguma? Volte na seção correspondente antes da prova — ela cobra isso.
+          Travou em alguma? Volte na seção correspondente antes da prova: ela cobra isso.
         </p>
       </div>
     </section>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>

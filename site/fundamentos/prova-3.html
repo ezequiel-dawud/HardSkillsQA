@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 3 da trilha Fundamentos de Teste — Partição de equivalência, valor limite, tabela de decisão, transição de estado, pairwise. Corrigida na…" />
+  <meta name="description" content="Prova do módulo 3 da trilha Fundamentos de Teste: Partição de equivalência, valor limite, tabela de decisão, transição de estado, pairwise. Corrigida na…" />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/fundamentos/prova-3.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/fundamentos/prova-3.html" />
-  <meta property="og:title" content="Prova — Módulo 3 (Fundamentos) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 3 da trilha Fundamentos de Teste — Partição de equivalência, valor limite, tabela de decisão, transição de estado, pairwise. Corrigida na…" />
+  <meta property="og:title" content="Prova do Módulo 3 (Fundamentos) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 3 da trilha Fundamentos de Teste: Partição de equivalência, valor limite, tabela de decisão, transição de estado, pairwise. Corrigida na…" />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-fundamentos.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 3 (Fundamentos) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 3 (Fundamentos) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 3 (Fundamentos)</title>
+  <title>Prova do Módulo 3 (Fundamentos)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -39,7 +39,7 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 3</h1>
+    <h1>Prova do Módulo 3</h1>
     <p class="legenda">Partição de equivalência, valor limite, tabela de decisão, transição de estado, pairwise. &nbsp;<a href="modulo-3.html">← rever o módulo</a></p>
     <div id="prova"></div>
   </main>
@@ -66,17 +66,17 @@
           "Dividir os casos de teste igualmente entre as pessoas do time",
           "Cobrir todas as combinações possíveis de entradas" ],
         correta: 0,
-        exp: "Se 37 e 45 percorrem o mesmo caminho no código, testar os dois não acrescenta informação. Um representante por classe — e não esqueça das classes <b>inválidas</b>." },
+        exp: "Se 37 e 45 percorrem o mesmo caminho no código, testar os dois não acrescenta informação. Um representante por classe, e não esqueça das classes <b>inválidas</b>." },
 
       { t: "mc",
         enun: "A regra diz: \"desconto de 10% para VIP, 15% com cupom, 20% para quem tem os dois\". Qual técnica você usa e qual é o caso mais importante?",
         ops: [
-          "Tabela de decisão; o caso mais importante é VIP <b>e</b> cupom — é onde o sistema costuma somar 10+15 e dar 25%",
+          "Tabela de decisão; o caso mais importante é VIP <b>e</b> cupom: é onde o sistema costuma somar 10+15 e dar 25%",
           "Valor limite; o caso mais importante é o desconto de exatamente 15%",
           "Transição de estado; o mais importante é sair de VIP para não-VIP",
           "Partição de equivalência; basta um teste para cada percentual" ],
         correta: 0,
-        exp: "Quando o resultado depende da <i>combinação</i> de condições, a tabela de decisão força olhar os cruzamentos — e é no cruzamento que mora o defeito." },
+        exp: "Quando o resultado depende da <i>combinação</i> de condições, a tabela de decisão força olhar os cruzamentos, e é no cruzamento que mora o defeito." },
 
       { t: "mc",
         enun: "Um pedido percorre <code>novo → pago → enviado → entregue</code>, podendo ser cancelado enquanto está novo ou pago. Onde está o teste mais valioso?",
@@ -86,7 +86,7 @@
           "No caminho feliz completo, do novo até o entregue",
           "Na quantidade de pedidos em cada estado" ],
         correta: 0,
-        exp: "O caminho feliz quase sempre já funciona. O defeito mora na transição que não deveria ser permitida — e que a interface esconde, mas a API não." },
+        exp: "O caminho feliz quase sempre já funciona. O defeito mora na transição que não deveria ser permitida, e que a interface esconde, mas a API não." },
 
       { t: "mc",
         enun: "Qual destes valores costuma quebrar sistema e <b>não</b> aparece escrito em quase nenhum requisito?",
@@ -111,12 +111,12 @@
       { t: "mc",
         enun: "Ao montar a tabela de teste você percebe que não sabe o que escrever na coluna \"resultado esperado\" de uma das linhas. O que isso significa?",
         ops: [
-          "Você encontrou uma ambiguidade no requisito — e isso vale mais do que um bug",
+          "Você encontrou uma ambiguidade no requisito, e isso vale mais do que um bug",
           "Você escolheu a técnica errada; troque de técnica",
           "Aquele caso não é testável e deve ser descartado",
           "É preciso olhar o código para descobrir o comportamento correto" ],
         correta: 0,
-        exp: "Sem oráculo não há teste. Uma especificação que não responde precisa ser decidida por alguém — e quanto antes, mais barato. Olhar o código responderia \"o que faz\", não \"o que deveria fazer\"." },
+        exp: "Sem oráculo não há teste. Uma especificação que não responde precisa ser decidida por alguém, e quanto antes, mais barato. Olhar o código responderia \"o que faz\", não \"o que deveria fazer\"." },
 
       { t: "mc",
         enun: "A regra diz \"frete grátis para pedidos <b>acima de</b> R$ 300\". Qual a atitude correta ao testar R$ 300,00 exatos?",
@@ -131,7 +131,7 @@
       { t: "aberta",
         enun: "Requisito: <i>\"O campo <b>quantidade</b> de um item no carrinho aceita de 1 a 99 unidades. Acima do estoque disponível, o sistema deve avisar e limitar à quantidade em estoque.\"</i><br><br>Escreva os casos de teste indicando <b>qual técnica gerou cada um</b>.",
         dica: "passe as quatro técnicas em ordem; não esqueça das classes inválidas e do que o requisito não diz.",
-        modelo: "<p><b>Partição de equivalência</b></p><ul><li>válida: quantidade dentro da faixa e dentro do estoque (ex.: 5, com estoque 20)</li><li>inválida: 0 · negativo (-1) · texto (\"abc\") · vazio · decimal (2,5) · espaço em branco</li></ul><p><b>Valor limite</b></p><ul><li>0 / <b>1</b> / 2 — fronteira inferior</li><li>98 / <b>99</b> / 100 — fronteira superior</li><li>estoque−1 / <b>estoque exato</b> / estoque+1 — a outra fronteira, a que o requisito introduz</li></ul><p><b>Tabela de decisão</b> — duas condições: dentro de 1–99? dentro do estoque?</p><ul><li>dentro / dentro → aceita normalmente</li><li>dentro / acima do estoque → avisa e limita ao estoque</li><li>acima de 99 / estoque maior que 99 → <b>o requisito não diz</b>: limita a 99? avisa o quê? — <i>ambiguidade a levar ao time</i></li><li>fora da faixa / fora do estoque → qual mensagem vence?</li></ul><p><b>Transição de estado / sequência</b></p><ul><li>colocar 50, depois reduzir para 1, depois subir de novo</li><li>colocar quantidade válida e o estoque cair para menos que isso antes de finalizar</li><li>duas abas abertas alterando a quantidade do mesmo item</li><li>quantidade limitada automaticamente ao estoque — o preço total recalcula junto?</li></ul><p><b>Limites esquecidos</b>: estoque igual a 0 (o campo deveria nem aparecer?), estoque exatamente 1, colar um número com 10 dígitos no campo.</p><p>Se você achou o caso de <i>\"acima de 99 com estoque maior que 99\"</i>, muito bem: o requisito realmente não resolve esse conflito, e essa é a pergunta que vale ouro no refinamento.</p>" }
+        modelo: "<p><b>Partição de equivalência</b></p><ul><li>válida: quantidade dentro da faixa e dentro do estoque (ex.: 5, com estoque 20)</li><li>inválida: 0 · negativo (-1) · texto (\"abc\") · vazio · decimal (2,5) · espaço em branco</li></ul><p><b>Valor limite</b></p><ul><li>0 / <b>1</b> / 2: fronteira inferior</li><li>98 / <b>99</b> / 100: fronteira superior</li><li>estoque−1 / <b>estoque exato</b> / estoque+1: a outra fronteira, a que o requisito introduz</li></ul><p><b>Tabela de decisão</b>: duas condições: dentro de 1–99? dentro do estoque?</p><ul><li>dentro / dentro → aceita normalmente</li><li>dentro / acima do estoque → avisa e limita ao estoque</li><li>acima de 99 / estoque maior que 99 → <b>o requisito não diz</b>: limita a 99? avisa o quê? <i>(ambiguidade a levar ao time)</i></li><li>fora da faixa / fora do estoque → qual mensagem vence?</li></ul><p><b>Transição de estado / sequência</b></p><ul><li>colocar 50, depois reduzir para 1, depois subir de novo</li><li>colocar quantidade válida e o estoque cair para menos que isso antes de finalizar</li><li>duas abas abertas alterando a quantidade do mesmo item</li><li>quantidade limitada automaticamente ao estoque: o preço total recalcula junto?</li></ul><p><b>Limites esquecidos</b>: estoque igual a 0 (o campo deveria nem aparecer?), estoque exatamente 1, colar um número com 10 dígitos no campo.</p><p>Se você achou o caso de <i>\"acima de 99 com estoque maior que 99\"</i>, muito bem: o requisito realmente não resolve esse conflito, e essa é a pergunta que vale ouro no refinamento.</p>" }
     ]
   };
   </script>

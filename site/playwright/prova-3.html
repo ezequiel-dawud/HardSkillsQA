@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 3 da trilha Automação web com Playwright — Login compartilhado, loading assíncrono, paginação, estado vazio, modal, upload, drag and drop.…" />
+  <meta name="description" content="Prova do módulo 3 da trilha Automação web com Playwright: login compartilhado, loading assíncrono, paginação, estado vazio, modal, upload, drag and drop.…" />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/playwright/prova-3.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/playwright/prova-3.html" />
-  <meta property="og:title" content="Prova — Módulo 3 (Playwright) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 3 da trilha Automação web com Playwright — Login compartilhado, loading assíncrono, paginação, estado vazio, modal, upload, drag and drop.…" />
+  <meta property="og:title" content="Prova do Módulo 3 (Playwright) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 3 da trilha Automação web com Playwright: login compartilhado, loading assíncrono, paginação, estado vazio, modal, upload, drag and drop.…" />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-playwright.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 3 (Playwright) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 3 (Playwright) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 3 (Playwright)</title>
+  <title>Prova do Módulo 3 (Playwright)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 3</h1>
+    <h1>Prova do Módulo 3</h1>
     <p class="legenda">Login compartilhado, loading assíncrono, paginação, estado vazio, modal, upload, drag and drop. &nbsp;<a href="modulo-3.html">← rever o módulo</a></p>
     <div id="prova"></div>
   </main>
@@ -51,20 +51,20 @@
             "t": "mc",
             "enun": "Por que vale extrair uma função <code>login(page)</code> e chamá-la no <code>beforeEach</code>, em vez de repetir os passos de login em cada teste?",
             "ops": [
-                  "Reduz repetição e centraliza a lógica — se o fluxo de login mudar, só um lugar precisa ser ajustado",
+                  "Reduz repetição e centraliza a lógica: se o fluxo de login mudar, só um lugar precisa ser ajustado",
                   "É a única forma de o Playwright reconhecer uma sessão",
                   "Faz os testes rodarem em paralelo automaticamente",
                   "Evita que o Playwright precise instalar o navegador de novo"
             ],
             "correta": 0,
-            "exp": "É o mesmo princípio de não repetir código em qualquer programa — testes também se beneficiam disso."
+            "exp": "É o mesmo princípio de não repetir código em qualquer programa: testes também se beneficiam disso."
       },
       {
             "t": "mc",
             "enun": "Por que esperar <code>await expect(page).toHaveURL(/index\\.html/)</code> depois de clicar em entrar, em vez de seguir direto pro próximo passo?",
             "ops": [
                   "O clique dispara uma requisição com atraso antes do redirecionamento acontecer; sem esperar, o próximo passo pode rodar contra a tela de login ainda carregando",
-                  "Só por estilo — funcionaria igual sem essa espera",
+                  "Só por estilo, funcionaria igual sem essa espera",
                   "Porque toHaveURL é obrigatório em todo teste do Playwright",
                   "Para medir quanto tempo o login demora"
             ],
@@ -93,13 +93,13 @@
                   "Abre uma cópia virtual do explorador de arquivos dentro do navegador"
             ],
             "correta": 0,
-            "exp": "Janelas nativas do sistema operacional ficam fora do alcance do Playwright (ele controla o navegador, não o SO) — setInputFiles contorna isso."
+            "exp": "Janelas nativas do sistema operacional ficam fora do alcance do Playwright (ele controla o navegador, não o SO); setInputFiles contorna isso."
       },
       {
             "t": "mc",
             "enun": "Testando a galeria de drag and drop, por que o teste confere a nova ordem lendo os <code>data-testid</code> dos itens, em vez de só verificar que o <code>.dragTo()</code> não lançou erro?",
             "ops": [
-                  "Porque o .dragTo() pode completar sem erro mesmo que a página não reaja do jeito esperado ao evento — só checar \"não deu erro\" não garante que o comportamento certo aconteceu",
+                  "Porque o .dragTo() pode completar sem erro mesmo que a página não reaja do jeito esperado ao evento: só checar \"não deu erro\" não garante que o comportamento certo aconteceu",
                   "Porque o dragTo() nunca lança erro, em nenhuma situação",
                   "Porque ler data-testid é mais rápido que usar dragTo()",
                   "Porque a ordem dos itens é definida pelo HTML e nunca muda em tempo de execução"
@@ -109,8 +109,8 @@
       },
       {
             "t": "aberta",
-            "enun": "Durante o teste do modal de confirmação, você percebeu que clicar em \"adicionar ao carrinho\" antes do produto terminar de carregar simplesmente não faz nada — sem mensagem, sem erro. Isso é um bug? O que você faria com essa observação?",
-            "modelo": "<p>É um problema de UX/acessibilidade, mesmo não sendo um crash: do ponto de vista do usuário, clicar num botão e nada acontecer é confuso — ele não sabe se o clique \"não registrou\", se o site travou, ou se precisa clicar de novo (o que pode gerar cliques duplicados quando o produto finalmente carregar).</p><p>Como QA, a conduta não é simplesmente ignorar por não ser um erro técnico:</p><ul><li><b>Registrar o achado</b> como um bug de UX, mesmo que de prioridade baixa — \"o botão de adicionar ao carrinho não dá feedback nenhum se clicado antes do produto carregar\".</li><li><b>Propor o comportamento esperado</b>: o botão poderia ficar desabilitado (<code>disabled</code>) até o produto carregar, ou mostrar um spinner, igual a lista de produtos já faz.</li><li><b>Adicionar um teste de regressão</b> uma vez corrigido, pra garantir que não volte — por exemplo, conferir que o botão está desabilitado enquanto o título ainda está vazio.</li><li><b>Diferenciar isso de um bug funcional</b> na comunicação com o time: não trava nada, não perde dado, mas prejudica a experiência — ajuda a priorizar certo.</li></ul><p>O ponto central: automação de teste não serve só pra achar crash. Observações de comportamento estranho, mesmo sem erro técnico, são parte do trabalho de QA.</p>",
+            "enun": "Durante o teste do modal de confirmação, você percebeu que clicar em \"adicionar ao carrinho\" antes do produto terminar de carregar simplesmente não faz nada: sem mensagem, sem erro. Isso é um bug? O que você faria com essa observação?",
+            "modelo": "<p>É um problema de UX/acessibilidade, mesmo não sendo um crash: do ponto de vista do usuário, clicar num botão e nada acontecer é confuso, ele não sabe se o clique \"não registrou\", se o site travou, ou se precisa clicar de novo (o que pode gerar cliques duplicados quando o produto finalmente carregar).</p><p>Como QA, a conduta não é simplesmente ignorar por não ser um erro técnico:</p><ul><li><b>Registrar o achado</b> como um bug de UX, mesmo que de prioridade baixa: \"o botão de adicionar ao carrinho não dá feedback nenhum se clicado antes do produto carregar\".</li><li><b>Propor o comportamento esperado</b>: o botão poderia ficar desabilitado (<code>disabled</code>) até o produto carregar, ou mostrar um spinner, igual a lista de produtos já faz.</li><li><b>Adicionar um teste de regressão</b> uma vez corrigido, pra garantir que não volte: por exemplo, conferir que o botão está desabilitado enquanto o título ainda está vazio.</li><li><b>Diferenciar isso de um bug funcional</b> na comunicação com o time: não trava nada, não perde dado, mas prejudica a experiência, o que ajuda a priorizar certo.</li></ul><p>O ponto central: automação de teste não serve só pra achar crash. Observações de comportamento estranho, mesmo sem erro técnico, são parte do trabalho de QA.</p>",
             "dica": "pense em: o que o usuário real sentiria, e como isso vira um item acionável (não só uma observação solta)."
       }
     ]

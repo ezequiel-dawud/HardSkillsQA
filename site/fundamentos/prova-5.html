@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 5 da trilha Fundamentos de Teste — Anatomia do relatório, título, severidade × prioridade, ciclo de vida do defeito. Corrigida na hora; 70%…" />
+  <meta name="description" content="Prova do módulo 5 da trilha Fundamentos de Teste: Anatomia do relatório, título, severidade × prioridade, ciclo de vida do defeito. Corrigida na hora; 70%…" />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/fundamentos/prova-5.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/fundamentos/prova-5.html" />
-  <meta property="og:title" content="Prova — Módulo 5 (Fundamentos) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 5 da trilha Fundamentos de Teste — Anatomia do relatório, título, severidade × prioridade, ciclo de vida do defeito. Corrigida na hora; 70%…" />
+  <meta property="og:title" content="Prova do Módulo 5 (Fundamentos) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 5 da trilha Fundamentos de Teste: Anatomia do relatório, título, severidade × prioridade, ciclo de vida do defeito. Corrigida na hora; 70%…" />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-fundamentos.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 5 (Fundamentos) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 5 (Fundamentos) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 5 (Fundamentos)</title>
+  <title>Prova do Módulo 5 (Fundamentos)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -39,7 +39,7 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 5</h1>
+    <h1>Prova do Módulo 5</h1>
     <p class="legenda">Anatomia do relatório, título, severidade × prioridade, ciclo de vida do defeito. &nbsp;<a href="modulo-5.html">← rever o módulo</a></p>
     <div id="prova"></div>
   </main>
@@ -56,7 +56,7 @@
           "São sinônimos, usados por ferramentas diferentes",
           "Severidade vale para produção; prioridade, para homologação" ],
         correta: 0,
-        exp: "São independentes — por isso existem os quatro cruzamentos, inclusive os dois \"estranhos\" que provam que os campos são mesmo diferentes." },
+        exp: "São independentes, por isso existem os quatro cruzamentos, inclusive os dois \"estranhos\" que provam que os campos são mesmo diferentes." },
 
       { t: "mc",
         enun: "O sistema <b>quebra por completo</b> ao gerar um relatório num formato que apenas dois clientes usam, uma vez por ano. Como classificar?",
@@ -86,13 +86,13 @@
           "URGENTE!!! Checkout quebrado, corrigir hoje",
           "O sistema está calculando o frete errado, acho que é o arredondamento" ],
         correta: 0,
-        exp: "A fórmula é <b>[onde] o quê acontece [em que condição]</b>. O último ainda chuta a causa — relate a falha observada, não o defeito suposto." },
+        exp: "A fórmula é <b>[onde] o quê acontece [em que condição]</b>. O último ainda chuta a causa: relate a falha observada, não o defeito suposto." },
 
       { t: "mc",
         enun: "Um defeito está com status <code>resolvido</code>. O que falta antes de virar <code>fechado</code>?",
         ops: [
           "O <b>reteste</b>: alguém de QA reexecutar os passos do relatório e confirmar a correção",
-          "Nada — resolvido e fechado são o mesmo estado",
+          "Nada: resolvido e fechado são o mesmo estado",
           "A aprovação do time de negócio",
           "A execução da suíte de carga" ],
         correta: 0,
@@ -106,7 +106,7 @@
           "Todo defeito precisa estar ligado a uma execução de teste",
           "Nenhum defeito pode ter ambiente <code>producao</code>" ],
         correta: 0,
-        exp: "É exatamente o tipo de verificação que vira <code>assert</code> nas trilhas de SQL e pytest — e que encontra dado inconsistente de verdade." },
+        exp: "É exatamente o tipo de verificação que vira <code>assert</code> nas trilhas de SQL e pytest, e que encontra dado inconsistente de verdade." },
 
       { t: "mc",
         enun: "Você reportou um bug e a resposta foi \"isso é o comportamento esperado\". Qual a reação profissional?",
@@ -116,7 +116,7 @@
           "Fechar o relatório e seguir em frente",
           "Reabrir o relatório com severidade maior" ],
         correta: 0,
-        exp: "Se está documentado, você aprendeu algo e o relatório fecha. Se ninguém sabe, o defeito mudou de lugar: está na especificação — e isso não pode ser silenciado." },
+        exp: "Se está documentado, você aprendeu algo e o relatório fecha. Se ninguém sabe, o defeito mudou de lugar: está na especificação, e isso não pode ser silenciado." },
 
       { t: "mc",
         enun: "Um bug acontece só em 3 de cada 10 tentativas. O que fazer?",
@@ -126,12 +126,12 @@
           "Reportar como se fosse determinístico, para não enfraquecer o relatório",
           "Reportar com severidade crítica, já que é imprevisível" ],
         correta: 0,
-        exp: "Bug intermitente é bug. O que não pode é esconder que é intermitente — e a informação sobre o que variou entre as tentativas costuma ser a pista da correção." },
+        exp: "Bug intermitente é bug. O que não pode é esconder que é intermitente, e a informação sobre o que variou entre as tentativas costuma ser a pista da correção." },
 
       { t: "aberta",
-        enun: "Escreva o relatório completo deste achado:<br><br><i>\"No app de delivery, se você adicionar um item ao carrinho, esperar 20 minutos sem mexer e então finalizar o pedido, o preço cobrado é o antigo — mesmo que o restaurante tenha reajustado o cardápio nesse meio-tempo.\"</i><br><br>Inclua severidade e prioridade <b>com uma frase justificando cada uma</b>.",
+        enun: "Escreva o relatório completo deste achado:<br><br><i>\"No app de delivery, se você adicionar um item ao carrinho, esperar 20 minutos sem mexer e então finalizar o pedido, o preço cobrado é o antigo, mesmo que o restaurante tenha reajustado o cardápio nesse meio-tempo.\"</i><br><br>Inclua severidade e prioridade <b>com uma frase justificando cada uma</b>.",
         dica: "título na fórmula [onde] o quê [quando]; esperado com a razão; separe fato de hipótese.",
-        modelo: "<pre class=\"bloco\"><code>Título: [Carrinho] Pedido finalizado cobra o preço antigo quando o\n        cardápio é reajustado com o item já no carrinho\n\nAmbiente: homolog, v4.8.1 — Android 14, app 4.8.1\n\nPré-condições:\n  - restaurante de teste com o item \"Pizza Margherita\" a R$ 40,00\n  - acesso ao painel do restaurante para alterar o preço\n\nPassos:\n  1. Como cliente, adicionar \"Pizza Margherita\" (R$ 40,00) ao carrinho\n  2. Não finalizar; deixar o app aberto na tela do carrinho\n  3. No painel do restaurante, alterar o preço do item para R$ 55,00\n  4. Aguardar 20 minutos\n  5. Voltar ao app e finalizar o pedido\n\nEsperado:  o app revalida o preço na finalização e cobra R$ 55,00,\n           ou avisa que o preço mudou e pede confirmação.\n           (Regra de cardápio: o preço vigente é o do momento do pedido.)\n\nObtido:    o pedido é finalizado por R$ 40,00, sem aviso.\n           O restaurante recebe o pedido com o valor antigo.\n\nEvidência: vídeo dos passos 1 a 5 (anexo); resposta da API na\n           finalização: POST /pedidos → {\"item\":\"...\",\"preco\":40.00}\n           enquanto GET /cardapio já devolve 55.00.\n\nSeveridade: alta\n  → há perda financeira direta e recorrente para o restaurante, e o\n    dado gravado no pedido fica divergente do cardápio vigente.\n\nPrioridade: P1\n  → o cenário é trivial de reproduzir e acontece em qualquer reajuste\n    de cardápio, que é operação diária da base inteira de restaurantes.\n\nObservação: não testei se o mesmo ocorre com item removido do cardápio\n            durante a espera — vale uma sessão à parte.</code></pre><p><b>O que se espera que você tenha feito:</b> título dizendo onde/o quê/quando; passos que qualquer pessoa reproduz sem estar do seu lado; o esperado <b>citando a regra</b> em vez de opinião; evidência que já entrega a pista (as duas respostas da API divergindo); severidade e prioridade <b>justificadas separadamente</b> — uma pelo estrago, outra pelo alcance; e a observação final delimitando o que você <em>não</em> cobriu.</p><p>Se você justificou severidade e prioridade com a mesma frase, releia a seção da matriz: são perguntas diferentes.</p>" }
+        modelo: "<pre class=\"bloco\"><code>Título: [Carrinho] Pedido finalizado cobra o preço antigo quando o\n        cardápio é reajustado com o item já no carrinho\n\nAmbiente: homolog, v4.8.1 — Android 14, app 4.8.1\n\nPré-condições:\n  - restaurante de teste com o item \"Pizza Margherita\" a R$ 40,00\n  - acesso ao painel do restaurante para alterar o preço\n\nPassos:\n  1. Como cliente, adicionar \"Pizza Margherita\" (R$ 40,00) ao carrinho\n  2. Não finalizar; deixar o app aberto na tela do carrinho\n  3. No painel do restaurante, alterar o preço do item para R$ 55,00\n  4. Aguardar 20 minutos\n  5. Voltar ao app e finalizar o pedido\n\nEsperado:  o app revalida o preço na finalização e cobra R$ 55,00,\n           ou avisa que o preço mudou e pede confirmação.\n           (Regra de cardápio: o preço vigente é o do momento do pedido.)\n\nObtido:    o pedido é finalizado por R$ 40,00, sem aviso.\n           O restaurante recebe o pedido com o valor antigo.\n\nEvidência: vídeo dos passos 1 a 5 (anexo); resposta da API na\n           finalização: POST /pedidos → {\"item\":\"...\",\"preco\":40.00}\n           enquanto GET /cardapio já devolve 55.00.\n\nSeveridade: alta\n  → há perda financeira direta e recorrente para o restaurante, e o\n    dado gravado no pedido fica divergente do cardápio vigente.\n\nPrioridade: P1\n  → o cenário é trivial de reproduzir e acontece em qualquer reajuste\n    de cardápio, que é operação diária da base inteira de restaurantes.\n\nObservação: não testei se o mesmo ocorre com item removido do cardápio\n            durante a espera — vale uma sessão à parte.</code></pre><p><b>O que se espera que você tenha feito:</b> título dizendo onde/o quê/quando; passos que qualquer pessoa reproduz sem estar do seu lado; o esperado <b>citando a regra</b> em vez de opinião; evidência que já entrega a pista (as duas respostas da API divergindo); severidade e prioridade <b>justificadas separadamente</b>: uma pelo estrago, outra pelo alcance; e a observação final delimitando o que você <em>não</em> cobriu.</p><p>Se você justificou severidade e prioridade com a mesma frase, releia a seção da matriz: são perguntas diferentes.</p>" }
     ]
   };
   </script>

@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/api/modulo-2.html" />
-  <meta property="og:title" content="API Módulo 2 — Contrato da resposta — QA Learning" />
+  <meta property="og:title" content="API Módulo 2: Contrato da resposta | QA Learning" />
   <meta property="og:description" content="Os campos certos, com os tipos certos, no formato certo. Módulo 2 da trilha Teste de API, no QA Learning." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-api.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="API Módulo 2 — Contrato da resposta — QA Learning" />
+  <meta property="og:image:alt" content="API Módulo 2: Contrato da resposta | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>API Módulo 2 — Contrato da resposta</title>
+  <title>API Módulo 2: Contrato da resposta</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 2 — Contrato da resposta</h1>
+    <h1>Módulo 2: Contrato da resposta</h1>
     <p class="legenda">Os campos certos, com os tipos certos, no formato certo</p>
 
     <section class="secao">
@@ -46,7 +46,7 @@
       <div class="card">
         <p style="margin-top:0">Status 200 não quer dizer "resposta correta". O <b>contrato</b> é
           a promessa de <i>forma</i> da resposta: quais campos existem, de que tipo, em que
-          formato. Quebra de contrato é dos bugs mais chatos — o consumidor da API só descobre
+          formato. Quebra de contrato é dos bugs mais chatos, porque o consumidor da API só descobre
           em produção.</p>
         <ul>
           <li><b>Campo presente:</b> <code>'preco' in obj</code> ou <code>obj.preco !== undefined</code>.</li>
@@ -70,7 +70,7 @@
 
     <section class="secao">
       <h2>Prática</h2>
-      <p class="legenda">Complete e clique <strong>Rodar</strong>. Alguns destes vão ficar vermelhos de propósito — leia o enunciado.</p>
+      <p class="legenda">Complete e clique <strong>Rodar</strong>. Alguns destes vão ficar vermelhos de propósito: leia o enunciado.</p>
       <div class="acoes" style="margin:6px 0 10px"><button id="btn-reset">Resetar dados</button></div>
       <div id="exercicios"></div>
     </section>
@@ -92,13 +92,13 @@ check('tem ativo boolean', typeof p.ativo === 'boolean', 'veio ' + typeof p.ativ
     <section class="secao">
       <div class="card" style="border-left:3px solid var(--acento)">
         <h2 style="margin-top:0;border:0">Olhar de QA</h2>
-        <p style="margin-bottom:0">Contrato é o tipo de defeito que a interface esconde e que explode meses depois, na máquina de outra pessoa. Quando um <code>check</code> de contrato ficar vermelho, resista ao reflexo de ajustar o teste até ele passar: se o enunciado descreve o contrato certo, <b>você achou um defeito</b>. E lembre-se de verificar o campo que veio <b>a mais</b> — um custo interno ou um hash de senha que escapou para a resposta pública é o achado mais valioso que essa verificação costuma produzir.</p>
+        <p style="margin-bottom:0">Contrato é o tipo de defeito que a interface esconde e que explode meses depois, na máquina de outra pessoa. Quando um <code>check</code> de contrato ficar vermelho, resista ao reflexo de ajustar o teste até ele passar: se o enunciado descreve o contrato certo, <b>você achou um defeito</b>. E lembre-se de verificar o campo que veio <b>a mais</b>: um custo interno ou um hash de senha que escapou para a resposta pública é o achado mais valioso que essa verificação costuma produzir.</p>
       </div>
     </section>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>
@@ -132,13 +132,13 @@ check('tem ativo boolean', typeof p.ativo === 'boolean', 'veio ' + typeof p.ativ
       inicial: "const r = await api('GET', '/produtos/5');\n",
       gabarito: "const r = await api('GET', '/produtos/5');\nconst campos = ['id','nome','categoria','preco','estoque','ativo'];\ncheck('status 200', r.status === 200);\ncheck('todos os campos presentes', campos.every(c => c in r.json), 'faltam: ' + campos.filter(c => !(c in r.json)));" },
     { id: "2.2",
-      enunciado: "Ainda em <code>GET /produtos/5</code>: o contrato diz que <code>preco</code> é <b>número</b> e <code>ativo</code> é <b>boolean</b>. Verifique os dois tipos. (Se algum falhar, não conserte seu teste — anote o que veio.)",
+      enunciado: "Ainda em <code>GET /produtos/5</code>: o contrato diz que <code>preco</code> é <b>número</b> e <code>ativo</code> é <b>boolean</b>. Verifique os dois tipos. (Se algum falhar, não conserte seu teste; anote o que veio.)",
       dica: "<code>typeof r.json.preco === 'number'</code> e <code>typeof r.json.ativo === 'boolean'</code>. Passe o <code>typeof</code> real como 3º argumento do check pra registrar.",
       inicial: "const r = await api('GET', '/produtos/5');\n",
-      gabarito: "const r = await api('GET', '/produtos/5');\ncheck('preco é number', typeof r.json.preco === 'number', 'veio ' + typeof r.json.preco + ' (' + JSON.stringify(r.json.preco) + ')');\ncheck('ativo é boolean', typeof r.json.ativo === 'boolean', 'veio ' + typeof r.json.ativo);\n// Se 'preco é number' ficou vermelho: a API devolve preco como STRING no item\n// individual, mas como number na lista (GET /produtos). Contrato inconsistente — é o bug.",
+      gabarito: "const r = await api('GET', '/produtos/5');\ncheck('preco é number', typeof r.json.preco === 'number', 'veio ' + typeof r.json.preco + ' (' + JSON.stringify(r.json.preco) + ')');\ncheck('ativo é boolean', typeof r.json.ativo === 'boolean', 'veio ' + typeof r.json.ativo);\n// Se 'preco é number' ficou vermelho: a API devolve preco como STRING no item\n// individual, mas como number na lista (GET /produtos). Contrato inconsistente, e esse é o bug.",
     },
     { id: "2.3",
-      enunciado: "Prove a inconsistência do exercício anterior: pegue o mesmo produto pela LISTA (<code>GET /produtos</code>, ache o id 5) e pelo ITEM (<code>GET /produtos/5</code>), e verifique que o <code>typeof preco</code> é <b>igual</b> nas duas. Deve falhar — essa é a evidência do bug.",
+      enunciado: "Prove a inconsistência do exercício anterior: pegue o mesmo produto pela LISTA (<code>GET /produtos</code>, ache o id 5) e pelo ITEM (<code>GET /produtos/5</code>), e verifique que o <code>typeof preco</code> é <b>igual</b> nas duas. Deve falhar: essa é a evidência do bug.",
       dica: "<code>const naLista = lista.json.find(p =&gt; p.id === 5);</code> depois <code>check('mesmo tipo', typeof naLista.preco === typeof item.json.preco, ...)</code>.",
       inicial: "const lista = await api('GET', '/produtos');\nconst item = await api('GET', '/produtos/5');\n",
       gabarito: "const lista = await api('GET', '/produtos');\nconst item = await api('GET', '/produtos/5');\nconst naLista = lista.json.find(p => p.id === 5);\ncheck('preco tem o mesmo tipo nas duas rotas',\n      typeof naLista.preco === typeof item.json.preco,\n      'lista=' + typeof naLista.preco + '  item=' + typeof item.json.preco);" },
@@ -148,7 +148,7 @@ check('tem ativo boolean', typeof p.ativo === 'boolean', 'veio ' + typeof p.ativ
       inicial: "const r = await api('GET', '/pedidos');\n",
       gabarito: "const r = await api('GET', '/pedidos');\nconst re = /^\\d{4}-\\d{2}-\\d{2}$/;\nconst ruins = r.json.filter(pd => !re.test(pd.data_pedido));\ncheck('toda data no formato YYYY-MM-DD', ruins.length === 0, ruins.map(p => p.id).join(','));" },
     { id: "2.5",
-      enunciado: "Em <code>GET /defeitos</code>, verifique que <code>severidade</code> só assume valores do conjunto {baixa, media, alta, critica} — nenhum valor fora do domínio.",
+      enunciado: "Em <code>GET /defeitos</code>, verifique que <code>severidade</code> só assume valores do conjunto {baixa, media, alta, critica}, nenhum valor fora do domínio.",
       dica: "<code>const ok = new Set(['baixa','media','alta','critica']); r.json.every(d =&gt; ok.has(d.severidade))</code>.",
       inicial: "const r = await api('GET', '/defeitos');\n",
       gabarito: "const r = await api('GET', '/defeitos');\nconst validos = new Set(['baixa','media','alta','critica']);\nconst fora = r.json.filter(d => !validos.has(d.severidade));\ncheck('severidade sempre no dominio', fora.length === 0, 'fora: ' + fora.map(d => d.severidade));" },

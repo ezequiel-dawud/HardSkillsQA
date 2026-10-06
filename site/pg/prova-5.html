@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 5 da trilha PostgreSQL para QA — Agregação e GROUP BY: COUNT/SUM/AVG, HAVING, FILTER (WHERE …), bool_or. Corrigida na hora; 70% fecha o…" />
+  <meta name="description" content="Prova do módulo 5 da trilha PostgreSQL para QA: agregação e GROUP BY, COUNT/SUM/AVG, HAVING, FILTER (WHERE …), bool_or. Corrigida na hora; 70% fecha o…" />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/pg/prova-5.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/pg/prova-5.html" />
-  <meta property="og:title" content="Prova — Módulo 5 (PostgreSQL) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 5 da trilha PostgreSQL para QA — Agregação e GROUP BY: COUNT/SUM/AVG, HAVING, FILTER (WHERE …), bool_or. Corrigida na hora; 70% fecha o…" />
+  <meta property="og:title" content="Prova do Módulo 5 (PostgreSQL) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 5 da trilha PostgreSQL para QA: agregação e GROUP BY, COUNT/SUM/AVG, HAVING, FILTER (WHERE …), bool_or. Corrigida na hora; 70% fecha o…" />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-pg.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 5 (PostgreSQL) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 5 (PostgreSQL) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 5 (PostgreSQL)</title>
+  <title>Prova do Módulo 5 (PostgreSQL)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -41,7 +41,7 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 5</h1>
+    <h1>Prova do Módulo 5</h1>
     <p class="legenda">Agregação e GROUP BY: COUNT/SUM/AVG, HAVING, FILTER (WHERE …), bool_or. &nbsp;<a href="modulo-5.html">← rever o módulo</a></p>
     <p class="status-banco" id="status-banco">carregando Postgres…</p>
     <div id="prova"></div>
@@ -79,7 +79,7 @@
       { t: "mc",
         enun: "<code>COUNT(*) FILTER (WHERE cond)</code> num <code>GROUP BY</code>:",
         ops: [
-          "conta só as linhas do grupo que satisfazem <code>cond</code> — alternativa enxuta ao <code>SUM(CASE WHEN ... THEN 1 ELSE 0 END)</code>",
+          "conta só as linhas do grupo que satisfazem <code>cond</code>, alternativa enxuta ao <code>SUM(CASE WHEN ... THEN 1 ELSE 0 END)</code>",
           "filtra o resultado inteiro, como um <code>WHERE</code>",
           "só funciona sem <code>GROUP BY</code>",
           "conta valores distintos" ],

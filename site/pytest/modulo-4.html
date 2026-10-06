@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/pytest/modulo-4.html" />
-  <meta property="og:title" content="pytest Módulo 4 — Parametrizar e rodar no CI — QA Learning" />
+  <meta property="og:title" content="pytest Módulo 4: Parametrizar e rodar no CI | QA Learning" />
   <meta property="og:description" content="@pytest.mark.parametrize + GitHub Actions. Módulo 4 da trilha Validação com pytest, no QA Learning. Teoria curta no site e prática rodando na sua máquina." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-pytest.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="pytest Módulo 4 — Parametrizar e rodar no CI — QA Learning" />
+  <meta property="og:image:alt" content="pytest Módulo 4: Parametrizar e rodar no CI | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>pytest Módulo 4 — Parametrizar e rodar no CI</title>
+  <title>pytest Módulo 4: Parametrizar e rodar no CI</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 4 — Parametrizar e rodar no CI</h1>
+    <h1>Módulo 4: Parametrizar e rodar no CI</h1>
     <p class="legenda"><code>@pytest.mark.parametrize</code> + GitHub Actions</p>
 
     <section class="secao">
@@ -59,7 +59,7 @@ def test_coluna_so_tem_valores_do_dominio(db, coluna, tabela, permitidos):
     assert not (achados - permitidos)</code></pre>
         <p style="margin-bottom:0">No relatório viram <b>3 casos separados</b>:
           <code>…[status-pedidos-permitidos0] PASSED</code>, etc. Se um domínio quebrar, você
-          vê exatamente qual — sem ambiguidade.</p>
+          vê exatamente qual, sem ambiguidade.</p>
       </div>
     </section>
 
@@ -69,7 +69,7 @@ def test_coluna_so_tem_valores_do_dominio(db, coluna, tabela, permitidos):
         <p style="margin-top:0">O repositório já tem o workflow
           <code>.github/workflows/trilha-3-pytest.yml</code>. Ele instala o Python, instala o
           <code>pytest</code> e roda a suíte <b>numa máquina do GitHub</b> a cada push que
-          mexa em <code>trilha-3/</code> ou no banco — e também pelo botão
+          mexa em <code>trilha-3/</code> ou no banco, e também pelo botão
           <b>Run workflow</b> na aba <b>Actions</b>.</p>
         <pre class="bloco"><code>jobs:
   pytest:
@@ -84,10 +84,10 @@ def test_coluna_so_tem_valores_do_dominio(db, coluna, tabela, permitidos):
         run: pytest</code></pre>
         <ul>
           <li>Se <code>pytest</code> sai com código ≠ 0, o passo falha e o <b>check do commit
-            fica vermelho</b> — visível no PR, dá pra <b>bloquear o merge</b>.</li>
+            fica vermelho</b>: visível no PR, dá pra <b>bloquear o merge</b>.</li>
           <li>Os 3 <code>xfail</code> mantêm a suíte verde no CI. No dia que um deles virar
             <code>XPASS</code> (dado corrigido), o <code>strict=True</code> derruba o build de
-            propósito — sinal de "remova o marcador".</li>
+            propósito: sinal de "remova o marcador".</li>
           <li>Veja cada rodada, com o log completo, na aba <b>Actions</b> do repositório.</li>
         </ul>
       </div>
@@ -113,13 +113,13 @@ def test_coluna_so_tem_valores_do_dominio(db, coluna, tabela, permitidos):
     <section class="secao">
       <div class="card" style="border-left:3px solid var(--acento)">
         <h2 style="margin-top:0;border:0">Olhar de QA</h2>
-        <p style="margin-bottom:0">Um teste automatizado só protege enquanto alguém olha o resultado — por isso ele precisa estar no CI, e por isso o build precisa reprovar. E resista sempre à tentação mais perigosa desta profissão: <b>afrouxar a asserção para a suíte ficar verde</b>. No instante em que isso vira hábito, a suíte deixa de ser proteção e passa a ser enfeite — com o custo de manutenção de uma proteção.</p>
+        <p style="margin-bottom:0">Um teste automatizado só protege enquanto alguém olha o resultado: por isso ele precisa estar no CI, e por isso o build precisa reprovar. E resista sempre à tentação mais perigosa desta profissão: <b>afrouxar a asserção para a suíte ficar verde</b>. No instante em que isso vira hábito, a suíte deixa de ser proteção e passa a ser enfeite, com o custo de manutenção de uma proteção.</p>
       </div>
     </section>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>

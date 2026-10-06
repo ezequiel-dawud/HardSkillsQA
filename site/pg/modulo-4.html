@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/pg/modulo-4.html" />
-  <meta property="og:title" content="PG Módulo 4 — Texto — QA Learning" />
+  <meta property="og:title" content="PG Módulo 4: Texto | QA Learning" />
   <meta property="og:description" content="||, ILIKE, LOWER/UPPER/INITCAP, LENGTH, TRIM, LEFT/RIGHT, SPLIT_PART, POSITION, REPLACE. Módulo 4 da trilha PostgreSQL para QA, no QA Learning." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-pg.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="PG Módulo 4 — Texto — QA Learning" />
+  <meta property="og:image:alt" content="PG Módulo 4: Texto | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>PG Módulo 4 — Texto</title>
+  <title>PG Módulo 4: Texto</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -41,7 +41,7 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 4 — Texto</h1>
+    <h1>Módulo 4: Texto</h1>
     <p class="legenda">||, ILIKE, LOWER/UPPER/INITCAP, LENGTH, TRIM, LEFT/RIGHT, SPLIT_PART, POSITION, REPLACE</p>
 
     <section class="secao">
@@ -52,9 +52,9 @@
           domínio errado. O Postgres tem um bom kit pra investigar isso.
         </p>
         <ul>
-          <li><b><code>a || b</code></b> — junta textos: <code>nome || ' (' || estado || ')'</code>.
+          <li><b><code>a || b</code></b>: junta textos: <code>nome || ' (' || estado || ')'</code>.
             Se um lado for NULL o resultado é NULL (use <code>COALESCE</code>).</li>
-          <li><b><code>ILIKE</code></b> — <code>LIKE</code> sem ligar pra maiúsc./minúsc.
+          <li><b><code>ILIKE</code></b>: <code>LIKE</code> sem ligar pra maiúsc./minúsc.
             <code>~</code> / <code>~*</code> fazem regex (sensível / insensível).</li>
           <li><b>Caixa:</b> <code>LOWER</code>, <code>UPPER</code>, <code>INITCAP</code>
             ("joão silva" → "João Silva").</li>
@@ -76,11 +76,11 @@
       <h2>Teoria</h2>
       <div class="card">
         <ul>
-          <li><code>a || b || c</code> — concatena. <code>CONCAT_WS(', ', a, b)</code> ignora NULL e põe separador.</li>
-          <li><code>t ILIKE '%abc%'</code> — contém "abc" em qualquer caixa. <code>t ~* 'abc'</code> — regex insensível.</li>
-          <li><code>LOWER / UPPER / INITCAP(t)</code> — caixa.</li>
-          <li><code>SPLIT_PART(email, '@', 2)</code> — domínio. <code>LEFT/RIGHT(t, n)</code> — pontas.</li>
-          <li><code>POSITION('x' IN t)</code> — índice de "x" (0 = ausente). <code>LENGTH(t)</code> — tamanho.</li>
+          <li><code>a || b || c</code>: concatena. <code>CONCAT_WS(', ', a, b)</code> ignora NULL e põe separador.</li>
+          <li><code>t ILIKE '%abc%'</code>: contém "abc" em qualquer caixa; <code>t ~* 'abc'</code> é regex insensível.</li>
+          <li><code>LOWER / UPPER / INITCAP(t)</code>: caixa.</li>
+          <li><code>SPLIT_PART(email, '@', 2)</code>: domínio. <code>LEFT/RIGHT(t, n)</code>: pontas.</li>
+          <li><code>POSITION('x' IN t)</code>: índice de "x" (0 = ausente). <code>LENGTH(t)</code>: tamanho.</li>
           <li><code>TRIM(t)</code> tira espaços das pontas; <code>t = TRIM(t)</code> é falso quando sobra espaço.</li>
         </ul>
       </div>
@@ -88,7 +88,7 @@
 
     <section class="secao">
       <h2>Exemplos de aplicação</h2>
-      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar — é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
+      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar, é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
 
       <div class="card">
         <h3 style="margin-top:0"><code>||</code> e <code>CONCAT_WS</code></h3>
@@ -96,7 +96,7 @@
   nome || ' - ' || estado         AS rotulo,
   CONCAT_WS(', ', cidade, estado)  AS local
 FROM clientes;</code></pre>
-        <p style="margin-bottom:0"><code>||</code> gruda textos; se qualquer pedaço for <code>NULL</code>, o resultado inteiro vira <code>NULL</code>. <code>CONCAT_WS(sep, ...)</code> junta com um separador e <em>ignora</em> os <code>NULL</code> — mais seguro pra montar endereço.</p>
+        <p style="margin-bottom:0"><code>||</code> gruda textos; se qualquer pedaço for <code>NULL</code>, o resultado inteiro vira <code>NULL</code>. <code>CONCAT_WS(sep, ...)</code> junta com um separador e <em>ignora</em> os <code>NULL</code>, ficando mais seguro pra montar endereço.</p>
       </div>
 
       <div class="card">
@@ -125,7 +125,7 @@ FROM clientes;</code></pre>
   SPLIT_PART(email, '@', 2) AS dominio,
   LEFT(email, 3)            AS inicio
 FROM clientes;</code></pre>
-        <p style="margin-bottom:0"><code>SPLIT_PART(texto, '@', 2)</code> quebra o texto no <code>@</code> e pega o 2º pedaço — o domínio do email. <code>LEFT(t, n)</code>/<code>RIGHT(t, n)</code> pegam os <code>n</code> primeiros/últimos caracteres.</p>
+        <p style="margin-bottom:0"><code>SPLIT_PART(texto, '@', 2)</code> quebra o texto no <code>@</code> e pega o 2º pedaço: o domínio do email. <code>LEFT(t, n)</code>/<code>RIGHT(t, n)</code> pegam os <code>n</code> primeiros/últimos caracteres.</p>
       </div>
 
       <div class="card">
@@ -136,7 +136,7 @@ FROM clientes;</code></pre>
   LENGTH(email)          AS tamanho
 FROM clientes
 WHERE POSITION('@' IN email) = 0;   -- email sem @</code></pre>
-        <p style="margin-bottom:0"><code>POSITION('x' IN t)</code> devolve em que caractere "x" aparece, ou <code>0</code> se não aparece — útil pra validar formato. <code>LENGTH(t)</code> é o número de caracteres.</p>
+        <p style="margin-bottom:0"><code>POSITION('x' IN t)</code> devolve em que caractere "x" aparece, ou <code>0</code> se não aparece, útil pra validar formato. <code>LENGTH(t)</code> é o número de caracteres.</p>
       </div>
 
       <div class="card">
@@ -144,7 +144,7 @@ WHERE POSITION('@' IN email) = 0;   -- email sem @</code></pre>
         <pre class="bloco"><code>SELECT id, cidade
 FROM clientes
 WHERE cidade &lt;&gt; TRIM(cidade);   -- tem espaço nas pontas</code></pre>
-        <p style="margin-bottom:0"><code>TRIM(t)</code> remove espaços do começo e do fim. Se <code>cidade</code> for diferente de <code>TRIM(cidade)</code>, é porque sobrou espaço — um problema clássico de dado "sujo" que quebra comparação e agrupamento.</p>
+        <p style="margin-bottom:0"><code>TRIM(t)</code> remove espaços do começo e do fim. Se <code>cidade</code> for diferente de <code>TRIM(cidade)</code>, é porque sobrou espaço, um problema clássico de dado "sujo" que quebra comparação e agrupamento.</p>
       </div>
     </section>
 
@@ -153,7 +153,7 @@ WHERE cidade &lt;&gt; TRIM(cidade);   -- tem espaço nas pontas</code></pre>
         <h2 style="margin-top:0;border:0">Pegadinhas deste módulo</h2>
         <p style="margin-top:0;font-size:14px">
           Os erros que quase todo mundo comete aqui. Ler agora poupa meia hora de
-          confusão depois — e alguns deles são a causa de relatório errado em projeto real.
+          confusão depois, e alguns deles são a causa de relatório errado em projeto real.
         </p>
         <ul>
           <li><b><b>A armadilha clássica:</b> filtrar a tabela da direita no <code>WHERE</code> transforma o <code>LEFT JOIN</code> num <code>INNER JOIN</code>, em silêncio.</b> <pre class="bloco" style="margin:8px 0"><code>-- ERRADO: vira INNER JOIN e perde os clientes sem pedido
@@ -165,10 +165,10 @@ WHERE p.status = 'entregue';
 -- CERTO: a condição vai no ON
 SELECT c.nome, p.id
 FROM clientes c
-LEFT JOIN pedidos p ON p.cliente_id = c.id AND p.status = 'entregue';</code></pre>Por quê: o <code>LEFT JOIN</code> preenche com <code>NULL</code> quem não tem par, e o <code>WHERE</code> logo em seguida descarta essas linhas — porque <code>NULL = 'entregue'</code> não é verdadeiro. O resultado parece certo e está faltando gente. <b>Regra:</b> condição sobre a tabela da direita vai no <code>ON</code>; a única exceção é <code>WHERE x IS NULL</code>, que é justamente como se procura "quem não tem".</li>
+LEFT JOIN pedidos p ON p.cliente_id = c.id AND p.status = 'entregue';</code></pre>Por quê: o <code>LEFT JOIN</code> preenche com <code>NULL</code> quem não tem par, e o <code>WHERE</code> logo em seguida descarta essas linhas, porque <code>NULL = 'entregue'</code> não é verdadeiro. O resultado parece certo e está faltando gente. <b>Regra:</b> condição sobre a tabela da direita vai no <code>ON</code>; a única exceção é <code>WHERE x IS NULL</code>, que é justamente como se procura "quem não tem".</li>
           <li><b><code>JOIN</code> sem <code>ON</code> multiplica tudo.</b> Esquecer a condição gera o produto cartesiano: 200 pedidos × 60 clientes = 12 000 linhas. Se o resultado veio absurdamente grande, é a primeira coisa a conferir.</li>
           <li><b><code>JOIN</code> com relação um-para-muitos duplica as linhas da esquerda.</b> Juntar <code>pedidos</code> com <code>itens_pedido</code> repete o pedido uma vez por item. Aí <code>SUM(p.valor_total)</code> soma o mesmo pedido várias vezes e infla o total. É o erro de número mais difícil de perceber, porque o resultado parece plausível.</li>
-          <li><b>Sempre qualifique a coluna quando o nome existe nas duas tabelas.</b> <code>id</code> sozinho num <code>JOIN</code> de <code>pedidos</code> com <code>clientes</code> é ambíguo — o banco reclama, ou pior, escolhe um.</li>
+          <li><b>Sempre qualifique a coluna quando o nome existe nas duas tabelas.</b> <code>id</code> sozinho num <code>JOIN</code> de <code>pedidos</code> com <code>clientes</code> é ambíguo: o banco reclama, ou pior, escolhe um.</li>
           <li><b>Confira a contagem antes e depois do <code>JOIN</code>.</b> Se <code>pedidos</code> tem 200 linhas e o seu <code>JOIN</code> devolveu 512, houve duplicação. Esse hábito de dois segundos evita relatório errado.</li>
         </ul>
       </div>
@@ -196,7 +196,7 @@ LIMIT 10;</textarea>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>
@@ -213,7 +213,7 @@ LIMIT 10;</textarea>
     {
       titulo: "1) Montar um rótulo com ||",
       explica: "Concatena colunas e literais num texto só.",
-      sql: "SELECT nome || ' — ' || cidade || '/' || estado AS quem\nFROM clientes\nLIMIT 8;",
+      sql: "SELECT nome || ' - ' || cidade || '/' || estado AS quem\nFROM clientes\nLIMIT 8;",
     },
     {
       titulo: "2) Domínio do e-mail",
@@ -224,7 +224,7 @@ LIMIT 10;</textarea>
 
   window.EXERCICIOS = [
     { id: "4.1",
-      enunciado: "Para cada produto, uma coluna etiqueta no formato 'NOME (categoria)' — nome em MAIÚSCULAS, categoria como está.",
+      enunciado: "Para cada produto, uma coluna etiqueta no formato 'NOME (categoria)', com nome em MAIÚSCULAS e categoria como está.",
       dica: "<code>UPPER(nome) || ' (' || categoria || ')' AS etiqueta</code>.",
       gabarito: "SELECT UPPER(nome) || ' (' || categoria || ')' AS etiqueta\nFROM produtos;" },
     { id: "4.2",
@@ -237,14 +237,14 @@ LIMIT 10;</textarea>
       gabarito: "SELECT SPLIT_PART(email, '@', 2) AS dominio, COUNT(*) AS qtd\nFROM clientes\nGROUP BY dominio\nORDER BY qtd DESC;" },
     { id: "4.4",
       enunciado: "Defeitos cujo titulo começa com '[checkout]'. Traga id e titulo.",
-      dica: "<code>titulo LIKE '[checkout]%'</code> — colchete é literal aqui, e o texto é minúsculo, então nem precisa de ILIKE. (Alternativa: <code>LEFT(titulo, 10) = '[checkout]'</code>.)",
+      dica: "<code>titulo LIKE '[checkout]%'</code>: colchete é literal aqui, e o texto é minúsculo, então nem precisa de ILIKE. (Alternativa: <code>LEFT(titulo, 10) = '[checkout]'</code>.)",
       gabarito: "SELECT id, titulo FROM defeitos\nWHERE titulo LIKE '[checkout]%';" },
     { id: "4.5",
       enunciado: "Extraia o módulo de dentro do titulo do defeito: o texto entre os colchetes. Traga titulo e uma coluna modulo_no_titulo. (Todo titulo começa com '[modulo] ...'.)",
       dica: "<code>SPLIT_PART(titulo, ']', 1)</code> te dá '[checkout'; tire o '[' com <code>SUBSTRING(..., 2)</code> ou <code>REPLACE(..., '[', '')</code>.",
       gabarito: "SELECT titulo,\n       REPLACE(SPLIT_PART(titulo, ']', 1), '[', '') AS modulo_no_titulo\nFROM defeitos;" },
     { id: "4.6",
-      enunciado: "Validação: a coluna modulo deveria sempre bater com o que está escrito entre colchetes no titulo. Liste os defeitos onde NÃO batem (id, modulo, titulo). Se estiver tudo certo, vem vazio — e vazio aqui é o resultado esperado.",
+      enunciado: "Validação: a coluna modulo deveria sempre bater com o que está escrito entre colchetes no titulo. Liste os defeitos onde NÃO batem (id, modulo, titulo). Se estiver tudo certo, vem vazio, e vazio aqui é o resultado esperado.",
       dica: "compare <code>modulo</code> com o texto extraído do titulo (exercício 4.5) e filtre onde são diferentes. Nenhuma linha = nenhuma inconsistência.",
       gabarito: "SELECT id, modulo, titulo\nFROM defeitos\nWHERE modulo <> REPLACE(SPLIT_PART(titulo, ']', 1), '[', '');" },
     { id: "4.7",

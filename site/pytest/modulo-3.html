@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/pytest/modulo-3.html" />
-  <meta property="og:title" content="pytest Módulo 3 — Validação de dados vira teste — QA Learning" />
+  <meta property="og:title" content="pytest Módulo 3: Validação de dados vira teste | QA Learning" />
   <meta property="og:description" content="O padrão &quot;traz as linhas erradas, assert que veio vazio&quot;. Módulo 3 da trilha Validação com pytest, no QA Learning." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-pytest.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="pytest Módulo 3 — Validação de dados vira teste — QA Learning" />
+  <meta property="og:image:alt" content="pytest Módulo 3: Validação de dados vira teste | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>pytest Módulo 3 — Validação de dados vira teste</title>
+  <title>pytest Módulo 3: Validação de dados vira teste</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 3 — Validação de dados vira teste</h1>
+    <h1>Módulo 3: Validação de dados vira teste</h1>
     <p class="legenda">O padrão "traz as linhas erradas, <code>assert</code> que veio vazio"</p>
 
     <section class="secao">
@@ -55,7 +55,7 @@
         <p style="margin-bottom:0">A receita, sempre igual:</p>
         <ol>
           <li>a query <code>SELECT</code> traz <b>só as linhas que violam a regra</b>;</li>
-          <li><code>assert ruins == []</code> — passa quando não há nenhuma;</li>
+          <li><code>assert ruins == []</code>: passa quando não há nenhuma;</li>
           <li>a mensagem do <code>assert</code> lista <b>quais</b> linhas quebraram, pra você
             já sair caçando.</li>
         </ol>
@@ -68,7 +68,7 @@
         <p style="margin:0">Às vezes o que você quer vigiar é uma <b>proporção</b> ou um
           <b>teto</b>. Em <code>test_03_regras_negocio.py</code>:</p>
         <pre class="bloco"><code>proporcao = sem_defeito / total_falhas
-assert proporcao &lt;= 0.30, f"{proporcao:.0%} das falhas sem defeito ligado — acima de 30%"</code></pre>
+assert proporcao &lt;= 0.30, f"{proporcao:.0%} das falhas sem defeito ligado, acima de 30%"</code></pre>
         <p style="margin-bottom:0">O <code>assert</code> aceita qualquer expressão booleana. E o
           texto depois da vírgula é a mensagem que aparece quando falha.</p>
       </div>
@@ -79,14 +79,14 @@ assert proporcao &lt;= 0.30, f"{proporcao:.0%} das falhas sem defeito ligado —
       <div class="card">
         <p style="margin-top:0">O banco de prática tem <b>bugs plantados de propósito</b>
           (a Trilha 1 avisa isso). Então três testes de <code>test_02_integridade.py</code>
-          estão certos, mas o dado está torto — eles falhariam. Pra suíte não ficar vermelha
+          estão certos, mas o dado está torto, eles falhariam. Pra suíte não ficar vermelha
           por causa disso, eles levam:</p>
         <pre class="bloco"><code>@pytest.mark.xfail(reason="bug plantado: 2 itens de pedido com quantidade 0", strict=True)
 def test_item_tem_quantidade_positiva(db):
     ...</code></pre>
         <ul>
           <li><b>XFAIL</b> no relatório = "falhou, como esperado". Não derruba o build.</li>
-          <li><code>strict=True</code> — se um dia ele <i>passar</i> (o dado foi corrigido),
+          <li><code>strict=True</code>: se um dia ele <i>passar</i> (o dado foi corrigido),
             o pytest marca <b>XPASS como erro</b>, te lembrando de remover o marcador.</li>
           <li>Diferente de <code>skip</code>: <code>skip</code> nem roda; <code>xfail</code> roda
             e confere que ainda está quebrado.</li>
@@ -101,7 +101,7 @@ def test_item_tem_quantidade_positiva(db):
           <li>Em <code>test_02_integridade.py</code>, apague a linha
             <code>@pytest.mark.xfail(...)</code> de cima de
             <code>test_pedido_nao_cancelado_nao_tem_valor_zero</code>.</li>
-          <li><code>pytest -v test_02_integridade.py</code>. Agora fica <b>FAILED</b> — leia a
+          <li><code>pytest -v test_02_integridade.py</code>. Agora fica <b>FAILED</b>: leia a
             mensagem: ela lista os ids dos pedidos (17, 88, 143).</li>
           <li>Confirme no banco com a Trilha 1 / SQLite:
             <code>SELECT * FROM pedidos WHERE id IN (17, 88, 143);</code></li>
@@ -118,13 +118,13 @@ def test_item_tem_quantidade_positiva(db):
     <section class="secao">
       <div class="card" style="border-left:3px solid var(--acento)">
         <h2 style="margin-top:0;border:0">Olhar de QA</h2>
-        <p style="margin-bottom:0">Este é o módulo que fecha a ponte: a query de investigação que você escreveu uma vez vira uma <b>linha de defesa que roda para sempre</b>. E cuide da mensagem do <code>assert</code> com o mesmo rigor do título de um relatório de bug — no pipeline, ninguém está olhando a tela quando o teste falha. Aquela mensagem <b>é</b> o relatório. Se ela não disser quais linhas quebraram, alguém vai ter que descobrir de novo.</p>
+        <p style="margin-bottom:0">Este é o módulo que fecha a ponte: a query de investigação que você escreveu uma vez vira uma <b>linha de defesa que roda para sempre</b>. E cuide da mensagem do <code>assert</code> com o mesmo rigor do título de um relatório de bug, porque no pipeline ninguém está olhando a tela quando o teste falha. Aquela mensagem <b>é</b> o relatório. Se ela não disser quais linhas quebraram, alguém vai ter que descobrir de novo.</p>
       </div>
     </section>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>

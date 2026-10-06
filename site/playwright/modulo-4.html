@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/playwright/modulo-4.html" />
-  <meta property="og:title" content="Playwright Módulo 4 — Rede e preparo pra CI — QA Learning" />
+  <meta property="og:title" content="Playwright Módulo 4: Rede e preparo pra CI | QA Learning" />
   <meta property="og:description" content="page.route pra mock/intercept de rede, um atalho de login mais rápido, e o que muda quando os testes rodam no CI. Módulo 4 da trilha Automação web com…" />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-playwright.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Playwright Módulo 4 — Rede e preparo pra CI — QA Learning" />
+  <meta property="og:image:alt" content="Playwright Módulo 4: Rede e preparo pra CI | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Playwright Módulo 4 — Rede e preparo pra CI</title>
+  <title>Playwright Módulo 4: Rede e preparo pra CI</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 4 — Rede e preparo pra CI</h1>
+    <h1>Módulo 4: Rede e preparo pra CI</h1>
     <p class="legenda"><code>page.route</code> pra mock/intercept de rede, um atalho de login mais rápido, e o que muda quando os testes rodam no CI.</p>
 
     <section class="secao">
@@ -53,7 +53,7 @@ await rede.goto();
 await rede.forceErrorButton.click();
 await expect(rede.errorMessage).toContainText("500");</code></pre>
         <p style="margin-bottom:0">Isso testa o <b>servidor real</b>. Mas às vezes você quer
-          testar como a tela reage a um erro <b>que o servidor não produz hoje</b> — um timeout,
+          testar como a tela reage a um erro <b>que o servidor não produz hoje</b>: um timeout,
           um 503 de manutenção, um corpo de resposta estranho. É aí que entra
           <code>page.route</code>: ele intercepta a requisição antes dela sair do navegador e
           você decide a resposta:</p>
@@ -79,7 +79,7 @@ await expect(rede.errorMessage).toContainText("503");</code></pre>
         <p style="margin-top:0">O login em si já foi testado no Módulo 1. Repetir a tela de
           login em <b>todo</b> teste que só precisa <i>estar</i> logado custa tempo (e é mais um
           lugar pra flakiness acontecer). <code>page.addInitScript</code> injeta um script que
-          roda antes de qualquer script da página, em toda navegação — dá pra escrever a sessão
+          roda antes de qualquer script da página, em toda navegação. Dá pra escrever a sessão
           direto. Como isso não pertence a nenhuma página específica (é sobre a sessão, não sobre
           o login.html), virou um método estático na própria <code>LoginPage</code>:</p>
         <pre class="bloco"><code>// dentro de pages/LoginPage.js
@@ -95,7 +95,7 @@ await expect(page.getByTestId("nav-account-name")).toHaveText("Maria");</code></
         <p style="margin-bottom:0"><b>Quando usar qual:</b> se o teste é <i>sobre</i> o
           login (Módulo 1), passe pela UI de verdade. Se o login é só um pré-requisito pra testar
           outra coisa (carrinho, paginação, mock de produto), pular direto é mais rápido e mais
-          estável — menos passos, menos chance de um deles falhar por motivo que não tem nada a
+          estável: menos passos, menos chance de um deles falhar por motivo que não tem nada a
           ver com o que você está testando.</p>
       </div>
     </section>
@@ -104,7 +104,7 @@ await expect(page.getByTestId("nav-account-name")).toHaveText("Maria");</code></
       <h2>3. Os testes deste módulo</h2>
       <div class="card">
         <p style="margin-top:0"><b>Arquivo já existe</b> em
-          <code>tests/04_rede_ci.spec.js</code> — não precisa digitar, só rodar:</p>
+          <code>tests/04_rede_ci.spec.js</code>. Não precisa digitar, só rodar:</p>
         <pre class="bloco"><code>npx playwright test tests/04_rede_ci.spec.js</code></pre>
       </div>
     </section>
@@ -113,12 +113,12 @@ await expect(page.getByTestId("nav-account-name")).toHaveText("Maria");</code></
       <h2>4. O que muda pra rodar em CI</h2>
       <div class="card">
         <p style="margin-top:0">Os comandos que você já roda (<code>npx playwright test</code>)
-          já executam <b>headless</b> por padrão — sem abrir janela de navegador — então já
+          já executam <b>headless</b> por padrão (sem abrir janela de navegador), então já
           funcionam num servidor de CI sem alteração nenhuma. As diferenças de verdade são de
           <b>infraestrutura</b>: o CI precisa subir o site de treino antes dos testes (mesmo
           <code>npm run dev</code> que você já usa, só que em background) e instalar os navegadores
           do Playwright na máquina do runner. Um workflow do GitHub Actions pra isso, pra ler (não
-          precisa rodar agora — depende dos dois repositórios estarem públicos, que ainda não é o
+          precisa rodar agora, depende dos dois repositórios estarem públicos, que ainda não é o
           caso):</p>
         <pre class="bloco"><code>name: Playwright
 on: [push, pull_request]
@@ -157,6 +157,28 @@ jobs:
           <code>python verificar.py 4</code> até dar 5 <code>[ok]</code>. Gabarito em
           <code>trilha-7/GABARITO.md</code>.</p>
       </div>
+      <details class="card estrutura-pastas">
+        <summary>📁 Ver estrutura de pastas da trilha-7/</summary>
+        <pre class="bloco"><code>trilha-7/
+├── playwright.config.js
+├── package.json
+├── verificar.py
+├── GABARITO.md
+├── README.md
+├── fixtures/
+│   └── exemplo.png
+├── pages/
+│   ├── <b style="color:var(--acento)">LoginPage.js</b>   ← pularLogin() usado neste exercício
+│   ├── CadastroPage.js
+│   ├── ProdutosPage.js
+│   ├── ProdutoPage.js
+│   └── RedePage.js
+└── tests/
+    ├── 01_primeiro_teste.spec.js
+    ├── 02_selecionadores.spec.js
+    ├── 03_cenarios.spec.js
+    └── <b style="color:var(--acento)">04_rede_ci.spec.js</b>   ← este exercício</code></pre>
+      </details>
     </section>
 
     <section class="secao">
@@ -164,9 +186,9 @@ jobs:
         <h2 style="margin-top:0;border:0">Olhar de QA</h2>
         <p style="margin-bottom:0">Mockar rede é uma faca de dois gumes. Pra baixo: testa como a
           <b>tela</b> reage a um cenário (erro, vazio, dado estranho) sem precisar reproduzir esse
-          cenário no servidor de verdade — mais rápido, mais estável, cobre casos difíceis de
+          cenário no servidor de verdade: mais rápido, mais estável, cobre casos difíceis de
           forçar. Pra cima: se você mockar <b>tudo</b>, nunca testa se o front-end e o back-end
-          ainda concordam sobre o formato da resposta — um contrato quebrado passa despercebido.
+          ainda concordam sobre o formato da resposta, e um contrato quebrado passa despercebido.
           A prática mais segura: ter <b>alguns</b> testes de ponta a ponta contra o servidor real
           (como os Módulos 1 a 3 fizeram) e usar mock pontualmente pros cenários que o servidor
           real não reproduz de forma confiável.</p>
@@ -175,7 +197,7 @@ jobs:
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>

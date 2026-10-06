@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/api/modulo-4.html" />
-  <meta property="og:title" content="API Módulo 4 — Cruzar API × banco — QA Learning" />
+  <meta property="og:title" content="API Módulo 4: Cruzar API × banco | QA Learning" />
   <meta property="og:description" content="O pulo do gato de QA: a resposta bate com o que está gravado? Módulo 4 da trilha Teste de API, no QA Learning." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-api.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="API Módulo 4 — Cruzar API × banco — QA Learning" />
+  <meta property="og:image:alt" content="API Módulo 4: Cruzar API × banco | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>API Módulo 4 — Cruzar API × banco</title>
+  <title>API Módulo 4: Cruzar API × banco</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,17 +38,17 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 4 — Cruzar API × banco</h1>
+    <h1>Módulo 4: Cruzar API × banco</h1>
     <p class="legenda">O pulo do gato de QA: a resposta bate com o que está gravado?</p>
 
     <section class="secao">
       <h2>Teoria</h2>
       <div class="card">
         <p style="margin-top:0">Uma API pode responder <code>200</code>, com o contrato perfeito,
-          e mesmo assim <b>mentir</b> — devolver um valor que não é o que está no banco.
+          e mesmo assim <b>mentir</b>, devolver um valor que não é o que está no banco.
           Cache velho, cálculo errado numa camada de serviço, join torto. Só se pega
           <b>comparando as duas fontes</b>.</p>
-        <p>Aqui você tem o objeto <code>db</code> — a base crua (o "banco"):
+        <p>Aqui você tem o objeto <code>db</code>, a base crua (o "banco"):
           <code>db.produtos</code>, <code>db.pedidos</code>, <code>db.clientes</code>,
           <code>db.defeitos</code>. O padrão é:</p>
         <ol>
@@ -86,13 +86,13 @@ check('valor_total bate', r.json.valor_total === noBanco.valor_total,
     <section class="secao">
       <div class="card" style="border-left:3px solid var(--acento)">
         <h2 style="margin-top:0;border:0">Olhar de QA</h2>
-        <p style="margin-bottom:0">Este módulo é o que mais muda a sua posição num time. Enquanto a maioria consegue dizer "a tela mostrou confirmado", você consegue dizer "a API devolveu R$ 240,00 e a linha gravada tem 0,00 — aqui está o id". <b>Duas fontes independentes para a mesma informação</b> é o que transforma suspeita em evidência. É também o que reduz um dia de investigação a um minuto, porque separa na hora um defeito de escrita de um defeito de leitura.</p>
+        <p style="margin-bottom:0">Este módulo é o que mais muda a sua posição num time. Enquanto a maioria consegue dizer "a tela mostrou confirmado", você consegue dizer "a API devolveu R$ 240,00 e a linha gravada tem 0,00, aqui está o id". <b>Duas fontes independentes para a mesma informação</b> é o que transforma suspeita em evidência. É também o que reduz um dia de investigação a um minuto, porque separa na hora um defeito de escrita de um defeito de leitura.</p>
       </div>
     </section>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>
@@ -109,7 +109,7 @@ check('valor_total bate', r.json.valor_total === noBanco.valor_total,
   window.EXEMPLOS = [
     {
       titulo: "1) Um produto: API x banco, campo a campo",
-      explica: "Compara os campos estáveis. (Cuidado: <code>preco</code> no item individual vem como string — Módulo 2. Aqui comparamos com <code>Number(...)</code>.)",
+      explica: "Compara os campos estáveis. (Cuidado: <code>preco</code> no item individual vem como string, lembra do Módulo 2. Aqui comparamos com <code>Number(...)</code>.)",
       sql: "const r = await api('GET', '/produtos/7');\nconst b = db.produtos.find(p => p.id === 7);\ncheck('nome bate', r.json.nome === b.nome);\ncheck('categoria bate', r.json.categoria === b.categoria);\ncheck('estoque bate', r.json.estoque === b.estoque);\ncheck('preco bate (convertendo)', Number(r.json.preco) === b.preco, 'api=' + r.json.preco + ' banco=' + b.preco);",
     },
     {
@@ -126,7 +126,7 @@ check('valor_total bate', r.json.valor_total === noBanco.valor_total,
       inicial: "const r = await api('GET', '/clientes/2');\nconst b = db.clientes.find(c => c.id === 2);\n",
       gabarito: "const r = await api('GET', '/clientes/2');\nconst b = db.clientes.find(c => c.id === 2);\ncheck('nome bate', r.json.nome === b.nome);\ncheck('email bate', r.json.email === b.email);" },
     { id: "4.2",
-      enunciado: "Percorra os pedidos de id 1 a 6. Para cada um, busque pela API e verifique que <code>valor_total</code> é igual ao de <code>db.pedidos</code>. Um vai falhar — o <code>check</code> vermelho aponta qual e mostra os dois valores.",
+      enunciado: "Percorra os pedidos de id 1 a 6. Para cada um, busque pela API e verifique que <code>valor_total</code> é igual ao de <code>db.pedidos</code>. Um vai falhar: o <code>check</code> vermelho aponta qual e mostra os dois valores.",
       dica: "<code>for (let id = 1; id &lt;= 6; id++) { const r = await api('GET', '/pedidos/' + id); const b = db.pedidos.find(p =&gt; p.id === id); check('pedido ' + id, r.json.valor_total === b.valor_total, 'api=' + r.json.valor_total + ' banco=' + b.valor_total); }</code>",
       inicial: "for (let id = 1; id <= 6; id++) {\n  const r = await api('GET', '/pedidos/' + id);\n  const b = db.pedidos.find(p => p.id === id);\n  // check(...)\n}\n",
       gabarito: "for (let id = 1; id <= 6; id++) {\n  const r = await api('GET', '/pedidos/' + id);\n  const b = db.pedidos.find(p => p.id === id);\n  check('pedido ' + id + ' valor bate',\n        r.json.valor_total === b.valor_total,\n        'api=' + r.json.valor_total + '  banco=' + b.valor_total);\n}" },
@@ -136,7 +136,7 @@ check('valor_total bate', r.json.valor_total === noBanco.valor_total,
       inicial: "const divergentes = [];\nfor (let id = 1; id <= 20; id++) {\n  const r = await api('GET', '/pedidos/' + id);\n  const b = db.pedidos.find(p => p.id === id);\n}\n",
       gabarito: "const divergentes = [];\nfor (let id = 1; id <= 20; id++) {\n  const r = await api('GET', '/pedidos/' + id);\n  const b = db.pedidos.find(p => p.id === id);\n  if (r.json.valor_total !== b.valor_total) divergentes.push(id);\n}\ncheck('exatamente 1 pedido divergente', divergentes.length === 1, 'ids: ' + divergentes.join(','));\ncheck('e é o pedido 3', divergentes[0] === 3);" },
     { id: "4.4",
-      enunciado: "Consistência entre rotas: os pedidos que vêm em <code>GET /clientes/1/pedidos</code> devem ser os mesmos (por id) que <code>GET /pedidos?status=...</code>? Não — mas devem ser um subconjunto de <code>GET /pedidos</code>. Verifique que todo id de pedido do cliente 1 existe na lista geral de pedidos.",
+      enunciado: "Consistência entre rotas: os pedidos que vêm em <code>GET /clientes/1/pedidos</code> devem ser os mesmos (por id) que <code>GET /pedidos?status=...</code>? Não, mas devem ser um subconjunto de <code>GET /pedidos</code>. Verifique que todo id de pedido do cliente 1 existe na lista geral de pedidos.",
       dica: "<code>const geral = new Set((await api('GET','/pedidos')).json.map(p =&gt; p.id));</code> depois <code>doCliente.every(p =&gt; geral.has(p.id))</code>.",
       inicial: "const doCliente = (await api('GET', '/clientes/1/pedidos')).json;\nconst geral = (await api('GET', '/pedidos')).json;\n",
       gabarito: "const doCliente = (await api('GET', '/clientes/1/pedidos')).json;\nconst geral = new Set((await api('GET', '/pedidos')).json.map(p => p.id));\ncheck('todo pedido do cliente 1 está na lista geral',\n      doCliente.every(p => geral.has(p.id)),\n      doCliente.length + ' pedidos do cliente');" },

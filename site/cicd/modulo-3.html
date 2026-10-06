@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/cicd/modulo-3.html" />
-  <meta property="og:title" content="CI/CD Módulo 3 — Fazer o build reprovar — QA Learning" />
+  <meta property="og:title" content="CI/CD Módulo 3: Fazer o build reprovar | QA Learning" />
   <meta property="og:description" content="O portão de qualidade: como um teste que falha vira um ✗ que barra a mudança. Módulo 3 da trilha CI/CD para QA, no QA Learning." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-cicd.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="CI/CD Módulo 3 — Fazer o build reprovar — QA Learning" />
+  <meta property="og:image:alt" content="CI/CD Módulo 3: Fazer o build reprovar | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>CI/CD Módulo 3 — Fazer o build reprovar</title>
+  <title>CI/CD Módulo 3: Fazer o build reprovar</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 3 — Fazer o build reprovar</h1>
+    <h1>Módulo 3: Fazer o build reprovar</h1>
     <p class="legenda">O portão de qualidade: como um teste que falha vira um ✗ que barra a mudança.</p>
 
     <section class="secao">
@@ -77,7 +77,7 @@ no Pull Request, o check "Trilha 3 — pytest" aparece  X
       |
 (se o check for obrigatorio) o botao de merge fica bloqueado</code></pre>
         <p style="margin-bottom:0">É isso que se quer dizer com "<b>o teste reprova o
-          build</b>". O teste não conserta nada — ele <b>impede</b> que a mudança quebrada
+          build</b>". O teste não conserta nada, ele <b>impede</b> que a mudança quebrada
           avance sem alguém olhar.</p>
       </div>
     </section>
@@ -85,7 +85,7 @@ no Pull Request, o check "Trilha 3 — pytest" aparece  X
     <section class="secao">
       <h2>Tornar o check obrigatório</h2>
       <div class="card">
-        <p style="margin-top:0">Por padrão, um ✗ no PR é só um aviso — dá pra fazer merge
+        <p style="margin-top:0">Por padrão, um ✗ no PR é só um aviso: dá pra fazer merge
           assim mesmo. Pra ele <b>de fato barrar</b>, liga-se uma <i>branch protection rule</i>
           no repositório:</p>
         <p style="margin:0 0 6px; font-size:14px; color:var(--suave)">Settings → Branches →
@@ -105,7 +105,7 @@ no Pull Request, o check "Trilha 3 — pytest" aparece  X
           <code>README.md</code>:</p>
         <pre class="bloco"><code>![Trilha 3](https://github.com/SEU-USUARIO/SEU-REPO/actions/workflows/trilha-3-pytest.yml/badge.svg)</code></pre>
         <p style="margin-bottom:0">Troque <code>SEU-USUARIO/SEU-REPO</code>. Ele reflete o
-          último run do workflow na branch principal — um raio-x do estado do projeto à
+          último run do workflow na branch principal, um raio-x do estado do projeto à
           primeira vista.</p>
       </div>
     </section>
@@ -113,7 +113,7 @@ no Pull Request, o check "Trilha 3 — pytest" aparece  X
     <section class="secao">
       <h2>Dois ajustes finos que você vai encontrar</h2>
       <div class="card">
-        <p style="margin-top:0"><b><code>needs:</code></b> — encadear jobs. Por padrão jobs
+        <p style="margin-top:0"><b><code>needs:</code></b>: encadear jobs. Por padrão jobs
           rodam em paralelo; <code>needs</code> impõe ordem:</p>
         <pre class="bloco"><code>jobs:
   testes:
@@ -125,7 +125,7 @@ no Pull Request, o check "Trilha 3 — pytest" aparece  X
     steps: [ ... ]</code></pre>
         <p style="margin:10px 0 4px">É o esqueleto de CI/CD: <b>publicar só depois que os
           testes passaram</b>.</p>
-        <p style="margin:16px 0 4px"><b><code>if:</code></b> — rodar um passo só em certas
+        <p style="margin:16px 0 4px"><b><code>if:</code></b>: rodar um passo só em certas
           condições. Ex.: guardar o relatório <b>mesmo quando o teste falhou</b> (senão o
           job já teria parado):</p>
         <pre class="bloco"><code>      - name: Guardar relatório
@@ -137,25 +137,25 @@ no Pull Request, o check "Trilha 3 — pytest" aparece  X
     </section>
 
     <section class="secao">
-      <h2>Exercício — quebrar de propósito e ver o portão fechar</h2>
+      <h2>Exercício: quebrar de propósito e ver o portão fechar</h2>
       <div class="card">
         <p style="margin-top:0">O jeito mais rápido de entender o portão é vê-lo reprovar você.</p>
         <ol>
           <li>Crie uma branch: <code>git checkout -b teste-do-pipeline</code>.</li>
-          <li>Num teste da Trilha 3, estrague uma asserção de propósito — troque um número
+          <li>Num teste da Trilha 3, estrague uma asserção de propósito: troque um número
             esperado por outro errado, ou adicione <code>assert 1 == 2</code> num
             <code>test_</code>.</li>
           <li><code>git commit</code> e <code>git push</code> dessa branch. No GitHub, abra o
             <b>Pull Request</b>.</li>
-          <li>Aguarde ~1&ndash;2 min. Lá embaixo no PR, o check <b>"Trilha 3 — pytest"</b>
+          <li>Aguarde ~1&ndash;2 min. Lá embaixo no PR, o check <b>"Trilha 3: pytest"</b>
             fica <b>✗</b>. Clique em <b>"Details"</b> → veja no log qual teste falhou e a
-            mensagem — a mesma que o <code>pytest</code> dá no seu terminal.</li>
+            mensagem, a mesma que o <code>pytest</code> dá no seu terminal.</li>
           <li>Conserte o teste, faça outro commit na <b>mesma</b> branch, push. O pipeline
             roda de novo sozinho e o check vira <b>✓</b>.</li>
           <li>Se você fez o passo <code>echo</code> do Módulo 2, ache-o no log deste run.</li>
         </ol>
-        <p style="margin-bottom:0; font-size:14px; color:var(--suave)">Não precisa fazer merge
-          — pode fechar o PR e apagar a branch. O que importava era ver o ✗ aparecer e saber
+        <p style="margin-bottom:0; font-size:14px; color:var(--suave)">Não precisa fazer merge,
+          pode fechar o PR e apagar a branch. O que importava era ver o ✗ aparecer e saber
           exatamente de onde ele veio.</p>
       </div>
     </section>
@@ -163,13 +163,13 @@ no Pull Request, o check "Trilha 3 — pytest" aparece  X
     <section class="secao">
       <div class="card" style="border-left:3px solid var(--acento)">
         <h2 style="margin-top:0;border:0">Olhar de QA</h2>
-        <p style="margin-bottom:0">Este é o módulo em que QA ganha uma alavanca real: <b>tornar o check obrigatório</b> é o que transforma "temos testes" em "não entra código quebrado". Mas a trava só funciona se o time confiar nela — ligue depois de a suíte estar estável, sem testes instáveis, e com tempo de execução que ninguém precise esperar demais. Uma trava que bloqueia merge por motivo que não é defeito é desligada em uma semana, e com ela vai embora a proteção.</p>
+        <p style="margin-bottom:0">Este é o módulo em que QA ganha uma alavanca real: <b>tornar o check obrigatório</b> é o que transforma "temos testes" em "não entra código quebrado". Mas a trava só funciona se o time confiar nela: ligue depois de a suíte estar estável, sem testes instáveis, e com tempo de execução que ninguém precise esperar demais. Uma trava que bloqueia merge por motivo que não é defeito é desligada em uma semana, e com ela vai embora a proteção.</p>
       </div>
     </section>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>

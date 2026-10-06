@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 2 da trilha Automação web com Playwright — Page Object Model, test.describe / beforeEach, formulário, toBeVisible / toBeHidden. Corrigida na…" />
+  <meta name="description" content="Prova do módulo 2 da trilha Automação web com Playwright: Page Object Model, test.describe / beforeEach, formulário, toBeVisible / toBeHidden. Corrigida na…" />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/playwright/prova-2.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/playwright/prova-2.html" />
-  <meta property="og:title" content="Prova — Módulo 2 (Playwright) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 2 da trilha Automação web com Playwright — Page Object Model, test.describe / beforeEach, formulário, toBeVisible / toBeHidden. Corrigida na…" />
+  <meta property="og:title" content="Prova do Módulo 2 (Playwright) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 2 da trilha Automação web com Playwright: Page Object Model, test.describe / beforeEach, formulário, toBeVisible / toBeHidden. Corrigida na…" />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-playwright.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 2 (Playwright) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 2 (Playwright) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 2 (Playwright)</title>
+  <title>Prova do Módulo 2 (Playwright)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 2</h1>
+    <h1>Prova do Módulo 2</h1>
     <p class="legenda">Page Object Model, <code>test.describe</code>/<code>beforeEach</code>, formulário, <code>toBeVisible</code>/<code>toBeHidden</code>. &nbsp;<a href="modulo-2.html">← rever o módulo</a></p>
     <div id="prova"></div>
   </main>
@@ -51,13 +51,13 @@
             "t": "mc",
             "enun": "O que o Playwright garante entre um teste e o próximo dentro do mesmo <code>test.describe</code>?",
             "ops": [
-                  "Cada teste recebe uma <code>page</code> nova e isolada — um não vê o estado que o outro deixou",
+                  "Cada teste recebe uma <code>page</code> nova e isolada: um não vê o estado que o outro deixou",
                   "Os testes compartilham a mesma página e o mesmo estado de navegação",
                   "O segundo teste só roda se o primeiro passar",
                   "Os testes rodam sempre na ordem em que foram escritos"
             ],
             "correta": 0,
-            "exp": "Isolamento entre testes é o que torna a ordem de execução irrelevante — um teste quebrado não derruba os outros em cascata."
+            "exp": "Isolamento entre testes é o que torna a ordem de execução irrelevante: um teste quebrado não derruba os outros em cascata."
       },
       {
             "t": "mc",
@@ -117,12 +117,12 @@
                   "Verifica só uma vez, sem esperar, se o elemento está escondido"
             ],
             "correta": 0,
-            "exp": "É o oposto de toBeVisible() — com o mesmo auto-wait, só que esperando o elemento sumir."
+            "exp": "É o oposto de toBeVisible(), com o mesmo auto-wait, só que esperando o elemento sumir."
       },
       {
             "t": "aberta",
             "enun": "Você encontrou um formulário de cadastro cuja validação de senha nunca falha nos seus testes automatizados, mas um usuário reportou ter criado uma conta com senha de 2 caracteres. O que você investigaria?",
-            "modelo": "<p>O sintoma (teste automatizado sempre passa, mas o bug existe em produção) sugere que o teste não está exercitando o caminho real. Pontos a checar:</p><ul><li><b>Onde a validação realmente acontece:</b> só no front-end (JS) ou também no back-end? Se só no front, dá pra contornar enviando a requisição direto pra API (ferramenta, extensão, ou até desabilitando JS) — o teste de UI nunca pegaria isso porque ele usa o formulário normalmente.</li><li><b>Validação nativa do navegador mascarando o teste:</b> como visto nesta trilha, um atributo como <code>minlength</code> ou <code>required</code> pode bloquear o envio antes do JS rodar — se o teste sempre preenche uma senha "razoável", nunca exercita o caso de borda que o bug real usa.</li><li><b>Se o teste usa um seletor frágil</b> que não está realmente apontando pro campo de senha certo (por exemplo depois de um redesign), ele pode estar validando outro campo sem perceber.</li><li><b>Reproduzir manualmente</b> o relato do usuário primeiro — exatamente a senha, exatamente os passos — antes de mexer no teste, pra não "consertar" um teste que nunca estava testando o cenário certo.</li></ul><p>O ponto geral: teste de UI só cobre o que passa pela UI. Validação de segurança/negócio importante deveria existir (e ser testada) também no back-end.</p>",
+            "modelo": "<p>O sintoma (teste automatizado sempre passa, mas o bug existe em produção) sugere que o teste não está exercitando o caminho real. Pontos a checar:</p><ul><li><b>Onde a validação realmente acontece:</b> só no front-end (JS) ou também no back-end? Se só no front, dá pra contornar enviando a requisição direto pra API (ferramenta, extensão, ou até desabilitando JS): o teste de UI nunca pegaria isso porque ele usa o formulário normalmente.</li><li><b>Validação nativa do navegador mascarando o teste:</b> como visto nesta trilha, um atributo como <code>minlength</code> ou <code>required</code> pode bloquear o envio antes do JS rodar. Se o teste sempre preenche uma senha \"razoável\", nunca exercita o caso de borda que o bug real usa.</li><li><b>Se o teste usa um seletor frágil</b> que não está realmente apontando pro campo de senha certo (por exemplo depois de um redesign), ele pode estar validando outro campo sem perceber.</li><li><b>Reproduzir manualmente</b> o relato do usuário primeiro, exatamente a senha, exatamente os passos, antes de mexer no teste, pra não \"consertar\" um teste que nunca estava testando o cenário certo.</li></ul><p>O ponto geral: teste de UI só cobre o que passa pela UI. Validação de segurança/negócio importante deveria existir (e ser testada) também no back-end.</p>",
             "dica": "pense em: onde a validação acontece de verdade, e se o teste está exercitando o caminho que o usuário usou."
       }
     ]

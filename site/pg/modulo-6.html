@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/pg/modulo-6.html" />
-  <meta property="og:title" content="PG Módulo 6 — JOIN, subconsultas e CTE — QA Learning" />
+  <meta property="og:title" content="PG Módulo 6: JOIN, subconsultas e CTE | QA Learning" />
   <meta property="og:description" content="JOIN … ON, USING, LEFT JOIN … IS NULL, WITH, EXISTS, IN (subquery). Módulo 6 da trilha PostgreSQL para QA, no QA Learning." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-pg.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="PG Módulo 6 — JOIN, subconsultas e CTE — QA Learning" />
+  <meta property="og:image:alt" content="PG Módulo 6: JOIN, subconsultas e CTE | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>PG Módulo 6 — JOIN, subconsultas e CTE</title>
+  <title>PG Módulo 6: JOIN, subconsultas e CTE</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -41,7 +41,7 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 6 — JOIN, subconsultas e CTE</h1>
+    <h1>Módulo 6: JOIN, subconsultas e CTE</h1>
     <p class="legenda">JOIN … ON, USING, LEFT JOIN … IS NULL, WITH, EXISTS, IN (subquery)</p>
 
     <section class="secao">
@@ -51,14 +51,14 @@
           <code>JOIN</code> no Postgres é o mesmo da Trilha 1. Três atalhos que aparecem muito:
         </p>
         <ul>
-          <li><b><code>JOIN produtos USING (produto_id)</code></b> — quando a coluna de ligação
+          <li><b><code>JOIN produtos USING (produto_id)</code></b>: quando a coluna de ligação
             tem o <b>mesmo nome</b> nas duas tabelas, <code>USING (col)</code> substitui o
             <code>ON a.col = b.col</code> (e a coluna aparece uma vez só no resultado).</li>
-          <li><b><code>LEFT JOIN … WHERE b.id IS NULL</code></b> — o padrão "quem não tem par":
+          <li><b><code>LEFT JOIN … WHERE b.id IS NULL</code></b>: o padrão "quem não tem par":
             clientes sem pedido, produtos nunca vendidos.</li>
-          <li><b><code>WITH nome AS (…)</code></b> (CTE) — dá nome a uma consulta e usa como se
+          <li><b><code>WITH nome AS (…)</code></b> (CTE): dá nome a uma consulta e usa como se
             fosse tabela. Deixa a query em etapas legíveis.</li>
-          <li><b><code>EXISTS (SELECT 1 FROM … WHERE …)</code></b> — "existe pelo menos uma linha
+          <li><b><code>EXISTS (SELECT 1 FROM … WHERE …)</code></b>: "existe pelo menos uma linha
             relacionada". <code>NOT EXISTS</code> pro contrário. Costuma ser mais claro (e rápido)
             que <code>IN (subquery)</code>.</li>
         </ul>
@@ -72,19 +72,19 @@
       <h2>Teoria</h2>
       <div class="card">
         <ul>
-          <li><code>a JOIN b ON b.a_id = a.id</code> — só as linhas que casam nos dois lados.</li>
-          <li><code>a JOIN b USING (col)</code> — quando o nome da coluna é igual nos dois.</li>
-          <li><code>a LEFT JOIN b ON …</code> — mantém tudo de <code>a</code>; o que não casa vem NULL em <code>b</code>.</li>
-          <li><code>WITH x AS (SELECT …) SELECT … FROM x …</code> — CTE, consulta nomeada.</li>
-          <li><code>WHERE EXISTS (SELECT 1 FROM b WHERE b.a_id = a.id AND …)</code> — tem relacionada?</li>
-          <li><code>WHERE col IN (SELECT … )</code> — valor dentro do resultado de outra query.</li>
+          <li><code>a JOIN b ON b.a_id = a.id</code>: só as linhas que casam nos dois lados.</li>
+          <li><code>a JOIN b USING (col)</code>: quando o nome da coluna é igual nos dois.</li>
+          <li><code>a LEFT JOIN b ON …</code>: mantém tudo de <code>a</code>; o que não casa vem NULL em <code>b</code>.</li>
+          <li><code>WITH x AS (SELECT …) SELECT … FROM x …</code>: CTE, consulta nomeada.</li>
+          <li><code>WHERE EXISTS (SELECT 1 FROM b WHERE b.a_id = a.id AND …)</code>: tem relacionada?</li>
+          <li><code>WHERE col IN (SELECT … )</code>: valor dentro do resultado de outra query.</li>
         </ul>
       </div>
     </section>
 
     <section class="secao">
       <h2>Exemplos de aplicação</h2>
-      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar — é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
+      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar, é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
 
       <div class="card">
         <h3 style="margin-top:0"><code>JOIN ... ON</code></h3>
@@ -102,7 +102,7 @@ FROM itens_pedido ip
 JOIN produtos pr ON pr.id = ip.produto_id;
 -- se a FK em itens_pedido se chamasse "id" igual em produtos,
 -- daria pra escrever:  JOIN produtos USING (id)</code></pre>
-        <p style="margin-bottom:0"><code>USING (col)</code> é atalho de <code>ON a.col = b.col</code> pra quando o nome é idêntico nos dois lados, e ainda funde a coluna repetida numa só no resultado. Neste banco as chaves têm nomes diferentes (<code>produto_id</code> &harr; <code>id</code>), então o <code>ON</code> é o que se usa — mas a sintaxe é essa.</p>
+        <p style="margin-bottom:0"><code>USING (col)</code> é atalho de <code>ON a.col = b.col</code> pra quando o nome é idêntico nos dois lados, e ainda funde a coluna repetida numa só no resultado. Neste banco as chaves têm nomes diferentes (<code>produto_id</code> &harr; <code>id</code>), então o <code>ON</code> é o que se usa, mas a sintaxe é essa.</p>
       </div>
 
       <div class="card">
@@ -112,7 +112,7 @@ FROM clientes c
 LEFT JOIN pedidos p ON p.cliente_id = c.id
 GROUP BY c.nome
 ORDER BY qtd_pedidos;</code></pre>
-        <p style="margin-bottom:0"><code>LEFT JOIN</code> mantém todo cliente, mesmo sem pedido — nesse caso as colunas de <code>p</code> vêm <code>NULL</code>. Como <code>COUNT(p.id)</code> ignora <code>NULL</code>, clientes sem pedido aparecem com <code>0</code> (em vez de sumirem, como num <code>JOIN</code> normal).</p>
+        <p style="margin-bottom:0"><code>LEFT JOIN</code> mantém todo cliente, mesmo sem pedido: nesse caso as colunas de <code>p</code> vêm <code>NULL</code>. Como <code>COUNT(p.id)</code> ignora <code>NULL</code>, clientes sem pedido aparecem com <code>0</code> (em vez de sumirem, como num <code>JOIN</code> normal).</p>
       </div>
 
       <div class="card">
@@ -127,7 +127,7 @@ SELECT c.nome, g.total
 FROM gasto_por_cliente g
 JOIN clientes c ON c.id = g.cliente_id
 WHERE g.total &gt; 10000;</code></pre>
-        <p style="margin-bottom:0">A CTE calcula o gasto por cliente e ganha um nome; a query de baixo usa <code>gasto_por_cliente</code> como se fosse tabela. Deixa cada etapa separada e legível — melhor que aninhar subconsulta dentro de subconsulta.</p>
+        <p style="margin-bottom:0">A CTE calcula o gasto por cliente e ganha um nome; a query de baixo usa <code>gasto_por_cliente</code> como se fosse tabela. Deixa cada etapa separada e legível, melhor que aninhar subconsulta dentro de subconsulta.</p>
       </div>
 
       <div class="card">
@@ -161,12 +161,12 @@ WHERE id IN (
         <h2 style="margin-top:0;border:0">Pegadinhas deste módulo</h2>
         <p style="margin-top:0;font-size:14px">
           Os erros que quase todo mundo comete aqui. Ler agora poupa meia hora de
-          confusão depois — e alguns deles são a causa de relatório errado em projeto real.
+          confusão depois, e alguns deles são a causa de relatório errado em projeto real.
         </p>
         <ul>
           <li><b>Zero linhas pode significar "está tudo certo" ou "a query está errada".</b> São duas conclusões opostas para o mesmo resultado. Antes de dizer "não há inconsistência", <b>prove que a query funciona</b>: rode uma versão sem o filtro, ou com o filtro invertido, e veja se ela consegue devolver alguma coisa.</li>
           <li><b>Comparar número decimal com <code>=</code> falha por arredondamento.</b> <code>valor_total = SUM(quantidade * preco_unitario)</code> pode dar diferente por casas decimais invisíveis. Use <code>ROUND(..., 2)</code> dos dois lados, ou compare a diferença absoluta contra uma tolerância.</li>
-          <li><b>Achar a linha errada é metade do trabalho.</b> A outra metade é decidir se o <b>dado</b> está torto ou se a <b>regra</b> que você assumiu está errada. Antes de abrir o defeito, confirme qual é a regra — às vezes o defeito está na especificação (Fundamentos, Módulo 5).</li>
+          <li><b>Achar a linha errada é metade do trabalho.</b> A outra metade é decidir se o <b>dado</b> está torto ou se a <b>regra</b> que você assumiu está errada. Antes de abrir o defeito, confirme qual é a regra: às vezes o defeito está na especificação (Fundamentos, Módulo 5).</li>
           <li><b>Métrica sem denominador engana.</b> "40 defeitos no checkout" não diz nada sem saber quantas entregas houve. Prefira taxas, e diga sempre o período e o recorte.</li>
           <li><b>A média esconde o caso ruim.</b> Tempo médio de correção de 3 dias pode conter um defeito parado há 200. Olhe também o máximo e a mediana antes de apresentar o número.</li>
         </ul>
@@ -198,13 +198,13 @@ LIMIT 10;</textarea>
     <section class="secao">
       <div class="card" style="border-left:3px solid var(--acento)">
         <h2 style="margin-top:0;border:0">Olhar de QA</h2>
-        <p style="margin-bottom:0">Funções de texto e data são onde o dado sujo aparece: espaço sobrando no fim do nome, e-mail com maiúscula, data guardada como texto em formato inconsistente. Na prática, <b>boa parte do que parece bug de sistema é dado mal normalizado</b> — e conseguir provar isso com uma consulta, em vez de suspeitar, muda a conversa com o time inteiro.</p>
+        <p style="margin-bottom:0">Funções de texto e data são onde o dado sujo aparece: espaço sobrando no fim do nome, e-mail com maiúscula, data guardada como texto em formato inconsistente. Na prática, <b>boa parte do que parece bug de sistema é dado mal normalizado</b>, e conseguir provar isso com uma consulta, em vez de suspeitar, muda a conversa com o time inteiro.</p>
       </div>
     </section>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>

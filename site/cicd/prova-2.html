@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 2 da trilha CI/CD para QA — Ler um pipeline: YAML, on, jobs, runs-on, steps, uses × run. Corrigida na hora; 70% fecha o módulo." />
+  <meta name="description" content="Prova do módulo 2 da trilha CI/CD para QA: ler um pipeline, YAML, on, jobs, runs-on, steps, uses × run. Corrigida na hora; 70% fecha o módulo." />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/cicd/prova-2.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/cicd/prova-2.html" />
-  <meta property="og:title" content="Prova — Módulo 2 (CI/CD) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 2 da trilha CI/CD para QA — Ler um pipeline: YAML, on, jobs, runs-on, steps, uses × run. Corrigida na hora; 70% fecha o módulo." />
+  <meta property="og:title" content="Prova do Módulo 2 (CI/CD) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 2 da trilha CI/CD para QA: ler um pipeline, YAML, on, jobs, runs-on, steps, uses × run. Corrigida na hora; 70% fecha o módulo." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-cicd.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 2 (CI/CD) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 2 (CI/CD) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 2 (CI/CD)</title>
+  <title>Prova do Módulo 2 (CI/CD)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 2</h1>
+    <h1>Prova do Módulo 2</h1>
     <p class="legenda">Ler um pipeline: YAML, on, jobs, runs-on, steps, uses × run. &nbsp;<a href="modulo-2.html">← rever o módulo</a></p>
     <div id="prova"></div>
   </main>
@@ -51,7 +51,7 @@
             "t": "mc",
             "enun": "Em YAML, o que define o aninhamento?",
             "ops": [
-                  "A indentação com espaços — e nunca Tab, que quebra o arquivo",
+                  "A indentação com espaços, e nunca Tab, que quebra o arquivo",
                   "As chaves <code>{ }</code>, como em JSON",
                   "O traço no início da linha",
                   "A ordem em que as chaves aparecem"
@@ -75,7 +75,7 @@
             "t": "mc",
             "enun": "O que a seção <code>on:</code> de um workflow define?",
             "ops": [
-                  "Quando o pipeline dispara — por exemplo, em push, em pull request, ou manualmente",
+                  "Quando o pipeline dispara: por exemplo, em push, em pull request, ou manualmente",
                   "Em qual sistema operacional o job roda",
                   "Quais comandos serão executados",
                   "Quais pessoas podem aprovar a execução"
@@ -121,9 +121,9 @@
       },
       {
             "t": "aberta",
-            "enun": "Descreva, passo a passo e em português, o que o workflow <code>trilha-3-pytest.yml</code> faz — desde o gatilho até o resultado — e explique por que a ordem dos passos importa.",
-            "modelo": "<p><b>O que ele faz:</b></p><ol><li><b>Dispara</b> quando há push ou pull request que toque em <code>trilha-3/**</code>, no banco <code>pratica/pratica.db</code> ou no próprio arquivo do workflow — e também manualmente, pelo botão <i>Run workflow</i>.</li><li><b>Cria uma máquina virtual Linux limpa</b> (<code>ubuntu-latest</code>), sem nada instalado.</li><li><b>Baixa o código</b> do repositório para dentro dela (<code>actions/checkout@v4</code>).</li><li><b>Instala o Python 3.12</b> (<code>actions/setup-python@v5</code>).</li><li><b>Instala as dependências</b> a partir de <code>requirements.txt</code>, executando de dentro de <code>trilha-3/</code>.</li><li><b>Roda <code>pytest</code></b>, também de dentro de <code>trilha-3/</code>.</li><li><b>Decide o resultado</b> pelo código de saída: 0 marca o run como ✓; qualquer outro número derruba o passo e marca ✗ — e o check aparece assim no Pull Request.</li></ol><p><b>Por que a ordem importa:</b> cada passo depende do anterior, e a máquina começa vazia.</p><ul><li>Sem o <b>checkout</b>, não existem arquivos — nem o <code>requirements.txt</code> nem os testes.</li><li>Sem o <b>setup-python</b>, não há o <code>pip</code> na versão certa para instalar.</li><li>Sem a <b>instalação</b>, <code>pytest</code> não existe e o passo falharia com \"command not found\" — um vermelho que não tem nada a ver com a qualidade do código.</li><li>O <code>working-directory: trilha-3</code> importa porque os caminhos dos testes são relativos: a fixture procura o banco em <code>../pratica/pratica.db</code>. Rodando de outro lugar, o resultado seria ERROR, não FAILED.</li></ul><p>A ideia central: <b>o pipeline é a receita de como reconstruir o ambiente do zero</b>. Se ele passa, qualquer pessoa consegue rodar aqueles testes numa máquina nova seguindo exatamente aqueles passos.</p>",
-            "dica": "lembre que a máquina nasce vazia — o que precisa existir antes de cada passo?"
+            "enun": "Descreva, passo a passo e em português, o que o workflow <code>trilha-3-pytest.yml</code> faz, desde o gatilho até o resultado, e explique por que a ordem dos passos importa.",
+            "modelo": "<p><b>O que ele faz:</b></p><ol><li><b>Dispara</b> quando há push ou pull request que toque em <code>trilha-3/**</code>, no banco <code>pratica/pratica.db</code> ou no próprio arquivo do workflow, e também manualmente, pelo botão <i>Run workflow</i>.</li><li><b>Cria uma máquina virtual Linux limpa</b> (<code>ubuntu-latest</code>), sem nada instalado.</li><li><b>Baixa o código</b> do repositório para dentro dela (<code>actions/checkout@v4</code>).</li><li><b>Instala o Python 3.12</b> (<code>actions/setup-python@v5</code>).</li><li><b>Instala as dependências</b> a partir de <code>requirements.txt</code>, executando de dentro de <code>trilha-3/</code>.</li><li><b>Roda <code>pytest</code></b>, também de dentro de <code>trilha-3/</code>.</li><li><b>Decide o resultado</b> pelo código de saída: 0 marca o run como ✓; qualquer outro número derruba o passo e marca ✗, e o check aparece assim no Pull Request.</li></ol><p><b>Por que a ordem importa:</b> cada passo depende do anterior, e a máquina começa vazia.</p><ul><li>Sem o <b>checkout</b>, não existem arquivos: nem o <code>requirements.txt</code> nem os testes.</li><li>Sem o <b>setup-python</b>, não há o <code>pip</code> na versão certa para instalar.</li><li>Sem a <b>instalação</b>, <code>pytest</code> não existe e o passo falharia com \"command not found\", um vermelho que não tem nada a ver com a qualidade do código.</li><li>O <code>working-directory: trilha-3</code> importa porque os caminhos dos testes são relativos: a fixture procura o banco em <code>../pratica/pratica.db</code>. Rodando de outro lugar, o resultado seria ERROR, não FAILED.</li></ul><p>A ideia central: <b>o pipeline é a receita de como reconstruir o ambiente do zero</b>. Se ele passa, qualquer pessoa consegue rodar aqueles testes numa máquina nova seguindo exatamente aqueles passos.</p>",
+            "dica": "lembre que a máquina nasce vazia: o que precisa existir antes de cada passo?"
       }
 ]
   };

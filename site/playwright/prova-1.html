@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 1 da trilha Automação web com Playwright — O que é automação de navegador, data-testid, locators, o primeiro teste de login. Corrigida na…" />
+  <meta name="description" content="Prova do módulo 1 da trilha Automação web com Playwright: o que é automação de navegador, data-testid, locators, o primeiro teste de login. Corrigida na…" />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/playwright/prova-1.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/playwright/prova-1.html" />
-  <meta property="og:title" content="Prova — Módulo 1 (Playwright) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 1 da trilha Automação web com Playwright — O que é automação de navegador, data-testid, locators, o primeiro teste de login. Corrigida na…" />
+  <meta property="og:title" content="Prova do Módulo 1 (Playwright) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 1 da trilha Automação web com Playwright: o que é automação de navegador, data-testid, locators, o primeiro teste de login. Corrigida na…" />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-playwright.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 1 (Playwright) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 1 (Playwright) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 1 (Playwright)</title>
+  <title>Prova do Módulo 1 (Playwright)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 1</h1>
+    <h1>Prova do Módulo 1</h1>
     <p class="legenda">O que é automação de navegador, data-testid, locators, o primeiro teste de login. &nbsp;<a href="modulo-1.html">← rever o módulo</a></p>
     <div id="prova"></div>
   </main>
@@ -57,7 +57,7 @@
                   "Ela roda exclusivamente dentro do próprio navegador do desenvolvedor, nunca em CI"
             ],
             "correta": 0,
-            "exp": "É a camada que cobre o que só existe no navegador — JS do cliente, CSS que esconde algo — e não substitui as camadas mais baratas."
+            "exp": "É a camada que cobre o que só existe no navegador (JS do cliente, CSS que esconde algo) e não substitui as camadas mais baratas."
       },
       {
             "t": "mc",
@@ -75,7 +75,7 @@
             "t": "mc",
             "enun": "Por que esta trilha usa um site de treino separado em vez de testar um site de produção qualquer?",
             "ops": [
-                  "Porque dá pra controlar os cenários de erro e os seletores não quebram por mudança visual — o site tem <code>data-testid</code> dedicado",
+                  "Porque dá pra controlar os cenários de erro e os seletores não quebram por mudança visual: o site tem <code>data-testid</code> dedicado",
                   "Porque sites de produção não podem ser acessados por script",
                   "Porque o Playwright só funciona em localhost",
                   "Porque é mais rápido de carregar que qualquer site real"
@@ -102,15 +102,15 @@
                   "Um trace que permite reabrir a execução depois e ver a página passo a passo no momento da falha",
                   "Um vídeo de todas as execuções, mesmo as que passaram",
                   "Apenas o texto do erro, sem contexto visual",
-                  "Nada — é preciso configurar uma ferramenta externa"
+                  "Nada, é preciso configurar uma ferramenta externa"
             ],
             "correta": 0,
-            "exp": "O trace é o equivalente automático a um print no momento certo — dá pra inspecionar com <code>npx playwright show-trace</code>."
+            "exp": "O trace é o equivalente automático a um print no momento certo: dá pra inspecionar com <code>npx playwright show-trace</code>."
       },
       {
             "t": "aberta",
             "enun": "Seu time quer automatizar o login do sistema, mas o único seletor disponível hoje é uma classe CSS (<code>.btn-azul-grande</code>) no botão de entrar. Como você conduziria isso antes de escrever o teste?",
-            "modelo": "<p>Escrever o teste em cima de <code>.btn-azul-grande</code> funciona no curto prazo, mas é uma dívida: qualquer redesign (cor, tamanho, biblioteca de UI) quebra o teste sem o comportamento ter mudado nada. A conduta:</p><ul><li><b>Conversar com quem desenvolve</b> antes de escrever o teste — pedir pra adicionar um <code>data-testid</code> estável no botão (e nos outros elementos do fluxo) é geralmente uma mudança de uma linha.</li><li><b>Explicar o motivo em termos de custo</b>, não de preferência pessoal: cada vez que o design mexe, alguém vai ter que consertar o teste — e isso tende a acontecer bem mais vezes que uma mudança real de comportamento no login.</li><li><b>Se não der pra mudar agora</b> (código de terceiro, prioridade do time), usar o seletor mais estável disponível — texto visível do botão, papel de acessibilidade (<code>role=button</code>) — e documentar no próprio teste que é um seletor provisório, não o ideal.</li><li><b>Propor a convenção pra frente</b>: um padrão de <code>data-testid</code> combinado com o time facilita qualquer automação futura, não só a sua.</li></ul><p>No fim, seletor de teste é também uma decisão de arquitetura do produto — vale a conversa, não só o contorno técnico.</p>",
+            "modelo": "<p>Escrever o teste em cima de <code>.btn-azul-grande</code> funciona no curto prazo, mas é uma dívida: qualquer redesign (cor, tamanho, biblioteca de UI) quebra o teste sem o comportamento ter mudado nada. A conduta:</p><ul><li><b>Conversar com quem desenvolve</b> antes de escrever o teste: pedir pra adicionar um <code>data-testid</code> estável no botão (e nos outros elementos do fluxo) é geralmente uma mudança de uma linha.</li><li><b>Explicar o motivo em termos de custo</b>, não de preferência pessoal: cada vez que o design mexe, alguém vai ter que consertar o teste, e isso tende a acontecer bem mais vezes que uma mudança real de comportamento no login.</li><li><b>Se não der pra mudar agora</b> (código de terceiro, prioridade do time), usar o seletor mais estável disponível (texto visível do botão, papel de acessibilidade, <code>role=button</code>) e documentar no próprio teste que é um seletor provisório, não o ideal.</li><li><b>Propor a convenção pra frente</b>: um padrão de <code>data-testid</code> combinado com o time facilita qualquer automação futura, não só a sua.</li></ul><p>No fim, seletor de teste é também uma decisão de arquitetura do produto: vale a conversa, não só o contorno técnico.</p>",
             "dica": "pense em: por que o seletor quebra, quem pode mudar isso, e o que fazer enquanto isso não acontece."
       }
     ]

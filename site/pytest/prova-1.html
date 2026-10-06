@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 1 da trilha Validação com pytest — Preparar a máquina: venv, instalar, rodar e ler a saída. Corrigida na hora; 70% fecha o módulo." />
+  <meta name="description" content="Prova do módulo 1 da trilha Validação com pytest: preparar a máquina, venv, instalar, rodar e ler a saída. Corrigida na hora; 70% fecha o módulo." />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/pytest/prova-1.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/pytest/prova-1.html" />
-  <meta property="og:title" content="Prova — Módulo 1 (pytest) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 1 da trilha Validação com pytest — Preparar a máquina: venv, instalar, rodar e ler a saída. Corrigida na hora; 70% fecha o módulo." />
+  <meta property="og:title" content="Prova do Módulo 1 (pytest) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 1 da trilha Validação com pytest: preparar a máquina, venv, instalar, rodar e ler a saída. Corrigida na hora; 70% fecha o módulo." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-pytest.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 1 (pytest) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 1 (pytest) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 1 (pytest)</title>
+  <title>Prova do Módulo 1 (pytest)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 1</h1>
+    <h1>Prova do Módulo 1</h1>
     <p class="legenda">Preparar a máquina: venv, instalar, rodar e ler a saída. &nbsp;<a href="modulo-1.html">← rever o módulo</a></p>
     <div id="prova"></div>
   </main>
@@ -51,7 +51,7 @@
             "t": "mc",
             "enun": "O que é um <code>venv</code> e por que usá-lo?",
             "ops": [
-                  "Um Python isolado só para este projeto — o que você instala nele não bagunça o resto da máquina",
+                  "Um Python isolado só para este projeto, e o que você instala nele não bagunça o resto da máquina",
                   "Um servidor local que executa os testes",
                   "Um arquivo de configuração que lista os testes a rodar",
                   "Uma pasta onde o pytest guarda os relatórios"
@@ -75,7 +75,7 @@
             "t": "mc",
             "enun": "O que significa <code>XFAIL</code> na saída?",
             "ops": [
-                  "Teste marcado como \"sabidamente falhando\" — falhou como esperado e não deixa a suíte vermelha",
+                  "Teste marcado como \"sabidamente falhando\": falhou como esperado e não deixa a suíte vermelha",
                   "Teste que foi pulado e não chegou a rodar",
                   "Teste que falhou por erro de sintaxe",
                   "Teste que passou mas demorou demais"
@@ -87,7 +87,7 @@
             "t": "mc",
             "enun": "O que o CI olha para decidir se o build fica verde ou vermelho?",
             "ops": [
-                  "O código de saída do processo — 0 só se nada falhou",
+                  "O código de saída do processo: 0 só se nada falhou",
                   "A quantidade de testes que passaram, comparada com a rodada anterior",
                   "A última linha impressa no console",
                   "O tempo total de execução da suíte"
@@ -122,7 +122,7 @@
       {
             "t": "aberta",
             "enun": "Um colega diz: \"rodei os testes na minha máquina e passou tudo, mas no CI está vermelho\". Liste as hipóteses que você levantaria, em ordem.",
-            "modelo": "<p>Uma boa resposta ataca as diferenças entre os dois ambientes, da mais comum para a menos:</p><ol><li><b>Dependências diferentes:</b> ele tem algo instalado no venv que não está no <code>requirements.txt</code>. O CI parte de uma máquina limpa — é justamente o que ele prova.</li><li><b>Arquivo não commitado:</b> o teste passa localmente porque usa um arquivo que existe só na máquina dele e nunca foi para o repositório.</li><li><b>Dados diferentes:</b> o banco local dele foi alterado por testes anteriores; o CI baixa o banco original do repositório.</li><li><b>Diretório de execução:</b> local ele roda de dentro de <code>trilha-3/</code>; o pipeline pode rodar de outro lugar, e caminhos relativos quebram.</li><li><b>Versão do Python ou do sistema:</b> local 3.11, pipeline 3.12; ou diferença de sistema operacional em caminhos e ordenação.</li><li><b>Ordem e isolamento:</b> local ele rodou só um arquivo; no CI a suíte inteira roda e um teste suja o estado do outro.</li><li><b>Teste instável (<i>flaky</i>):</b> depende de tempo, de ordem ou de rede. Rodar de novo passando é sintoma, não solução.</li></ol><p>A frase-chave da resposta: <b>\"na minha máquina funciona\" não existe no CI — não existe \"a minha máquina\", existe a máquina do pipeline.</b> Reproduzir localmente o que o pipeline faz (venv novo, instalar do requirements, rodar do mesmo diretório) resolve a maioria dos casos.</p>",
+            "modelo": "<p>Uma boa resposta ataca as diferenças entre os dois ambientes, da mais comum para a menos:</p><ol><li><b>Dependências diferentes:</b> ele tem algo instalado no venv que não está no <code>requirements.txt</code>. O CI parte de uma máquina limpa, e é justamente o que ele prova.</li><li><b>Arquivo não commitado:</b> o teste passa localmente porque usa um arquivo que existe só na máquina dele e nunca foi para o repositório.</li><li><b>Dados diferentes:</b> o banco local dele foi alterado por testes anteriores; o CI baixa o banco original do repositório.</li><li><b>Diretório de execução:</b> local ele roda de dentro de <code>trilha-3/</code>; o pipeline pode rodar de outro lugar, e caminhos relativos quebram.</li><li><b>Versão do Python ou do sistema:</b> local 3.11, pipeline 3.12; ou diferença de sistema operacional em caminhos e ordenação.</li><li><b>Ordem e isolamento:</b> local ele rodou só um arquivo; no CI a suíte inteira roda e um teste suja o estado do outro.</li><li><b>Teste instável (<i>flaky</i>):</b> depende de tempo, de ordem ou de rede. Rodar de novo passando é sintoma, não solução.</li></ol><p>A frase-chave da resposta: <b>\"na minha máquina funciona\" não existe no CI: não existe \"a minha máquina\", existe a máquina do pipeline.</b> Reproduzir localmente o que o pipeline faz (venv novo, instalar do requirements, rodar do mesmo diretório) resolve a maioria dos casos.</p>",
             "dica": "o que é diferente entre a máquina dele e a do pipeline?"
       }
 ]

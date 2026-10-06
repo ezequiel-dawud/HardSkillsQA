@@ -15,12 +15,12 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/api/index.html" />
-  <meta property="og:title" content="Trilha Teste de API — QA Learning" />
+  <meta property="og:title" content="Trilha Teste de API | QA Learning" />
   <meta property="og:description" content="HTTP, status codes, contrato da resposta, e o pulo do gato de QA: cruzar o que a API devolve com o que ficou gravado no banco" />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-api.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Trilha Teste de API — QA Learning" />
+  <meta property="og:image:alt" content="Trilha Teste de API | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
   <title>Trilha Teste de API</title>
@@ -48,18 +48,18 @@
     <div class="card">
       <h3 style="margin-top:0">Como a prática funciona aqui</h3>
       <p style="margin:0; font-size:14px; color:var(--suave)">
-        Uma <b>API falsa</b> responde dentro da própria página — sem instalar nada, sem servidor.
+        Uma <b>API falsa</b> responde dentro da própria página, sem instalar nada, sem servidor.
         Nos exercícios você escreve um trecho de JavaScript que faz requisições com
         <code>api('GET', '/produtos/3')</code> e confere o resultado com
-        <code>check('status 200', r.status === 200)</code>. Também tem <code>db</code> — a base
-        crua — pra comparar API × banco. A API tem <b>2 bugs plantados</b> pra você achar.
+        <code>check('status 200', r.status === 200)</code>. Também tem <code>db</code>, a base
+        crua, pra comparar API × banco. A API tem <b>2 bugs plantados</b> pra você achar.
       </p>
     </div>
 
     <h2>Provas por módulo</h2>
     <p class="legenda">
       Questões de múltipla escolha corrigidas na hora, mais uma <strong>questão aberta</strong>
-      por prova — ela não entra na nota e existe pra você comparar o seu texto com uma
+      por prova, que não entra na nota e existe pra você comparar o seu texto com uma
       resposta modelo. Nota <strong>≥ 70%</strong> = módulo firme.
       Faça depois de estudar o módulo correspondente.
     </p>
@@ -80,7 +80,7 @@
       <a class="modulo-link" href="modulo-2.html">
         <div class="rot">Módulo 2</div>
         <div class="tit">Contrato da resposta</div>
-        <div class="desc">campos presentes, tipos certos, formato — achar o contrato quebrado</div>
+        <div class="desc">campos presentes, tipos certos, formato: achar o contrato quebrado</div>
       </a>
       <a class="modulo-link" href="modulo-3.html">
         <div class="rot">Módulo 3</div>
@@ -98,11 +98,11 @@
     <table class="dados">
       <thead><tr><th>Requisição</th><th>Resposta</th></tr></thead>
       <tbody>
-        <tr><td><code>GET /produtos</code></td><td>200 — lista. Aceita <code>?categoria=</code> e <code>?ativo=0|1</code></td></tr>
-        <tr><td><code>GET /produtos/:id</code></td><td>200 — um produto; 404 se não existe</td></tr>
-        <tr><td><code>GET /clientes/:id</code> · <code>/clientes/:id/pedidos</code></td><td>200 — cliente / pedidos dele</td></tr>
-        <tr><td><code>GET /pedidos</code> · <code>/pedidos/:id</code></td><td>200 — lista (aceita <code>?status=</code>) / um pedido</td></tr>
-        <tr><td><code>GET /defeitos</code></td><td>200 — aceita <code>?severidade=</code> e <code>?modulo=</code></td></tr>
+        <tr><td><code>GET /produtos</code></td><td>200, lista. Aceita <code>?categoria=</code> e <code>?ativo=0|1</code></td></tr>
+        <tr><td><code>GET /produtos/:id</code></td><td>200, um produto; 404 se não existe</td></tr>
+        <tr><td><code>GET /clientes/:id</code> · <code>/clientes/:id/pedidos</code></td><td>200, cliente / pedidos dele</td></tr>
+        <tr><td><code>GET /pedidos</code> · <code>/pedidos/:id</code></td><td>200, lista (aceita <code>?status=</code>) / um pedido</td></tr>
+        <tr><td><code>GET /defeitos</code></td><td>200, aceita <code>?severidade=</code> e <code>?modulo=</code></td></tr>
         <tr><td><code>POST /defeitos</code></td><td>201 com o defeito criado; 400 se faltar <code>titulo</code> ou <code>severidade</code></td></tr>
       </tbody>
     </table>

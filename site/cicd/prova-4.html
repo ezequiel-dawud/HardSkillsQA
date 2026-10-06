@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 4 da trilha CI/CD para QA — matrix, cache, secrets, artefatos, agendamento — e o resto do mundo. Corrigida na hora; 70% fecha o módulo." />
+  <meta name="description" content="Prova do módulo 4 da trilha CI/CD para QA: matrix, cache, secrets, artefatos, agendamento, e o resto do mundo. Corrigida na hora; 70% fecha o módulo." />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/cicd/prova-4.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/cicd/prova-4.html" />
-  <meta property="og:title" content="Prova — Módulo 4 (CI/CD) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 4 da trilha CI/CD para QA — matrix, cache, secrets, artefatos, agendamento — e o resto do mundo. Corrigida na hora; 70% fecha o módulo." />
+  <meta property="og:title" content="Prova do Módulo 4 (CI/CD) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 4 da trilha CI/CD para QA: matrix, cache, secrets, artefatos, agendamento, e o resto do mundo. Corrigida na hora; 70% fecha o módulo." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-cicd.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 4 (CI/CD) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 4 (CI/CD) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 4 (CI/CD)</title>
+  <title>Prova do Módulo 4 (CI/CD)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,8 +38,8 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 4</h1>
-    <p class="legenda">matrix, cache, secrets, artefatos, agendamento — e o resto do mundo. &nbsp;<a href="modulo-4.html">← rever o módulo</a></p>
+    <h1>Prova do Módulo 4</h1>
+    <p class="legenda">matrix, cache, secrets, artefatos, agendamento, e o resto do mundo. &nbsp;<a href="modulo-4.html">← rever o módulo</a></p>
     <div id="prova"></div>
   </main>
 
@@ -51,19 +51,19 @@
             "t": "mc",
             "enun": "Para que serve <code>matrix</code> num workflow?",
             "ops": [
-                  "Rodar o mesmo job em várias combinações — versões de linguagem, sistemas, navegadores — em execuções paralelas",
+                  "Rodar o mesmo job em várias combinações (versões de linguagem, sistemas, navegadores) em execuções paralelas",
                   "Organizar os steps em grupos",
                   "Definir a ordem de execução entre jobs diferentes",
                   "Distribuir os testes entre várias máquinas para acelerar"
             ],
             "correta": 0,
-            "exp": "É a aplicação prática do teste combinatório do Módulo 3 de Fundamentos — e se só uma versão quebra, você vê na hora qual."
+            "exp": "É a aplicação prática do teste combinatório do Módulo 3 de Fundamentos, e se só uma versão quebra, você vê na hora qual."
       },
       {
             "t": "mc",
             "enun": "O que o <b>cache</b> muda no pipeline?",
             "ops": [
-                  "Só a velocidade — guarda as dependências baixadas para o próximo run, sem alterar o resultado ✓/✗",
+                  "Só a velocidade: guarda as dependências baixadas para o próximo run, sem alterar o resultado ✓/✗",
                   "O resultado dos testes, que passa a ser reaproveitado",
                   "A quantidade de jobs executados em paralelo",
                   "A necessidade de instalar dependências no workflow"
@@ -75,19 +75,19 @@
             "t": "mc",
             "enun": "Por que nunca se escreve uma senha diretamente no arquivo do workflow?",
             "ops": [
-                  "Porque o workflow fica no repositório, à vista de todos — senhas vão em <b>secrets</b>, e o GitHub ainda oculta seu valor nos logs",
+                  "Porque o workflow fica no repositório, à vista de todos: senhas vão em <b>secrets</b>, e o GitHub ainda oculta seu valor nos logs",
                   "Porque o YAML não aceita caracteres especiais",
                   "Porque o valor seria sobrescrito a cada execução",
                   "Porque senhas devem ficar no arquivo de dependências"
             ],
             "correta": 0,
-            "exp": "Vazamento de credencial em repositório é um dos incidentes de segurança mais comuns — e mais fáceis de evitar."
+            "exp": "Vazamento de credencial em repositório é um dos incidentes de segurança mais comuns, e mais fáceis de evitar."
       },
       {
             "t": "mc",
             "enun": "Para que servem os <b>artefatos</b> de um run?",
             "ops": [
-                  "Guardar arquivos produzidos pela execução — relatórios, capturas de tela, logs — para baixar depois",
+                  "Guardar arquivos produzidos pela execução (relatórios, capturas de tela, logs) para baixar depois",
                   "Armazenar as dependências entre execuções",
                   "Publicar a aplicação num ambiente de testes",
                   "Registrar quem aprovou o Pull Request"
@@ -111,7 +111,7 @@
             "t": "mc",
             "enun": "Você já sabe ler GitHub Actions. Quanto isso ajuda com GitLab CI ou Jenkins?",
             "ops": [
-                  "Bastante — mudam os nomes e a sintaxe, mas os conceitos (gatilho, jobs, steps, código de saída, artefatos) são os mesmos",
+                  "Bastante: mudam os nomes e a sintaxe, mas os conceitos (gatilho, jobs, steps, código de saída, artefatos) são os mesmos",
                   "Pouco: cada ferramenta tem um modelo conceitual próprio",
                   "Nada: são tecnologias sem relação entre si",
                   "Só ajuda no GitLab, que copiou o modelo do GitHub"
@@ -122,7 +122,7 @@
       {
             "t": "aberta",
             "enun": "Você quer que o relatório HTML dos testes fique disponível após cada execução do pipeline, e que a suíte rode também contra o ambiente de homologação toda madrugada. Que recursos usaria e que cuidados tomaria?",
-            "modelo": "<p><b>Relatório disponível após cada execução → artefatos</b></p><ul><li>Gerar o relatório num passo (<code>pytest --html=relatorio.html</code>, por exemplo) e publicá-lo com <code>actions/upload-artifact</code>.</li><li><b>Cuidado 1:</b> o passo de upload precisa rodar <b>mesmo quando os testes falham</b> (<code>if: always()</code>) — senão você só tem o relatório quando não precisa dele.</li><li><b>Cuidado 2:</b> definir retenção. Artefato guardado para sempre consome cota e vira lixo.</li><li><b>Cuidado 3:</b> não subir dado sensível no relatório — captura de tela de ambiente com dados reais é vazamento.</li></ul><p><b>Rodar de madrugada contra homologação → agendamento + secrets</b></p><ul><li>Um workflow com gatilho agendado (<code>schedule</code>), mantendo também o disparo manual para quando alguém precisar rodar na hora.</li><li>A URL e as credenciais de homologação vão em <b>secrets</b>, lidas por variável de ambiente — nunca escritas no arquivo.</li><li><b>Cuidado 1:</b> o horário do agendamento costuma ser em UTC — três da manhã no fuso do time não é três da manhã no arquivo.</li><li><b>Cuidado 2:</b> <b>quem vai olhar o resultado?</b> Pipeline noturno sem alguém responsável acumula vermelho em silêncio. Combine uma notificação e um dono.</li><li><b>Cuidado 3:</b> testar contra um ambiente compartilhado é diferente de testar contra uma máquina limpa: o ambiente pode estar sendo implantado, ou com dados alterados por outra pessoa. Falha nesse pipeline nem sempre é defeito do código — e o time precisa saber disso, ou a confiança cai.</li><li><b>Cuidado 4:</b> testes que escrevem em homologação precisam limpar o que criaram, ou a base cresce indefinidamente.</li></ul><p>O ponto que separa uma boa resposta: perceber que <b>pipeline agendado sem dono é ruído</b>, e que o artefato só serve se for salvo justamente quando o teste falha.</p>",
+            "modelo": "<p><b>Relatório disponível após cada execução → artefatos</b></p><ul><li>Gerar o relatório num passo (<code>pytest --html=relatorio.html</code>, por exemplo) e publicá-lo com <code>actions/upload-artifact</code>.</li><li><b>Cuidado 1:</b> o passo de upload precisa rodar <b>mesmo quando os testes falham</b> (<code>if: always()</code>), senão você só tem o relatório quando não precisa dele.</li><li><b>Cuidado 2:</b> definir retenção. Artefato guardado para sempre consome cota e vira lixo.</li><li><b>Cuidado 3:</b> não subir dado sensível no relatório: captura de tela de ambiente com dados reais é vazamento.</li></ul><p><b>Rodar de madrugada contra homologação → agendamento + secrets</b></p><ul><li>Um workflow com gatilho agendado (<code>schedule</code>), mantendo também o disparo manual para quando alguém precisar rodar na hora.</li><li>A URL e as credenciais de homologação vão em <b>secrets</b>, lidas por variável de ambiente, nunca escritas no arquivo.</li><li><b>Cuidado 1:</b> o horário do agendamento costuma ser em UTC: três da manhã no fuso do time não é três da manhã no arquivo.</li><li><b>Cuidado 2:</b> <b>quem vai olhar o resultado?</b> Pipeline noturno sem alguém responsável acumula vermelho em silêncio. Combine uma notificação e um dono.</li><li><b>Cuidado 3:</b> testar contra um ambiente compartilhado é diferente de testar contra uma máquina limpa: o ambiente pode estar sendo implantado, ou com dados alterados por outra pessoa. Falha nesse pipeline nem sempre é defeito do código, e o time precisa saber disso, ou a confiança cai.</li><li><b>Cuidado 4:</b> testes que escrevem em homologação precisam limpar o que criaram, ou a base cresce indefinidamente.</li></ul><p>O ponto que separa uma boa resposta: perceber que <b>pipeline agendado sem dono é ruído</b>, e que o artefato só serve se for salvo justamente quando o teste falha.</p>",
             "dica": "para o artefato, pense no que acontece quando o passo anterior falha."
       }
 ]

@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/sql/modulo-4.html" />
-  <meta property="og:title" content="Módulo 4 — Juntar tabelas — QA Learning" />
+  <meta property="og:title" content="Módulo 4: Juntar tabelas | QA Learning" />
   <meta property="og:description" content="INNER JOIN, LEFT JOIN, 3+ tabelas. Módulo 4 da trilha SQL para QA, no QA Learning. Teoria curta e exercícios que rodam num banco dentro do próprio navegador." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-sql.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Módulo 4 — Juntar tabelas — QA Learning" />
+  <meta property="og:image:alt" content="Módulo 4: Juntar tabelas | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Módulo 4 — Juntar tabelas</title>
+  <title>Módulo 4: Juntar tabelas</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -41,15 +41,15 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 4 — Juntar tabelas</h1>
+    <h1>Módulo 4: Juntar tabelas</h1>
     <p class="legenda">INNER JOIN, LEFT JOIN, 3+ tabelas</p>
 
     <section class="secao teoria">
       <h2>Teoria</h2>
       <div class="card">
         <ul>
-          <li><code>INNER JOIN b ON a.x = b.y</code> — só as linhas que <strong>casam</strong> nas duas tabelas.</li>
-          <li><code>LEFT JOIN</code> — todas as linhas da tabela da esquerda, mesmo sem par na direita (as colunas da direita vêm <code>NULL</code>).</li>
+          <li><code>INNER JOIN b ON a.x = b.y</code>: só as linhas que <strong>casam</strong> nas duas tabelas.</li>
+          <li><code>LEFT JOIN</code>: todas as linhas da tabela da esquerda, mesmo sem par na direita (as colunas da direita vêm <code>NULL</code>).</li>
           <li>Padrão pra achar "quem não tem": <code>LEFT JOIN ... WHERE b.id IS NULL</code>.</li>
           <li>Sempre qualifique colunas que existem nas duas tabelas: <code>pedidos.id</code>, <code>clientes.id</code>. Apelidos deixam mais curto: <code>FROM pedidos p JOIN clientes c ON c.id = p.cliente_id</code>.</li>
           <li>Dá pra encadear 3+ <code>JOIN</code> na mesma query.</li>
@@ -60,7 +60,7 @@
 
     <section class="secao">
       <h2>Exemplos de aplicação</h2>
-      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar — é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
+      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar: é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
 
       <div class="card">
         <h3 style="margin-top:0"><code>INNER JOIN</code></h3>
@@ -78,7 +78,7 @@ INNER JOIN clientes ON clientes.id = pedidos.cliente_id;</code></pre>
        pedidos.id AS pedido_id
 FROM clientes
 LEFT JOIN pedidos ON pedidos.cliente_id = clientes.id;</code></pre>
-        <p style="margin-bottom:0"><code>LEFT JOIN</code> mantém <em>todos</em> os clientes, com pedido ou sem. Quem tem pedido aparece uma vez por pedido; quem não tem aparece uma vez, com <code>pedido_id</code> vindo <code>NULL</code> — não há linha de pedido pra preencher.</p>
+        <p style="margin-bottom:0"><code>LEFT JOIN</code> mantém <em>todos</em> os clientes, com pedido ou sem. Quem tem pedido aparece uma vez por pedido; quem não tem aparece uma vez, com <code>pedido_id</code> vindo <code>NULL</code>, já que não há linha de pedido pra preencher.</p>
       </div>
 
       <div class="card">
@@ -121,7 +121,7 @@ JOIN produtos AS pr     ON pr.id = ip.produto_id;</code></pre>
         <h2 style="margin-top:0;border:0">Pegadinhas deste módulo</h2>
         <p style="margin-top:0;font-size:14px">
           Os erros que quase todo mundo comete aqui. Ler agora poupa meia hora de
-          confusão depois — e alguns deles são a causa de relatório errado em projeto real.
+          confusão depois, e alguns deles são a causa de relatório errado em projeto real.
         </p>
         <ul>
           <li><b><b>A armadilha clássica:</b> filtrar a tabela da direita no <code>WHERE</code> transforma o <code>LEFT JOIN</code> num <code>INNER JOIN</code>, em silêncio.</b> <pre class="bloco" style="margin:8px 0"><code>-- ERRADO: vira INNER JOIN e perde os clientes sem pedido
@@ -133,10 +133,10 @@ WHERE p.status = 'entregue';
 -- CERTO: a condição vai no ON
 SELECT c.nome, p.id
 FROM clientes c
-LEFT JOIN pedidos p ON p.cliente_id = c.id AND p.status = 'entregue';</code></pre>Por quê: o <code>LEFT JOIN</code> preenche com <code>NULL</code> quem não tem par, e o <code>WHERE</code> logo em seguida descarta essas linhas — porque <code>NULL = 'entregue'</code> não é verdadeiro. O resultado parece certo e está faltando gente. <b>Regra:</b> condição sobre a tabela da direita vai no <code>ON</code>; a única exceção é <code>WHERE x IS NULL</code>, que é justamente como se procura "quem não tem".</li>
+LEFT JOIN pedidos p ON p.cliente_id = c.id AND p.status = 'entregue';</code></pre>Por quê: o <code>LEFT JOIN</code> preenche com <code>NULL</code> quem não tem par, e o <code>WHERE</code> logo em seguida descarta essas linhas, porque <code>NULL = 'entregue'</code> não é verdadeiro. O resultado parece certo e está faltando gente. <b>Regra:</b> condição sobre a tabela da direita vai no <code>ON</code>; a única exceção é <code>WHERE x IS NULL</code>, que é justamente como se procura "quem não tem".</li>
           <li><b><code>JOIN</code> sem <code>ON</code> multiplica tudo.</b> Esquecer a condição gera o produto cartesiano: 200 pedidos × 60 clientes = 12 000 linhas. Se o resultado veio absurdamente grande, é a primeira coisa a conferir.</li>
           <li><b><code>JOIN</code> com relação um-para-muitos duplica as linhas da esquerda.</b> Juntar <code>pedidos</code> com <code>itens_pedido</code> repete o pedido uma vez por item. Aí <code>SUM(p.valor_total)</code> soma o mesmo pedido várias vezes e infla o total. É o erro de número mais difícil de perceber, porque o resultado parece plausível.</li>
-          <li><b>Sempre qualifique a coluna quando o nome existe nas duas tabelas.</b> <code>id</code> sozinho num <code>JOIN</code> de <code>pedidos</code> com <code>clientes</code> é ambíguo — o banco reclama, ou pior, escolhe um.</li>
+          <li><b>Sempre qualifique a coluna quando o nome existe nas duas tabelas.</b> <code>id</code> sozinho num <code>JOIN</code> de <code>pedidos</code> com <code>clientes</code> é ambíguo: o banco reclama, ou pior, escolhe um.</li>
           <li><b>Confira a contagem antes e depois do <code>JOIN</code>.</b> Se <code>pedidos</code> tem 200 linhas e o seu <code>JOIN</code> devolveu 512, houve duplicação. Esse hábito de dois segundos evita relatório errado.</li>
         </ul>
       </div>
@@ -163,7 +163,7 @@ LIMIT 10;</textarea>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>

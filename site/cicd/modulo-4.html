@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/cicd/modulo-4.html" />
-  <meta property="og:title" content="CI/CD Módulo 4 — Um pouco além + o resto do mundo — QA Learning" />
+  <meta property="og:title" content="CI/CD Módulo 4: Um pouco além + o resto do mundo | QA Learning" />
   <meta property="og:description" content="Cinco recursos que você vai ver em pipelines reais, e como as outras ferramentas se comparam. Módulo 4 da trilha CI/CD para QA, no QA Learning." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-cicd.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="CI/CD Módulo 4 — Um pouco além + o resto do mundo — QA Learning" />
+  <meta property="og:image:alt" content="CI/CD Módulo 4: Um pouco além + o resto do mundo | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>CI/CD Módulo 4 — Um pouco além + o resto do mundo</title>
+  <title>CI/CD Módulo 4: Um pouco além + o resto do mundo</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 4 — Um pouco além + o resto do mundo</h1>
+    <h1>Módulo 4: Um pouco além + o resto do mundo</h1>
     <p class="legenda">Cinco recursos que você vai ver em pipelines reais, e como as outras ferramentas se comparam.</p>
 
     <section class="secao">
@@ -46,13 +46,13 @@
       <div class="card">
         <p style="margin:0">Com <code>on</code>, <code>jobs</code>, <code>steps</code>,
           <code>uses</code>/<code>run</code> e o código de saída, você lê e escreve um pipeline
-          de teste útil. O que vem agora são <b>peças opcionais</b> — reconheça o nome e a
+          de teste útil. O que vem agora são <b>peças opcionais</b>: reconheça o nome e a
           finalidade; a sintaxe você copia da documentação quando precisar.</p>
       </div>
     </section>
 
     <section class="secao">
-      <h2>1. <code>matrix</code> — rodar o mesmo job em várias versões</h2>
+      <h2>1. <code>matrix</code>: rodar o mesmo job em várias versões</h2>
       <div class="card">
         <p style="margin-top:0">Testar em Python 3.10, 3.11 e 3.12 sem copiar o job três
           vezes:</p>
@@ -78,7 +78,7 @@
     </section>
 
     <section class="secao">
-      <h2>2. Cache — não baixar as dependências toda vez</h2>
+      <h2>2. Cache: não baixar as dependências toda vez</h2>
       <div class="card">
         <p style="margin-top:0">A máquina virtual nasce vazia, então todo run reinstala tudo.
           O <b>cache</b> guarda o resultado de um run pro próximo, quando nada mudou:</p>
@@ -87,12 +87,12 @@
           python-version: "3.12"
           cache: "pip"          # guarda os pacotes baixados pelo pip</code></pre>
         <p style="margin-bottom:0">Efeito prático: o passo de instalar dependências cai de
-          ~40s pra ~5s. Puramente velocidade — não muda o resultado ✓/✗.</p>
+          ~40s pra ~5s. Puramente velocidade, não muda o resultado ✓/✗.</p>
       </div>
     </section>
 
     <section class="secao">
-      <h2>3. <code>secrets</code> — senhas sem vazar no arquivo</h2>
+      <h2>3. <code>secrets</code>: senhas sem vazar no arquivo</h2>
       <div class="card">
         <p style="margin-top:0">O workflow fica no repositório, à vista de todos. Então
           <b>nunca</b> se escreve senha, token ou chave de API nele. Guarda-se no repositório
@@ -108,7 +108,7 @@
     </section>
 
     <section class="secao">
-      <h2>4. Artefatos — guardar arquivos que o run produziu</h2>
+      <h2>4. Artefatos: guardar arquivos que o run produziu</h2>
       <div class="card">
         <p style="margin-top:0">Quando o job termina, a máquina virtual é destruída e tudo
           nela some. Pra <b>ficar</b> com um relatório de teste, um screenshot de falha, um
@@ -131,7 +131,7 @@
     </section>
 
     <section class="secao">
-      <h2>5. <code>schedule</code> — rodar por horário</h2>
+      <h2>5. <code>schedule</code>: rodar por horário</h2>
       <div class="card">
         <pre class="bloco"><code>on:
   schedule:
@@ -190,13 +190,13 @@
     <section class="secao">
       <div class="card" style="border-left:3px solid var(--acento)">
         <h2 style="margin-top:0;border:0">Olhar de QA</h2>
-        <p style="margin-bottom:0">De todos os recursos deste módulo, o que mais muda o seu dia a dia é o <b>artefato</b>: sem ele, a evidência de uma falha no CI morre junto com a máquina virtual, e você fica sabendo que quebrou sem conseguir ver o quê. Guarde relatório, captura de tela e log — e garanta que o passo de upload rode <b>mesmo quando os testes falham</b>, que é justamente quando você precisa deles.</p>
+        <p style="margin-bottom:0">De todos os recursos deste módulo, o que mais muda o seu dia a dia é o <b>artefato</b>: sem ele, a evidência de uma falha no CI morre junto com a máquina virtual, e você fica sabendo que quebrou sem conseguir ver o quê. Guarde relatório, captura de tela e log, e garanta que o passo de upload rode <b>mesmo quando os testes falham</b>, que é justamente quando você precisa deles.</p>
       </div>
     </section>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>

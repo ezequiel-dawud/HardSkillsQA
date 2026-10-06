@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 2 da trilha PostgreSQL para QA — Tipos de verdade: boolean, numeric x divisão inteira, CAST, NULL, IS DISTINCT FROM. Corrigida na hora; 70%…" />
+  <meta name="description" content="Prova do módulo 2 da trilha PostgreSQL para QA sobre tipos de verdade: boolean, numeric x divisão inteira, CAST, NULL, IS DISTINCT FROM. Corrigida na hora; 70%…" />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/pg/prova-2.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/pg/prova-2.html" />
-  <meta property="og:title" content="Prova — Módulo 2 (PostgreSQL) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 2 da trilha PostgreSQL para QA — Tipos de verdade: boolean, numeric x divisão inteira, CAST, NULL, IS DISTINCT FROM. Corrigida na hora; 70%…" />
+  <meta property="og:title" content="Prova do Módulo 2 (PostgreSQL) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 2 da trilha PostgreSQL para QA sobre tipos de verdade: boolean, numeric x divisão inteira, CAST, NULL, IS DISTINCT FROM. Corrigida na hora; 70%…" />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-pg.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 2 (PostgreSQL) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 2 (PostgreSQL) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 2 (PostgreSQL)</title>
+  <title>Prova do Módulo 2 (PostgreSQL)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -41,7 +41,7 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 2</h1>
+    <h1>Prova do Módulo 2</h1>
     <p class="legenda">Tipos de verdade: boolean, numeric x divisão inteira, CAST, NULL, IS DISTINCT FROM. &nbsp;<a href="modulo-2.html">← rever o módulo</a></p>
     <p class="status-banco" id="status-banco">carregando Postgres…</p>
     <div id="prova"></div>
@@ -53,7 +53,7 @@
     questoes: [
       { t: "sql", ordenado: true,
         enun: "Nome dos produtos que estão à venda (<code>ativo</code> verdadeiro). Coluna: <code>nome</code>; em ordem alfabética.",
-        dica: "<code>ativo</code> é <code>boolean</code>: use <code>WHERE ativo</code> ou <code>WHERE ativo = TRUE</code> — nunca <code>ativo = 1</code>.",
+        dica: "<code>ativo</code> é <code>boolean</code>: use <code>WHERE ativo</code> ou <code>WHERE ativo = TRUE</code>, nunca <code>ativo = 1</code>.",
         gab: "SELECT nome FROM produtos\nWHERE ativo = TRUE\nORDER BY nome;" },
 
       { t: "sql",
@@ -73,13 +73,13 @@
 
       { t: "sql", ordenado: true,
         enun: "Para os 6 primeiros defeitos por <code>id</code>: o <code>id</code> e uma coluna booleana <code>em_aberto</code> que vale verdadeiro quando <code>data_fechamento</code> é nula. Colunas: <code>id</code>, <code>em_aberto</code>.",
-        dica: "a própria expressão <code>data_fechamento IS NULL</code> já é um booleano — dá pra colocá-la no <code>SELECT</code> com <code>AS em_aberto</code>.",
+        dica: "a própria expressão <code>data_fechamento IS NULL</code> já é um booleano, dá pra colocá-la no <code>SELECT</code> com <code>AS em_aberto</code>.",
         gab: "SELECT id, data_fechamento IS NULL AS em_aberto\nFROM defeitos\nORDER BY id\nLIMIT 6;" },
 
       { t: "mc",
         enun: "No Postgres, comparar uma coluna <code>boolean</code> com <code>= 1</code>:",
         ops: [
-          "dá erro de tipo — <code>boolean</code> não se compara com inteiro; use <code>= TRUE</code> ou só o nome da coluna",
+          "dá erro de tipo: <code>boolean</code> não se compara com inteiro; use <code>= TRUE</code> ou só o nome da coluna",
           "funciona: <code>1</code> vira <code>TRUE</code> automaticamente",
           "sempre retorna <code>FALSE</code>",
           "só funciona dentro de <code>CASE</code>" ],
@@ -88,7 +88,7 @@
       { t: "mc",
         enun: "<code>7 / 2</code> no Postgres (ambos inteiros) resulta em:",
         ops: [
-          "<code>3</code> — divisão inteira; para <code>3.5</code> force decimal: <code>7.0 / 2</code>",
+          "<code>3</code>, divisão inteira; para <code>3.5</code> force decimal: <code>7.0 / 2</code>",
           "<code>3.5</code>",
           "<code>4</code> (arredonda)",
           "erro" ],
@@ -97,7 +97,7 @@
       { t: "mc",
         enun: "<code>NULL = NULL</code> no Postgres retorna:",
         ops: [
-          "<code>NULL</code> (desconhecido), não <code>TRUE</code> — pra comparar tratando <code>NULL</code> como valor use <code>IS NOT DISTINCT FROM</code>",
+          "<code>NULL</code> (desconhecido), não <code>TRUE</code>; pra comparar tratando <code>NULL</code> como valor use <code>IS NOT DISTINCT FROM</code>",
           "<code>TRUE</code>",
           "<code>FALSE</code>",
           "erro de sintaxe" ],

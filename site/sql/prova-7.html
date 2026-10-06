@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 7 da trilha SQL para QA — Escrever dados: INSERT, UPDATE, DELETE, transações. Cada comando roda num banco recém-resetado. Corrigida na hora…" />
+  <meta name="description" content="Prova do módulo 7 da trilha SQL para QA, sobre Escrever dados: INSERT, UPDATE, DELETE, transações. Cada comando roda num banco recém-resetado. Corrigida na hora…" />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/sql/prova-7.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/sql/prova-7.html" />
-  <meta property="og:title" content="Prova — Módulo 7 (SQL) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 7 da trilha SQL para QA — Escrever dados: INSERT, UPDATE, DELETE, transações. Cada comando roda num banco recém-resetado. Corrigida na hora…" />
+  <meta property="og:title" content="Prova do Módulo 7 (SQL) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 7 da trilha SQL para QA, sobre Escrever dados: INSERT, UPDATE, DELETE, transações. Cada comando roda num banco recém-resetado. Corrigida na hora…" />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-sql.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 7 (SQL) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 7 (SQL) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 7 (SQL)</title>
+  <title>Prova do Módulo 7 (SQL)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -41,7 +41,7 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 7</h1>
+    <h1>Prova do Módulo 7</h1>
     <p class="legenda">Escrever dados: INSERT, UPDATE, DELETE, transações. Cada comando roda num banco recém-resetado. &nbsp;<a href="modulo-7.html">← rever o módulo</a></p>
     <p class="status-banco" id="status-banco">carregando banco…</p>
     <div id="prova"></div>
@@ -53,7 +53,7 @@
     questoes: [
       { t: "escrita",
         enun: "Insira um cliente novo: <code>nome</code> 'Marina Teste', <code>email</code> 'marina.teste@exemplo.com', <code>cidade</code> 'Recife', <code>estado</code> 'PE', <code>data_cadastro</code> '2025-09-01', <code>ativo</code> 1.",
-        dica: "<code>INSERT INTO clientes (colunas...) VALUES (valores...);</code> — texto entre aspas simples.",
+        dica: "<code>INSERT INTO clientes (colunas...) VALUES (valores...);</code>, com texto entre aspas simples.",
         gab: "INSERT INTO clientes (nome, email, cidade, estado, data_cadastro, ativo)\nVALUES ('Marina Teste', 'marina.teste@exemplo.com', 'Recife', 'PE', '2025-09-01', 1);",
         checa: "SELECT nome, cidade, estado, ativo FROM clientes WHERE email = 'marina.teste@exemplo.com';" },
 
@@ -77,7 +77,7 @@
 
       { t: "escrita",
         enun: "Apague da tabela <code>execucoes_teste</code> todas as linhas com <code>resultado = 'pulado'</code>.",
-        dica: "<code>DELETE FROM execucoes_teste WHERE resultado = 'pulado';</code> — sem <code>WHERE</code> apagaria tudo.",
+        dica: "<code>DELETE FROM execucoes_teste WHERE resultado = 'pulado';</code>: sem <code>WHERE</code> apagaria tudo.",
         gab: "DELETE FROM execucoes_teste WHERE resultado = 'pulado';",
         checa: "SELECT COUNT(*) AS restantes FROM execucoes_teste;" },
 
@@ -99,7 +99,7 @@
       { t: "mc",
         enun: "Um <code>UPDATE produtos SET ativo = 0;</code> sem <code>WHERE</code>:",
         ops: [
-          "desativa TODOS os produtos — o <code>WHERE</code> é o que limita as linhas",
+          "desativa TODOS os produtos, pois o <code>WHERE</code> é o que limita as linhas",
           "não roda sem <code>WHERE</code>",
           "só afeta a primeira linha",
           "dá erro de sintaxe" ],

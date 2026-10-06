@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/k6/modulo-4.html" />
-  <meta property="og:title" content="k6 Módulo 4 — Dados e CI — QA Learning" />
+  <meta property="og:title" content="k6 Módulo 4: Dados e CI | QA Learning" />
   <meta property="og:description" content="Carga com dado que varia, pegar valores da resposta, e o portão de performance no GitHub Actions. Módulo 4 da trilha Teste de carga com k6, no QA Learning." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-k6.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="k6 Módulo 4 — Dados e CI — QA Learning" />
+  <meta property="og:image:alt" content="k6 Módulo 4: Dados e CI | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>k6 Módulo 4 — Dados e CI</title>
+  <title>k6 Módulo 4: Dados e CI</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,29 +38,29 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 4 — Dados e CI</h1>
+    <h1>Módulo 4: Dados e CI</h1>
     <p class="legenda">Carga com dado que varia, pegar valores da resposta, e o portão de performance no GitHub Actions.</p>
     <p style="margin:0 0 14px; font-size:14px; color:var(--suave)">
-      Os trechos de código desta página explicam a sintaxe — não são pra colar no terminal. Eles
+      Os trechos de código desta página explicam a sintaxe, não são pra colar no terminal. Eles
       já estão montados no arquivo real <code>scripts/04_dados.js</code> (vem pronto no projeto).
       Abra esse arquivo no editor pra ver <code>SharedArray</code> e a correlação de token no
-      contexto — é nele que você roda o teste, na seção <a href="#rodar">Rodar</a> mais abaixo.
+      contexto: é nele que você roda o teste, na seção <a href="#rodar">Rodar</a> mais abaixo.
     </p>
 
     <section class="secao">
       <h2>Por que dado fixo não serve</h2>
       <div class="card">
         <p style="margin:0">Mil requisições com o mesmo email, o mesmo produto, o mesmo usuário
-          batem sempre no mesmo registro — cache quente, um lock só, um caminho de código. O
+          batem sempre no mesmo registro: cache quente, um lock só, um caminho de código. O
           sistema parece mais rápido do que é. Carga séria usa <b>dados variados</b> e
           <b>reaproveita o que a resposta devolve</b>.</p>
       </div>
     </section>
 
     <section class="secao">
-      <h2><code>SharedArray</code> — a massa de dados</h2>
+      <h2><code>SharedArray</code>: a massa de dados</h2>
       <div class="card">
-        <p class="rotulo-bloco">🧩 trecho de exemplo — JavaScript pra estudar ou colar num arquivo .js, não é comando de terminal</p>
+        <p class="rotulo-bloco">🧩 trecho de exemplo: JavaScript pra estudar ou colar num arquivo .js, não é comando de terminal</p>
         <pre class="bloco"><code>import { SharedArray } from "k6/data";
 
 // open() so funciona no contexto de init (fora da funcao default).
@@ -79,9 +79,9 @@ export default function () {
     </section>
 
     <section class="secao">
-      <h2>Correlação — usar a resposta A na requisição B</h2>
+      <h2>Correlação: usar a resposta A na requisição B</h2>
       <div class="card">
-        <p class="rotulo-bloco">🧩 trecho de exemplo — JavaScript pra estudar ou colar num arquivo .js, não é comando de terminal</p>
+        <p class="rotulo-bloco">🧩 trecho de exemplo: JavaScript pra estudar ou colar num arquivo .js, não é comando de terminal</p>
         <pre class="bloco"><code>// 1) login devolve um token
 const login = http.post(`${BASE}/login`,
   JSON.stringify({ usuario: u.usuario, email: u.email }),
@@ -97,7 +97,7 @@ http.post(`${BASE}/pedidos`,
       Authorization: `Bearer ${token}`,   // &lt;- reaproveitado aqui
   } });</code></pre>
         <p style="margin-bottom:0">Isso é <b>correlação</b>: token de sessão, id de pedido recém-criado,
-          CSRF token — qualquer valor que o servidor gera e espera de volta no passo seguinte.
+          CSRF token, ou seja, qualquer valor que o servidor gera e espera de volta no passo seguinte.
           <code>__ITER</code> é o número da iteração; usar ele no email garante um valor novo a
           cada volta.</p>
       </div>
@@ -116,7 +116,7 @@ http.post(`${BASE}/pedidos`,
         <p style="margin:10px 0 0">Com o mock ligado, no Terminal 2:</p>
         <pre class="bloco"><code>k6 run scripts/04_dados.js</code></pre>
         <p style="margin:10px 0 0"><b>Agora vá ao Terminal 1 e aperte Ctrl+C</b> pra encerrar o
-          mock — sem isso o corretor não consegue ler o relatório do servidor. Só depois disso, de
+          mock. Sem isso o corretor não consegue ler o relatório do servidor. Só depois disso, de
           volta no Terminal 2:</p>
         <pre class="bloco"><code>python verificar.py 4</code></pre>
         <p style="margin-bottom:0">O corretor lê o relatório do mock e confere:
@@ -130,9 +130,9 @@ http.post(`${BASE}/pedidos`,
       <h2>Portão de performance no CI</h2>
       <div class="card">
         <p style="margin-top:0">O mesmo teste que você roda na mão pode rodar a cada push. O
-          workflow <code>.github/workflows/trilha-5-k6.yml</code> já vem pronto no projeto — isto
+          workflow <code>.github/workflows/trilha-5-k6.yml</code> já vem pronto no projeto. Isto
           aqui é só pra você ver o conteúdo, não precisa copiar nem colar no terminal:</p>
-        <p class="rotulo-bloco">📄 .github/workflows/trilha-5-k6.yml (trecho) — não cole no terminal</p>
+        <p class="rotulo-bloco">📄 .github/workflows/trilha-5-k6.yml (trecho), não cole no terminal</p>
         <pre class="bloco"><code>      - name: Instalar o k6
         uses: grafana/setup-k6-action@v1
 
@@ -151,7 +151,7 @@ http.post(`${BASE}/pedidos`,
         run: k6 run scripts/03_carga.js</code></pre>
         <p style="margin-bottom:0">Se um <code>threshold</code> reprovar, o <code>k6 run</code> sai
           com código 99, o <b>step</b> falha e o build fica <b>vermelho</b>. Como o
-          <code>03_carga.js</code> tem a meta apertada de propósito, esse job já nasce vermelho —
+          <code>03_carga.js</code> tem a meta apertada de propósito, esse job já nasce vermelho:
           é o portão funcionando. Na vida real você calibra a meta pro que o sistema cumpre e ela
           passa a te avisar quando uma mudança <b>piora</b> a performance.</p>
       </div>
@@ -161,10 +161,10 @@ http.post(`${BASE}/pedidos`,
       <h2>Exercício</h2>
       <div class="card">
         <p style="margin-top:0">Rode <code>04_dados.js</code>, encerre o mock e rode
-          <code>python verificar.py 4</code> — confirme os 5 <code>[ok]</code>. Depois troque
+          <code>python verificar.py 4</code>, confirme os 5 <code>[ok]</code>. Depois troque
           <code>iterations: 100</code> por <code>iterations: 300</code> e confira que
           <code>emails_distintos</code> no <code>mock/ultimo_relatorio.json</code> cresce junto
-          (com email fixo, esse número travaria — é o sinal de dado repetido). Gabarito em
+          (com email fixo, esse número travaria: é o sinal de dado repetido). Gabarito em
           <code>trilha-5/GABARITO.md</code>.</p>
       </div>
     </section>
@@ -188,7 +188,7 @@ http.post(`${BASE}/pedidos`,
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>

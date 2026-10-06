@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/fundamentos/modulo-5.html" />
-  <meta property="og:title" content="Fundamentos Módulo 5 — Relatar bug — QA Learning" />
+  <meta property="og:title" content="Fundamentos Módulo 5: Relatar bug | QA Learning" />
   <meta property="og:description" content="A anatomia de um relatório que é corrigido, severidade × prioridade, e o ciclo de vida do defeito. Módulo 5 da trilha Fundamentos de Teste, no QA Learning." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-fundamentos.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Fundamentos Módulo 5 — Relatar bug — QA Learning" />
+  <meta property="og:image:alt" content="Fundamentos Módulo 5: Relatar bug | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Fundamentos Módulo 5 — Relatar bug</title>
+  <title>Fundamentos Módulo 5: Relatar bug</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -39,17 +39,17 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 5 — Relatar bug</h1>
+    <h1>Módulo 5: Relatar bug</h1>
     <p class="legenda">A anatomia de um relatório que é corrigido, severidade × prioridade, e o ciclo de vida do defeito</p>
 
     <details class="card aquecimento">
-      <summary>Aquecimento — 2 perguntas do Módulo 4</summary>
+      <summary>Aquecimento: 2 perguntas do Módulo 4</summary>
       <p class="resp"><b>1.</b> O que uma carta de teste precisa ter?<br>
         <i>Explorar</i> (a área), <i>com</i> (dados, contas, ferramentas) e <i>para</i>
-        (que risco ou informação você busca) — mais tempo marcado.</p>
+        (que risco ou informação você busca), mais tempo marcado.</p>
       <p class="resp"><b>2.</b> O que é um oráculo?<br>
         <i>O que te permite afirmar que algo está errado</i>: a especificação, a consistência
-        interna, o comportamento anterior, o propósito — e os dados no banco.</p>
+        interna, o comportamento anterior, o propósito, e os dados no banco.</p>
     </details>
 
     <section class="secao">
@@ -57,12 +57,12 @@
       <div class="card">
         <p style="margin-top:0">
           Um defeito que você encontrou mas ninguém conseguiu reproduzir <b>não vai ser
-          corrigido</b>. Nesse caso o trabalho de achar foi desperdiçado — e, pior, você
+          corrigido</b>. Nesse caso o trabalho de achar foi desperdiçado, e, pior, você
           gastou o tempo de outra pessoa tentando entender.
         </p>
         <p style="margin-bottom:0">
-          Por isso: o relatório <em>é</em> a entrega. Ele tem um leitor específico — quem
-          vai corrigir — e um objetivo único: <b>fazer essa pessoa ver o problema na
+          Por isso: o relatório <em>é</em> a entrega. Ele tem um leitor específico, quem
+          vai corrigir, e um objetivo único: <b>fazer essa pessoa ver o problema na
           máquina dela, sozinha, em menos de dois minutos</b>. Tudo que serve a isso entra;
           tudo que não serve, sai.
         </p>
@@ -79,10 +79,10 @@
             <tr><td><b>Ambiente e versão</b></td><td>dev / homolog / produção, versão do sistema, navegador e aparelho. Sem isso, "na minha máquina funciona" é inevitável.</td></tr>
             <tr><td><b>Pré-condições</b></td><td>o estado necessário antes de começar: que tipo de usuário, que dado precisa existir.</td></tr>
             <tr><td><b>Passos</b></td><td>numerados, do zero, sem pular nada que pareça óbvio. Quem lê não estava lá.</td></tr>
-            <tr><td><b>Resultado esperado</b></td><td>o que deveria acontecer — <b>e por quê</b>: a regra, a história, a tela de referência.</td></tr>
+            <tr><td><b>Resultado esperado</b></td><td>o que deveria acontecer, <b>e por quê</b>: a regra, a história, a tela de referência.</td></tr>
             <tr><td><b>Resultado obtido</b></td><td>o que aconteceu de fato. Descreva, não interprete.</td></tr>
             <tr><td><b>Evidência</b></td><td>print, vídeo curto, log, resposta da API, a linha do banco. Uma imagem economiza um parágrafo.</td></tr>
-            <tr><td><b>Severidade e prioridade</b></td><td>dois campos diferentes — a seção abaixo é inteira sobre isso.</td></tr>
+            <tr><td><b>Severidade e prioridade</b></td><td>dois campos diferentes, a seção abaixo é inteira sobre isso.</td></tr>
           </tbody>
         </table>
       </div>
@@ -155,7 +155,7 @@ Observação: acontece com qualquer cupom, não só o PROMO15.</code></pre>
           Note três detalhes de quem tem experiência: o <b>esperado cita a regra</b>
           (QA-142) em vez de ser opinião; a hipótese sobre a causa aparece como
           "<em>parece que</em>", separada do fato; e a última linha diz que o problema
-          <b>é mais amplo do que o passo a passo sugere</b> — informação que economiza uma
+          <b>é mais amplo do que o passo a passo sugere</b>, informação que economiza uma
           rodada inteira de conversa.
         </p>
       </div>
@@ -166,18 +166,18 @@ Observação: acontece com qualquer cupom, não só o PROMO15.</code></pre>
       <div class="card">
         <p style="margin-top:0">
           São <b>duas perguntas diferentes</b>, feitas por pessoas diferentes. Confundir as
-          duas é o mal-entendido mais comum de quem está começando — e um dos poucos temas
+          duas é o mal-entendido mais comum de quem está começando, e um dos poucos temas
           que cai em praticamente toda entrevista de QA.
         </p>
         <ul>
-          <li><b>Severidade</b> — <em>o tamanho do estrago</em> quando o defeito acontece.
+          <li><b>Severidade</b>: <em>o tamanho do estrago</em> quando o defeito acontece.
             É uma avaliação técnica, e normalmente quem reporta é quem define.</li>
-          <li><b>Prioridade</b> — <em>a urgência de corrigir</em>. É uma decisão de negócio:
+          <li><b>Prioridade</b>: <em>a urgência de corrigir</em>. É uma decisão de negócio:
             depende de quanta gente é afetada, do impacto financeiro, de contrato, de
             imagem, do que mais está na fila.</li>
         </ul>
         <p>
-          Por serem independentes, existem os quatro cruzamentos — e os dois cruzamentos
+          Por serem independentes, existem os quatro cruzamentos, e os dois cruzamentos
           "estranhos" é que provam que os campos são mesmo diferentes:
         </p>
         <table class="dados">
@@ -186,17 +186,17 @@ Observação: acontece com qualquer cupom, não só o PROMO15.</code></pre>
             <tr>
               <td><b>Severidade<br>crítica</b></td>
               <td>Checkout derruba o sistema pra todo mundo.<br><i>Óbvio: pare tudo.</i></td>
-              <td><b>Sistema quebra</b> ao gerar relatório num formato que <b>dois clientes</b> usam, uma vez por ano.<br><i>Estrago enorme, mas quase ninguém é afetado — pode esperar.</i></td>
+              <td><b>Sistema quebra</b> ao gerar relatório num formato que <b>dois clientes</b> usam, uma vez por ano.<br><i>Estrago enorme, mas quase ninguém é afetado: pode esperar.</i></td>
             </tr>
             <tr>
               <td><b>Severidade<br>baixa</b></td>
-              <td><b>Nome da empresa escrito errado</b> na página inicial, no dia do lançamento.<br><i>Não quebra nada, mas é a primeira coisa que todo mundo vê — corrija agora.</i></td>
+              <td><b>Nome da empresa escrito errado</b> na página inicial, no dia do lançamento.<br><i>Não quebra nada, mas é a primeira coisa que todo mundo vê: corrija agora.</i></td>
               <td>Texto desalinhado por 2 pixels numa tela interna.<br><i>Óbvio: entra na fila.</i></td>
             </tr>
           </tbody>
         </table>
         <p style="margin-bottom:0">
-          <b>Guarde os dois exemplos do meio</b> — o do relatório anual e o do nome errado
+          <b>Guarde os dois exemplos do meio</b>: o do relatório anual e o do nome errado
           na home. Eles são a resposta pronta pra pergunta "qual a diferença entre
           severidade e prioridade?".
         </p>
@@ -206,7 +206,7 @@ Observação: acontece com qualquer cupom, não só o PROMO15.</code></pre>
         <h3 style="margin-top:0">Não infle a severidade pra ser atendido</h3>
         <p style="margin-bottom:0">
           É tentador marcar tudo como crítico pra o bug não morrer na fila. Funciona uma
-          vez. Depois, o time aprende a descontar o que você diz — e aí o seu crítico de
+          vez. Depois, o time aprende a descontar o que você diz, e aí o seu crítico de
           verdade vira só mais um. <b>Severidade é escala técnica, não é o volume da sua
           voz.</b> Se algo é severidade média mas precisa sair hoje, o campo certo pra
           isso é a <em>prioridade</em>, e o lugar certo é uma conversa explicando o porquê.
@@ -227,22 +227,22 @@ Observação: acontece com qualquer cupom, não só o PROMO15.</code></pre>
                                                       ▲      │
                                                       └──────┘</code></pre>
         <ul>
-          <li><b>aberto</b> — você reportou, ninguém pegou ainda.</li>
-          <li><b>em_analise</b> — alguém está investigando ou corrigindo.</li>
-          <li><b>resolvido</b> — a correção foi feita. <b>Ainda não acabou:</b> falta você
+          <li><b>aberto</b>: você reportou, ninguém pegou ainda.</li>
+          <li><b>em_analise</b>: alguém está investigando ou corrigindo.</li>
+          <li><b>resolvido</b>: a correção foi feita. <b>Ainda não acabou:</b> falta você
             fazer o <em>reteste</em> (Módulo 2).</li>
-          <li><b>fechado</b> — você retestou e confirmou. Só QA fecha.</li>
-          <li><b>reaberto</b> — o reteste falhou, ou o problema voltou depois. É um sinal
+          <li><b>fechado</b>: você retestou e confirmou. Só QA fecha.</li>
+          <li><b>reaberto</b>: o reteste falhou, ou o problema voltou depois. É um sinal
             importante: muitos reabertos indicam correção apressada ou relatório incompleto.</li>
         </ul>
         <p style="margin-bottom:0">
           <b>Repare no gancho com o Módulo 3:</b> isso é uma máquina de estados, e as
-          transições proibidas valem teste — dá pra fechar um defeito que nunca foi
+          transições proibidas valem teste: dá pra fechar um defeito que nunca foi
           resolvido? E há uma regra de dados fácil de verificar: todo defeito
           <code>fechado</code> ou <code>resolvido</code> precisa ter
           <code>data_fechamento</code> preenchida; todo <code>aberto</code> precisa ter
           <code>data_fechamento</code> nula. <i>Nas trilhas de SQL e de pytest você escreve
-          exatamente essas verificações — e elas encontram dado inconsistente de verdade.</i>
+          exatamente essas verificações, e elas encontram dado inconsistente de verdade.</i>
         </p>
       </div>
 
@@ -253,15 +253,15 @@ Observação: acontece com qualquer cupom, não só o PROMO15.</code></pre>
           <tbody>
             <tr><td><code>titulo</code></td><td>a triagem inteira acontece lendo só esta coluna</td></tr>
             <tr><td><code>modulo</code></td><td>permite ver onde os defeitos se agrupam (princípio 4 do Módulo 1)</td></tr>
-            <tr><td><code>severidade</code></td><td>tamanho do estrago — técnico</td></tr>
-            <tr><td><code>prioridade</code></td><td>urgência — negócio</td></tr>
+            <tr><td><code>severidade</code></td><td>tamanho do estrago, técnico</td></tr>
+            <tr><td><code>prioridade</code></td><td>urgência, negócio</td></tr>
             <tr><td><code>status</code></td><td>onde o defeito está no ciclo acima</td></tr>
-            <tr><td><code>ambiente</code></td><td>dev / homolog / <b>producao</b> — defeito crítico que escapou pra produção é a métrica mais dolorida e mais útil de um time de QA</td></tr>
+            <tr><td><code>ambiente</code></td><td>dev / homolog / <b>producao</b>: defeito crítico que escapou pra produção é a métrica mais dolorida e mais útil de um time de QA</td></tr>
             <tr><td><code>data_abertura</code> / <code>data_fechamento</code></td><td>a diferença entre as duas é o <b>tempo de correção</b>; a segunda nula significa "ainda aberto"</td></tr>
           </tbody>
         </table>
         <p style="margin-bottom:0" class="legenda">
-          Quando você chegar na Trilha de SQL, vai reconhecer essa tabela — e as consultas
+          Quando você chegar na Trilha de SQL, vai reconhecer essa tabela, e as consultas
           vão fazer sentido de negócio, não só de sintaxe.
         </p>
       </div>
@@ -275,25 +275,25 @@ Observação: acontece com qualquer cupom, não só o PROMO15.</code></pre>
           Antes de reportar, tente de novo <b>do zero</b>, em outra conta e, se der, em
           outra máquina. Se acontece só às vezes, diga isso e diga a frequência real
           ("3 vezes em 10 tentativas"). Junte tudo que possa ser a diferença: horário, dado
-          usado, se havia outra aba aberta, o log do console. <b>Bug intermitente é bug</b> —
+          usado, se havia outra aba aberta, o log do console. <b>Bug intermitente é bug</b>:
           o que não pode é você esconder que é intermitente.
         </p>
 
         <h3>"Isso é duplicado"</h3>
         <p>
           Procure antes de abrir. Se for o mesmo defeito, acrescente sua informação no
-          relatório existente em vez de abrir outro — outro ambiente, outro caminho de
+          relatório existente em vez de abrir outro: outro ambiente, outro caminho de
           reprodução, mais uma ocorrência. Isso <em>aumenta</em> a prioridade do que já
           existe, o que é melhor do que dividir a atenção em dois registros.
         </p>
 
         <h3>"Não é bug, é o comportamento esperado"</h3>
         <p style="margin-bottom:0">
-          Acontece, e não tem problema. A resposta profissional não é insistir — é
+          Acontece, e não tem problema. A resposta profissional não é insistir: é
           perguntar <b>onde está escrito</b>. Se estiver documentado, ótimo: você aprendeu
           algo e o relatório fecha. Se ninguém souber dizer, <b>o defeito mudou de lugar</b>:
           não está no código, está na especificação. Aí o registro certo é "comportamento
-          indefinido: ninguém sabe qual deveria ser" — e isso precisa ser decidido por
+          indefinido: ninguém sabe qual deveria ser", e isso precisa ser decidido por
           alguém, não silenciado.
         </p>
       </div>
@@ -305,7 +305,7 @@ Observação: acontece com qualquer cupom, não só o PROMO15.</code></pre>
           comportamento, nunca a pessoa; separe fato de hipótese; e entregue de bandeja
           tudo que economize tempo de investigação. A diferença entre "o checkout está um
           desastre" e "o checkout soma os dois descontos quando o cliente é VIP" não é só
-          educação — é que a segunda frase pode ser corrigida.
+          educação: é que a segunda frase pode ser corrigida.
         </p>
       </div>
     </section>
@@ -314,17 +314,17 @@ Observação: acontece com qualquer cupom, não só o PROMO15.</code></pre>
       <h2>Sua vez</h2>
       <div class="card">
         <p style="margin-top:0">
-          Pegue um achado da sessão exploratória do Módulo 4 — ou este aqui, se preferir:
+          Pegue um achado da sessão exploratória do Módulo 4, ou este aqui, se preferir:
         </p>
         <p style="border-left:3px solid var(--acento);padding-left:14px">
           <i>"No app de delivery, se você adicionar um item ao carrinho, esperar 20 minutos
-          sem mexer, e então finalizar o pedido, o preço cobrado é o antigo — mesmo que o
+          sem mexer, e então finalizar o pedido, o preço cobrado é o antigo, mesmo que o
           restaurante tenha reajustado o cardápio nesse meio-tempo."</i>
         </p>
         <p style="margin-bottom:0">
           Escreva o relatório completo: título na fórmula, ambiente, pré-condições, passos
           numerados, esperado com a razão, obtido, evidência que você juntaria, severidade
-          e prioridade — <b>com uma frase justificando cada uma das duas</b>. A prova traz
+          e prioridade, <b>com uma frase justificando cada uma das duas</b>. A prova traz
           essa mesma questão, com uma resposta modelo pra você comparar.
         </p>
       </div>
@@ -332,7 +332,7 @@ Observação: acontece com qualquer cupom, não só o PROMO15.</code></pre>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>

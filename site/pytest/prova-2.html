@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 2 da trilha Validação com pytest — Anatomia de um teste: função test_, assert, fixture, conftest.py. Corrigida na hora; 70% fecha o módulo." />
+  <meta name="description" content="Prova do módulo 2 da trilha Validação com pytest: anatomia de um teste, função test_, assert, fixture, conftest.py. Corrigida na hora; 70% fecha o módulo." />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/pytest/prova-2.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/pytest/prova-2.html" />
-  <meta property="og:title" content="Prova — Módulo 2 (pytest) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 2 da trilha Validação com pytest — Anatomia de um teste: função test_, assert, fixture, conftest.py. Corrigida na hora; 70% fecha o módulo." />
+  <meta property="og:title" content="Prova do Módulo 2 (pytest) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 2 da trilha Validação com pytest: anatomia de um teste, função test_, assert, fixture, conftest.py. Corrigida na hora; 70% fecha o módulo." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-pytest.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 2 (pytest) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 2 (pytest) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 2 (pytest)</title>
+  <title>Prova do Módulo 2 (pytest)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 2</h1>
+    <h1>Prova do Módulo 2</h1>
     <p class="legenda">Anatomia de um teste: função test_, assert, fixture, conftest.py. &nbsp;<a href="modulo-2.html">← rever o módulo</a></p>
     <div id="prova"></div>
   </main>
@@ -99,7 +99,7 @@
             "t": "mc",
             "enun": "O que há de especial no arquivo <code>conftest.py</code>?",
             "ops": [
-                  "O pytest o carrega automaticamente — as fixtures dele ficam disponíveis para todos os testes da pasta e subpastas, sem nenhum <code>import</code>",
+                  "O pytest o carrega automaticamente: as fixtures dele ficam disponíveis para todos os testes da pasta e subpastas, sem nenhum <code>import</code>",
                   "Ele lista quais testes devem rodar em cada ambiente",
                   "Ele guarda as configurações de conexão com o banco de produção",
                   "Ele precisa ser importado no topo de cada arquivo de teste"
@@ -111,7 +111,7 @@
             "t": "mc",
             "enun": "Quando um <code>assert</code> falha, o que o pytest mostra?",
             "ops": [
-                  "Os dois lados da comparação — o que se esperava e o que veio — reescrevendo o assert",
+                  "Os dois lados da comparação (o que se esperava e o que veio), reescrevendo o assert",
                   "Apenas a linha do arquivo onde a falha ocorreu",
                   "A mensagem padrão \"AssertionError\", sem detalhes",
                   "O log completo de todas as chamadas do teste"
@@ -122,7 +122,7 @@
       {
             "t": "aberta",
             "enun": "Escreva um teste que verifique que <b>não existe produto com preço negativo</b> na tabela <code>produtos</code>. Depois explique por que a mensagem do assert importa.",
-            "modelo": "<pre class=\"bloco\"><code>def test_nenhum_produto_com_preco_negativo(db):\n    ruins = db.execute(\n        \"SELECT id, nome, preco FROM produtos WHERE preco &lt; 0\"\n    ).fetchall()\n    assert ruins == [], (\n        f\"produtos com preço negativo: {[(r['id'], r['preco']) for r in ruins]}\"\n    )</code></pre><p><b>A receita</b> (a mesma do Módulo 3): a query traz <b>só as linhas que violam a regra</b>; o assert passa quando não veio nenhuma.</p><p><b>Por que a mensagem importa:</b> sem ela, o relatório diz apenas que uma lista não estava vazia — e você tem que ir ao banco descobrir quais linhas eram. Com ela, o próprio vermelho do CI já entrega os ids para investigar. Num pipeline, onde ninguém está olhando a tela no momento da falha, a mensagem do assert <b>é</b> o relatório de bug. Escrevê-la bem é o mesmo cuidado do título de um defeito: quem lê não estava lá.</p>",
+            "modelo": "<pre class=\"bloco\"><code>def test_nenhum_produto_com_preco_negativo(db):\n    ruins = db.execute(\n        \"SELECT id, nome, preco FROM produtos WHERE preco &lt; 0\"\n    ).fetchall()\n    assert ruins == [], (\n        f\"produtos com preço negativo: {[(r['id'], r['preco']) for r in ruins]}\"\n    )</code></pre><p><b>A receita</b> (a mesma do Módulo 3): a query traz <b>só as linhas que violam a regra</b>; o assert passa quando não veio nenhuma.</p><p><b>Por que a mensagem importa:</b> sem ela, o relatório diz apenas que uma lista não estava vazia, e você tem que ir ao banco descobrir quais linhas eram. Com ela, o próprio vermelho do CI já entrega os ids para investigar. Num pipeline, onde ninguém está olhando a tela no momento da falha, a mensagem do assert <b>é</b> o relatório de bug. Escrevê-la bem é o mesmo cuidado do título de um defeito: quem lê não estava lá.</p>",
             "dica": "use o padrão \"traz as linhas erradas, assert que veio vazio\"."
       }
 ]

@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/sql/modulo-1.html" />
-  <meta property="og:title" content="Módulo 1 — Ler dados — QA Learning" />
+  <meta property="og:title" content="Módulo 1: Ler dados | QA Learning" />
   <meta property="og:description" content="SELECT, WHERE, ORDER BY, LIMIT, DISTINCT. Módulo 1 da trilha SQL para QA, no QA Learning. Teoria curta e exercícios que rodam num banco dentro do próprio…" />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-sql.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Módulo 1 — Ler dados — QA Learning" />
+  <meta property="og:image:alt" content="Módulo 1: Ler dados | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Módulo 1 — Ler dados</title>
+  <title>Módulo 1: Ler dados</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -41,7 +41,7 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 1 — Ler dados</h1>
+    <h1>Módulo 1: Ler dados</h1>
     <p class="legenda">SELECT, WHERE, ORDER BY, LIMIT, DISTINCT</p>
 
     <section class="secao">
@@ -51,26 +51,26 @@
           Um <b>banco de dados</b> é um conjunto de <b>tabelas</b>. Cada tabela guarda
           um tipo de coisa (clientes numa, produtos noutra, pedidos noutra) e funciona
           como uma planilha: as <b>colunas</b> são os campos e cada <b>linha</b> é um
-          registro — um cliente, um pedido.
+          registro, como um cliente ou um pedido.
         </p>
         <p>
           Toda consulta começa dizendo <b>de qual tabela</b> você quer ler, com
           <code>FROM nome_da_tabela</code>. É por isso que se escreve
           <code>FROM produtos</code> ou <code>FROM clientes</code>: é o nome da "planilha"
           onde aquele dado mora. Antes de buscar, vale saber quais tabelas existem e que
-          colunas cada uma tem — está tudo no painel <b>“Estrutura do banco”</b> logo
+          colunas cada uma tem: está tudo no painel <b>“Estrutura do banco”</b> logo
           abaixo, na parte de prática (ele reaparece em todos os módulos).
         </p>
         <p style="margin-bottom:0">
           As tabelas se conectam por <b>id</b>: um <code>pedido</code> tem a coluna
           <code>cliente_id</code>, que guarda o <code>id</code> de uma linha de
-          <code>clientes</code>. É assim que o pedido "sabe" de quem é — e é o que os
+          <code>clientes</code>. É assim que o pedido "sabe" de quem é, e é o que os
           <code>JOIN</code> (módulo 4) usam pra juntar tudo de volta.
         </p>
       </div>
 
       <h3>Dois exemplos pra ver funcionando</h3>
-      <p class="legenda">Eles já rodam sozinhos quando o banco carrega — mexe à vontade e clique Rodar de novo.</p>
+      <p class="legenda">Eles já rodam sozinhos quando o banco carrega, mas mexe à vontade e clique Rodar de novo.</p>
       <div id="exemplos"></div>
     </section>
 
@@ -78,22 +78,22 @@
       <h2>Teoria</h2>
       <div class="card">
         <ul>
-          <li><code>SELECT colunas FROM tabela</code> — escolhe <em>o quê</em> e <em>de onde</em>. <code>SELECT *</code> traz todas as colunas.</li>
-          <li><code>WHERE condição</code> — filtra linhas. Operadores: <code>=</code> <code>&lt;&gt;</code> <code>&gt;</code> <code>&lt;</code> <code>&gt;=</code> <code>&lt;=</code>, <code>AND</code>, <code>OR</code>, <code>NOT</code>.</li>
-          <li><code>BETWEEN a AND b</code> — intervalo (inclusivo nas pontas).</li>
-          <li><code>IN (v1, v2, ...)</code> — valor dentro de uma lista.</li>
-          <li><code>LIKE 'abc%'</code> — texto por padrão: <code>%</code> = qualquer coisa, <code>_</code> = exatamente 1 caractere.</li>
-          <li><code>ORDER BY coluna ASC|DESC</code> — ordena. <code>LIMIT n</code> — corta nas n primeiras linhas.</li>
-          <li><code>DISTINCT</code> — remove linhas repetidas do resultado.</li>
-          <li><code>AS</code> — apelido de coluna: <code>preco * 0.9 AS preco_promo</code>.</li>
+          <li><code>SELECT colunas FROM tabela</code>: escolhe <em>o quê</em> e <em>de onde</em>. <code>SELECT *</code> traz todas as colunas.</li>
+          <li><code>WHERE condição</code>: filtra linhas. Operadores: <code>=</code> <code>&lt;&gt;</code> <code>&gt;</code> <code>&lt;</code> <code>&gt;=</code> <code>&lt;=</code>, <code>AND</code>, <code>OR</code>, <code>NOT</code>.</li>
+          <li><code>BETWEEN a AND b</code>: intervalo (inclusivo nas pontas).</li>
+          <li><code>IN (v1, v2, ...)</code>: valor dentro de uma lista.</li>
+          <li><code>LIKE 'abc%'</code>: texto por padrão, onde <code>%</code> = qualquer coisa e <code>_</code> = exatamente 1 caractere.</li>
+          <li><code>ORDER BY coluna ASC|DESC</code>: ordena. <code>LIMIT n</code>: corta nas n primeiras linhas.</li>
+          <li><code>DISTINCT</code>: remove linhas repetidas do resultado.</li>
+          <li><code>AS</code>: apelido de coluna, como em <code>preco * 0.9 AS preco_promo</code>.</li>
         </ul>
-        <p style="margin-bottom:0"><strong>Olhar de QA:</strong> quase toda investigação começa com um <code>SELECT ... WHERE</code> — "me mostra as linhas onde algo está estranho".</p>
+        <p style="margin-bottom:0"><strong>Olhar de QA:</strong> quase toda investigação começa com um <code>SELECT ... WHERE</code>: "me mostra as linhas onde algo está estranho".</p>
       </div>
     </section>
 
     <section class="secao">
       <h2>Exemplos de aplicação</h2>
-      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar — é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
+      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar: é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
 
       <div class="card">
         <h3 style="margin-top:0"><code>SELECT ... FROM tabela</code></h3>
@@ -131,7 +131,7 @@ WHERE categoria IN ('Perifericos', 'Monitores', 'Armazenamento');</code></pre>
         <pre class="bloco"><code>SELECT nome, email
 FROM clientes
 WHERE email LIKE '%@gmail.com';</code></pre>
-        <p style="margin-bottom:0"><code>%</code> casa com qualquer sequência de caracteres (até nenhuma), então <code>'%@gmail.com'</code> pega todo email que <em>termina</em> em <code>@gmail.com</code>. <code>_</code> casaria com exatamente 1 caractere — <code>'CT-01_'</code> pegaria de CT-010 a CT-019.</p>
+        <p style="margin-bottom:0"><code>%</code> casa com qualquer sequência de caracteres (até nenhuma), então <code>'%@gmail.com'</code> pega todo email que <em>termina</em> em <code>@gmail.com</code>. <code>_</code> casaria com exatamente 1 caractere, então <code>'CT-01_'</code> pegaria de CT-010 a CT-019.</p>
       </div>
 
       <div class="card">
@@ -140,7 +140,7 @@ WHERE email LIKE '%@gmail.com';</code></pre>
 FROM pedidos
 ORDER BY valor_total DESC
 LIMIT 10;</code></pre>
-        <p style="margin-bottom:0"><code>ORDER BY valor_total DESC</code> ordena do maior pro menor (<code>ASC</code>, crescente, é o padrão). <code>LIMIT 10</code> corta nas 10 primeiras linhas <em>depois</em> de ordenar — ou seja, os 10 pedidos mais caros.</p>
+        <p style="margin-bottom:0"><code>ORDER BY valor_total DESC</code> ordena do maior pro menor (<code>ASC</code>, crescente, é o padrão). <code>LIMIT 10</code> corta nas 10 primeiras linhas <em>depois</em> de ordenar, ou seja, os 10 pedidos mais caros.</p>
       </div>
 
       <div class="card">
@@ -148,7 +148,7 @@ LIMIT 10;</code></pre>
         <pre class="bloco"><code>SELECT DISTINCT estado
 FROM clientes
 ORDER BY estado;</code></pre>
-        <p style="margin-bottom:0">Sem <code>DISTINCT</code>, viria o <code>estado</code> dos 60 clientes, com muita repetição. <code>DISTINCT</code> colapsa as linhas iguais e devolve cada estado uma vez — bom pra responder "quais valores existem nessa coluna?".</p>
+        <p style="margin-bottom:0">Sem <code>DISTINCT</code>, viria o <code>estado</code> dos 60 clientes, com muita repetição. <code>DISTINCT</code> colapsa as linhas iguais e devolve cada estado uma vez, bom pra responder "quais valores existem nessa coluna?".</p>
       </div>
 
       <div class="card">
@@ -166,14 +166,14 @@ FROM produtos;</code></pre>
         <h2 style="margin-top:0;border:0">Pegadinhas deste módulo</h2>
         <p style="margin-top:0;font-size:14px">
           Os erros que quase todo mundo comete aqui. Ler agora poupa meia hora de
-          confusão depois — e alguns deles são a causa de relatório errado em projeto real.
+          confusão depois, e alguns deles são a causa de relatório errado em projeto real.
         </p>
         <ul>
-          <li><b>Texto diferencia maiúscula de minúscula.</b> <code>WHERE cidade = 'campinas'</code> não acha <code>'Campinas'</code> e devolve <b>zero linhas sem dar erro</b>. Zero linha não é sinal de que está tudo certo — é sinal de que você precisa conferir a condição.</li>
+          <li><b>Texto diferencia maiúscula de minúscula.</b> <code>WHERE cidade = 'campinas'</code> não acha <code>'Campinas'</code> e devolve <b>zero linhas sem dar erro</b>. Zero linha não é sinal de que está tudo certo: é sinal de que você precisa conferir a condição.</li>
           <li><b><code>LIMIT</code> sem <code>ORDER BY</code> não significa nada.</b> "As 5 primeiras" de um resultado não ordenado são 5 linhas quaisquer, e podem mudar entre execuções. Se o enunciado fala em "maiores" ou "mais recentes", tem que haver <code>ORDER BY</code>.</li>
           <li><b><code>LIKE '%Silva%'</code> ≠ <code>LIKE 'Silva'</code>.</b> Sem os <code>%</code>, o <code>LIKE</code> vira uma igualdade. É a causa mais comum de "minha busca não acha nada".</li>
-          <li><b>Aspas simples para texto, nada para número.</b> <code>WHERE preco > '500'</code> pode funcionar por acidente e comparar como <em>texto</em> — e aí <code>'90'</code> fica maior que <code>'500'</code>, porque <code>9</code> vem depois de <code>5</code> no alfabeto.</li>
-          <li><b><code>BETWEEN</code> inclui as duas pontas.</b> <code>BETWEEN 100 AND 200</code> pega o 100 e o 200. Quando o requisito diz "acima de 100", <code>BETWEEN</code> está errado — e essa diferença de uma linha é exatamente o tipo de defeito que a análise de valor limite procura.</li>
+          <li><b>Aspas simples para texto, nada para número.</b> <code>WHERE preco > '500'</code> pode funcionar por acidente e comparar como <em>texto</em>, e aí <code>'90'</code> fica maior que <code>'500'</code>, porque <code>9</code> vem depois de <code>5</code> no alfabeto.</li>
+          <li><b><code>BETWEEN</code> inclui as duas pontas.</b> <code>BETWEEN 100 AND 200</code> pega o 100 e o 200. Quando o requisito diz "acima de 100", <code>BETWEEN</code> está errado, e essa diferença de uma linha é exatamente o tipo de defeito que a análise de valor limite procura.</li>
         </ul>
       </div>
     </section>
@@ -182,7 +182,7 @@ FROM produtos;</code></pre>
       <h2>Prática</h2>
       <p class="legenda">
         Escreva a query e clique <strong>Rodar</strong> (ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>).
-        Tenta antes de abrir a resposta — errar e ajustar é o exercício.
+        Tenta antes de abrir a resposta: errar e ajustar é o exercício.
       </p>
       <div id="schema-ref" data-aberto></div>
       <p class="status-banco" id="status-banco">carregando banco…</p>
@@ -201,7 +201,7 @@ FROM produtos;</code></pre>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>
@@ -270,7 +270,7 @@ FROM produtos;</code></pre>
       gabarito: "SELECT id, status, valor_total FROM pedidos\nWHERE status <> 'entregue' AND valor_total >= 3000;" },
     { id: "1.10",
       enunciado: "Produtos inativos (ativo = 0) OU com estoque igual a 0. Mostre nome, ativo e estoque.",
-      dica: "aqui é <code>OR</code>, não <code>AND</code> — basta uma das duas ser verdade",
+      dica: "aqui é <code>OR</code>, não <code>AND</code>: basta uma das duas ser verdade",
       gabarito: "SELECT nome, ativo, estoque FROM produtos WHERE ativo = 0 OR estoque = 0;" },
   ];
   </script>

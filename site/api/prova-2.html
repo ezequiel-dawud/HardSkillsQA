@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 2 da trilha Teste de API — Contrato da resposta: campos, tipos, formato, consistência entre rotas. Corrigida na hora; 70% fecha o módulo." />
+  <meta name="description" content="Prova do módulo 2 da trilha Teste de API: contrato da resposta, campos, tipos, formato, consistência entre rotas. Corrigida na hora; 70% fecha o módulo." />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/api/prova-2.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/api/prova-2.html" />
-  <meta property="og:title" content="Prova — Módulo 2 (API) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 2 da trilha Teste de API — Contrato da resposta: campos, tipos, formato, consistência entre rotas. Corrigida na hora; 70% fecha o módulo." />
+  <meta property="og:title" content="Prova do Módulo 2 (API) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 2 da trilha Teste de API: contrato da resposta, campos, tipos, formato, consistência entre rotas. Corrigida na hora; 70% fecha o módulo." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-api.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 2 (API) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 2 (API) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 2 (API)</title>
+  <title>Prova do Módulo 2 (API)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 2</h1>
+    <h1>Prova do Módulo 2</h1>
     <p class="legenda">Contrato da resposta: campos, tipos, formato, consistência entre rotas. &nbsp;<a href="modulo-2.html">← rever o módulo</a></p>
     <div id="prova"></div>
   </main>
@@ -63,7 +63,7 @@
             "t": "mc",
             "enun": "A rota devolve <code>\"preco\": \"1299.90\"</code> (entre aspas) enquanto a lista devolve <code>\"preco\": 1299.9</code> (número). Isso é problema?",
             "ops": [
-                  "Sim — o mesmo campo mudando de tipo entre rotas quebra quem consome, que precisa tratar os dois casos",
+                  "Sim, porque o mesmo campo mudando de tipo entre rotas quebra quem consome, que precisa tratar os dois casos",
                   "Não, porque o valor numérico é o mesmo nos dois",
                   "Não, desde que a documentação avise",
                   "Sim, mas apenas se o consumidor for uma aplicação móvel"
@@ -81,7 +81,7 @@
                   "<code>Array.isArray(obj.data)</code>"
             ],
             "correta": 0,
-            "exp": "Os três últimos verificam presença ou tipo — nenhum garante o formato. Contrato tem três camadas: existe, é do tipo certo, está no formato certo."
+            "exp": "Os três últimos verificam presença ou tipo, mas nenhum garante o formato. Contrato tem três camadas: existe, é do tipo certo, está no formato certo."
       },
       {
             "t": "mc",
@@ -93,13 +93,13 @@
                   "Verificar um item sorteado aleatoriamente a cada execução"
             ],
             "correta": 0,
-            "exp": "Item com campo faltando costuma ser exatamente aquele fora do padrão — e nunca é o primeiro. Sorteio aleatório, além disso, torna o teste instável."
+            "exp": "Item com campo faltando costuma ser exatamente aquele fora do padrão, e nunca é o primeiro. Sorteio aleatório, além disso, torna o teste instável."
       },
       {
             "t": "mc",
             "enun": "Um <code>check</code> de contrato ficou vermelho. Qual a primeira hipótese?",
             "ops": [
-                  "Pode ser um defeito real da API — se o enunciado descreve o contrato esperado e a verificação falha, você achou algo",
+                  "Pode ser um defeito real da API: se o enunciado descreve o contrato esperado e a verificação falha, você achou algo",
                   "O teste está errado e precisa ser ajustado para passar",
                   "O servidor está sobrecarregado",
                   "A versão do cliente HTTP está desatualizada"
@@ -111,7 +111,7 @@
             "t": "mc",
             "enun": "Por que status 200 não é garantia de resposta correta?",
             "ops": [
-                  "Porque 200 diz apenas que a requisição foi processada — o corpo pode vir com campo faltando, tipo trocado ou valor errado",
+                  "Porque 200 diz apenas que a requisição foi processada, e o corpo pode vir com campo faltando, tipo trocado ou valor errado",
                   "Porque o status é definido pelo servidor web, não pela aplicação",
                   "Porque 200 pode ser devolvido em cache, sem processar",
                   "Porque o correto para leitura seria 204"
@@ -122,7 +122,7 @@
       {
             "t": "aberta",
             "enun": "Escreva as verificações de contrato para um item de <code>/produtos/{id}</code> que deve ter: <code>id</code> (número), <code>nome</code> (texto), <code>categoria</code> (texto), <code>preco</code> (número), <code>estoque</code> (número inteiro ≥ 0), <code>ativo</code> (booleano).",
-            "modelo": "<pre class=\"bloco\"><code>const r = await api('GET', '/produtos/7');\nconst p = r.json;\n\ncheck('status 200', r.status === 200);\n\n// presença + tipo\ncheck('id numerico',        typeof p.id === 'number');\ncheck('nome texto',         typeof p.nome === 'string');\ncheck('categoria texto',    typeof p.categoria === 'string');\ncheck('preco numerico',     typeof p.preco === 'number', 'veio ' + typeof p.preco);\ncheck('estoque numerico',   typeof p.estoque === 'number');\ncheck('ativo booleano',     typeof p.ativo === 'boolean', 'veio ' + typeof p.ativo);\n\n// regras além do tipo\ncheck('nome nao vazio',     p.nome.trim().length &gt; 0);\ncheck('preco positivo',     p.preco &gt; 0);\ncheck('estoque inteiro',    Number.isInteger(p.estoque));\ncheck('estoque nao negativo', p.estoque &gt;= 0);\n\n// nenhum campo a mais nem a menos\nconst esperados = ['id','nome','categoria','preco','estoque','ativo'];\ncheck('sem campo faltando', esperados.every(c =&gt; c in p));\ncheck('sem campo extra',    Object.keys(p).every(c =&gt; esperados.includes(c)),\n      Object.keys(p).join(','));</code></pre><p><b>O que separa uma resposta completa:</b></p><ul><li><b>Tipo, não só presença.</b> <code>p.preco !== undefined</code> passaria com <code>\"1299.90\"</code> em texto — e é exatamente esse o defeito que se quer pegar.</li><li><b>Regras além do tipo:</b> estoque inteiro e não negativo, preço positivo, nome não vazio. O tipo certo com valor absurdo continua sendo defeito.</li><li><b>Campo a mais.</b> Verificar que não vieram campos inesperados pega vazamento de dado interno — um <code>custo</code> ou <code>senha_hash</code> que escapou para a resposta pública. Quase ninguém testa isso, e é o achado mais valioso da lista.</li><li><b>Mensagem no check</b> (<code>'veio ' + typeof p.preco</code>) — quando ficar vermelho, você já sabe o que veio.</li></ul>",
+            "modelo": "<pre class=\"bloco\"><code>const r = await api('GET', '/produtos/7');\nconst p = r.json;\n\ncheck('status 200', r.status === 200);\n\n// presença + tipo\ncheck('id numerico',        typeof p.id === 'number');\ncheck('nome texto',         typeof p.nome === 'string');\ncheck('categoria texto',    typeof p.categoria === 'string');\ncheck('preco numerico',     typeof p.preco === 'number', 'veio ' + typeof p.preco);\ncheck('estoque numerico',   typeof p.estoque === 'number');\ncheck('ativo booleano',     typeof p.ativo === 'boolean', 'veio ' + typeof p.ativo);\n\n// regras além do tipo\ncheck('nome nao vazio',     p.nome.trim().length &gt; 0);\ncheck('preco positivo',     p.preco &gt; 0);\ncheck('estoque inteiro',    Number.isInteger(p.estoque));\ncheck('estoque nao negativo', p.estoque &gt;= 0);\n\n// nenhum campo a mais nem a menos\nconst esperados = ['id','nome','categoria','preco','estoque','ativo'];\ncheck('sem campo faltando', esperados.every(c =&gt; c in p));\ncheck('sem campo extra',    Object.keys(p).every(c =&gt; esperados.includes(c)),\n      Object.keys(p).join(','));</code></pre><p><b>O que separa uma resposta completa:</b></p><ul><li><b>Tipo, não só presença.</b> <code>p.preco !== undefined</code> passaria com <code>\"1299.90\"</code> em texto, e é exatamente esse o defeito que se quer pegar.</li><li><b>Regras além do tipo:</b> estoque inteiro e não negativo, preço positivo, nome não vazio. O tipo certo com valor absurdo continua sendo defeito.</li><li><b>Campo a mais.</b> Verificar que não vieram campos inesperados pega vazamento de dado interno: um <code>custo</code> ou <code>senha_hash</code> que escapou para a resposta pública. Quase ninguém testa isso, e é o achado mais valioso da lista.</li><li><b>Mensagem no check</b> (<code>'veio ' + typeof p.preco</code>): quando ficar vermelho, você já sabe o que veio.</li></ul>",
             "dica": "não pare na presença do campo: teste o tipo, e depois as regras de valor. E pense no campo que veio a mais."
       }
 ]

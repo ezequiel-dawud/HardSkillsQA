@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 3 da trilha Git e GitHub para QA — Pull Request, ler diff com olhos de QA, os checks do CI. Corrigida na hora; 70% fecha o módulo." />
+  <meta name="description" content="Prova do módulo 3 da trilha Git e GitHub para QA: Pull Request, ler diff com olhos de QA, os checks do CI. Corrigida na hora; 70% fecha o módulo." />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/git/prova-3.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/git/prova-3.html" />
-  <meta property="og:title" content="Prova — Módulo 3 (Git) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 3 da trilha Git e GitHub para QA — Pull Request, ler diff com olhos de QA, os checks do CI. Corrigida na hora; 70% fecha o módulo." />
+  <meta property="og:title" content="Prova do Módulo 3 (Git) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 3 da trilha Git e GitHub para QA: Pull Request, ler diff com olhos de QA, os checks do CI. Corrigida na hora; 70% fecha o módulo." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-git.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 3 (Git) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 3 (Git) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 3 (Git)</title>
+  <title>Prova do Módulo 3 (Git)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -37,7 +37,7 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 3</h1>
+    <h1>Prova do Módulo 3</h1>
     <p class="legenda">Pull Request, ler diff com olhos de QA, os checks do CI. &nbsp;<a href="modulo-3.html">← rever o módulo</a></p>
     <div id="prova"></div>
   </main>
@@ -74,7 +74,7 @@
             "t": "mc",
             "enun": "Num diff, o que merece mais atenção de quem testa?",
             "ops": [
-                  "Números e condições que mudaram, e linhas removidas — um <code>&gt;</code> que virou <code>&gt;=</code> ou uma validação apagada",
+                  "Números e condições que mudaram, e linhas removidas: um <code>&gt;</code> que virou <code>&gt;=</code> ou uma validação apagada",
                   "A quantidade total de linhas alteradas",
                   "O nome das variáveis criadas",
                   "A indentação e o estilo do código"
@@ -104,7 +104,7 @@
                   "Porque o Git impede novos commits enquanto houver falha"
             ],
             "correta": 0,
-            "exp": "Vermelho normalizado é o mesmo que não ter CI — com o custo de mantê-lo."
+            "exp": "Vermelho normalizado é o mesmo que não ter CI, com o custo de mantê-lo."
       },
       {
             "t": "mc",
@@ -116,12 +116,12 @@
                   "O link para a documentação da linguagem usada"
             ],
             "correta": 0,
-            "exp": "\"Como testar\" é a seção que mais economiza tempo de QA — e a que mais falta."
+            "exp": "\"Como testar\" é a seção que mais economiza tempo de QA, e a que mais falta."
       },
       {
             "t": "aberta",
             "enun": "Escreva a descrição de um Pull Request que altera a regra de frete de <i>\"grátis acima de R$ 300\"</i> para <i>\"grátis a partir de R$ 250\"</i>. Use as três seções, e escreva a de \"como testar\" como QA.",
-            "modelo": "<pre class=\"bloco\"><code>## O que muda\nO valor mínimo para frete grátis passa de R$ 300,00 (exclusivo) para\nR$ 250,00 (inclusivo). Afeta o cálculo no carrinho, no checkout e no\nresumo do pedido.\n\n## Por quê\nCampanha de julho (ticket QA-318). Decisão de negócio, vale para todas\nas regiões a partir da subida.\n\n## Como testar\n- Carrinho de R$ 249,99 → deve cobrar frete\n- Carrinho de R$ 250,00 → deve ser GRÁTIS (a regra agora é inclusiva)\n- Carrinho de R$ 250,01 → grátis\n- Carrinho de R$ 300,00 → grátis (continua valendo)\n- Conferir que o valor exibido no carrinho, no checkout e no resumo\n  final é o mesmo — a regra mudou nos três lugares?\n- Pedido criado com frete grátis: conferir no banco que o valor_total\n  gravado bate com a soma dos itens (sem frete residual)\n- Pedido feito ANTES da subida e finalizado DEPOIS: cobra qual regra?\n</code></pre><p><b>O que se espera:</b> que a seção \"como testar\" tenha virado uma análise de <b>valor limite</b> (249,99 / 250,00 / 250,01), que você tenha notado a mudança de <i>exclusivo</i> para <i>inclusivo</i> — o detalhe que o texto da campanha esconde — e que tenha pensado em consistência entre telas e no dado gravado no banco. O último item, do pedido que atravessa a mudança, é o que separa uma descrição boa de uma excelente.</p>",
+            "modelo": "<pre class=\"bloco\"><code>## O que muda\nO valor mínimo para frete grátis passa de R$ 300,00 (exclusivo) para\nR$ 250,00 (inclusivo). Afeta o cálculo no carrinho, no checkout e no\nresumo do pedido.\n\n## Por quê\nCampanha de julho (ticket QA-318). Decisão de negócio, vale para todas\nas regiões a partir da subida.\n\n## Como testar\n- Carrinho de R$ 249,99 → deve cobrar frete\n- Carrinho de R$ 250,00 → deve ser GRÁTIS (a regra agora é inclusiva)\n- Carrinho de R$ 250,01 → grátis\n- Carrinho de R$ 300,00 → grátis (continua valendo)\n- Conferir que o valor exibido no carrinho, no checkout e no resumo\n  final é o mesmo — a regra mudou nos três lugares?\n- Pedido criado com frete grátis: conferir no banco que o valor_total\n  gravado bate com a soma dos itens (sem frete residual)\n- Pedido feito ANTES da subida e finalizado DEPOIS: cobra qual regra?\n</code></pre><p><b>O que se espera:</b> que a seção \"como testar\" tenha virado uma análise de <b>valor limite</b> (249,99 / 250,00 / 250,01), que você tenha notado a mudança de <i>exclusivo</i> para <i>inclusivo</i> (o detalhe que o texto da campanha esconde), e que tenha pensado em consistência entre telas e no dado gravado no banco. O último item, do pedido que atravessa a mudança, é o que separa uma descrição boa de uma excelente.</p>",
             "dica": "a mudança de \"acima de\" para \"a partir de\" não é só o número: mudou a inclusividade da fronteira."
       }
 ]

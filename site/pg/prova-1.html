@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 1 da trilha PostgreSQL para QA — Ler dados no Postgres: SELECT, WHERE, ORDER BY, LIMIT/OFFSET, aspas, cast com::. Corrigida na hora; 70%…" />
+  <meta name="description" content="Prova do módulo 1 da trilha PostgreSQL para QA sobre ler dados no Postgres: SELECT, WHERE, ORDER BY, LIMIT/OFFSET, aspas, cast com::. Corrigida na hora; 70%…" />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/pg/prova-1.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/pg/prova-1.html" />
-  <meta property="og:title" content="Prova — Módulo 1 (PostgreSQL) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 1 da trilha PostgreSQL para QA — Ler dados no Postgres: SELECT, WHERE, ORDER BY, LIMIT/OFFSET, aspas, cast com::. Corrigida na hora; 70%…" />
+  <meta property="og:title" content="Prova do Módulo 1 (PostgreSQL) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 1 da trilha PostgreSQL para QA sobre ler dados no Postgres: SELECT, WHERE, ORDER BY, LIMIT/OFFSET, aspas, cast com::. Corrigida na hora; 70%…" />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-pg.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 1 (PostgreSQL) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 1 (PostgreSQL) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 1 (PostgreSQL)</title>
+  <title>Prova do Módulo 1 (PostgreSQL)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -41,7 +41,7 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 1</h1>
+    <h1>Prova do Módulo 1</h1>
     <p class="legenda">Ler dados no Postgres: SELECT, WHERE, ORDER BY, LIMIT/OFFSET, aspas, cast com <code>::</code>. &nbsp;<a href="modulo-1.html">← rever o módulo</a></p>
     <p class="status-banco" id="status-banco">carregando Postgres…</p>
     <div id="prova"></div>
@@ -73,7 +73,7 @@
 
       { t: "sql", ordenado: true,
         enun: "Nome dos clientes cujo nome contém <code>silva</code>, sem se importar com maiúsculas/minúsculas. Coluna: <code>nome</code>; em ordem alfabética.",
-        dica: "<code>ILIKE '%silva%'</code> — a versão do <code>LIKE</code> que ignora a caixa (só existe no Postgres).",
+        dica: "<code>ILIKE '%silva%'</code>, a versão do <code>LIKE</code> que ignora a caixa (só existe no Postgres).",
         gab: "SELECT nome FROM clientes\nWHERE nome ILIKE '%silva%'\nORDER BY nome;" },
 
       { t: "sql",
@@ -93,7 +93,7 @@
       { t: "mc",
         enun: "<code>valor_total::int</code> faz o quê?",
         ops: [
-          "Converte (cast) o valor para inteiro — é a forma curta de <code>CAST(valor_total AS int)</code>",
+          "Converte (cast) o valor para inteiro: é a forma curta de <code>CAST(valor_total AS int)</code>",
           "Multiplica o valor por si mesmo",
           "Compara o valor com um inteiro",
           "Cria uma coluna nova chamada <code>int</code>" ],
@@ -105,7 +105,7 @@
           "5 linhas, pulando as 10 primeiras",
           "10 linhas, pulando as 5 primeiras",
           "as linhas de 5 a 10",
-          "erro — não se pode usar os dois juntos" ],
+          "erro: não se pode usar os dois juntos" ],
         correta: 0 }
     ]
   };

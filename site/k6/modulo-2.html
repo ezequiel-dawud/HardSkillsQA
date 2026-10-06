@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/k6/modulo-2.html" />
-  <meta property="og:title" content="k6 Módulo 2 — Anatomia de um script — QA Learning" />
+  <meta property="og:title" content="k6 Módulo 2: Anatomia de um script | QA Learning" />
   <meta property="og:description" content="As 4 peças de todo teste de carga, num roteiro de usuário que faz login, navega e compra. Módulo 2 da trilha Teste de carga com k6, no QA Learning." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-k6.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="k6 Módulo 2 — Anatomia de um script — QA Learning" />
+  <meta property="og:image:alt" content="k6 Módulo 2: Anatomia de um script | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>k6 Módulo 2 — Anatomia de um script</title>
+  <title>k6 Módulo 2: Anatomia de um script</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,19 +38,19 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 2 — Anatomia de um script</h1>
+    <h1>Módulo 2: Anatomia de um script</h1>
     <p class="legenda">As 4 peças de todo teste de carga, num roteiro de usuário que faz login, navega e compra.</p>
 
     <section class="secao">
       <h2>As 4 peças</h2>
       <div class="card">
         <ul>
-          <li><b><code>options</code></b> — quanta carga e por quanto tempo (VUs, duração,
+          <li><b><code>options</code></b>: quanta carga e por quanto tempo (VUs, duração,
             thresholds).</li>
-          <li><b><code>export default function</code></b> — o roteiro de <em>um</em> VU numa
+          <li><b><code>export default function</code></b>: o roteiro de <em>um</em> VU numa
             iteração. O k6 repete isto em loop.</li>
-          <li><b><code>http.get / http.post / …</code></b> — as requisições.</li>
-          <li><b><code>check()</code></b> — o que conta como resposta certa.</li>
+          <li><b><code>http.get / http.post / …</code></b>: as requisições.</li>
+          <li><b><code>check()</code></b>: o que conta como resposta certa.</li>
         </ul>
         <p style="margin-bottom:0">Mais duas de apoio: <b><code>sleep()</code></b> (o think time) e
           <b><code>group()</code></b> (organiza o relatório por trecho do fluxo).</p>
@@ -60,18 +60,18 @@
     <section class="secao">
       <h2>Item por item, com exemplo</h2>
       <p style="margin:0 0 14px; font-size:14px; color:var(--suave)">
-        Os trechos abaixo são pedaços soltos, só pra explicar a sintaxe de cada peça — não são
+        Os trechos abaixo são pedaços soltos, só pra explicar a sintaxe de cada peça, não são
         pra rodar isolados nem colar no terminal. <b>Pra que servem, na prática:</b> todos eles
         aparecem, montados, no arquivo real <code>scripts/02_anatomia.js</code> (já vem pronto no
         projeto que você baixou). Abra esse arquivo no VS Code do lado desta página e reconheça
-        cada peça — o <code>export default function</code>, os <code>http.post</code>/<code>http.get</code>,
+        cada peça: o <code>export default function</code>, os <code>http.post</code>/<code>http.get</code>,
         os <code>check</code>. É nesse arquivo real que você vai <b>editar e rodar</b>, no
         <a href="#exercicio">Exercício</a> logo abaixo.
       </p>
 
       <div class="card">
         <h3 style="margin-top:0"><code>export default function () { … }</code></h3>
-        <p class="rotulo-bloco">🧩 trecho de exemplo — JavaScript pra estudar ou colar num arquivo .js, não é comando de terminal</p>
+        <p class="rotulo-bloco">🧩 trecho de exemplo: JavaScript pra estudar ou colar num arquivo .js, não é comando de terminal</p>
         <pre class="bloco"><code>export default function () {
   // tudo aqui dentro = 1 iteracao de 1 VU. Com vus:5, rodam 5 em paralelo.
   const r = http.get(`${BASE}/produtos`);
@@ -84,7 +84,7 @@
 
       <div class="card">
         <h3 style="margin-top:0"><code>http.get(url, params)</code> / <code>http.post(url, corpo, params)</code></h3>
-        <p class="rotulo-bloco">🧩 trecho de exemplo — JavaScript pra estudar ou colar num arquivo .js, não é comando de terminal</p>
+        <p class="rotulo-bloco">🧩 trecho de exemplo: JavaScript pra estudar ou colar num arquivo .js, não é comando de terminal</p>
         <pre class="bloco"><code>const login = http.post(
   `${BASE}/login`,
   JSON.stringify({ usuario: `qa_${__VU}` }),          // corpo (string)
@@ -98,31 +98,31 @@ const token = login.json("token");   // le um campo do JSON da resposta</code></
 
       <div class="card">
         <h3 style="margin-top:0"><code>check(resposta, { rótulo: fn, … })</code></h3>
-        <p class="rotulo-bloco">🧩 trecho de exemplo — JavaScript pra estudar ou colar num arquivo .js, não é comando de terminal</p>
+        <p class="rotulo-bloco">🧩 trecho de exemplo: JavaScript pra estudar ou colar num arquivo .js, não é comando de terminal</p>
         <pre class="bloco"><code>check(r, {
   "status 201": (res) =&gt; res.status === 201,
   "resposta traz id": (res) =&gt; res.json("id") !== undefined,
 });</code></pre>
         <p style="margin-bottom:0">Cada função devolve <code>true</code>/<code>false</code>.
           Diferente de um <code>assert</code>, um <code>check</code> falso <b>não</b> interrompe a
-          iteração — ele alimenta a métrica <code>checks</code> (o "% ok" do resumo). Pra falhar o
+          iteração, apenas alimenta a métrica <code>checks</code> (o "% ok" do resumo). Pra falhar o
           teste de verdade, é <code>threshold</code> (Módulo 3).</p>
       </div>
 
       <div class="card">
-        <h3 style="margin-top:0"><code>sleep(segundos)</code> — think time</h3>
-        <p class="rotulo-bloco">🧩 trecho de exemplo — JavaScript pra estudar ou colar num arquivo .js, não é comando de terminal</p>
+        <h3 style="margin-top:0"><code>sleep(segundos)</code>: think time</h3>
+        <p class="rotulo-bloco">🧩 trecho de exemplo: JavaScript pra estudar ou colar num arquivo .js, não é comando de terminal</p>
         <pre class="bloco"><code>const r = http.get(`${BASE}/produtos`);
 check(r, { "produtos 200": (res) =&gt; res.status === 200 });
 sleep(1);   // o "usuario" leva ~1s olhando a vitrine antes do proximo passo</code></pre>
-        <p style="margin-bottom:0">Sem <code>sleep</code>, cada VU dispara requisições sem pausa —
+        <p style="margin-bottom:0">Sem <code>sleep</code>, cada VU dispara requisições sem pausa,
           isso mede o servidor no talo, não usuários reais. Com think time, N VUs se parecem com N
           pessoas. Dá pra variar: <code>sleep(Math.random() * 2)</code>.</p>
       </div>
 
       <div class="card">
-        <h3 style="margin-top:0"><code>options</code> — a forma da carga</h3>
-        <p class="rotulo-bloco">🧩 trecho de exemplo — JavaScript pra estudar ou colar num arquivo .js, não é comando de terminal</p>
+        <h3 style="margin-top:0"><code>options</code>: a forma da carga</h3>
+        <p class="rotulo-bloco">🧩 trecho de exemplo: JavaScript pra estudar ou colar num arquivo .js, não é comando de terminal</p>
         <pre class="bloco"><code>export const options = {
   vus: 5,             // 5 usuarios virtuais simultaneos
   duration: "20s",    // durante 20s (cada VU repete o fluxo em loop)
@@ -137,7 +137,7 @@ sleep(1);   // o "usuario" leva ~1s olhando a vitrine antes do proximo passo</co
 
       <div class="card">
         <h3 style="margin-top:0"><code>group("nome", fn)</code> + tags</h3>
-        <p class="rotulo-bloco">🧩 trecho de exemplo — JavaScript pra estudar ou colar num arquivo .js, não é comando de terminal</p>
+        <p class="rotulo-bloco">🧩 trecho de exemplo: JavaScript pra estudar ou colar num arquivo .js, não é comando de terminal</p>
         <pre class="bloco"><code>group("navegar", function () {
   const r = http.get(`${BASE}/produtos`, { tags: { tipo: "leitura" } });
   check(r, { "produtos 200": (res) =&gt; res.status === 200 });
@@ -145,7 +145,7 @@ sleep(1);   // o "usuario" leva ~1s olhando a vitrine antes do proximo passo</co
         <p style="margin-bottom:0"><code>group</code> agrupa as métricas daquele trecho no relatório
           (útil pra saber se a lentidão está no "login" ou no "checkout"). A <code>tag</code>
           <code>{ tipo: "leitura" }</code> cria uma <b>sub-métrica</b>: dá pra ter um threshold só
-          das requisições de leitura — <code>"http_req_duration{tipo:leitura}": ["p(95)&lt;600"]</code>.</p>
+          das requisições de leitura: <code>"http_req_duration{tipo:leitura}": ["p(95)&lt;600"]</code>.</p>
       </div>
     </section>
 
@@ -176,13 +176,13 @@ python verificar.py 2</code></pre>
     <section class="secao">
       <div class="card" style="border-left:3px solid var(--acento)">
         <h2 style="margin-top:0;border:0">Olhar de QA</h2>
-        <p style="margin-bottom:0">Aqui mora a confusão que faz muita gente ter um teste de carga que nunca reprova: <code>check()</code> <b>não</b> falha o teste. Ele alimenta uma métrica; quem reprova é o <code>threshold</code> do próximo módulo. E preste atenção no realismo do roteiro: sem think time e com dado fixo, você mede o cache de um registro só — e conclui que o sistema aguenta muito mais gente do que ele realmente aguenta.</p>
+        <p style="margin-bottom:0">Aqui mora a confusão que faz muita gente ter um teste de carga que nunca reprova: <code>check()</code> <b>não</b> falha o teste. Ele alimenta uma métrica; quem reprova é o <code>threshold</code> do próximo módulo. E preste atenção no realismo do roteiro: sem think time e com dado fixo, você mede o cache de um registro só, e conclui que o sistema aguenta muito mais gente do que ele realmente aguenta.</p>
       </div>
     </section>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>

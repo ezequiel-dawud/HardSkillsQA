@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/sql/modulo-6.html" />
-  <meta property="og:title" content="Módulo 6 — SQL no dia a dia de QA — QA Learning" />
+  <meta property="og:title" content="Módulo 6: SQL no dia a dia de QA | QA Learning" />
   <meta property="og:description" content="validação de dados + métricas. Módulo 6 da trilha SQL para QA, no QA Learning. Teoria curta e exercícios que rodam num banco dentro do próprio navegador." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-sql.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Módulo 6 — SQL no dia a dia de QA — QA Learning" />
+  <meta property="og:image:alt" content="Módulo 6: SQL no dia a dia de QA | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Módulo 6 — SQL no dia a dia de QA</title>
+  <title>Módulo 6: SQL no dia a dia de QA</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -41,7 +41,7 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 6 — SQL no dia a dia de QA</h1>
+    <h1>Módulo 6: SQL no dia a dia de QA</h1>
     <p class="legenda">validação de dados + métricas</p>
 
     <section class="secao teoria">
@@ -49,23 +49,23 @@
       <div class="card">
         <p style="margin-top:0">Aqui você usa tudo junto pra tarefas reais de QA:</p>
         <ul>
-          <li><strong>Validação de dados</strong>: achar linhas que violam a regra de negócio — pedido não-cancelado com <code>valor_total = 0</code>; item com <code>quantidade &lt;= 0</code>; <code>valor_total</code> do pedido diferente da soma dos itens.</li>
+          <li><strong>Validação de dados</strong>: achar linhas que violam a regra de negócio: pedido não-cancelado com <code>valor_total = 0</code>; item com <code>quantidade &lt;= 0</code>; <code>valor_total</code> do pedido diferente da soma dos itens.</li>
           <li><strong>Métricas de QA</strong>: taxa de aprovação por suite, tempo médio de correção de defeito (<code>julianday(fechamento) - julianday(abertura)</code>), defeitos críticos abertos por módulo.</li>
           <li><strong>Conferir escrita</strong>: depois de um teste de API que cria pedido, checar no banco se gravou certo.</li>
         </ul>
         <p style="margin-bottom:0">
           ⚠️ <strong>Este banco tem bugs plantados nos dados.</strong> Os exercícios de validação
-          abaixo servem pra você <em>caçá-los</em> — é exatamente o trabalho de investigação de QA.
+          abaixo servem pra você <em>caçá-los</em>, e é exatamente o trabalho de investigação de QA.
         </p>
       </div>
     </section>
 
     <section class="secao">
       <h2>Exemplos de aplicação</h2>
-      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar — é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
+      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar: é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
 
       <div class="card">
-        <h3 style="margin-top:0">Validação de dados — achar quem quebra a regra</h3>
+        <h3 style="margin-top:0">Validação de dados: achar quem quebra a regra</h3>
         <pre class="bloco"><code>-- pedido que não foi cancelado mas está com valor zerado
 SELECT id, status, valor_total
 FROM pedidos
@@ -75,7 +75,7 @@ WHERE status &lt;&gt; 'cancelado'
       </div>
 
       <div class="card">
-        <h3 style="margin-top:0">Métrica — taxa de aprovação por suite</h3>
+        <h3 style="margin-top:0">Métrica: taxa de aprovação por suite</h3>
         <pre class="bloco"><code>SELECT suite,
        COUNT(*) AS total,
        SUM(CASE WHEN resultado = 'passou' THEN 1 ELSE 0 END) AS passaram,
@@ -85,7 +85,7 @@ WHERE status &lt;&gt; 'cancelado'
        ) AS taxa_aprovacao_pct
 FROM execucoes_teste
 GROUP BY suite;</code></pre>
-        <p style="margin-bottom:0">Junta o <code>SUM(CASE...)</code> (módulo 2) com <code>GROUP BY</code> (módulo 3). Pra cada suite: total, quantas passaram e a porcentagem. O <code>100.0</code> (com casa decimal) força divisão fracionária — com <code>100</code> inteiro o SQLite arredondaria pra 0.</p>
+        <p style="margin-bottom:0">Junta o <code>SUM(CASE...)</code> (módulo 2) com <code>GROUP BY</code> (módulo 3). Pra cada suite: total, quantas passaram e a porcentagem. O <code>100.0</code> (com casa decimal) força divisão fracionária; com <code>100</code> inteiro o SQLite arredondaria pra 0.</p>
       </div>
 
       <div class="card">
@@ -105,12 +105,12 @@ LIMIT 1;</code></pre>
         <h2 style="margin-top:0;border:0">Pegadinhas deste módulo</h2>
         <p style="margin-top:0;font-size:14px">
           Os erros que quase todo mundo comete aqui. Ler agora poupa meia hora de
-          confusão depois — e alguns deles são a causa de relatório errado em projeto real.
+          confusão depois, e alguns deles são a causa de relatório errado em projeto real.
         </p>
         <ul>
           <li><b>Zero linhas pode significar "está tudo certo" ou "a query está errada".</b> São duas conclusões opostas para o mesmo resultado. Antes de dizer "não há inconsistência", <b>prove que a query funciona</b>: rode uma versão sem o filtro, ou com o filtro invertido, e veja se ela consegue devolver alguma coisa.</li>
           <li><b>Comparar número decimal com <code>=</code> falha por arredondamento.</b> <code>valor_total = SUM(quantidade * preco_unitario)</code> pode dar diferente por casas decimais invisíveis. Use <code>ROUND(..., 2)</code> dos dois lados, ou compare a diferença absoluta contra uma tolerância.</li>
-          <li><b>Achar a linha errada é metade do trabalho.</b> A outra metade é decidir se o <b>dado</b> está torto ou se a <b>regra</b> que você assumiu está errada. Antes de abrir o defeito, confirme qual é a regra — às vezes o defeito está na especificação (Fundamentos, Módulo 5).</li>
+          <li><b>Achar a linha errada é metade do trabalho.</b> A outra metade é decidir se o <b>dado</b> está torto ou se a <b>regra</b> que você assumiu está errada. Antes de abrir o defeito, confirme qual é a regra: às vezes o defeito está na especificação (Fundamentos, Módulo 5).</li>
           <li><b>Métrica sem denominador engana.</b> "40 defeitos no checkout" não diz nada sem saber quantas entregas houve. Prefira taxas, e diga sempre o período e o recorte.</li>
           <li><b>A média esconde o caso ruim.</b> Tempo médio de correção de 3 dias pode conter um defeito parado há 200. Olhe também o máximo e a mediana antes de apresentar o número.</li>
         </ul>
@@ -118,7 +118,7 @@ LIMIT 1;</code></pre>
     </section>
 
     <section class="secao">
-      <h2>Prática — validação de dados</h2>
+      <h2>Prática: validação de dados</h2>
       <p class="legenda">Rode com o botão ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.</p>
       <div id="schema-ref"></div>
       <p class="status-banco" id="status-banco">carregando banco…</p>
@@ -137,13 +137,13 @@ LIMIT 1;</code></pre>
     <section class="secao">
       <div class="card" style="border-left:3px solid var(--acento)">
         <h2 style="margin-top:0;border:0">Olhar de QA</h2>
-        <p style="margin-bottom:0">Aqui está a habilidade que mais rende na carreira: achar, sozinho, a linha que viola a regra. Mas guarde duas cautelas. A primeira: <b>zero linhas pode significar "está tudo certo" ou "a sua query está errada"</b> — prove que a consulta funciona antes de concluir. A segunda: achar a linha torta é metade do trabalho; a outra metade é decidir se o defeito está no dado ou na regra que você assumiu. Às vezes ele está na especificação.</p>
+        <p style="margin-bottom:0">Aqui está a habilidade que mais rende na carreira: achar, sozinho, a linha que viola a regra. Mas guarde duas cautelas. A primeira: <b>zero linhas pode significar "está tudo certo" ou "a sua query está errada"</b>, então prove que a consulta funciona antes de concluir. A segunda: achar a linha torta é metade do trabalho; a outra metade é decidir se o defeito está no dado ou na regra que você assumiu. Às vezes ele está na especificação.</p>
       </div>
     </section>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>
@@ -170,11 +170,11 @@ LIMIT 1;</code></pre>
       dica: "<code>WHERE quantidade &lt;= 0 OR preco_unitario &lt;= 0</code>",
       gabarito: "SELECT * FROM itens_pedido WHERE quantidade <= 0 OR preco_unitario <= 0;" },
     { id: "6.4",
-      enunciado: "Pedidos apontando pra cliente_id que não existe em clientes (integridade referencial quebrada). Mostre o id do pedido. Deve dar 0 — confirme.",
-      dica: "<code>LEFT JOIN clientes</code> e depois <code>WHERE c.id IS NULL</code> — sobra quem não achou par",
+      enunciado: "Pedidos apontando pra cliente_id que não existe em clientes (integridade referencial quebrada). Mostre o id do pedido. Deve dar 0; confirme.",
+      dica: "<code>LEFT JOIN clientes</code> e depois <code>WHERE c.id IS NULL</code>, sobra quem não achou par",
       gabarito: "SELECT p.id FROM pedidos p\nLEFT JOIN clientes c ON c.id = p.cliente_id\nWHERE c.id IS NULL;" },
     { id: "6.5",
-      enunciado: "Emails duplicados em clientes. Deve dar 0 (a coluna é UNIQUE) — escreva a query que provaria isso. Colunas: email e qtd.",
+      enunciado: "Emails duplicados em clientes. Deve dar 0 (a coluna é UNIQUE); escreva a query que provaria isso. Colunas: email e qtd.",
       dica: "<code>GROUP BY email HAVING COUNT(*) > 1</code>",
       gabarito: "SELECT email, COUNT(*) AS qtd FROM clientes\nGROUP BY email HAVING COUNT(*) > 1;" },
     { id: "6.6",
@@ -186,7 +186,7 @@ LIMIT 1;</code></pre>
       dica: "AVG(julianday(data_fechamento) - julianday(data_abertura))",
       gabarito: "SELECT severidade,\n       ROUND(AVG(julianday(data_fechamento) - julianday(data_abertura)), 1) AS dias_medios\nFROM defeitos\nWHERE data_fechamento IS NOT NULL\nGROUP BY severidade;" },
     { id: "6.8",
-      enunciado: "Defeitos críticos ou altos que estão 'aberto'/'reaberto', por módulo — o \"backlog quente\" pra priorizar. Colunas: modulo e qtd, do maior pro menor.",
+      enunciado: "Defeitos críticos ou altos que estão 'aberto'/'reaberto', por módulo: o \"backlog quente\" pra priorizar. Colunas: modulo e qtd, do maior pro menor.",
       dica: "dois <code>IN (...)</code> ligados por <code>AND</code>, depois <code>GROUP BY modulo</code>",
       gabarito: "SELECT modulo, COUNT(*) AS qtd\nFROM defeitos\nWHERE severidade IN ('critica', 'alta')\n  AND status IN ('aberto', 'reaberto')\nGROUP BY modulo\nORDER BY qtd DESC;" },
     { id: "6.9",
@@ -198,7 +198,7 @@ LIMIT 1;</code></pre>
       dica: "GROUP BY caso_teste HAVING com dois SUM(CASE...)",
       gabarito: "SELECT caso_teste,\n       SUM(CASE WHEN resultado = 'passou' THEN 1 ELSE 0 END) AS passou,\n       SUM(CASE WHEN resultado = 'falhou' THEN 1 ELSE 0 END) AS falhou\nFROM execucoes_teste\nGROUP BY caso_teste\nHAVING passou > 0 AND falhou > 0;" },
     { id: "6.11",
-      enunciado: "Defeitos reportados em 'producao' com severidade 'critica' — os que \"escaparam\" pra prod. Conte por módulo. Colunas: modulo e qtd, do maior pro menor.",
+      enunciado: "Defeitos reportados em 'producao' com severidade 'critica': os que \"escaparam\" pra prod. Conte por módulo. Colunas: modulo e qtd, do maior pro menor.",
       dica: "<code>WHERE ambiente = 'producao' AND severidade = 'critica'</code> + <code>GROUP BY modulo</code>",
       gabarito: "SELECT modulo, COUNT(*) AS qtd\nFROM defeitos\nWHERE ambiente = 'producao' AND severidade = 'critica'\nGROUP BY modulo\nORDER BY qtd DESC;" },
   ];

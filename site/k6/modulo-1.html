@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/k6/modulo-1.html" />
-  <meta property="og:title" content="k6 Módulo 1 — Preparar e primeiro teste — QA Learning" />
+  <meta property="og:title" content="k6 Módulo 1: Preparar e primeiro teste | QA Learning" />
   <meta property="og:description" content="O que é teste de carga, instalar o k6, e rodar um smoke test contra o alvo de treino. Módulo 1 da trilha Teste de carga com k6, no QA Learning." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-k6.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="k6 Módulo 1 — Preparar e primeiro teste — QA Learning" />
+  <meta property="og:image:alt" content="k6 Módulo 1: Preparar e primeiro teste | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>k6 Módulo 1 — Preparar e primeiro teste</title>
+  <title>k6 Módulo 1: Preparar e primeiro teste</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 1 — Preparar e primeiro teste</h1>
+    <h1>Módulo 1: Preparar e primeiro teste</h1>
     <p class="legenda">O que é teste de carga, instalar o k6, e rodar um smoke test contra o alvo de treino.</p>
 
     <section class="secao">
@@ -46,7 +46,7 @@
       <div class="card">
         <p style="margin-top:0">Os testes que você já fez respondem "<em>o sistema faz a coisa
           certa?</em>". Teste de carga responde outra pergunta: "<em>o sistema aguenta muita
-          gente fazendo a coisa certa ao mesmo tempo?</em>". É teste <b>não-funcional</b> — ninguém
+          gente fazendo a coisa certa ao mesmo tempo?</em>". É teste <b>não-funcional</b>: ninguém
           olha se a resposta está correta, olha-se <b>quanto tempo</b> ela demora e <b>quantas</b>
           falham quando a pressão sobe.</p>
         <p>Três resultados típicos que ele entrega:</p>
@@ -66,12 +66,12 @@
       <h2>Os 3 conceitos que sustentam tudo</h2>
       <div class="card">
         <ul>
-          <li><b>VU (virtual user)</b> — um "usuário" simulado. Cada VU roda o seu roteiro em
+          <li><b>VU (virtual user)</b>: um "usuário" simulado. Cada VU roda o seu roteiro em
             <em>loop</em>, de forma independente e paralela. 50 VUs = 50 roteiros acontecendo ao
             mesmo tempo.</li>
-          <li><b>Iteração</b> — uma passada completa pelo roteiro (a função <code>default</code> do
+          <li><b>Iteração</b>: uma passada completa pelo roteiro (a função <code>default</code> do
             script). Um VU faz uma iteração atrás da outra.</li>
-          <li><b>Duração / nº de iterações</b> — o quanto a carga dura. Ou você fixa o tempo
+          <li><b>Duração / nº de iterações</b>: o quanto a carga dura. Ou você fixa o tempo
             (<code>duration: "30s"</code>) ou o total de iterações (<code>iterations: 100</code>).</li>
         </ul>
         <p style="margin-bottom:0"><b>Think time</b> (<code>sleep()</code>): a pausa que um humano
@@ -84,7 +84,7 @@
       <h2>1. Instalar o k6</h2>
       <div class="card">
         <p style="margin-top:0">O k6 é um programa único, grátis e open source. Não roda no
-          navegador — é no terminal.</p>
+          navegador, é no terminal.</p>
         <p><b>Windows:</b></p>
         <pre class="bloco"><code>winget install k6 --source winget</code></pre>
         <p style="margin:10px 0 0"><b>macOS:</b> <code>brew install k6</code>.
@@ -97,7 +97,7 @@
           <b>Se der "k6 não é reconhecido" mesmo depois de reabrir o terminal</b> (comum no Windows):
           fechar a janela do terminal não é suficiente porque o PATH atualizado só chega a
           processos novos depois que a sessão é renovada. <b>Se você usa VS Code, abrir uma aba
-          de terminal nova não conta</b> — ela herda o PATH do VS Code que já estava aberto antes
+          de terminal nova não conta</b>: ela herda o PATH do VS Code que já estava aberto antes
           da instalação; feche o VS Code inteiro (todas as janelas) e reabra, ou melhor, reinicie
           o computador (ou saia e entre de novo na conta do Windows) e tente outra vez. Para testar
           sem reiniciar agora, em cada aba de terminal onde for usar o k6:
@@ -105,7 +105,7 @@
         <pre class="bloco"><code>$env:Path += ";C:\Program Files\k6\"
 k6 version</code></pre>
         <p style="margin:10px 0 0; font-size:14px; color:var(--suave)">
-          (Esse comando vale só para a aba atual do terminal — se abrir outra aba, precisa rodar
+          (Esse comando vale só para a aba atual do terminal: se abrir outra aba, precisa rodar
           de novo. Depois de reiniciar o computador, <code>k6 version</code> volta a funcionar
           sozinho em qualquer terminal, sem precisar dele.)
         </p>
@@ -128,7 +128,7 @@ k6 version</code></pre>
           </a>
           <span class="baixar-nota">15 KB · só a pasta <code>trilha-5/</code></span>
         </div>
-        <p style="margin-bottom:6px"><b>Se preferir clonar com Git</b> — aviso: baixa o
+        <p style="margin-bottom:6px"><b>Se preferir clonar com Git</b>, um aviso: baixa o
           <b>repositório inteiro</b>, cerca de <b>4 MB</b> com o site, as outras trilhas e todo o
           histórico. Só compensa se você for fazer a
           <a href="../cicd/index.html">Trilha 6 (CI/CD)</a>, que precisa do repositório pra rodar o
@@ -140,15 +140,15 @@ k6 version</code></pre>
           frente supõem que você está dentro de <code>trilha-5/</code>. Se der
           <code>can't open file</code> ou <code>No such file</code>, é quase sempre isso: você está
           na pasta de cima.</p>
-        <p><b>Terminal 1 — o alvo de treino</b> (um HTTP falso que fica mais lento sob carga):</p>
+        <p><b>Terminal 1: o alvo de treino</b> (um HTTP falso que fica mais lento sob carga):</p>
         <pre class="bloco"><code>python mock/servidor.py</code></pre>
         <p style="margin:10px 0 0">Deixe rodando. Ele escuta em <code>http://127.0.0.1:8787</code>.
-          Não precisa instalar nada — é só biblioteca padrão do Python.</p>
+          Não precisa instalar nada: é só biblioteca padrão do Python.</p>
         <p style="margin:10px 0 0; font-size:14px; color:var(--suave)">
           <b>Enquanto o k6 roda, pode aparecer um traceback longo aqui</b> terminando em
           <code>ConnectionResetError</code> ou <code>WinError 10054</code>. É inofensivo: é só o
           jeito como o k6 fecha a conexão, que o servidor de testes do Python registra como erro
-          mas não afeta as próximas requisições. O servidor continua no ar — confira pelo resumo
+          mas não afeta as próximas requisições. O servidor continua no ar. Confira pelo resumo
           que aparece no Terminal 2.
         </p>
       </div>
@@ -159,9 +159,9 @@ k6 version</code></pre>
       <div class="card">
         <p style="margin-top:0">O <b>smoke test</b> é o mais simples que existe: 1 VU, poucas
           iterações, só pra ver se o alvo está de pé e o script funciona. Ninguém roda carga de
-          verdade sem passar por aqui. O arquivo já vem pronto no projeto — isto aqui é só
+          verdade sem passar por aqui. O arquivo já vem pronto no projeto; isto aqui é só
           pra você ver o conteúdo, <b>não precisa digitar nem colar isto no terminal</b>:</p>
-        <p class="rotulo-bloco">📄 arquivo já existe em scripts/01_smoke.js — não cole no terminal</p>
+        <p class="rotulo-bloco">📄 arquivo já existe em scripts/01_smoke.js, não cole no terminal</p>
         <pre class="bloco"><code>import http from "k6/http";
 import { check, sleep } from "k6";
 
@@ -204,13 +204,13 @@ export default function () {
   iteracoes.........: 10
   portao (thresholds): ok         &lt;- nenhuma regra foi violada</code></pre>
         <ul>
-          <li><b>p95</b> é a métrica de tempo que se usa — a média engana quando tem uns poucos
+          <li><b>p95</b> é a métrica de tempo que se usa, porque a média engana quando tem uns poucos
             picos altos.</li>
           <li><b>falhas (erro)</b> é <code>http_req_failed</code>: requisições com status ruim ou
             sem resposta.</li>
-          <li><b>checks ok</b> — um <code>check()</code> que falha <b>não</b> derruba o teste
+          <li><b>checks ok</b>: um <code>check()</code> que falha <b>não</b> derruba o teste
             (diferente de um <code>assert</code>); só baixa esse percentual.</li>
-          <li><b>portão</b> — se algum <code>threshold</code> for violado, aqui aparece
+          <li><b>portão</b>: se algum <code>threshold</code> for violado, aqui aparece
             <code>REPROVADO</code> e o <code>k6 run</code> sai com código de erro. É o que o CI olha.</li>
         </ul>
         <p style="margin-bottom:0">Rode o corretor pra conferir os critérios do módulo:</p>
@@ -225,7 +225,7 @@ export default function () {
           alvo público do k6, sem abrir o Terminal 1:</p>
         <pre class="bloco"><code>k6 run -e BASE_URL=https://quickpizza.grafana.com scripts/01_smoke.js</code></pre>
         <p style="margin:10px 0 0; font-size:14px; color:var(--suave)">O mock local é melhor a
-          partir do Módulo 3 — você controla a lentidão e o corretor consegue checar o lado do
+          partir do Módulo 3: você controla a lentidão e o corretor consegue checar o lado do
           servidor.</p>
       </div>
     </section>
@@ -235,7 +235,7 @@ export default function () {
       <div class="card">
         <p style="margin-top:0">Com o mock ligado, rode <code>01_smoke.js</code> como está e
           confirme <code>python verificar.py 1</code> com tudo <code>[ok]</code>. Depois troque
-          <code>iterations: 10</code> por <code>iterations: 30</code> e rode de novo — observe o que
+          <code>iterations: 10</code> por <code>iterations: 30</code> e rode de novo. Observe o que
           muda no resumo (só <code>requisicoes</code> e a duração total) e o que <b>não</b> muda
           (p95, taxa de erro). O gabarito está em <code>trilha-5/GABARITO.md</code>.</p>
       </div>
@@ -244,13 +244,13 @@ export default function () {
     <section class="secao">
       <div class="card" style="border-left:3px solid var(--acento)">
         <h2 style="margin-top:0;border:0">Olhar de QA</h2>
-        <p style="margin-bottom:0">Teste de carga só é útil quando a meta é um número. "Tem que ser rápido" não reprova nada; "o checkout responde em menos de 800ms no p95 com 200 usuários simultâneos" é um critério que a ferramenta verifica sozinha e o pipeline faz valer. <b>A pergunta mais importante do teste de carga é feita antes de escrever o script</b>: qual é o número que define passar ou reprovar — e quem decidiu esse número?</p>
+        <p style="margin-bottom:0">Teste de carga só é útil quando a meta é um número. "Tem que ser rápido" não reprova nada; "o checkout responde em menos de 800ms no p95 com 200 usuários simultâneos" é um critério que a ferramenta verifica sozinha e o pipeline faz valer. <b>A pergunta mais importante do teste de carga é feita antes de escrever o script</b>: qual é o número que define passar ou reprovar, e quem decidiu esse número?</p>
       </div>
     </section>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>

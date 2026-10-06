@@ -5,7 +5,7 @@ Corretor da Trilha 7 (automacao web com Playwright).
 Uso, de dentro de trilha-7/:
 
     npx playwright test tests/0<modulo>_*.spec.js
-    python verificar.py <modulo 1-4> [resultado.json]
+    python verificar.py <modulo 1-5 ou "final"> [resultado.json]
 
 `resultado.json` e o relatorio que o Playwright grava no fim (reporter json
 configurado em playwright.config.js). Se voce nao passar o caminho, procura
@@ -142,36 +142,82 @@ def modulo_4(relatorio, specs):
     ]
 
 
-VERIFICADORES = {1: modulo_1, 2: modulo_2, 3: modulo_3, 4: modulo_4}
+def modulo_5(relatorio, specs):
+    stats = relatorio.get("stats", {})
+    get_sem_token = achar(specs, "nao exige token")
+    post_sem_token = achar(specs, "post sem token")
+    cria = achar(specs, "post com token cria produto")
+    le = achar(specs, "retorna o produto criado")
+    atualiza = achar(specs, "atualiza o preco")
+    remove = achar(specs, "delete remove o produto")
+    confirma_remocao = achar(specs, "depois do delete")
+    put_sem_token = achar(specs, "put sem token")
+    return [
+        linha("nenhum teste falhou de forma inesperada", stats.get("unexpected", 1) == 0,
+              "rode  npx playwright test tests/05_api.spec.js  e leia o erro"),
+        linha("GET sem token passou", bool(get_sem_token and get_sem_token["ok"])),
+        linha("POST sem token retorna 401", bool(post_sem_token and post_sem_token["ok"])),
+        linha("POST com token cria produto", bool(cria and cria["ok"])),
+        linha("GET confirma o produto criado", bool(le and le["ok"])),
+        linha("PUT atualiza o preco", bool(atualiza and atualiza["ok"])),
+        linha("DELETE remove o produto", bool(remove and remove["ok"])),
+        linha("GET depois do DELETE confirma a remocao", bool(confirma_remocao and confirma_remocao["ok"])),
+        linha("exercicio: existe um teste de PUT sem token e ele passou",
+              bool(put_sem_token and put_sem_token["ok"]),
+              "escreva um teste cujo titulo contenha 'PUT sem token', chamando a API sem o header Authorization"),
+    ]
+
+
+def modulo_final(relatorio, specs):
+    stats = relatorio.get("stats", {})
+    criar = achar(specs, "criar produto via api e ver ele na loja")
+    mudar_preco = achar(specs, "mudar o preco via api")
+    excluir = achar(specs, "excluir produto via api")
+    return [
+        linha("nenhum teste falhou de forma inesperada", stats.get("unexpected", 1) == 0,
+              "rode  npx playwright test tests/06_desafio_final.spec.js  e leia o erro"),
+        linha("criar produto via API e ver na tela do produto", bool(criar and criar["ok"])),
+        linha("mudar o preco via API e ver refletido na tela", bool(mudar_preco and mudar_preco["ok"])),
+        linha("excluir via API e confirmar 'Produto nao encontrado' na tela", bool(excluir and excluir["ok"])),
+    ]
+
+
+VERIFICADORES = {
+    "1": ("tests/01_primeiro_teste.spec.js", modulo_1),
+    "2": ("tests/02_selecionadores.spec.js", modulo_2),
+    "3": ("tests/03_cenarios.spec.js", modulo_3),
+    "4": ("tests/04_rede_ci.spec.js", modulo_4),
+    "5": ("tests/05_api.spec.js", modulo_5),
+    "final": ("tests/06_desafio_final.spec.js", modulo_final),
+}
 
 
 def main(argv):
-    if len(argv) < 2 or argv[1] not in {"1", "2", "3", "4"}:
+    if len(argv) < 2 or argv[1] not in VERIFICADORES:
         print(__doc__)
         return 2
 
-    modulo = int(argv[1])
-    if modulo not in VERIFICADORES:
-        print(f"  modulo {modulo} ainda nao tem corretor.")
-        return 2
+    modulo = argv[1]
+    arquivo_testes, verificador = VERIFICADORES[modulo]
+    rotulo = "desafio final" if modulo == "final" else f"modulo {modulo}"
 
     caminho_resultado = argv[2] if len(argv) > 2 else "resultado.json"
     relatorio = carregar(caminho_resultado)
     if relatorio is None:
         print(f"  nao achei {caminho_resultado}. Rode o Playwright primeiro:")
-        print(f"      npx playwright test tests/0{modulo}_*.spec.js")
+        print(f"      npx playwright test {arquivo_testes}")
         return 1
 
     specs = specs_planas(relatorio)
 
-    print(f"\n  Modulo {modulo} -- conferindo {caminho_resultado}\n")
-    resultados = VERIFICADORES[modulo](relatorio, specs)
+    print(f"\n  {rotulo.capitalize()} -- conferindo {caminho_resultado}\n")
+    resultados = verificador(relatorio, specs)
     faltou = resultados.count(False)
     print()
     if faltou == 0:
-        print(f"  tudo certo no modulo {modulo}. Pode seguir.\n")
+        print(f"  tudo certo no {rotulo}. Pode seguir.\n")
         return 0
-    print(f"  faltou {faltou} criterio(s) no modulo {modulo}. Ajuste o teste e rode de novo.\n")
+    print(f"  faltou {faltou} criterio(s) no {rotulo}. Ajuste o teste e rode de novo.\n")
     return 1
 
 

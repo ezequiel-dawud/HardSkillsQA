@@ -108,6 +108,87 @@ resposta antes dela chegar na página.
 
 ---
 
+## Módulo 5 — Testes de API
+
+**Exercício:** em `tests/05_api.spec.js`, escreva um teste chamado
+`"PUT sem token retorna 401 e nao muda o preco"`:
+
+```js
+test("PUT sem token retorna 401 e nao muda o preco", async ({ request }) => {
+  const res = await request.put("/api/produtos?id=1", { data: { preco: 999 } });
+  expect(res.status()).toBe(401);
+
+  const check = await request.get("/api/produtos?id=1");
+  const corpo = await check.json();
+  expect(corpo.item.preco).toBe(249.9);
+});
+```
+
+**Esperado:** `python verificar.py 5` com 8 `[ok]`. Repare que o teste confere
+**duas coisas**: a resposta foi 401 **e** o preço do produto 1 não mudou — só
+checar o status não garante que a API realmente recusou a escrita.
+
+---
+
+## Desafio final — UI e API no mesmo teste
+
+Em `tests/06_desafio_final.spec.js` tem três testes pra escrever do zero,
+combinando tudo que a trilha ensinou. Ver `site/playwright/desafio-final.html`
+pro enunciado completo; aqui vai o gabarito.
+
+```js
+const { test, expect } = require("@playwright/test");
+const { LoginPage } = require("../pages/LoginPage");
+
+const TOKEN = "token-treino-123";
+const AUTORIZADO = { Authorization: `Bearer ${TOKEN}` };
+
+test.describe.serial("desafio final", () => {
+  let produtoId;
+
+  test("criar produto via API e ver ele na loja", async ({ page, request }) => {
+    const res = await request.post("/api/produtos", {
+      headers: AUTORIZADO,
+      data: { nome: "Produto do desafio", preco: 42, emoji: "🎯" },
+    });
+    const corpo = await res.json();
+    produtoId = corpo.item.id;
+
+    await LoginPage.pularLogin(page, "Maria");
+    // ir direto na tela do produto (por id) e mais estavel do que navegar
+    // pelas paginas da listagem atras dele.
+    await page.goto(`/produto.html?id=${produtoId}`);
+    await expect(page.getByTestId("product-detail-title")).toHaveText("Produto do desafio");
+  });
+
+  test("mudar o preco via API e ver refletido na tela do produto", async ({ page, request }) => {
+    await request.put(`/api/produtos?id=${produtoId}`, {
+      headers: AUTORIZADO,
+      data: { preco: 123.45 },
+    });
+
+    await LoginPage.pularLogin(page, "Maria");
+    await page.goto(`/produto.html?id=${produtoId}`);
+    await expect(page.getByTestId("product-detail-price")).toContainText("123.45");
+  });
+
+  test("excluir produto via API e confirmar que some da loja", async ({ page, request }) => {
+    await request.delete(`/api/produtos?id=${produtoId}`, { headers: AUTORIZADO });
+
+    await LoginPage.pularLogin(page, "Maria");
+    await page.goto(`/produto.html?id=${produtoId}`);
+    // produto.html nao redireciona nem esconde o botao quando o id nao
+    // existe mais -- so troca o titulo. E isso que da pra conferir.
+    await expect(page.getByTestId("product-detail-title")).toHaveText("Produto não encontrado");
+  });
+});
+```
+
+**Esperado:** `python verificar.py final` com todos os critérios `[ok]`.
+**Nota:** o preço é formatado como `"R$ 123.45"` (ponto, não vírgula —
+`produtoAtual.preco.toFixed(2)` em `produto.html`). Esse gabarito foi rodado
+de verdade contra o servidor antes de entrar aqui, não é só teoria.
+
 ## Comandos, resumo
 
 ```powershell
@@ -119,6 +200,8 @@ npx playwright test tests/01_primeiro_teste.spec.js ; python verificar.py 1
 npx playwright test tests/02_selecionadores.spec.js ; python verificar.py 2
 npx playwright test tests/03_cenarios.spec.js       ; python verificar.py 3
 npx playwright test tests/04_rede_ci.spec.js        ; python verificar.py 4
+npx playwright test tests/05_api.spec.js            ; python verificar.py 5
+npx playwright test tests/06_desafio_final.spec.js  ; python verificar.py final
 ```
 
 **Atenção:** `npx playwright test --reporter=list` (ou qualquer `--reporter`

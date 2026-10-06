@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 4 da trilha Teste de carga com k6 — SharedArray, correlação, dado que varia, e o portão no CI. Corrigida na hora; 70% fecha o módulo." />
+  <meta name="description" content="Prova do módulo 4 da trilha Teste de carga com k6: SharedArray, correlação, dado que varia, e o portão no CI. Corrigida na hora; 70% fecha o módulo." />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/k6/prova-4.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/k6/prova-4.html" />
-  <meta property="og:title" content="Prova — Módulo 4 (k6) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 4 da trilha Teste de carga com k6 — SharedArray, correlação, dado que varia, e o portão no CI. Corrigida na hora; 70% fecha o módulo." />
+  <meta property="og:title" content="Prova do Módulo 4 (k6) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 4 da trilha Teste de carga com k6: SharedArray, correlação, dado que varia, e o portão no CI. Corrigida na hora; 70% fecha o módulo." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-k6.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 4 (k6) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 4 (k6) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 4 (k6)</title>
+  <title>Prova do Módulo 4 (k6)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 4</h1>
+    <h1>Prova do Módulo 4</h1>
     <p class="legenda">SharedArray, correlação, dado que varia, e o portão no CI. &nbsp;<a href="modulo-4.html">← rever o módulo</a></p>
     <div id="prova"></div>
   </main>
@@ -51,7 +51,7 @@
             "t": "mc",
             "enun": "Por que dado fixo compromete um teste de carga?",
             "ops": [
-                  "Porque mil requisições no mesmo registro batem em cache quente e num só caminho de código — o sistema parece mais rápido do que é",
+                  "Porque mil requisições no mesmo registro batem em cache quente e num só caminho de código, e o sistema parece mais rápido do que é",
                   "Porque o k6 recusa requisições repetidas",
                   "Porque consome mais memória do gerador de carga",
                   "Porque o servidor bloqueia requisições idênticas"
@@ -75,13 +75,13 @@
             "t": "mc",
             "enun": "O que é <b>correlação</b> num teste de carga?",
             "ops": [
-                  "Usar um valor devolvido por uma resposta na requisição seguinte — por exemplo, extrair o token do login e usá-lo nas demais chamadas",
+                  "Usar um valor devolvido por uma resposta na requisição seguinte, por exemplo, extrair o token do login e usá-lo nas demais chamadas",
                   "Relacionar o tempo de resposta com o número de VUs",
                   "Comparar os resultados de duas execuções diferentes do teste",
                   "Agrupar requisições semelhantes na mesma métrica"
             ],
             "correta": 0,
-            "exp": "Sem correlação você testa endpoints isolados com valores inventados — não um usuário percorrendo o fluxo."
+            "exp": "Sem correlação você testa endpoints isolados com valores inventados, não um usuário percorrendo o fluxo."
       },
       {
             "t": "mc",
@@ -117,13 +117,13 @@
                   "Divide a lista em partes iguais entre as iterações"
             ],
             "correta": 0,
-            "exp": "Circular porque a lista costuma ser menor que o número de VUs — e assim ninguém fica sem usuário."
+            "exp": "Circular porque a lista costuma ser menor que o número de VUs, e assim ninguém fica sem usuário."
       },
       {
             "t": "aberta",
             "enun": "Sua equipe quer adicionar um portão de performance ao CI. Que cuidados você tomaria para que ele seja útil, e não uma fonte de falso alarme?",
-            "modelo": "<p>Portão de performance mal calibrado é pior que não ter: o time aprende a ignorar o vermelho (Módulo 3 de CI/CD). Os cuidados:</p><ul><li><b>Limite com folga sobre a realidade medida.</b> Meça primeiro em condições normais e coloque o threshold acima do observado, não colado nele. Threshold no limite do que já acontece falha por ruído.</li><li><b>Ambiente estável e dedicado.</b> Rodar carga numa máquina compartilhada, que às vezes está ocupada, produz números diferentes a cada execução. Se não der para isolar, o portão precisa ser mais frouxo — e isso deve estar documentado.</li><li><b>Percentil, não máximo.</b> Um <code>max&lt;3000</code> quebra com um único pico aleatório. Use p95 ou p99 como portão principal, e o máximo apenas para casos realmente inaceitáveis.</li><li><b>Carga curta no PR, longa fora dele.</b> Um smoke de carga de 1–2 minutos a cada PR; o teste de carga completo agendado à noite. Pipeline de PR que demora 40 minutos ninguém espera.</li><li><b>Só o fluxo que importa.</b> Portão no checkout e no login; não em toda rota do sistema.</li><li><b>Dado variado e massa recriada.</b> Senão a segunda execução mede cache e a base cresce indefinidamente entre rodadas.</li><li><b>Excluir o que não é seu.</b> Dependência externa em sandbox pode ser o gargalo — e você reprovaria o próprio build por causa do terceiro.</li><li><b>Revisar periodicamente.</b> O sistema muda; um limite definido há um ano pode estar frouxo demais ou apertado demais.</li><li><b>Combinar antes.</b> O time precisa concordar que o vermelho <b>barra a entrega</b>. Portão que todo mundo ignora é só um teste caro.</li></ul><p>A regra que resume tudo: <b>um portão só vale se o time confia nele o bastante para parar quando ele fecha.</b></p>",
-            "dica": "pense no que faz um teste falhar sem que haja problema real — e no que acontece com a confiança do time quando isso vira rotina."
+            "modelo": "<p>Portão de performance mal calibrado é pior que não ter: o time aprende a ignorar o vermelho (Módulo 3 de CI/CD). Os cuidados:</p><ul><li><b>Limite com folga sobre a realidade medida.</b> Meça primeiro em condições normais e coloque o threshold acima do observado, não colado nele. Threshold no limite do que já acontece falha por ruído.</li><li><b>Ambiente estável e dedicado.</b> Rodar carga numa máquina compartilhada, que às vezes está ocupada, produz números diferentes a cada execução. Se não der para isolar, o portão precisa ser mais frouxo, e isso deve estar documentado.</li><li><b>Percentil, não máximo.</b> Um <code>max&lt;3000</code> quebra com um único pico aleatório. Use p95 ou p99 como portão principal, e o máximo apenas para casos realmente inaceitáveis.</li><li><b>Carga curta no PR, longa fora dele.</b> Um smoke de carga de 1–2 minutos a cada PR; o teste de carga completo agendado à noite. Pipeline de PR que demora 40 minutos ninguém espera.</li><li><b>Só o fluxo que importa.</b> Portão no checkout e no login; não em toda rota do sistema.</li><li><b>Dado variado e massa recriada.</b> Senão a segunda execução mede cache e a base cresce indefinidamente entre rodadas.</li><li><b>Excluir o que não é seu.</b> Dependência externa em sandbox pode ser o gargalo, e você reprovaria o próprio build por causa do terceiro.</li><li><b>Revisar periodicamente.</b> O sistema muda; um limite definido há um ano pode estar frouxo demais ou apertado demais.</li><li><b>Combinar antes.</b> O time precisa concordar que o vermelho <b>barra a entrega</b>. Portão que todo mundo ignora é só um teste caro.</li></ul><p>A regra que resume tudo: <b>um portão só vale se o time confia nele o bastante para parar quando ele fecha.</b></p>",
+            "dica": "pense no que faz um teste falhar sem que haja problema real, e no que acontece com a confiança do time quando isso vira rotina."
       }
 ]
   };

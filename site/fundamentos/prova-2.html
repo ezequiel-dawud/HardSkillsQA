@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 2 da trilha Fundamentos de Teste — Níveis, tipos, caixa-preta × caixa-branca, smoke/regressão/reteste, a pirâmide. Corrigida na hora; 70%…" />
+  <meta name="description" content="Prova do módulo 2 da trilha Fundamentos de Teste: Níveis, tipos, caixa-preta × caixa-branca, smoke/regressão/reteste, a pirâmide. Corrigida na hora; 70%…" />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/fundamentos/prova-2.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/fundamentos/prova-2.html" />
-  <meta property="og:title" content="Prova — Módulo 2 (Fundamentos) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 2 da trilha Fundamentos de Teste — Níveis, tipos, caixa-preta × caixa-branca, smoke/regressão/reteste, a pirâmide. Corrigida na hora; 70%…" />
+  <meta property="og:title" content="Prova do Módulo 2 (Fundamentos) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 2 da trilha Fundamentos de Teste: Níveis, tipos, caixa-preta × caixa-branca, smoke/regressão/reteste, a pirâmide. Corrigida na hora; 70%…" />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-fundamentos.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 2 (Fundamentos) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 2 (Fundamentos) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 2 (Fundamentos)</title>
+  <title>Prova do Módulo 2 (Fundamentos)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -39,7 +39,7 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 2</h1>
+    <h1>Prova do Módulo 2</h1>
     <p class="legenda">Níveis, tipos, caixa-preta × caixa-branca, smoke/regressão/reteste, a pirâmide. &nbsp;<a href="modulo-2.html">← rever o módulo</a></p>
     <div id="prova"></div>
   </main>
@@ -51,12 +51,12 @@
       { t: "mc",
         enun: "Um teste confere se, ao salvar um pedido pela aplicação, a linha correspondente aparece na tabela <code>pedidos</code> com o valor certo. Em que nível ele está?",
         ops: [
-          "Integração — duas peças (aplicação e banco) sendo exercitadas juntas",
-          "Unitário — testa uma função só",
-          "Aceite — confirma a necessidade de negócio",
-          "Sistema — exercita a aplicação inteira" ],
+          "Integração: duas peças (aplicação e banco) sendo exercitadas juntas",
+          "Unitário: testa uma função só",
+          "Aceite: confirma a necessidade de negócio",
+          "Sistema: exercita a aplicação inteira" ],
         correta: 0,
-        exp: "Unitário roda isolado, sem banco. Aqui há duas peças conversando: é integração — exatamente o nível das trilhas de SQL e pytest." },
+        exp: "Unitário roda isolado, sem banco. Aqui há duas peças conversando: é integração, exatamente o nível das trilhas de SQL e pytest." },
 
       { t: "mc",
         enun: "\"Teste de performance\" e \"teste de sistema\" são classificações do mesmo tipo?",
@@ -75,7 +75,7 @@
         exp: "Acesso a dado que não deveria estar disponível é falha de segurança (controle de autorização). É um dos defeitos mais caros que existe." },
 
       { t: "mc",
-        enun: "Corrigiram um bug do carrinho. Você executa de novo os passos do relatório e confirma que o problema sumiu. Como se chama isso — e o que ainda falta?",
+        enun: "Corrigiram um bug do carrinho. Você executa de novo os passos do relatório e confirma que o problema sumiu. Como se chama isso, e o que ainda falta?",
         ops: [
           "É <b>reteste</b>; ainda falta a <b>regressão</b>, para ver se a correção não quebrou outra coisa",
           "É <b>regressão</b>; ainda falta o <b>reteste</b> dos módulos vizinhos",
@@ -87,17 +87,17 @@
       { t: "mc",
         enun: "Uma equipe tem quase nenhum teste unitário, centenas de testes de interface lentos e muito teste manual por cima. Como se chama esse padrão e qual o sintoma típico?",
         ops: [
-          "Casquinha de sorvete (pirâmide invertida) — suíte lenta, falhas intermitentes e ninguém confiando no vermelho",
-          "Pirâmide de testes — o padrão recomendado",
-          "Teste baseado em risco — concentra esforço onde o usuário está",
-          "Shift left — antecipação de testes para o começo do ciclo" ],
+          "Casquinha de sorvete (pirâmide invertida): suíte lenta, falhas intermitentes e ninguém confiando no vermelho",
+          "Pirâmide de testes: o padrão recomendado",
+          "Teste baseado em risco: concentra esforço onde o usuário está",
+          "Shift left: antecipação de testes para o começo do ciclo" ],
         correta: 0,
         exp: "A pirâmide pede volume embaixo (rápido e barato) e pouco em cima. Invertida, a suíte custa caro, demora e perde credibilidade." },
 
       { t: "mc",
         enun: "Um projeto atingiu 95% de cobertura de código. O que isso garante?",
         ops: [
-          "Que 95% das linhas foram <b>executadas</b> — não que os resultados foram verificados",
+          "Que 95% das linhas foram <b>executadas</b>, não que os resultados foram verificados",
           "Que 95% dos requisitos estão testados",
           "Que restam no máximo 5% de defeitos",
           "Que a suíte está no formato de pirâmide" ],
@@ -112,7 +112,7 @@
           "Validar que a API devolve 404 para id inexistente",
           "Verificar que nenhum produto tem estoque negativo" ],
         correta: 0,
-        exp: "Automação precisa de resultado objetivo, que caiba num <code>assert</code>. Julgamento humano (tom, clareza, se o fluxo faz sentido) é trabalho de pessoa — e é onde o exploratório brilha." },
+        exp: "Automação precisa de resultado objetivo, que caiba num <code>assert</code>. Julgamento humano (tom, clareza, se o fluxo faz sentido) é trabalho de pessoa, e é onde o exploratório brilha." },
 
       { t: "mc",
         enun: "Você acabou de subir uma versão nova em homologação e tem 4 horas de teste pela frente. Por onde começa?",
@@ -126,8 +126,8 @@
 
       { t: "aberta",
         enun: "Chegou a história: \"como cliente, quero salvar meu cartão para compras futuras\". Passe o pente dos <b>tipos</b> de teste por cima dela e escreva, para pelo menos quatro tipos diferentes, uma preocupação concreta.",
-        dica: "funcional, segurança, usabilidade, compatibilidade, acessibilidade, performance, confiabilidade — nem todos vão caber, e tudo bem.",
-        modelo: "<p>O que se espera é que você tenha saído do funcional. Por exemplo:</p><ul><li><b>Funcional:</b> salvar, listar, apagar cartão; cartão expirado continua na lista?; o que acontece ao tentar salvar o mesmo cartão duas vezes.</li><li><b>Segurança:</b> o número completo é armazenado? aparece em log? trocando o id na URL vejo o cartão de outra pessoa? preciso reautenticar para apagar?</li><li><b>Usabilidade:</b> a pessoa entende que os dados ficarão guardados? existe caminho óbvio para remover?</li><li><b>Compatibilidade:</b> o teclado numérico aparece no celular? o preenchimento automático do navegador atrapalha?</li><li><b>Acessibilidade:</b> os campos têm rótulo associado? o erro é anunciado por leitor de tela ou só muda de cor?</li><li><b>Confiabilidade:</b> se a adquirente cair no meio do salvamento, o cartão fica meio-salvo?</li></ul><p>Você não vai testar todos. O ponto é <b>ter passado por todos</b> e decidido conscientemente o que deixar de fora — isso é estratégia de teste.</p>" }
+        dica: "funcional, segurança, usabilidade, compatibilidade, acessibilidade, performance, confiabilidade; nem todos vão caber, e tudo bem.",
+        modelo: "<p>O que se espera é que você tenha saído do funcional. Por exemplo:</p><ul><li><b>Funcional:</b> salvar, listar, apagar cartão; cartão expirado continua na lista?; o que acontece ao tentar salvar o mesmo cartão duas vezes.</li><li><b>Segurança:</b> o número completo é armazenado? aparece em log? trocando o id na URL vejo o cartão de outra pessoa? preciso reautenticar para apagar?</li><li><b>Usabilidade:</b> a pessoa entende que os dados ficarão guardados? existe caminho óbvio para remover?</li><li><b>Compatibilidade:</b> o teclado numérico aparece no celular? o preenchimento automático do navegador atrapalha?</li><li><b>Acessibilidade:</b> os campos têm rótulo associado? o erro é anunciado por leitor de tela ou só muda de cor?</li><li><b>Confiabilidade:</b> se a adquirente cair no meio do salvamento, o cartão fica meio-salvo?</li></ul><p>Você não vai testar todos. O ponto é <b>ter passado por todos</b> e decidido conscientemente o que deixar de fora, isso é estratégia de teste.</p>" }
     ]
   };
   </script>

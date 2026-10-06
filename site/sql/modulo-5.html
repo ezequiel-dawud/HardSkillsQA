@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/sql/modulo-5.html" />
-  <meta property="og:title" content="Módulo 5 — Subconsultas e CTE — QA Learning" />
+  <meta property="og:title" content="Módulo 5: Subconsultas e CTE | QA Learning" />
   <meta property="og:description" content="subquery, WITH, EXISTS. Módulo 5 da trilha SQL para QA, no QA Learning. Teoria curta e exercícios que rodam num banco dentro do próprio navegador." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-sql.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Módulo 5 — Subconsultas e CTE — QA Learning" />
+  <meta property="og:image:alt" content="Módulo 5: Subconsultas e CTE | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Módulo 5 — Subconsultas e CTE</title>
+  <title>Módulo 5: Subconsultas e CTE</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -41,7 +41,7 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 5 — Subconsultas e CTE</h1>
+    <h1>Módulo 5: Subconsultas e CTE</h1>
     <p class="legenda">subquery, WITH, EXISTS</p>
 
     <section class="secao teoria">
@@ -49,17 +49,17 @@
       <div class="card">
         <ul>
           <li>Subconsulta = um <code>SELECT</code> dentro de outro. Pode ir no <code>WHERE ... IN (SELECT ...)</code>, no <code>FROM (SELECT ...)</code>, ou como valor escalar: <code>... &gt; (SELECT AVG(...))</code>.</li>
-          <li><code>WITH nome AS (SELECT ...) SELECT ... FROM nome</code> — CTE: dá nome a uma subconsulta e deixa a query legível. Encadeie várias com vírgula.</li>
-          <li><code>EXISTS (SELECT 1 FROM ... WHERE ...)</code> — testa se existe pelo menos uma linha. <code>NOT EXISTS</code> pro contrário.</li>
+          <li><code>WITH nome AS (SELECT ...) SELECT ... FROM nome</code>: é a CTE, que dá nome a uma subconsulta e deixa a query legível. Encadeie várias com vírgula.</li>
+          <li><code>EXISTS (SELECT 1 FROM ... WHERE ...)</code>: testa se existe pelo menos uma linha. <code>NOT EXISTS</code> pro contrário.</li>
           <li>Subconsulta escalar retorna 1 valor; <code>IN</code>/<code>EXISTS</code> lidam com listas.</li>
         </ul>
-        <p style="margin-bottom:0"><strong>Olhar de QA:</strong> "clientes que têm algum pedido cancelado", "linhas acima da média" — perguntas em duas camadas viram subconsulta ou CTE.</p>
+        <p style="margin-bottom:0"><strong>Olhar de QA:</strong> "clientes que têm algum pedido cancelado", "linhas acima da média": perguntas em duas camadas viram subconsulta ou CTE.</p>
       </div>
     </section>
 
     <section class="secao">
       <h2>Exemplos de aplicação</h2>
-      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar — é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
+      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar: é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
 
       <div class="card">
         <h3 style="margin-top:0">Subconsulta no <code>WHERE ... IN</code></h3>
@@ -94,7 +94,7 @@ WHERE EXISTS (
   WHERE p.cliente_id = c.id
     AND p.valor_total &gt; 5000
 );</code></pre>
-        <p style="margin-bottom:0"><code>EXISTS</code> só responde "tem pelo menos uma linha?". Pra cada cliente, checa se há algum pedido dele acima de 5000; se há, o cliente entra. O <code>SELECT 1</code> é convenção — o valor não importa, só a existência. <code>NOT EXISTS</code> inverteria.</p>
+        <p style="margin-bottom:0"><code>EXISTS</code> só responde "tem pelo menos uma linha?". Pra cada cliente, checa se há algum pedido dele acima de 5000; se há, o cliente entra. O <code>SELECT 1</code> é convenção: o valor não importa, só a existência. <code>NOT EXISTS</code> inverteria.</p>
       </div>
 
       <div class="card">
@@ -111,14 +111,14 @@ WHERE preco &gt; (SELECT AVG(preco) FROM produtos);</code></pre>
         <h2 style="margin-top:0;border:0">Pegadinhas deste módulo</h2>
         <p style="margin-top:0;font-size:14px">
           Os erros que quase todo mundo comete aqui. Ler agora poupa meia hora de
-          confusão depois — e alguns deles são a causa de relatório errado em projeto real.
+          confusão depois, e alguns deles são a causa de relatório errado em projeto real.
         </p>
         <ul>
-          <li><b><code>NOT IN</code> com <code>NULL</code> na subconsulta devolve <b>zero linhas</b>.</b> Se a subconsulta de <code>WHERE id NOT IN (SELECT cliente_id FROM pedidos)</code> contiver um único <code>NULL</code>, o resultado é vazio — sempre, sem erro. Prefira <code>NOT EXISTS</code>, que não tem esse problema, ou acrescente <code>WHERE cliente_id IS NOT NULL</code> na subconsulta.</li>
+          <li><b><code>NOT IN</code> com <code>NULL</code> na subconsulta devolve <b>zero linhas</b>.</b> Se a subconsulta de <code>WHERE id NOT IN (SELECT cliente_id FROM pedidos)</code> contiver um único <code>NULL</code>, o resultado é vazio, sempre, sem erro. Prefira <code>NOT EXISTS</code>, que não tem esse problema, ou acrescente <code>WHERE cliente_id IS NOT NULL</code> na subconsulta.</li>
           <li><b>Subconsulta escalar precisa devolver exatamente uma linha.</b> <code>= (SELECT ...)</code> que devolve duas linhas dá erro; que devolve nenhuma vira <code>NULL</code> e a comparação falha em silêncio.</li>
-          <li><b>CTE não é otimização — é legibilidade.</b> <code>WITH</code> deixa a query compreensível, mas em vários bancos não torna nada mais rápido. Use pela clareza, que já é motivo suficiente.</li>
+          <li><b>CTE não é otimização, é legibilidade.</b> <code>WITH</code> deixa a query compreensível, mas em vários bancos não torna nada mais rápido. Use pela clareza, que já é motivo suficiente.</li>
           <li><b><code>EXISTS</code> costuma ser melhor que <code>IN</code> em lista grande.</b> <code>EXISTS</code> para assim que acha a primeira linha; <code>IN</code> pode materializar a lista inteira.</li>
-          <li><b>Subconsulta correlacionada roda uma vez por linha.</b> Funciona bem em 60 clientes e trava em 6 milhões. Em banco de produção, desconfie — e teste com volume antes de rodar.</li>
+          <li><b>Subconsulta correlacionada roda uma vez por linha.</b> Funciona bem em 60 clientes e trava em 6 milhões. Em banco de produção, desconfie e teste com volume antes de rodar.</li>
         </ul>
       </div>
     </section>
@@ -142,7 +142,7 @@ WHERE preco &gt; (SELECT AVG(preco) FROM produtos);</code></pre>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>
@@ -166,7 +166,7 @@ WHERE preco &gt; (SELECT AVG(preco) FROM produtos);</code></pre>
       gabarito: "SELECT id, nome FROM clientes\nWHERE id IN (SELECT cliente_id FROM pedidos WHERE status = 'cancelado');" },
     { id: "5.3",
       enunciado: "Mesma coisa da 5.2, mas usando EXISTS. Mostre id e nome.",
-      dica: "<code>WHERE EXISTS (SELECT 1 FROM pedidos p WHERE p.cliente_id = c.id AND p.status = 'cancelado')</code> — a subconsulta liga na tabela de fora",
+      dica: "<code>WHERE EXISTS (SELECT 1 FROM pedidos p WHERE p.cliente_id = c.id AND p.status = 'cancelado')</code>: a subconsulta liga na tabela de fora",
       gabarito: "SELECT c.id, c.nome FROM clientes c\nWHERE EXISTS (\n  SELECT 1 FROM pedidos p\n  WHERE p.cliente_id = c.id AND p.status = 'cancelado'\n);" },
     { id: "5.4",
       enunciado: "Produto(s) mais caro(s): preco igual ao MAX(preco). Mostre nome e preco.",
@@ -181,7 +181,7 @@ WHERE preco &gt; (SELECT AVG(preco) FROM produtos);</code></pre>
       dica: "reaproveite a query do 3.7 dentro de um <code>WITH taxa AS (...)</code> e faça <code>SELECT * FROM taxa WHERE aprov &lt; 80</code>",
       gabarito: "WITH taxa AS (\n  SELECT suite,\n         ROUND(SUM(CASE WHEN resultado = 'passou' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 1) AS aprov\n  FROM execucoes_teste GROUP BY suite\n)\nSELECT * FROM taxa WHERE aprov < 80;" },
     { id: "5.7",
-      enunciado: "Top 3 módulos com mais defeitos críticos — use uma subconsulta no FROM e ordene/limite por fora. Colunas: modulo e qtd.",
+      enunciado: "Top 3 módulos com mais defeitos críticos. Use uma subconsulta no FROM e ordene/limite por fora. Colunas: modulo e qtd.",
       dica: "faça o <code>GROUP BY modulo</code> numa subconsulta em <code>FROM (...)</code> e aplique <code>ORDER BY qtd DESC LIMIT 3</code> na query de fora",
       gabarito: "SELECT modulo, qtd FROM (\n  SELECT modulo, COUNT(*) AS qtd\n  FROM defeitos WHERE severidade = 'critica'\n  GROUP BY modulo\n) ORDER BY qtd DESC LIMIT 3;" },
     { id: "5.8",

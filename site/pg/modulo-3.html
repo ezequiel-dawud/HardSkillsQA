@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/pg/modulo-3.html" />
-  <meta property="og:title" content="PG Módulo 3 — Datas e tempo — QA Learning" />
+  <meta property="og:title" content="PG Módulo 3: Datas e tempo | QA Learning" />
   <meta property="og:description" content="date, INTERVAL, subtração de datas, AGE, EXTRACT, DATE_TRUNC, TO_CHAR. Módulo 3 da trilha PostgreSQL para QA, no QA Learning." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-pg.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="PG Módulo 3 — Datas e tempo — QA Learning" />
+  <meta property="og:image:alt" content="PG Módulo 3: Datas e tempo | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>PG Módulo 3 — Datas e tempo</title>
+  <title>PG Módulo 3: Datas e tempo</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -41,7 +41,7 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 3 — Datas e tempo</h1>
+    <h1>Módulo 3: Datas e tempo</h1>
     <p class="legenda">date, INTERVAL, subtração de datas, AGE, EXTRACT, DATE_TRUNC, TO_CHAR</p>
 
     <section class="secao">
@@ -60,15 +60,15 @@
             <code>data_pedido + INTERVAL '7 days'</code>.</li>
           <li><b><code>AGE(fim, inicio)</code></b> → intervalo "2 mons 3 days". <code>AGE(data)</code>
             sozinho = quanto tempo desde então até hoje.</li>
-          <li><b><code>EXTRACT(campo FROM data)</code></b> — puxa um pedaço:
+          <li><b><code>EXTRACT(campo FROM data)</code></b>: puxa um pedaço:
             <code>EXTRACT(YEAR FROM data_pedido)</code>, <code>MONTH</code>, <code>DOW</code>
             (dia da semana, 0 = domingo), <code>WEEK</code>.</li>
-          <li><b><code>DATE_TRUNC('month', data)</code></b> — joga a data pro começo do mês
+          <li><b><code>DATE_TRUNC('month', data)</code></b>: joga a data pro começo do mês
             (<code>2025-03-01</code>). Serve pra agrupar por mês/semana/dia.</li>
-          <li><b><code>TO_CHAR(data, 'YYYY-MM')</code></b> — formata como texto pra rótulo.</li>
+          <li><b><code>TO_CHAR(data, 'YYYY-MM')</code></b>: formata como texto pra rótulo.</li>
         </ul>
         <p style="margin-bottom:0"><b>Olhar de QA:</b> "quanto tempo em média um bug crítico fica
-          aberto?", "quantos pedidos por mês?", "cadastro no futuro?" — tudo é conta de data.</p>
+          aberto?", "quantos pedidos por mês?", "cadastro no futuro?": tudo é conta de data.</p>
       </div>
 
       <h3>Dois exemplos</h3>
@@ -80,18 +80,18 @@
       <div class="card">
         <ul>
           <li><code>data2 - data1</code> → dias (inteiro). <code>data + INTERVAL '1 month'</code> → outra data.</li>
-          <li><code>CURRENT_DATE</code> / <code>now()</code> — hoje / agora.</li>
+          <li><code>CURRENT_DATE</code> / <code>now()</code>: hoje / agora.</li>
           <li><code>AGE(fim, inicio)</code> → intervalo legível. <code>EXTRACT(DAY FROM AGE(...))</code> pra virar número.</li>
-          <li><code>EXTRACT(YEAR|MONTH|DOW|WEEK FROM data)</code> — componente da data.</li>
-          <li><code>DATE_TRUNC('month'|'week'|'day', data)</code> — "arredonda" a data pra baixo.</li>
-          <li><code>TO_CHAR(data, 'YYYY-MM')</code> / <code>'DD/MM/YYYY'</code> — formata como texto.</li>
+          <li><code>EXTRACT(YEAR|MONTH|DOW|WEEK FROM data)</code>: componente da data.</li>
+          <li><code>DATE_TRUNC('month'|'week'|'day', data)</code>: "arredonda" a data pra baixo.</li>
+          <li><code>TO_CHAR(data, 'YYYY-MM')</code> / <code>'DD/MM/YYYY'</code>: formata como texto.</li>
         </ul>
       </div>
     </section>
 
     <section class="secao">
       <h2>Exemplos de aplicação</h2>
-      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar — é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
+      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar, é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
 
       <div class="card">
         <h3 style="margin-top:0"><code>data - data</code> e <code>data + INTERVAL</code></h3>
@@ -101,7 +101,7 @@
   data_abertura + INTERVAL '30 days'  AS prazo_sla
 FROM defeitos
 WHERE data_fechamento IS NOT NULL;</code></pre>
-        <p style="margin-bottom:0">Subtrair duas <code>date</code> dá um inteiro de dias (<code>data_fechamento - data_abertura</code>). Somar um <code>INTERVAL</code> a uma data dá outra data — aqui, o prazo de 30 dias a partir da abertura.</p>
+        <p style="margin-bottom:0">Subtrair duas <code>date</code> dá um inteiro de dias (<code>data_fechamento - data_abertura</code>). Somar um <code>INTERVAL</code> a uma data dá outra data: aqui, o prazo de 30 dias a partir da abertura.</p>
       </div>
 
       <div class="card">
@@ -147,7 +147,7 @@ ORDER BY 1, 2;</code></pre>
 FROM pedidos
 GROUP BY 1
 ORDER BY 1;</code></pre>
-        <p style="margin-bottom:0"><code>DATE_TRUNC('month', d)</code> "arredonda a data pra baixo" — toda data do mês vira o dia 1 daquele mês. Assim todas as linhas de um mês caem no mesmo valor e o <code>GROUP BY</code> soma por mês. Dá pra trocar por <code>'week'</code> ou <code>'day'</code>.</p>
+        <p style="margin-bottom:0"><code>DATE_TRUNC('month', d)</code> "arredonda a data pra baixo": toda data do mês vira o dia 1 daquele mês. Assim todas as linhas de um mês caem no mesmo valor e o <code>GROUP BY</code> soma por mês. Dá pra trocar por <code>'week'</code> ou <code>'day'</code>.</p>
       </div>
 
       <div class="card">
@@ -158,7 +158,7 @@ ORDER BY 1;</code></pre>
   TO_CHAR(data_pedido, 'YYYY-MM')    AS competencia
 FROM pedidos
 LIMIT 5;</code></pre>
-        <p style="margin-bottom:0"><code>TO_CHAR</code> transforma a data em texto no formato que você pedir — <code>'DD/MM/YYYY'</code> pra exibir no padrão BR, <code>'YYYY-MM'</code> pra rótulo de mês. Serve pra apresentação; pra <em>ordenar</em>, prefira a data crua ou o formato <code>YYYY-MM</code>.</p>
+        <p style="margin-bottom:0"><code>TO_CHAR</code> transforma a data em texto no formato que você pedir: <code>'DD/MM/YYYY'</code> pra exibir no padrão BR, <code>'YYYY-MM'</code> pra rótulo de mês. Serve pra apresentação; pra <em>ordenar</em>, prefira a data crua ou o formato <code>YYYY-MM</code>.</p>
       </div>
     </section>
 
@@ -167,13 +167,13 @@ LIMIT 5;</code></pre>
         <h2 style="margin-top:0;border:0">Pegadinhas deste módulo</h2>
         <p style="margin-top:0;font-size:14px">
           Os erros que quase todo mundo comete aqui. Ler agora poupa meia hora de
-          confusão depois — e alguns deles são a causa de relatório errado em projeto real.
+          confusão depois, e alguns deles são a causa de relatório errado em projeto real.
         </p>
         <ul>
           <li><b><code>COUNT(*)</code> e <code>COUNT(coluna)</code> dão respostas diferentes.</b> <code>COUNT(*)</code> conta linhas; <code>COUNT(coluna)</code> ignora as linhas em que aquela coluna é <code>NULL</code>. Usar um pelo outro é a origem de metade dos números errados em relatório de QA.</li>
-          <li><b><code>AVG</code> também ignora <code>NULL</code> — e isso muda a média.</b> <code>AVG(duracao)</code> sobre 100 linhas com 40 nulas é a média de 60, não de 100. Se o vazio deveria contar como zero, use <code>AVG(COALESCE(duracao, 0))</code>.</li>
-          <li><b><code>WHERE</code> filtra antes de agrupar; <code>HAVING</code>, depois.</b> Filtrar por valor de linha no <code>HAVING</code> funciona em alguns bancos e é lento em todos. E o contrário — <code>WHERE COUNT(*) > 5</code> — simplesmente não existe: agregação não cabe no <code>WHERE</code>.</li>
-          <li><b>Grupo sem nenhuma linha não aparece no resultado.</b> Se você agrupa defeitos por módulo, o módulo com <b>zero</b> defeitos não vem na lista — ele some. Quem lê o relatório conclui que o módulo não existe, e não que ele está limpo.</li>
+          <li><b><code>AVG</code> também ignora <code>NULL</code>, e isso muda a média.</b> <code>AVG(duracao)</code> sobre 100 linhas com 40 nulas é a média de 60, não de 100. Se o vazio deveria contar como zero, use <code>AVG(COALESCE(duracao, 0))</code>.</li>
+          <li><b><code>WHERE</code> filtra antes de agrupar; <code>HAVING</code>, depois.</b> Filtrar por valor de linha no <code>HAVING</code> funciona em alguns bancos e é lento em todos. E o contrário, <code>WHERE COUNT(*) > 5</code>, simplesmente não existe: agregação não cabe no <code>WHERE</code>.</li>
+          <li><b>Grupo sem nenhuma linha não aparece no resultado.</b> Se você agrupa defeitos por módulo, o módulo com <b>zero</b> defeitos não vem na lista, ele simplesmente some. Quem lê o relatório conclui que o módulo não existe, e não que ele está limpo.</li>
           <li><b>Cuidado ao somar percentuais já calculados.</b> A média das taxas de falha por suíte <b>não</b> é a taxa de falha geral: suítes com tamanhos diferentes pesam diferente. Some os numeradores e os denominadores, e divida no fim.</li>
         </ul>
       </div>
@@ -201,7 +201,7 @@ LIMIT 5;</code></pre>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>
@@ -246,7 +246,7 @@ LIMIT 5;</code></pre>
       gabarito: "SELECT DATE_TRUNC('month', data_abertura)::date AS mes, COUNT(*) AS qtd\nFROM defeitos\nGROUP BY mes\nORDER BY mes;" },
     { id: "3.5",
       enunciado: "Execuções de teste que rodaram num fim de semana (sábado ou domingo). Traga caso_teste e data_execucao.",
-      dica: "<code>EXTRACT(DOW FROM data_execucao) IN (0, 6)</code> — 0 = domingo, 6 = sábado.",
+      dica: "<code>EXTRACT(DOW FROM data_execucao) IN (0, 6)</code>, sendo 0 = domingo e 6 = sábado.",
       gabarito: "SELECT caso_teste, data_execucao\nFROM execucoes_teste\nWHERE EXTRACT(DOW FROM data_execucao) IN (0, 6);" },
     { id: "3.6",
       enunciado: "Tempo médio de correção (em dias) dos defeitos já fechados. Uma linha só, coluna dias_medios com 1 casa.",

@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/api/modulo-1.html" />
-  <meta property="og:title" content="API Módulo 1 — Primeira requisição — QA Learning" />
+  <meta property="og:title" content="API Módulo 1: Primeira requisição | QA Learning" />
   <meta property="og:description" content="GET, status code, ok, corpo JSON, 200 × 404. Módulo 1 da trilha Teste de API, no QA Learning. Teoria curta e exercícios contra uma API que roda dentro do…" />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-api.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="API Módulo 1 — Primeira requisição — QA Learning" />
+  <meta property="og:image:alt" content="API Módulo 1: Primeira requisição | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>API Módulo 1 — Primeira requisição</title>
+  <title>API Módulo 1: Primeira requisição</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 1 — Primeira requisição</h1>
+    <h1>Módulo 1: Primeira requisição</h1>
     <p class="legenda">GET, status code, <code>ok</code>, corpo JSON, 200 × 404</p>
 
     <section class="secao">
@@ -46,12 +46,12 @@
       <div class="card">
         <p style="margin-top:0">Uma chamada de API tem 3 coisas que a gente sempre olha:</p>
         <ul>
-          <li><b>Status code</b> — número que resume o que aconteceu:
+          <li><b>Status code</b>: número que resume o que aconteceu:
             <code>200</code> ok, <code>201</code> criado, <code>400</code> pedido malformado,
             <code>401/403</code> sem permissão, <code>404</code> não existe,
             <code>405</code> método errado, <code>500</code> a API quebrou.</li>
-          <li><b>Corpo</b> (body) — normalmente JSON: um objeto ou uma lista.</li>
-          <li><b>Cabeçalhos</b> — ex.: <code>content-type: application/json</code>.</li>
+          <li><b>Corpo</b> (body): normalmente JSON, um objeto ou uma lista.</li>
+          <li><b>Cabeçalhos</b>: ex.: <code>content-type: application/json</code>.</li>
         </ul>
         <p style="margin-bottom:0">Aqui você usa <code>const r = await api('GET', '/caminho')</code>.
           O <code>r</code> tem <code>r.status</code>, <code>r.ok</code> (true se 2xx),
@@ -59,7 +59,7 @@
           <code>check('rótulo', condição)</code>.</p>
       </div>
 
-      <h3>Exemplos (rodam sozinhos — mexe e clique Rodar)</h3>
+      <h3>Exemplos (rodam sozinhos, mexe e clique Rodar)</h3>
       <div id="exemplos"></div>
     </section>
 
@@ -84,13 +84,13 @@ check('veio uma lista', Array.isArray(r.json), 'tamanho ' + r.json.length);</tex
     <section class="secao">
       <div class="card" style="border-left:3px solid var(--acento)">
         <h2 style="margin-top:0;border:0">Olhar de QA</h2>
-        <p style="margin-bottom:0">Status code é a primeira camada, e sozinho já pega muita coisa — mas pare aqui e você terá uma suíte verde que não garante nada. O hábito que vale construir desde agora é testar <b>o caminho de erro com o mesmo cuidado do caminho feliz</b>: id inexistente, método errado, filtro sem resultado. O caminho feliz quase sempre já foi testado por quem escreveu a API. O que ninguém testou é o que acontece quando dá errado — e é lá que mora comportamento não especificado.</p>
+        <p style="margin-bottom:0">Status code é a primeira camada, e sozinho já pega muita coisa, mas pare aqui e você terá uma suíte verde que não garante nada. O hábito que vale construir desde agora é testar <b>o caminho de erro com o mesmo cuidado do caminho feliz</b>: id inexistente, método errado, filtro sem resultado. O caminho feliz quase sempre já foi testado por quem escreveu a API. O que ninguém testou é o que acontece quando dá errado, e é lá que mora comportamento não especificado.</p>
       </div>
     </section>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>
@@ -139,7 +139,7 @@ check('veio uma lista', Array.isArray(r.json), 'tamanho ' + r.json.length);</tex
       inicial: "const r = await api('GET', '/pedidos?status=cancelado');\n",
       gabarito: "const r = await api('GET', '/pedidos?status=cancelado');\ncheck('status 200', r.status === 200);\ncheck('todos cancelados', r.json.every(pd => pd.status === 'cancelado'), r.json.length + ' pedidos');" },
     { id: "1.5",
-      enunciado: "Tente um <code>DELETE</code> em <code>/produtos/1</code>. A API não suporta esse método — verifique que ela responde 405.",
+      enunciado: "Tente um <code>DELETE</code> em <code>/produtos/1</code>. A API não suporta esse método, verifique que ela responde 405.",
       dica: "<code>api('DELETE', '/produtos/1')</code>. 405 = Method Not Allowed.",
       inicial: "const r = await api('DELETE', '/produtos/1');\n",
       gabarito: "const r = await api('DELETE', '/produtos/1');\ncheck('status 405', r.status === 405);\ncheck('nao ok', r.ok === false);" },

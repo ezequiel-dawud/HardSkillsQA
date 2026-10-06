@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="status, add, commit, push — e branch, que é o que separa quem entendeu Git de quem decorou comandos. Módulo 2 da trilha Git e GitHub para QA, no QA Learning." />
+  <meta name="description" content="status, add, commit, push, e branch, que é o que separa quem entendeu Git de quem decorou comandos. Módulo 2 da trilha Git e GitHub para QA, no QA Learning." />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/git/modulo-2.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/git/modulo-2.html" />
-  <meta property="og:title" content="Git Módulo 2 — O ciclo do dia a dia — QA Learning" />
-  <meta property="og:description" content="status, add, commit, push — e branch, que é o que separa quem entendeu Git de quem decorou comandos. Módulo 2 da trilha Git e GitHub para QA, no QA Learning." />
+  <meta property="og:title" content="Git Módulo 2: O ciclo do dia a dia | QA Learning" />
+  <meta property="og:description" content="status, add, commit, push, e branch, que é o que separa quem entendeu Git de quem decorou comandos. Módulo 2 da trilha Git e GitHub para QA, no QA Learning." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-git.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Git Módulo 2 — O ciclo do dia a dia — QA Learning" />
+  <meta property="og:image:alt" content="Git Módulo 2: O ciclo do dia a dia | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Git Módulo 2 — O ciclo do dia a dia</title>
+  <title>Git Módulo 2: O ciclo do dia a dia</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -37,17 +37,17 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 2 — O ciclo do dia a dia</h1>
-    <p class="legenda">status, add, commit, push — e branch, que é o que separa quem entendeu Git de quem decorou comandos</p>
+    <h1>Módulo 2: O ciclo do dia a dia</h1>
+    <p class="legenda">status, add, commit, push, e branch, que é o que separa quem entendeu Git de quem decorou comandos</p>
 
     <details class="card aquecimento">
-      <summary>Aquecimento — 2 perguntas do Módulo 1</summary>
+      <summary>Aquecimento: 2 perguntas do Módulo 1</summary>
       <p class="resp"><b>1.</b> Qual a diferença entre Git e GitHub?<br>
         <i>Git</i> é o programa de controle de versão que roda na sua máquina. <i>GitHub</i>
         é um site que hospeda repositórios Git e acrescenta Pull Request, revisão e CI.</p>
       <p class="resp"><b>2.</b> Por que fazer fork em vez de só clonar?<br>
         <i>Porque você não tem permissão de enviar mudanças no repositório de outra pessoa.</i>
-        O fork cria uma cópia na sua conta, onde você manda — e onde o CI roda com o seu nome.</p>
+        O fork cria uma cópia na sua conta, onde você manda, e onde o CI roda com o seu nome.</p>
     </details>
 
     <section class="secao">
@@ -76,14 +76,14 @@
     <section class="secao teoria">
       <h2>O ciclo, comando por comando</h2>
       <div class="card">
-        <h3 style="margin-top:0"><code>git status</code> — onde estou?</h3>
+        <h3 style="margin-top:0"><code>git status</code>: onde estou?</h3>
         <p>
           O comando que você mais vai usar. Rode antes e depois de qualquer coisa: ele diz
           em que branch você está, o que foi modificado, o que já está preparado e o que o
           Git está ignorando. <b>Na dúvida, <code>git status</code>.</b>
         </p>
 
-        <h3><code>git add</code> — o que entra neste commit</h3>
+        <h3><code>git add</code>: o que entra neste commit</h3>
         <pre class="bloco"><code>git add trilha-3/test_04_meus_testes.py   # um arquivo específico
 git add trilha-3/                         # tudo dentro de uma pasta
 git add .                                 # tudo que mudou (cuidado)</code></pre>
@@ -93,10 +93,10 @@ git add .                                 # tudo que mudou (cuidado)</code></pre
           arquivos enquanto está aprendendo.
         </p>
 
-        <h3><code>git commit</code> — salvar na história</h3>
+        <h3><code>git commit</code>: salvar na história</h3>
         <pre class="bloco"><code>git commit -m "adiciona teste de unicidade de id nas tabelas principais"</code></pre>
         <p>
-          A mensagem é para a pessoa que vai ler o histórico daqui a seis meses — muitas
+          A mensagem é para a pessoa que vai ler o histórico daqui a seis meses, muitas
           vezes você. Diga <b>o que a mudança faz</b>, no presente:
         </p>
         <table class="dados">
@@ -108,12 +108,12 @@ git add .                                 # tudo que mudou (cuidado)</code></pre
           </tbody>
         </table>
 
-        <h3><code>git push</code> — publicar</h3>
+        <h3><code>git push</code>: publicar</h3>
         <pre class="bloco"><code>git push                       # envia os commits do branch atual
 git push -u origin meu-branch  # na primeira vez de um branch novo</code></pre>
         <p style="margin-bottom:0">
           Enquanto você não dá push, tudo vive só na sua máquina. Depois do push, está no
-          GitHub — e é aí que o <b>CI começa a rodar</b>.
+          GitHub, e é aí que o <b>CI começa a rodar</b>.
         </p>
       </div>
     </section>
@@ -155,7 +155,7 @@ git pull            # baixa o que mudou no servidor</code></pre>
     </section>
 
     <section class="secao teoria">
-      <h2>Ler o que mudou — a parte mais útil pra QA</h2>
+      <h2>Ler o que mudou: a parte mais útil pra QA</h2>
       <div class="card">
         <pre class="bloco"><code>git diff                     # o que você mudou e ainda não preparou
 git diff --staged            # o que está preparado pro commit
@@ -175,15 +175,15 @@ git show a1b2c3d             # tudo o que aquele commit mudou</code></pre>
           <thead><tr><th>Situação</th><th>O que fazer</th></tr></thead>
           <tbody>
             <tr><td>Abriu uma tela estranha de editor no terminal (o <code>vim</code>)</td><td>Aconteceu porque você fez <code>git commit</code> sem <code>-m</code>. Aperte <kbd>Esc</kbd>, digite <code>:wq</code> e <kbd>Enter</kbd>.</td></tr>
-            <tr><td>Commitei no branch errado</td><td>Não se desespere: o commit está salvo. Peça ajuda ou pesquise "git cherry-pick" — nada foi perdido.</td></tr>
-            <tr><td>Quero descartar o que editei num arquivo</td><td><code>git restore nome-do-arquivo</code> devolve o arquivo ao último commit. <b>Perde o que você escreveu</b> — confira antes.</td></tr>
+            <tr><td>Commitei no branch errado</td><td>Não se desespere: o commit está salvo. Peça ajuda ou pesquise "git cherry-pick", nada foi perdido.</td></tr>
+            <tr><td>Quero descartar o que editei num arquivo</td><td><code>git restore nome-do-arquivo</code> devolve o arquivo ao último commit. <b>Perde o que você escreveu</b>: confira antes.</td></tr>
             <tr><td><code>CONFLICT (content): Merge conflict in ...</code></td><td>Duas pessoas mudaram a mesma linha. O Git marca o trecho com <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> / <code>=======</code> / <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>: edite o arquivo deixando como deve ficar, apague os marcadores, e faça <code>git add</code> + <code>git commit</code>.</td></tr>
-            <tr><td>Push recusado: <code>rejected — fetch first</code></td><td>Alguém publicou algo antes de você. Rode <code>git pull</code>, resolva se houver conflito, e dê push de novo.</td></tr>
+            <tr><td>Push recusado: <code>rejected: fetch first</code></td><td>Alguém publicou algo antes de você. Rode <code>git pull</code>, resolva se houver conflito, e dê push de novo.</td></tr>
           </tbody>
         </table>
         <p style="margin-bottom:0">
           <b>A regra de ouro:</b> commit feito é commit salvo. É muito difícil perder
-          trabalho já commitado no Git — o que se perde é o que nunca foi commitado.
+          trabalho já commitado no Git, o que se perde é o que nunca foi commitado.
           Commite com frequência.
         </p>
       </div>
@@ -198,15 +198,15 @@ git show a1b2c3d             # tudo o que aquele commit mudou</code></pre>
           <li>Crie o branch: <code>git switch -c meu-primeiro-branch</code></li>
           <li>Crie um arquivo <code>ANOTACOES.md</code> na raiz e escreva três linhas sobre
             o que você aprendeu na trilha de Fundamentos</li>
-          <li><code>git status</code> — veja o arquivo aparecer como não rastreado</li>
-          <li><code>git add ANOTACOES.md</code> e <code>git status</code> de novo — veja a diferença</li>
+          <li><code>git status</code>: veja o arquivo aparecer como não rastreado</li>
+          <li><code>git add ANOTACOES.md</code> e <code>git status</code> de novo: veja a diferença</li>
           <li><code>git commit -m "adiciona anotações da trilha de fundamentos"</code></li>
-          <li><code>git log --oneline -3</code> — encontre o seu commit</li>
+          <li><code>git log --oneline -3</code>: encontre o seu commit</li>
           <li><code>git push -u origin meu-primeiro-branch</code></li>
           <li>Abra o seu repositório no GitHub: o branch e o commit devem estar lá</li>
         </ol>
         <p style="margin-bottom:0" class="legenda">
-          Deixe esse branch publicado — o Módulo 3 começa exatamente dele.
+          Deixe esse branch publicado: o Módulo 3 começa exatamente dele.
         </p>
       </div>
     </section>
@@ -214,13 +214,13 @@ git show a1b2c3d             # tudo o que aquele commit mudou</code></pre>
     <section class="secao">
       <div class="card" style="border-left:3px solid var(--acento)">
         <h2 style="margin-top:0;border:0">Olhar de QA</h2>
-        <p style="margin-bottom:0">O comando que mais vale pra QA neste módulo não é o <code>commit</code> — é o <code>git log</code> restrito a um caminho e o <code>git diff</code>. Eles respondem sozinhos a pergunta que abre todo trabalho de teste: <b>o que exatamente mudou?</b> Enquanto você depende de alguém te contar, a lista que você recebe nunca é a completa.</p>
+        <p style="margin-bottom:0">O comando que mais vale pra QA neste módulo não é o <code>commit</code>: é o <code>git log</code> restrito a um caminho e o <code>git diff</code>. Eles respondem sozinhos a pergunta que abre todo trabalho de teste: <b>o que exatamente mudou?</b> Enquanto você depende de alguém te contar, a lista que você recebe nunca é a completa.</p>
       </div>
     </section>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>

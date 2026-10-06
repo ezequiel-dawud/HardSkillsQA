@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 3 da trilha Validação com pytest — Validação de dados vira teste; o padrão da lista vazia; xfail. Corrigida na hora; 70% fecha o módulo." />
+  <meta name="description" content="Prova do módulo 3 da trilha Validação com pytest: validação de dados vira teste, o padrão da lista vazia, xfail. Corrigida na hora; 70% fecha o módulo." />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/pytest/prova-3.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/pytest/prova-3.html" />
-  <meta property="og:title" content="Prova — Módulo 3 (pytest) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 3 da trilha Validação com pytest — Validação de dados vira teste; o padrão da lista vazia; xfail. Corrigida na hora; 70% fecha o módulo." />
+  <meta property="og:title" content="Prova do Módulo 3 (pytest) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 3 da trilha Validação com pytest: validação de dados vira teste, o padrão da lista vazia, xfail. Corrigida na hora; 70% fecha o módulo." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-pytest.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 3 (pytest) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 3 (pytest) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 3 (pytest)</title>
+  <title>Prova do Módulo 3 (pytest)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 3</h1>
+    <h1>Prova do Módulo 3</h1>
     <p class="legenda">Validação de dados vira teste; o padrão da lista vazia; xfail. &nbsp;<a href="modulo-3.html">← rever o módulo</a></p>
     <div id="prova"></div>
   </main>
@@ -63,7 +63,7 @@
             "t": "mc",
             "enun": "Por que a mensagem do assert deve listar os ids das linhas com problema?",
             "ops": [
-                  "Porque no CI ninguém está olhando a tela na hora da falha — a mensagem é o que permite investigar depois",
+                  "Porque no CI ninguém está olhando a tela na hora da falha, a mensagem é o que permite investigar depois",
                   "Porque o pytest exige mensagem em todo assert",
                   "Porque sem ela o teste não falha corretamente",
                   "Porque aumenta a cobertura de código do projeto"
@@ -75,10 +75,10 @@
             "t": "mc",
             "enun": "Nem toda validação é \"tem que dar zero\". Qual é um exemplo legítimo de assert sobre proporção?",
             "ops": [
-                  "<code>assert sem_defeito / total_falhas &lt;= 0.30</code> — vigiar um teto aceitável em vez de exigir perfeição",
-                  "<code>assert total_falhas == 0</code> — nenhuma execução pode falhar",
-                  "<code>assert len(linhas) &gt; 0</code> — sempre deve haver linhas",
-                  "<code>assert True</code> — garantir que o teste roda"
+                  "<code>assert sem_defeito / total_falhas &lt;= 0.30</code>: vigiar um teto aceitável em vez de exigir perfeição",
+                  "<code>assert total_falhas == 0</code>: nenhuma execução pode falhar",
+                  "<code>assert len(linhas) &gt; 0</code>: sempre deve haver linhas",
+                  "<code>assert True</code>: garantir que o teste roda"
             ],
             "correta": 0,
             "exp": "Regras \"moles\" existem: não é erro grave, mas você quer ser avisado se passar do teto. O assert aceita qualquer expressão booleana."
@@ -111,7 +111,7 @@
             "t": "mc",
             "enun": "No projeto, três testes estão marcados como <code>xfail</code>. O que isso significa?",
             "ops": [
-                  "Os testes estão corretos — o banco de prática tem bugs plantados de propósito, e eles os encontram",
+                  "Os testes estão corretos: o banco de prática tem bugs plantados de propósito, e eles os encontram",
                   "Os testes estão mal escritos e precisam ser corrigidos",
                   "Os testes dependem de uma funcionalidade ainda não implementada",
                   "Os testes são lentos demais para rodar no CI"
@@ -122,7 +122,7 @@
       {
             "t": "aberta",
             "enun": "Na tabela <code>defeitos</code>, a regra é: defeito com status <code>fechado</code> ou <code>resolvido</code> precisa ter <code>data_fechamento</code> preenchida. Escreva o teste e explique o que você faria se ele ficasse vermelho num projeto real.",
-            "modelo": "<pre class=\"bloco\"><code>def test_defeito_fechado_tem_data_de_fechamento(db):\n    ruins = db.execute(\n        \"\"\"\n        SELECT id, status\n        FROM defeitos\n        WHERE status IN ('fechado', 'resolvido')\n          AND data_fechamento IS NULL\n        \"\"\"\n    ).fetchall()\n    assert ruins == [], f\"defeitos fechados sem data: {[r['id'] for r in ruins]}\"</code></pre><p><b>Se ficasse vermelho num projeto real</b>, a sequência seria:</p><ol><li><b>Confirmar no banco:</b> rodar a query à mão e olhar as linhas — quantas são, de quando, de qual módulo.</li><li><b>Decidir o que é o defeito:</b> o dado está torto (alguém fechou sem preencher) ou a <em>regra</em> é que está errada (existe um fluxo legítimo de fechar sem data)? Essa pergunta é do Módulo 5 de Fundamentos: pode ser que o defeito esteja na especificação.</li><li><b>Abrir o relatório</b> com os ids como evidência, severidade e prioridade justificadas separadamente.</li><li><b>Manter o teste vermelho</b>, ou marcá-lo com <code>xfail(strict=True)</code> enquanto o dado não é corrigido — nunca apagá-lo. Com <code>strict</code>, no dia da correção o build avisa que o marcador pode sair.</li></ol><p>O que <b>não</b> se faz: afrouxar o assert para a suíte ficar verde. Isso transforma o teste num enfeite.</p>",
+            "modelo": "<pre class=\"bloco\"><code>def test_defeito_fechado_tem_data_de_fechamento(db):\n    ruins = db.execute(\n        \"\"\"\n        SELECT id, status\n        FROM defeitos\n        WHERE status IN ('fechado', 'resolvido')\n          AND data_fechamento IS NULL\n        \"\"\"\n    ).fetchall()\n    assert ruins == [], f\"defeitos fechados sem data: {[r['id'] for r in ruins]}\"</code></pre><p><b>Se ficasse vermelho num projeto real</b>, a sequência seria:</p><ol><li><b>Confirmar no banco:</b> rodar a query à mão e olhar as linhas: quantas são, de quando, de qual módulo.</li><li><b>Decidir o que é o defeito:</b> o dado está torto (alguém fechou sem preencher) ou a <em>regra</em> é que está errada (existe um fluxo legítimo de fechar sem data)? Essa pergunta é do Módulo 5 de Fundamentos: pode ser que o defeito esteja na especificação.</li><li><b>Abrir o relatório</b> com os ids como evidência, severidade e prioridade justificadas separadamente.</li><li><b>Manter o teste vermelho</b>, ou marcá-lo com <code>xfail(strict=True)</code> enquanto o dado não é corrigido, nunca apagá-lo. Com <code>strict</code>, no dia da correção o build avisa que o marcador pode sair.</li></ol><p>O que <b>não</b> se faz: afrouxar o assert para a suíte ficar verde. Isso transforma o teste num enfeite.</p>",
             "dica": "lembre que a regra também vale ao contrário: aberto não pode ter data de fechamento."
       }
 ]

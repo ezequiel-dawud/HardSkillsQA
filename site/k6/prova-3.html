@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 3 da trilha Teste de carga com k6 — stages, thresholds como portão, e os tipos de teste de carga. Corrigida na hora; 70% fecha o módulo." />
+  <meta name="description" content="Prova do módulo 3 da trilha Teste de carga com k6: stages, thresholds como portão, e os tipos de teste de carga. Corrigida na hora; 70% fecha o módulo." />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/k6/prova-3.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/k6/prova-3.html" />
-  <meta property="og:title" content="Prova — Módulo 3 (k6) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 3 da trilha Teste de carga com k6 — stages, thresholds como portão, e os tipos de teste de carga. Corrigida na hora; 70% fecha o módulo." />
+  <meta property="og:title" content="Prova do Módulo 3 (k6) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 3 da trilha Teste de carga com k6: stages, thresholds como portão, e os tipos de teste de carga. Corrigida na hora; 70% fecha o módulo." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-k6.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 3 (k6) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 3 (k6) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 3 (k6)</title>
+  <title>Prova do Módulo 3 (k6)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 3</h1>
+    <h1>Prova do Módulo 3</h1>
     <p class="legenda">stages, thresholds como portão, e os tipos de teste de carga. &nbsp;<a href="modulo-3.html">← rever o módulo</a></p>
     <div id="prova"></div>
   </main>
@@ -63,7 +63,7 @@
             "t": "mc",
             "enun": "Qual é a <b>única</b> coisa no k6 que reprova o teste?",
             "ops": [
-                  "O <code>threshold</code> — se violado, o <code>k6 run</code> termina com código de saída 99",
+                  "O <code>threshold</code>: se violado, o <code>k6 run</code> termina com código de saída 99",
                   "O <code>check</code> que retorna falso",
                   "Um erro HTTP 500 na resposta",
                   "O teste ultrapassar a duração configurada"
@@ -87,10 +87,10 @@
             "t": "mc",
             "enun": "Qual tipo de teste responde \"a que ponto o sistema quebra, e como ele quebra?\"",
             "ops": [
-                  "Stress — sobe além da carga esperada, em degraus",
-                  "Smoke — 1 a 2 VUs por poucos segundos",
-                  "Soak — carga média por várias horas",
-                  "Spike — salto brusco para carga altíssima e volta"
+                  "Stress: sobe além da carga esperada, em degraus",
+                  "Smoke: 1 a 2 VUs por poucos segundos",
+                  "Soak: carga média por várias horas",
+                  "Spike: salto brusco para carga altíssima e volta"
             ],
             "correta": 0,
             "exp": "O \"como quebra\" importa tanto quanto o \"quando\": degrada devagar, ou cai de uma vez e não volta?"
@@ -99,10 +99,10 @@
             "t": "mc",
             "enun": "Qual teste você usaria para investigar suspeita de vazamento de memória?",
             "ops": [
-                  "Soak — carga média sustentada por muitas horas",
-                  "Spike — pico repentino e volta",
-                  "Smoke — verificação rápida de que está de pé",
-                  "Load — carga esperada do dia normal"
+                  "Soak: carga média sustentada por muitas horas",
+                  "Spike: pico repentino e volta",
+                  "Smoke: verificação rápida de que está de pé",
+                  "Load: carga esperada do dia normal"
             ],
             "correta": 0,
             "exp": "Vazamento não aparece em 5 minutos: aparece na curva que degrada devagar ao longo de horas, com a carga constante."
@@ -111,10 +111,10 @@
             "t": "mc",
             "enun": "Um site vai aparecer num programa de TV às 21h. Qual teste representa melhor esse risco?",
             "ops": [
-                  "Spike — salto brusco para carga altíssima e retorno",
-                  "Soak — carga média por muito tempo",
-                  "Load — carga esperada do dia normal",
-                  "Smoke — verificação básica de disponibilidade"
+                  "Spike: salto brusco para carga altíssima e retorno",
+                  "Soak: carga média por muito tempo",
+                  "Load: carga esperada do dia normal",
+                  "Smoke: verificação básica de disponibilidade"
             ],
             "correta": 0,
             "exp": "O risco não é o volume sustentado: é a subida instantânea, e se o sistema <b>se recupera</b> depois que o pico passa."
@@ -122,7 +122,7 @@
       {
             "t": "aberta",
             "enun": "Escreva os <code>thresholds</code> de um checkout cuja meta é: 99% de disponibilidade, 95% das respostas abaixo de 800ms, e nenhuma resposta acima de 3s. Depois explique o que você faria se o teste reprovasse.",
-            "modelo": "<pre class=\"bloco\"><code>export const options = {\n  stages: [\n    { duration: \"1m\", target: 200 },   // sobe\n    { duration: \"5m\", target: 200 },   // patamar: e aqui que se mede\n    { duration: \"1m\", target: 0 },     // desce\n  ],\n  thresholds: {\n    http_req_failed:   [\"rate&lt;0.01\"],    // menos de 1% de erro\n    http_req_duration: [\"p(95)&lt;800\", \"max&lt;3000\"],\n    checks:            [\"rate&gt;0.99\"],\n  },\n};</code></pre><p><b>Se reprovar</b>, a sequência é investigar antes de concluir:</p><ol><li><b>Qual threshold estourou?</b> O resumo diz exatamente qual. Erro alto e tempo alto apontam para causas diferentes.</li><li><b>Quando começou a degradar?</b> Olhar a curva: foi desde o início (o sistema já não aguenta a carga base) ou só depois de certo ponto do patamar (esgotamento progressivo — conexões, memória, pool do banco)?</li><li><b>Onde?</b> Com <code>group()</code>, ver qual etapa puxou o p95 para cima. Frequentemente é uma só.</li><li><b>É o sistema ou o teste?</b> O gerador de carga saturou? A máquina que roda o k6 tem CPU e rede suficientes? Dado fixo demais criou disputa artificial por um registro? Ambiente de teste é menor que produção?</li><li><b>É dependência externa?</b> Pagamento ou antifraude em sandbox pode ser o gargalo — e aí você mediu o terceiro, não o seu sistema.</li><li><b>Relatar</b> com o número, a carga em que aconteceu, a curva e a etapa específica: <i>\"o p95 do checkout passa de 800ms a partir de 140 VUs; abaixo disso fica em 310ms\"</i> é acionável. <i>\"está lento\"</i> não é.</li></ol><p>E o mais importante: <b>reprovar não é falha do teste, é o teste funcionando</b>. A decisão do que fazer — aumentar capacidade, otimizar, ou aceitar e adiar — é do time, com a informação que você produziu.</p>",
+            "modelo": "<pre class=\"bloco\"><code>export const options = {\n  stages: [\n    { duration: \"1m\", target: 200 },   // sobe\n    { duration: \"5m\", target: 200 },   // patamar: e aqui que se mede\n    { duration: \"1m\", target: 0 },     // desce\n  ],\n  thresholds: {\n    http_req_failed:   [\"rate&lt;0.01\"],    // menos de 1% de erro\n    http_req_duration: [\"p(95)&lt;800\", \"max&lt;3000\"],\n    checks:            [\"rate&gt;0.99\"],\n  },\n};</code></pre><p><b>Se reprovar</b>, a sequência é investigar antes de concluir:</p><ol><li><b>Qual threshold estourou?</b> O resumo diz exatamente qual. Erro alto e tempo alto apontam para causas diferentes.</li><li><b>Quando começou a degradar?</b> Olhar a curva: foi desde o início (o sistema já não aguenta a carga base) ou só depois de certo ponto do patamar (esgotamento progressivo: conexões, memória, pool do banco)?</li><li><b>Onde?</b> Com <code>group()</code>, ver qual etapa puxou o p95 para cima. Frequentemente é uma só.</li><li><b>É o sistema ou o teste?</b> O gerador de carga saturou? A máquina que roda o k6 tem CPU e rede suficientes? Dado fixo demais criou disputa artificial por um registro? Ambiente de teste é menor que produção?</li><li><b>É dependência externa?</b> Pagamento ou antifraude em sandbox pode ser o gargalo, e aí você mediu o terceiro, não o seu sistema.</li><li><b>Relatar</b> com o número, a carga em que aconteceu, a curva e a etapa específica: <i>\"o p95 do checkout passa de 800ms a partir de 140 VUs; abaixo disso fica em 310ms\"</i> é acionável. <i>\"está lento\"</i> não é.</li></ol><p>E o mais importante: <b>reprovar não é falha do teste, é o teste funcionando</b>. A decisão do que fazer, aumentar capacidade, otimizar, ou aceitar e adiar, é do time, com a informação que você produziu.</p>",
             "dica": "lembre que cada métrica aceita mais de um limite ao mesmo tempo."
       }
 ]

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 3 da trilha CI/CD para QA — Código de saída, o portão de qualidade, required checks e o badge. Corrigida na hora; 70% fecha o módulo." />
+  <meta name="description" content="Prova do módulo 3 da trilha CI/CD para QA: código de saída, o portão de qualidade, required checks e o badge. Corrigida na hora; 70% fecha o módulo." />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/cicd/prova-3.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/cicd/prova-3.html" />
-  <meta property="og:title" content="Prova — Módulo 3 (CI/CD) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 3 da trilha CI/CD para QA — Código de saída, o portão de qualidade, required checks e o badge. Corrigida na hora; 70% fecha o módulo." />
+  <meta property="og:title" content="Prova do Módulo 3 (CI/CD) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 3 da trilha CI/CD para QA: código de saída, o portão de qualidade, required checks e o badge. Corrigida na hora; 70% fecha o módulo." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-cicd.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 3 (CI/CD) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 3 (CI/CD) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 3 (CI/CD)</title>
+  <title>Prova do Módulo 3 (CI/CD)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 3</h1>
+    <h1>Prova do Módulo 3</h1>
     <p class="legenda">Código de saída, o portão de qualidade, required checks e o badge. &nbsp;<a href="modulo-3.html">← rever o módulo</a></p>
     <div id="prova"></div>
   </main>
@@ -69,19 +69,19 @@
                   "O revisor marca o check manualmente como reprovado"
             ],
             "correta": 0,
-            "exp": "É uma corrente simples e mecânica — e é isso que torna possível trocar o pytest pelo k6 sem mudar nada no pipeline."
+            "exp": "É uma corrente simples e mecânica, e é isso que torna possível trocar o pytest pelo k6 sem mudar nada no pipeline."
       },
       {
             "t": "mc",
             "enun": "Por padrão, um check vermelho impede o merge?",
             "ops": [
-                  "Não — é apenas um aviso. Para barrar de fato, é preciso configurar o check como obrigatório nas regras de proteção do branch",
+                  "Não, é apenas um aviso. Para barrar de fato, é preciso configurar o check como obrigatório nas regras de proteção do branch",
                   "Sim, o GitHub bloqueia automaticamente qualquer merge com check vermelho",
                   "Sim, mas apenas em repositórios privados",
                   "Não, e não existe forma de bloquear o merge"
             ],
             "correta": 0,
-            "exp": "É a trava que transforma \"temos testes\" em \"não entra código quebrado\" — e em time real quem costuma configurar isso é QA ou tech lead."
+            "exp": "É a trava que transforma \"temos testes\" em \"não entra código quebrado\", e em time real quem costuma configurar isso é QA ou tech lead."
       },
       {
             "t": "mc",
@@ -93,7 +93,7 @@
                   "O número de Pull Requests abertos"
             ],
             "correta": 0,
-            "exp": "Um raio-x do estado do projeto à primeira vista — e um sinal ruim quando fica vermelho por semanas."
+            "exp": "Um raio-x do estado do projeto à primeira vista, e um sinal ruim quando fica vermelho por semanas."
       },
       {
             "t": "mc",
@@ -105,7 +105,7 @@
                   "O histórico de execuções é apagado"
             ],
             "correta": 0,
-            "exp": "Vermelho normalizado é o mesmo que não ter CI — só que pagando o custo de mantê-lo."
+            "exp": "Vermelho normalizado é o mesmo que não ter CI, só que pagando o custo de mantê-lo."
       },
       {
             "t": "mc",
@@ -122,7 +122,7 @@
       {
             "t": "aberta",
             "enun": "O time decidiu tornar o check de testes obrigatório para merge na <code>main</code>. Você é QA: que preparação faria antes de ligar essa trava, e o que combinaria com o time?",
-            "modelo": "<p>Ligar a trava com o pipeline instável transforma a proteção em obstáculo, e o time acaba pedindo para desligá-la. A preparação:</p><p><b>Antes de ligar</b></p><ul><li><b>A suíte precisa estar verde e estável.</b> Rodar o pipeline várias vezes seguidas sem mudar nada: se alterna entre verde e vermelho, existe teste instável (<i>flaky</i>) — e isso se resolve antes, não depois.</li><li><b>Eliminar ou isolar os testes instáveis.</b> Um teste que falha sozinho de vez em quando vai bloquear merges legítimos e destruir a confiança na trava.</li><li><b>Tempo de execução aceitável.</b> Se o pipeline demora 40 minutos, ninguém vai esperar. Separe o que roda em todo PR (rápido) do que roda à noite (completo).</li><li><b>Cobertura mínima do que importa.</b> Uma trava que protege dois testes bobos dá falsa sensação de segurança.</li><li><b>Mensagens de falha úteis.</b> Se quem vê o vermelho não entende o que fazer, a trava vira frustração. É aqui que a mensagem do assert, do Módulo 3 de pytest, faz diferença.</li></ul><p><b>O que combinar com o time</b></p><ul><li><b>Qual check é obrigatório</b> e quais ficam informativos.</li><li><b>O que fazer quando bloquear:</b> o combinado é corrigir, não desligar a trava. E quem ajuda quando alguém empaca.</li><li><b>Se existe exceção</b> — quem pode forçar merge, em que situação (incidente em produção, por exemplo) e como isso é registrado.</li><li><b>Quem cuida do pipeline.</b> Pipeline sem dono apodrece.</li><li><b>Quando revisar.</b> Combinar uma data para avaliar se está ajudando ou atrapalhando.</li></ul><p>E o passo que mais ajuda na adoção: <b>avisar antes e ligar em um momento calmo</b>, não na véspera de uma entrega grande. A trava precisa ser vista como rede de proteção do time — não como algo que QA impôs.</p>",
+            "modelo": "<p>Ligar a trava com o pipeline instável transforma a proteção em obstáculo, e o time acaba pedindo para desligá-la. A preparação:</p><p><b>Antes de ligar</b></p><ul><li><b>A suíte precisa estar verde e estável.</b> Rodar o pipeline várias vezes seguidas sem mudar nada: se alterna entre verde e vermelho, existe teste instável (<i>flaky</i>), e isso se resolve antes, não depois.</li><li><b>Eliminar ou isolar os testes instáveis.</b> Um teste que falha sozinho de vez em quando vai bloquear merges legítimos e destruir a confiança na trava.</li><li><b>Tempo de execução aceitável.</b> Se o pipeline demora 40 minutos, ninguém vai esperar. Separe o que roda em todo PR (rápido) do que roda à noite (completo).</li><li><b>Cobertura mínima do que importa.</b> Uma trava que protege dois testes bobos dá falsa sensação de segurança.</li><li><b>Mensagens de falha úteis.</b> Se quem vê o vermelho não entende o que fazer, a trava vira frustração. É aqui que a mensagem do assert, do Módulo 3 de pytest, faz diferença.</li></ul><p><b>O que combinar com o time</b></p><ul><li><b>Qual check é obrigatório</b> e quais ficam informativos.</li><li><b>O que fazer quando bloquear:</b> o combinado é corrigir, não desligar a trava. E quem ajuda quando alguém empaca.</li><li><b>Se existe exceção</b>: quem pode forçar merge, em que situação (incidente em produção, por exemplo) e como isso é registrado.</li><li><b>Quem cuida do pipeline.</b> Pipeline sem dono apodrece.</li><li><b>Quando revisar.</b> Combinar uma data para avaliar se está ajudando ou atrapalhando.</li></ul><p>E o passo que mais ajuda na adoção: <b>avisar antes e ligar em um momento calmo</b>, não na véspera de uma entrega grande. A trava precisa ser vista como rede de proteção do time, não como algo que QA impôs.</p>",
             "dica": "pense no que acontece se a trava bloquear merges por um motivo que não é defeito real."
       }
 ]

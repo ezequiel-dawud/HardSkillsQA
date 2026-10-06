@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/api/modulo-3.html" />
-  <meta property="og:title" content="API Módulo 3 — Regras de negócio e POST — QA Learning" />
+  <meta property="og:title" content="API Módulo 3: Regras de negócio e POST | QA Learning" />
   <meta property="og:description" content="201, 400, validação de entrada, efeito colateral. Módulo 3 da trilha Teste de API, no QA Learning. Teoria curta e exercícios contra uma API que roda dentro…" />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-api.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="API Módulo 3 — Regras de negócio e POST — QA Learning" />
+  <meta property="og:image:alt" content="API Módulo 3: Regras de negócio e POST | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>API Módulo 3 — Regras de negócio e POST</title>
+  <title>API Módulo 3: Regras de negócio e POST</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 3 — Regras de negócio e POST</h1>
+    <h1>Módulo 3: Regras de negócio e POST</h1>
     <p class="legenda">201, 400, validação de entrada, efeito colateral</p>
 
     <section class="secao">
@@ -49,10 +49,10 @@
             <code>await api('POST', '/defeitos', { titulo: 'x', severidade: 'alta' })</code>.</li>
           <li><b>Sucesso:</b> geralmente <code>201 Created</code>, e o corpo traz o recurso criado
             (com <code>id</code> novo, campos default preenchidos).</li>
-          <li><b>Entrada inválida:</b> <code>400 Bad Request</code> — a API <b>não</b> deve criar
+          <li><b>Entrada inválida:</b> <code>400 Bad Request</code>, a API <b>não</b> deve criar
             nada e deve explicar o que faltou.</li>
           <li><b>Efeito colateral:</b> depois de um POST bem-sucedido, um <code>GET</code>
-            seguinte tem que <b>enxergar</b> o que foi criado. Teste isso — é onde mora bug de
+            seguinte tem que <b>enxergar</b> o que foi criado. Teste isso: é onde mora bug de
             "cadastrou mas não salvou".</li>
         </ul>
         <p style="margin-bottom:0; font-size:14px; color:var(--suave)">Dica: o botão
@@ -85,13 +85,13 @@ check('status inicial aberto', r.json.status === 'aberto');</textarea>
     <section class="secao">
       <div class="card" style="border-left:3px solid var(--acento)">
         <h2 style="margin-top:0;border:0">Olhar de QA</h2>
-        <p style="margin-bottom:0">Depois de todo POST bem-sucedido, pergunte-se duas coisas que o status sozinho não responde: <b>gravou mesmo?</b> (faça o GET seguinte) e <b>gravou só o que deveria?</b> (no caso do 400, conte os registros antes e depois). Criação silenciosa depois de um erro é um defeito sério: a pessoa tenta de novo e ficam dois registros. E teste sempre o envio repetido — clique duplo e nova tentativa automática são realidade em produção, não hipótese.</p>
+        <p style="margin-bottom:0">Depois de todo POST bem-sucedido, pergunte-se duas coisas que o status sozinho não responde: <b>gravou mesmo?</b> (faça o GET seguinte) e <b>gravou só o que deveria?</b> (no caso do 400, conte os registros antes e depois). Criação silenciosa depois de um erro é um defeito sério: a pessoa tenta de novo e ficam dois registros. E teste sempre o envio repetido: clique duplo e nova tentativa automática são realidade em produção, não hipótese.</p>
       </div>
     </section>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>

@@ -590,6 +590,10 @@ pre.bloco::-webkit-scrollbar-thumb:hover, .editor-wrap::-webkit-scrollbar-thumb:
 .aquecimento summary { cursor: pointer; font-weight: 700; color: var(--acento); }
 .aquecimento .resp { margin: 8px 0 0; padding-left: 18px; font-size: 14px; color: var(--suave); }
 
+/* ---- estrutura de pastas (trilha 7 — Playwright) ------------------------ */
+.estrutura-pastas summary { cursor: pointer; font-weight: 700; }
+.estrutura-pastas pre { margin: 10px 0 0; }
+
 /* ---- questão aberta: texto corrido, não código ------------------------- */
 .editor-texto {
   background: var(--painel); color: var(--texto);

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 4 da trilha Automação web com Playwright — page.route, atalho de login via localStorage, o que muda pro CI. Corrigida na hora; 70% fecha o…" />
+  <meta name="description" content="Prova do módulo 4 da trilha Automação web com Playwright: page.route, atalho de login via localStorage, o que muda pro CI. Corrigida na hora; 70% fecha o…" />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/playwright/prova-4.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/playwright/prova-4.html" />
-  <meta property="og:title" content="Prova — Módulo 4 (Playwright) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 4 da trilha Automação web com Playwright — page.route, atalho de login via localStorage, o que muda pro CI. Corrigida na hora; 70% fecha o…" />
+  <meta property="og:title" content="Prova do Módulo 4 (Playwright) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 4 da trilha Automação web com Playwright: page.route, atalho de login via localStorage, o que muda pro CI. Corrigida na hora; 70% fecha o…" />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-playwright.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 4 (Playwright) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 4 (Playwright) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 4 (Playwright)</title>
+  <title>Prova do Módulo 4 (Playwright)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 4</h1>
+    <h1>Prova do Módulo 4</h1>
     <p class="legenda"><code>page.route</code>, atalho de login via localStorage, o que muda pro CI. &nbsp;<a href="modulo-4.html">← rever o módulo</a></p>
     <div id="prova"></div>
   </main>
@@ -57,7 +57,7 @@
                   "Grava um log de todas as requisições, sem alterar nenhuma resposta"
             ],
             "correta": 0,
-            "exp": "É o equivalente Playwright do cy.intercept do Cypress — mock/stub de rede no nível do navegador."
+            "exp": "É o equivalente Playwright do cy.intercept do Cypress: mock/stub de rede no nível do navegador."
       },
       {
             "t": "mc",
@@ -77,7 +77,7 @@
             "ops": [
                   "Quando o login já foi testado em outro teste e, neste, ele é só um pré-requisito pra testar outra coisa",
                   "Sempre, em todo teste, pra deixar a suíte mais rápida",
-                  "Nunca — é considerado uma prática não recomendada",
+                  "Nunca, é considerado uma prática não recomendada",
                   "Só quando o servidor de login está fora do ar"
             ],
             "correta": 0,
@@ -87,19 +87,19 @@
             "t": "mc",
             "enun": "O que já funciona \"de graça\" ao rodar <code>npx playwright test</code> num servidor de CI, sem nenhuma configuração extra?",
             "ops": [
-                  "A execução headless (sem abrir janela de navegador) — já é o padrão",
+                  "A execução headless (sem abrir janela de navegador) já é o padrão",
                   "A instalação automática do navegador, sem precisar de nenhum passo no workflow",
                   "O site de treino sobe sozinho, sem precisar de um passo pra isso",
                   "O relatório HTML abre automaticamente no navegador do servidor de CI"
             ],
             "correta": 0,
-            "exp": "O que precisa ser configurado no CI é infraestrutura: instalar os navegadores e subir o alvo — a execução em si já é headless por padrão."
+            "exp": "O que precisa ser configurado no CI é infraestrutura: instalar os navegadores e subir o alvo. A execução em si já é headless por padrão."
       },
       {
             "t": "mc",
             "enun": "Qual o risco de mockar a resposta de rede em praticamente todos os testes de uma suíte?",
             "ops": [
-                  "Os testes deixam de verificar se o front-end e o back-end ainda concordam sobre o formato real da resposta — um contrato quebrado pode passar despercebido",
+                  "Os testes deixam de verificar se o front-end e o back-end ainda concordam sobre o formato real da resposta, e um contrato quebrado pode passar despercebido",
                   "O Playwright passa a rodar mais lento",
                   "page.route() para de funcionar depois de muitos usos na mesma suíte",
                   "Os testes mockados não podem rodar no CI"
@@ -110,7 +110,7 @@
       {
             "t": "aberta",
             "enun": "Seu time quer que a suíte de Playwright rode automaticamente a cada pull request, igual a Trilha 6 (CI/CD) ensinou pra pytest. Que perguntas e passos você levantaria antes de escrever o workflow?",
-            "modelo": "<p>A lógica é a mesma da Trilha 6 — automatizar os mesmos comandos que já rodam manualmente — mas automação de navegador tem particularidades:</p><ul><li><b>O alvo precisa estar de pé antes dos testes.</b> No CI isso significa subir o site de treino (ou apontar pra um ambiente já publicado) como um passo do workflow, antes de rodar os testes — e esperar ele responder antes de seguir, não só disparar e torcer.</li><li><b>Instalar o navegador no runner.</b> O ambiente de CI começa limpo; o comando de instalar o Chromium (com as dependências de sistema, não só o binário) precisa ser um passo explícito.</li><li><b>Tempo de execução.</b> Testes de navegador são mais lentos que testes de API/unitários — vale medir quanto a suíte demora e decidir se roda em todo PR ou só antes de mergear.</li><li><b>O que fazer quando falha.</b> Diferente de um assert de API, um teste de UI que falha se beneficia de evidência visual — trace, screenshot, vídeo no momento da falha, publicados como artefato do CI pra quem for investigar não precisar rodar local pra reproduzir.</li><li><b>Flakiness.</b> Antes de confiar o merge a essa suíte, rodar ela várias vezes seguidas localmente (ou no próprio CI) pra garantir que não falha aleatoriamente — um teste de UI instável que bloqueia PRs de verdade vira motivo pra ninguém confiar nele.</li></ul><p>No fim, a pergunta que mais importa é a mesma da Trilha 6: se a suíte reprovar o build, alguém age? Se sim, vale o investimento de deixá-la estável antes de virar portão obrigatório.</p>",
+            "modelo": "<p>A lógica é a mesma da Trilha 6: automatizar os mesmos comandos que já rodam manualmente. Mas automação de navegador tem particularidades:</p><ul><li><b>O alvo precisa estar de pé antes dos testes.</b> No CI isso significa subir o site de treino (ou apontar pra um ambiente já publicado) como um passo do workflow, antes de rodar os testes, e esperar ele responder antes de seguir, não só disparar e torcer.</li><li><b>Instalar o navegador no runner.</b> O ambiente de CI começa limpo; o comando de instalar o Chromium (com as dependências de sistema, não só o binário) precisa ser um passo explícito.</li><li><b>Tempo de execução.</b> Testes de navegador são mais lentos que testes de API/unitários, vale medir quanto a suíte demora e decidir se roda em todo PR ou só antes de mergear.</li><li><b>O que fazer quando falha.</b> Diferente de um assert de API, um teste de UI que falha se beneficia de evidência visual: trace, screenshot, vídeo no momento da falha, publicados como artefato do CI pra quem for investigar não precisar rodar local pra reproduzir.</li><li><b>Flakiness.</b> Antes de confiar o merge a essa suíte, rodar ela várias vezes seguidas localmente (ou no próprio CI) pra garantir que não falha aleatoriamente: um teste de UI instável que bloqueia PRs de verdade vira motivo pra ninguém confiar nele.</li></ul><p>No fim, a pergunta que mais importa é a mesma da Trilha 6: se a suíte reprovar o build, alguém age? Se sim, vale o investimento de deixá-la estável antes de virar portão obrigatório.</p>",
             "dica": "pense em: subir o alvo, instalar o navegador, tempo de execução, e o que fazer quando um teste de UI falha."
       }
     ]

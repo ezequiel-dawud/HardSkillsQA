@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/playwright/modulo-3.html" />
-  <meta property="og:title" content="Playwright Módulo 3 — Cenários do site de treino — QA Learning" />
+  <meta property="og:title" content="Playwright Módulo 3: Cenários do site de treino | QA Learning" />
   <meta property="og:description" content="Login compartilhado entre testes, loading assíncrono, paginação, estado vazio, modal e upload de arquivo. Módulo 3 da trilha Automação web com Playwright, no…" />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-playwright.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Playwright Módulo 3 — Cenários do site de treino — QA Learning" />
+  <meta property="og:image:alt" content="Playwright Módulo 3: Cenários do site de treino | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Playwright Módulo 3 — Cenários do site de treino</title>
+  <title>Playwright Módulo 3: Cenários do site de treino</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,18 +38,18 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 3 — Cenários do site de treino</h1>
+    <h1>Módulo 3: Cenários do site de treino</h1>
     <p class="legenda">Login compartilhado entre testes, loading assíncrono, paginação, estado vazio, modal e upload de arquivo.</p>
 
     <section class="secao">
       <h2>1. Reaproveitando a <code>LoginPage</code> do Módulo 1</h2>
       <div class="card">
         <p style="margin-top:0"><code>/index.html</code>, <code>/produto.html</code> e
-          <code>/carrinho.html</code> exigem sessão — sem login, redirecionam pra
+          <code>/carrinho.html</code> exigem sessão: sem login, redirecionam pra
           <code>/login.html</code>. O Módulo 2 te ensinou Page Object Model; aqui está o primeiro
           pagamento desse investimento: em vez de reescrever o preenchimento do login, criamos
           <code>pages/LoginPage.js</code> (mesma ideia da <code>CadastroPage</code>) e
-          <b>reaproveitamos</b> ela — o mesmo fluxo que o Módulo 1 já testou:</p>
+          <b>reaproveitamos</b> ela, o mesmo fluxo que o Módulo 1 já testou:</p>
         <pre class="bloco"><code>const { LoginPage } = require("../pages/LoginPage");
 
 async function login(page) {
@@ -76,13 +76,13 @@ test.describe("lista de produtos", () => {
       <h2>2. Loading assíncrono, paginação e estado vazio</h2>
       <div class="card">
         <p style="margin-top:0">A lista de produtos também ganhou uma Page Object
-          (<code>pages/ProdutosPage.js</code>). Ela busca os dados com um atraso proposital — dá
+          (<code>pages/ProdutosPage.js</code>). Ela busca os dados com um atraso proposital: dá
           pra testar o carregamento de verdade, não um "pisca" rápido demais pra reparar:</p>
         <pre class="bloco"><code>const produtos = new ProdutosPage(page);
 await expect(produtos.produto(1)).toBeVisible();
 await expect(produtos.loadingSpinner).toBeHidden();</code></pre>
         <p>A mesma página tem um parâmetro pra forçar lista vazia, sem precisar mexer no
-          servidor — útil pra testar o estado vazio isoladamente. É por isso que
+          servidor, útil pra testar o estado vazio isoladamente. É por isso que
           <code>ProdutosPage.goto()</code> aceita uma opção:</p>
         <pre class="bloco"><code>await produtos.goto({ vazio: true }); // navega pra /index.html?vazio=1
 await expect(produtos.emptyState).toBeVisible();</code></pre>
@@ -97,8 +97,8 @@ await expect(produtos.paginationCurrent).toHaveText("2");</code></pre>
       <div class="card">
         <p style="margin-top:0">Ao adicionar um produto ao carrinho, um modal confirma. A
           <code>ProdutoPage</code> (<code>pages/ProdutoPage.js</code>) já espera o detalhe do
-          produto carregar dentro do próprio <code>goto(id)</code> — o botão "adicionar" não faz
-          nada se o produto ainda não carregou (não há indicador disso na tela — vale anotar como
+          produto carregar dentro do próprio <code>goto(id)</code>. O botão "adicionar" não faz
+          nada se o produto ainda não carregou (não há indicador disso na tela, vale anotar como
           melhoria de UX pra reportar), então esperar faz parte de "abrir a página" nessa classe,
           não algo que cada teste precisa lembrar de repetir:</p>
         <pre class="bloco"><code>const produto = new ProdutoPage(page);
@@ -118,7 +118,7 @@ await expect(produto.modalMessage).toContainText("foi adicionado");</code></pre>
   path.join(__dirname, "..", "fixtures", "exemplo.png")
 );
 await expect(produto.filePreview).toContainText("exemplo.png");</code></pre>
-        <p style="margin-bottom:0">Funciona mesmo com o <code>accept="image/*"</code> do campo —
+        <p style="margin-bottom:0">Funciona mesmo com o <code>accept="image/*"</code> do campo:
           esse atributo só filtra o que aparece no seletor manual, não bloqueia
           <code>setInputFiles</code>.</p>
       </div>
@@ -128,7 +128,7 @@ await expect(produto.filePreview).toContainText("exemplo.png");</code></pre>
       <h2>5. Os testes deste módulo</h2>
       <div class="card">
         <p style="margin-top:0"><b>Arquivo já existe</b> em
-          <code>tests/03_cenarios.spec.js</code> — não precisa digitar, só rodar:</p>
+          <code>tests/03_cenarios.spec.js</code>. Não precisa digitar, só rodar:</p>
         <pre class="bloco"><code>npx playwright test tests/03_cenarios.spec.js</code></pre>
       </div>
     </section>
@@ -147,14 +147,36 @@ await expect(produto.filePreview).toContainText("exemplo.png");</code></pre>
           confirme que o item 1 não é mais o primeiro. Rode <code>python verificar.py 3</code> até
           dar 7 <code>[ok]</code>. Gabarito em <code>trilha-7/GABARITO.md</code>.</p>
       </div>
+      <details class="card estrutura-pastas">
+        <summary>📁 Ver estrutura de pastas da trilha-7/</summary>
+        <pre class="bloco"><code>trilha-7/
+├── playwright.config.js
+├── package.json
+├── verificar.py
+├── GABARITO.md
+├── README.md
+├── fixtures/
+│   └── exemplo.png
+├── pages/
+│   ├── LoginPage.js
+│   ├── CadastroPage.js
+│   ├── ProdutosPage.js
+│   ├── <b style="color:var(--acento)">ProdutoPage.js</b>   ← Page Object usado neste exercício
+│   └── RedePage.js
+└── tests/
+    ├── 01_primeiro_teste.spec.js
+    ├── 02_selecionadores.spec.js
+    ├── <b style="color:var(--acento)">03_cenarios.spec.js</b>   ← este exercício
+    └── 04_rede_ci.spec.js</code></pre>
+      </details>
     </section>
 
     <section class="secao">
       <div class="card" style="border-left:3px solid var(--acento)">
         <h2 style="margin-top:0;border:0">Olhar de QA</h2>
         <p style="margin-bottom:0">Repare que cada teste deste módulo espera por algo
-          <b>específico</b> antes de agir (o título do produto não estar vazio, o spinner sumir) —
-          nenhum usa <code>sleep()</code>. Isso não é estilo, é necessidade: o atraso artificial
+          <b>específico</b> antes de agir (o título do produto não estar vazio, o spinner sumir).
+          Nenhum usa <code>sleep()</code>. Isso não é estilo, é necessidade: o atraso artificial
           das APIs varia, e esperar "um tempo fixo" cedo demais produz teste instável (passa na
           sua máquina, falha na do colega ou no CI, que costuma ser mais lento). Esperar a
           <b>condição certa</b> em vez do <b>tempo certo</b> é o que separa teste de UI confiável
@@ -164,7 +186,7 @@ await expect(produto.filePreview).toContainText("exemplo.png");</code></pre>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>

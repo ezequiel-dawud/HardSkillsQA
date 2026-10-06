@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="A técnica que acha o que o roteiro não previu — feita com método, carta de teste e tempo marcado. Módulo 4 da trilha Fundamentos de Teste, no QA Learning." />
+  <meta name="description" content="A técnica que acha o que o roteiro não previu, feita com método, carta de teste e tempo marcado. Módulo 4 da trilha Fundamentos de Teste, no QA Learning." />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/fundamentos/modulo-4.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/fundamentos/modulo-4.html" />
-  <meta property="og:title" content="Fundamentos Módulo 4 — Teste exploratório — QA Learning" />
-  <meta property="og:description" content="A técnica que acha o que o roteiro não previu — feita com método, carta de teste e tempo marcado. Módulo 4 da trilha Fundamentos de Teste, no QA Learning." />
+  <meta property="og:title" content="Fundamentos Módulo 4: Teste exploratório | QA Learning" />
+  <meta property="og:description" content="A técnica que acha o que o roteiro não previu, feita com método, carta de teste e tempo marcado. Módulo 4 da trilha Fundamentos de Teste, no QA Learning." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-fundamentos.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Fundamentos Módulo 4 — Teste exploratório — QA Learning" />
+  <meta property="og:image:alt" content="Fundamentos Módulo 4: Teste exploratório | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Fundamentos Módulo 4 — Teste exploratório</title>
+  <title>Fundamentos Módulo 4: Teste exploratório</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -39,18 +39,18 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 4 — Teste exploratório</h1>
-    <p class="legenda">A técnica que acha o que o roteiro não previu — feita com método, carta de teste e tempo marcado</p>
+    <h1>Módulo 4: Teste exploratório</h1>
+    <p class="legenda">A técnica que acha o que o roteiro não previu, feita com método, carta de teste e tempo marcado</p>
 
     <details class="card aquecimento">
-      <summary>Aquecimento — 2 perguntas do Módulo 3</summary>
+      <summary>Aquecimento: 2 perguntas do Módulo 3</summary>
       <p class="resp"><b>1.</b> A regra diz "frete grátis acima de R$ 300". Quais três valores
         você testa primeiro?<br>
-        <i>299,99 / 300,00 / 300,01</i> — a fronteira e os dois vizinhos. E o 300,00 obriga a
+        <i>299,99 / 300,00 / 300,01</i>: a fronteira e os dois vizinhos. E o 300,00 obriga a
         reler o requisito: "acima de" inclui o 300?</p>
       <p class="resp"><b>2.</b> Qual técnica você usa quando o resultado depende da combinação
         de várias condições?<br>
-        <i>Tabela de decisão</i> — ela força olhar todas as combinações, inclusive as que
+        <i>Tabela de decisão</i>: ela força olhar todas as combinações, inclusive as que
         ninguém especificou.</p>
     </details>
 
@@ -65,7 +65,7 @@
         <p style="margin-bottom:0">
           O que <b>não</b> é: clicar à toa, "dar uma mexida", testar sem registrar nada.
           Exploratório feito direito tem <b>objetivo</b>, <b>tempo marcado</b> e
-          <b>anotação</b> — e por isso é auditável e repetível como qualquer outro trabalho
+          <b>anotação</b>, e por isso é auditável e repetível como qualquer outro trabalho
           sério. A diferença não é ausência de método; é que o método está no
           <em>como você investiga</em>, não numa lista de passos definida de antemão.
         </p>
@@ -75,7 +75,7 @@
         <h3 style="margin-top:0">Por que isso não é opcional</h3>
         <p style="margin-bottom:0">
           Volte ao Módulo 1: <b>teste exaustivo é impossível</b> e a suíte automatizada
-          sofre do <b>paradoxo do pesticida</b> — ela só acha o que alguém já imaginou.
+          sofre do <b>paradoxo do pesticida</b>: ela só acha o que alguém já imaginou.
           O defeito que ninguém imaginou não está em nenhum roteiro, por definição.
           Só aparece se alguém for lá procurar com a cabeça aberta. Time que só executa
           roteiro entrega o que já sabia; time que também explora descobre.
@@ -91,13 +91,13 @@
           Uma sessão tem quatro partes:
         </p>
         <ul>
-          <li><b>Carta (<i>charter</i>)</b> — uma frase dizendo o que você vai investigar e
+          <li><b>Carta (<i>charter</i>)</b>: uma frase dizendo o que você vai investigar e
             com que olhar. É o contrato da sessão.</li>
-          <li><b>Tempo marcado</b> — 45, 60 ou 90 minutos, sem interrupção. Tempo demais
+          <li><b>Tempo marcado</b>: 45, 60 ou 90 minutos, sem interrupção. Tempo demais
             cansa e vira clique automático; tempo de menos não deixa você entrar no assunto.</li>
-          <li><b>Anotação</b> — o que você fez, o que viu de estranho, o que ficou de fora,
+          <li><b>Anotação</b>: o que você fez, o que viu de estranho, o que ficou de fora,
             as perguntas que surgiram.</li>
-          <li><b>Fechamento (<i>debrief</i>)</b> — cinco minutos com alguém do time
+          <li><b>Fechamento (<i>debrief</i>)</b>: cinco minutos com alguém do time
             contando o que achou e o que merece uma próxima sessão.</li>
         </ul>
         <p style="margin-bottom:0">
@@ -130,21 +130,21 @@ Tempo: 60 min          Ambiente: homolog, v2.14</code></pre>
       <h2>Heurísticas: o que fazer quando você trava</h2>
       <div class="card">
         <p style="margin-top:0">
-          Vinte minutos de sessão e acabaram as ideias — acontece com todo mundo.
+          Vinte minutos de sessão e acabaram as ideias, acontece com todo mundo.
           Heurística é uma lista de provocações que devolve o rumo.
         </p>
 
         <h3>Os "passeios" (<i>tours</i>)</h3>
         <ul>
-          <li><b>Passeio do dinheiro</b> — siga tudo que envolve valor: preço, desconto,
+          <li><b>Passeio do dinheiro</b>: siga tudo que envolve valor: preço, desconto,
             frete, imposto, estorno. É onde o defeito custa caro.</li>
-          <li><b>Passeio do CRUD</b> — para cada entidade: criar, ler, atualizar, apagar.
+          <li><b>Passeio do CRUD</b>: para cada entidade: criar, ler, atualizar, apagar.
             E depois: apagar e tentar ler de novo; atualizar duas vezes seguidas.</li>
-          <li><b>Passeio do turista</b> — visite as telas que ninguém visita: erro 404,
+          <li><b>Passeio do turista</b>: visite as telas que ninguém visita: erro 404,
             página de termos, recuperação de senha, estado vazio ("você não tem pedidos").</li>
-          <li><b>Passeio do sabotador</b> — desligue a internet no meio, aperte o botão
+          <li><b>Passeio do sabotador</b>: desligue a internet no meio, aperte o botão
             duas vezes, volte pelo botão do navegador, atualize a página no meio do fluxo.</li>
-          <li><b>Passeio do supermercado</b> — encha o carrinho: 99 itens, nome com 300
+          <li><b>Passeio do supermercado</b>: encha o carrinho: 99 itens, nome com 300
             caracteres, upload de arquivo gigante.</li>
         </ul>
 
@@ -163,7 +163,7 @@ Tempo: 60 min          Ambiente: homolog, v2.14</code></pre>
           </tbody>
         </table>
         <p style="margin-bottom:0" class="legenda">
-          Dica: <b>T de tempo</b> é o ângulo mais esquecido e o que rende mais defeito —
+          Dica: <b>T de tempo</b> é o ângulo mais esquecido e o que rende mais defeito:
           dois cliques rápidos, duas abas abertas, sessão expirando no meio do pagamento.
         </p>
       </div>
@@ -177,15 +177,15 @@ Tempo: 60 min          Ambiente: homolog, v2.14</code></pre>
           está só passeando pelo sistema. Você tem mais oráculos do que imagina:
         </p>
         <ul>
-          <li><b>Especificação</b> — a história, o contrato da API, o desenho no Figma.</li>
-          <li><b>Consistência interna</b> — a mesma data aparece em dois formatos em duas
+          <li><b>Especificação</b>: a história, o contrato da API, o desenho no Figma.</li>
+          <li><b>Consistência interna</b>: a mesma data aparece em dois formatos em duas
             telas; o total da lista não bate com o total do resumo.</li>
-          <li><b>Consistência com o passado</b> — antes funcionava assim, e ninguém pediu
+          <li><b>Consistência com o passado</b>: antes funcionava assim, e ninguém pediu
             pra mudar.</li>
-          <li><b>Comparável</b> — o concorrente, ou outra parte do mesmo produto, faz de
+          <li><b>Comparável</b>: o concorrente, ou outra parte do mesmo produto, faz de
             um jeito claramente melhor.</li>
-          <li><b>Propósito</b> — atende ao que a pessoa realmente precisa fazer ali?</li>
-          <li><b>Os dados</b> — o que o banco diz. <i>Este é o oráculo mais forte que existe,
+          <li><b>Propósito</b>: atende ao que a pessoa realmente precisa fazer ali?</li>
+          <li><b>Os dados</b>: o que o banco diz. <i>Este é o oráculo mais forte que existe,
             e é o que as trilhas de SQL e de API te ensinam a usar: a tela mostra "pedido
             confirmado", mas a linha em <code>pedidos</code> ficou com
             <code>valor_total = 0</code>.</i></li>
@@ -214,7 +214,7 @@ Tempo: 60 min          Ambiente: homolog, v2.14</code></pre>
         <p style="margin-bottom:0">
           O fluxo saudável costuma ser: <b>explorar primeiro</b> pra descobrir o que
           importa, <b>roteirizar depois</b> os casos que valem repetir, e
-          <b>automatizar</b> os que vão rodar sempre. Exploratório alimenta a automação —
+          <b>automatizar</b> os que vão rodar sempre. Exploratório alimenta a automação,
           não compete com ela.
         </p>
       </div>
@@ -225,7 +225,7 @@ Tempo: 60 min          Ambiente: homolog, v2.14</code></pre>
           Quando terminar uma sessão, o entregável não é "testei". É um resumo curto:
           <b>o que cobri</b>, <b>o que achei</b>, <b>o que não deu tempo</b>, e
           <b>o que me preocupa</b>. Esse último item é o mais valioso e o que quase ninguém
-          escreve — é ele que transforma você de executor em alguém que o time consulta
+          escreve: é ele que transforma você de executor em alguém que o time consulta
           antes de decidir se sobe pra produção.
         </p>
       </div>
@@ -242,7 +242,7 @@ Tempo: 60 min          Ambiente: homolog, v2.14</code></pre>
           <li>Escreva a carta no formato <b>Explorar… com… para…</b>.</li>
           <li>Marque <b>30 minutos</b> no relógio. Sem celular, sem outra aba.</li>
           <li>Explore usando dois passeios e o pente SFDIPOT quando travar.</li>
-          <li>Anote tudo que estranhar — inclusive o que você não tem certeza se é bug.</li>
+          <li>Anote tudo que estranhar, inclusive o que você não tem certeza se é bug.</li>
           <li>Feche com os quatro itens: cobri / achei / não deu tempo / me preocupa.</li>
         </ol>
         <p style="margin-bottom:0" class="legenda">
@@ -254,7 +254,7 @@ Tempo: 60 min          Ambiente: homolog, v2.14</code></pre>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>

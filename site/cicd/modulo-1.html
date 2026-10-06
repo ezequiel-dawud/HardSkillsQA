@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/cicd/modulo-1.html" />
-  <meta property="og:title" content="CI/CD Módulo 1 — O que é CI/CD, sem jargão — QA Learning" />
+  <meta property="og:title" content="CI/CD Módulo 1: O que é CI/CD, sem jargão | QA Learning" />
   <meta property="og:description" content="A ideia por trás da sigla, o pipeline, o loop de feedback, e o que isso muda pra quem testa. Módulo 1 da trilha CI/CD para QA, no QA Learning." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-cicd.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="CI/CD Módulo 1 — O que é CI/CD, sem jargão — QA Learning" />
+  <meta property="og:image:alt" content="CI/CD Módulo 1: O que é CI/CD, sem jargão | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>CI/CD Módulo 1 — O que é CI/CD, sem jargão</title>
+  <title>CI/CD Módulo 1: O que é CI/CD, sem jargão</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 1 — O que é CI/CD, sem jargão</h1>
+    <h1>Módulo 1: O que é CI/CD, sem jargão</h1>
     <p class="legenda">A ideia por trás da sigla, o pipeline, o loop de feedback, e o que isso muda pra quem testa.</p>
 
     <section class="secao">
@@ -47,7 +47,7 @@
         <p style="margin-top:0">Imagine uma cozinha de restaurante. Toda vez que um cozinheiro
           termina um prato, antes de ir pra mesa ele passa por uma bancada onde alguém
           <b>sempre</b> confere: está na temperatura certa? tem o que o pedido pediu? está
-          bem apresentado? Se algo está errado, o prato <b>volta</b> na hora — não chega no
+          bem apresentado? Se algo está errado, o prato <b>volta</b> na hora: não chega no
           cliente.</p>
         <p><b>CI/CD é essa bancada de conferência, automática, para software.</b> Toda vez que
           alguém muda o código, uma máquina pega essa mudança e roda uma checagem completa
@@ -60,14 +60,14 @@
     <section class="secao">
       <h2>O que a sigla quer dizer</h2>
       <div class="card">
-        <p style="margin-top:0">Não decore — entenda a ideia de cada parte:</p>
+        <p style="margin-top:0">Não decore, entenda a ideia de cada parte:</p>
         <ul>
-          <li><b>CI — Integração Contínua</b> (<i>Continuous Integration</i>): cada mudança de
+          <li><b>CI: Integração Contínua</b> (<i>Continuous Integration</i>): cada mudança de
             código é <b>juntada ao projeto e testada na hora</b>, várias vezes por dia, em vez
             de acumular semanas de trabalho e testar tudo de uma vez no fim (quando achar o
             que quebrou vira um pesadelo).</li>
-          <li><b>CD — Entrega Contínua</b> (<i>Continuous Delivery</i>): se a checagem passou,
-            o sistema <b>já deixa pronto pra publicar</b> — às vezes publica sozinho
+          <li><b>CD: Entrega Contínua</b> (<i>Continuous Delivery</i>): se a checagem passou,
+            o sistema <b>já deixa pronto pra publicar</b>, às vezes publica sozinho
             (<i>Continuous Deployment</i>), às vezes só espera alguém apertar um botão.</li>
         </ul>
         <p style="margin-bottom:0">Nesta trilha o foco é o <b>CI</b>: rodar os testes sozinho a
@@ -87,7 +87,7 @@
 4. Deu tudo certo?
    sim  -> marca a mudança com um  check verde
    nao  -> marca com um  X vermelho  e avisa quem mexeu</code></pre>
-        <p style="margin-bottom:0">Cada passo é um comando de terminal — os mesmos que você
+        <p style="margin-bottom:0">Cada passo é um comando de terminal, os mesmos que você
           rodaria na sua máquina. O pipeline só automatiza a sequência e roda num computador
           limpo, igual pra todo mundo. É por isso que ele mata a frase "<i>mas na minha
           máquina funciona</i>": não existe "a minha máquina", existe a máquina do pipeline.</p>
@@ -114,7 +114,7 @@
     <section class="secao">
       <h2>Onde isso aparece no GitHub</h2>
       <div class="card">
-        <p style="margin-top:0">Neste projeto o pipeline roda no <b>GitHub Actions</b> — a
+        <p style="margin-top:0">Neste projeto o pipeline roda no <b>GitHub Actions</b>, a
           ferramenta de CI embutida no GitHub, de graça pra repositório público. Você a vê em
           dois lugares:</p>
         <ul>
@@ -137,14 +137,14 @@
       <h2>Vocabulário mínimo</h2>
       <div class="card">
         <ul style="margin:0">
-          <li><b>CI</b> — a prática de testar cada mudança automaticamente.</li>
-          <li><b>Pipeline / workflow</b> — a lista de passos que roda a cada mudança.</li>
-          <li><b>Run</b> — uma execução do pipeline (um disparo).</li>
-          <li><b>Job</b> — um bloco de passos que roda numa máquina. Um pipeline pode ter vários.</li>
-          <li><b>Step / passo</b> — um comando dentro de um job.</li>
-          <li><b>Runner</b> — a máquina (aqui, virtual, na nuvem do GitHub) que executa o job.</li>
-          <li><b>Build vermelho / quebrado</b> — um run que terminou em ✗.</li>
-          <li><b>Check</b> — o resultado ✓/✗ que o pipeline "cola" numa mudança ou PR.</li>
+          <li><b>CI</b>: a prática de testar cada mudança automaticamente.</li>
+          <li><b>Pipeline / workflow</b>: a lista de passos que roda a cada mudança.</li>
+          <li><b>Run</b>: uma execução do pipeline (um disparo).</li>
+          <li><b>Job</b>: um bloco de passos que roda numa máquina. Um pipeline pode ter vários.</li>
+          <li><b>Step / passo</b>: um comando dentro de um job.</li>
+          <li><b>Runner</b>: a máquina (aqui, virtual, na nuvem do GitHub) que executa o job.</li>
+          <li><b>Build vermelho / quebrado</b>: um run que terminou em ✗.</li>
+          <li><b>Check</b>: o resultado ✓/✗ que o pipeline "cola" numa mudança ou PR.</li>
         </ul>
       </div>
     </section>
@@ -153,16 +153,16 @@
       <h2>Se você só baixou o ZIP</h2>
       <div class="card">
         <p style="margin-top:0">O GitHub Actions só roda se o código estiver num repositório no
-          GitHub — e precisa ser o repositório <b>inteiro</b> (com a pasta
+          GitHub, e precisa ser o repositório <b>inteiro</b> (com a pasta
           <code>.github/workflows/</code> junto), não só a pastinha da trilha que você baixou.
           O jeito certo é dar <b>fork</b>: uma cópia completa do projeto, na sua conta, que já
-          vem com os workflows prontos — nada de subir arquivo por arquivo.</p>
+          vem com os workflows prontos, nada de subir arquivo por arquivo.</p>
         <ol style="margin:0">
           <li>Crie uma conta grátis em <a href="https://github.com">github.com</a>, se ainda não
             tiver.</li>
           <li>Abra a página do repositório deste projeto no GitHub e clique no botão
             <b>Fork</b> (canto superior direito). Isso cria
-            <code>github.com/SEU-USUARIO/HardSkillsQA</code> — uma cópia só sua, separada da
+            <code>github.com/SEU-USUARIO/HardSkillsQA</code>, uma cópia só sua, separada da
             original. Mexer nela não afeta o projeto de ninguém.</li>
           <li>Traga essa cópia pra sua máquina: instale o
             <a href="https://desktop.github.com">GitHub Desktop</a> e use
@@ -178,13 +178,13 @@
     <section class="secao">
       <h2>Exercício</h2>
       <div class="card">
-        <p style="margin-top:0">Sem escrever nada ainda — só explorar:</p>
+        <p style="margin-top:0">Sem escrever nada ainda, só explorar:</p>
         <ol style="margin:0">
           <li>Abra o seu repositório no GitHub e clique na aba <b>Actions</b>.</li>
-          <li>Ache um run do workflow <b>"Trilha 3 — pytest"</b> e abra.</li>
+          <li>Ache um run do workflow <b>"Trilha 3: pytest"</b> e abra.</li>
           <li>Clique no job <b>pytest</b>. Você vê a lista de passos: <i>checkout</i>,
             <i>setup-python</i>, <i>Instalar dependências</i>, <i>Rodar os testes</i>.</li>
-          <li>Expanda <b>"Rodar os testes"</b> e leia o log — é a <b>mesma</b> saída do
+          <li>Expanda <b>"Rodar os testes"</b> e leia o log: é a <b>mesma</b> saída do
             <code>pytest</code> que você viu no seu terminal na Trilha 3.</li>
           <li>Repare no topo: quem disparou, por qual <i>commit</i>, ✓ ou ✗, e o tempo total.</li>
         </ol>
@@ -197,13 +197,13 @@
     <section class="secao">
       <div class="card" style="border-left:3px solid var(--acento)">
         <h2 style="margin-top:0;border:0">Olhar de QA</h2>
-        <p style="margin-bottom:0">O CI não melhora a qualidade sozinho — ele encurta o tempo até você descobrir que algo quebrou, e isso muda tudo. Como QA, o argumento que você leva para o time não é técnico, é de custo: <b>achar o defeito dois minutos depois, isolado numa única mudança, é incomparavelmente mais barato do que achá-lo uma semana depois no meio de vinte</b>. E cuidado com a leitura ingênua do verde: ✓ diz que aqueles testes passaram, não que a mudança está correta.</p>
+        <p style="margin-bottom:0">O CI não melhora a qualidade sozinho: ele encurta o tempo até você descobrir que algo quebrou, e isso muda tudo. Como QA, o argumento que você leva para o time não é técnico, é de custo: <b>achar o defeito dois minutos depois, isolado numa única mudança, é incomparavelmente mais barato do que achá-lo uma semana depois no meio de vinte</b>. E cuidado com a leitura ingênua do verde: ✓ diz que aqueles testes passaram, não que a mudança está correta.</p>
       </div>
     </section>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>

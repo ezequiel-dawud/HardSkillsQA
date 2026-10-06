@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/sql/modulo-7.html" />
-  <meta property="og:title" content="Módulo 7 — Escrever dados — QA Learning" />
+  <meta property="og:title" content="Módulo 7: Escrever dados | QA Learning" />
   <meta property="og:description" content="INSERT, UPDATE, DELETE, transações. Módulo 7 da trilha SQL para QA, no QA Learning. Teoria curta e exercícios que rodam num banco dentro do próprio navegador." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-sql.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Módulo 7 — Escrever dados — QA Learning" />
+  <meta property="og:image:alt" content="Módulo 7: Escrever dados | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Módulo 7 — Escrever dados</title>
+  <title>Módulo 7: Escrever dados</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -41,18 +41,18 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 7 — Escrever dados</h1>
+    <h1>Módulo 7: Escrever dados</h1>
     <p class="legenda">INSERT, UPDATE, DELETE, transações</p>
 
     <section class="secao teoria">
       <h2>Teoria</h2>
       <div class="card">
         <ul>
-          <li><code>INSERT INTO t (col1, col2) VALUES (v1, v2)</code> — cria linha nova.</li>
-          <li><code>UPDATE t SET col = valor WHERE ...</code> — <strong>sempre</strong> com <code>WHERE</code>, senão altera a tabela inteira.</li>
-          <li><code>DELETE FROM t WHERE ...</code> — idem: sem <code>WHERE</code>, apaga tudo.</li>
-          <li><code>BEGIN; ... COMMIT;</code> (ou <code>ROLLBACK;</code>) — agrupa mudanças; testa antes de confirmar.</li>
-          <li>Aqui as mudanças valem só nesta aba, na cópia em memória. O botão <strong>Resetar banco</strong> volta tudo aos dados originais — use à vontade.</li>
+          <li><code>INSERT INTO t (col1, col2) VALUES (v1, v2)</code>: cria linha nova.</li>
+          <li><code>UPDATE t SET col = valor WHERE ...</code>: <strong>sempre</strong> com <code>WHERE</code>, senão altera a tabela inteira.</li>
+          <li><code>DELETE FROM t WHERE ...</code>: idem, sem <code>WHERE</code>, apaga tudo.</li>
+          <li><code>BEGIN; ... COMMIT;</code> (ou <code>ROLLBACK;</code>): agrupa mudanças; testa antes de confirmar.</li>
+          <li>Aqui as mudanças valem só nesta aba, na cópia em memória. O botão <strong>Resetar banco</strong> volta tudo aos dados originais, use à vontade.</li>
         </ul>
       </div>
       <div class="acoes">
@@ -62,7 +62,7 @@
 
     <section class="secao">
       <h2>Exemplos de aplicação</h2>
-      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar — é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
+      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar: é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
 
       <div class="card">
         <h3 style="margin-top:0"><code>INSERT INTO ... VALUES</code></h3>
@@ -86,7 +86,7 @@ WHERE id = 57;</code></pre>
         <h3 style="margin-top:0"><code>DELETE FROM ... WHERE</code></h3>
         <pre class="bloco"><code>DELETE FROM itens_pedido
 WHERE pedido_id = 143;</code></pre>
-        <p style="margin-bottom:0">Apaga as linhas que casam com o <code>WHERE</code> — aqui, todos os itens do pedido 143. Mesma regra do <code>UPDATE</code>: sem <code>WHERE</code>, esvazia a tabela. Confirme antes com <code>SELECT COUNT(*) FROM itens_pedido WHERE pedido_id = 143;</code>.</p>
+        <p style="margin-bottom:0">Apaga as linhas que casam com o <code>WHERE</code>: aqui, todos os itens do pedido 143. Mesma regra do <code>UPDATE</code>: sem <code>WHERE</code>, esvazia a tabela. Confirme antes com <code>SELECT COUNT(*) FROM itens_pedido WHERE pedido_id = 143;</code>.</p>
       </div>
 
       <div class="card">
@@ -102,7 +102,7 @@ COMMIT;      -- grava as duas mudanças de uma vez
         <p style="margin-bottom:0"><code>BEGIN</code> abre a transação: as mudanças ficam "em suspenso". Você roda vários comandos, confere com <code>SELECT</code>, e só então decide: <code>COMMIT</code> grava tudo junto, <code>ROLLBACK</code> joga tudo fora. Evita deixar o banco num meio-termo (pedido cancelado mas itens ainda lá).</p>
       </div>
 
-      <p class="legenda">Neste site as escritas rodam só na cópia em memória desta aba — o botão <strong>Resetar banco</strong> volta os dados originais, então pode testar <code>INSERT</code>/<code>UPDATE</code>/<code>DELETE</code> à vontade.</p>
+      <p class="legenda">Neste site as escritas rodam só na cópia em memória desta aba: o botão <strong>Resetar banco</strong> volta os dados originais, então pode testar <code>INSERT</code>/<code>UPDATE</code>/<code>DELETE</code> à vontade.</p>
     </section>
 
     <section class="secao">
@@ -110,11 +110,11 @@ COMMIT;      -- grava as duas mudanças de uma vez
         <h2 style="margin-top:0;border:0">Pegadinhas deste módulo</h2>
         <p style="margin-top:0;font-size:14px">
           Os erros que quase todo mundo comete aqui. Ler agora poupa meia hora de
-          confusão depois — e alguns deles são a causa de relatório errado em projeto real.
+          confusão depois, e alguns deles são a causa de relatório errado em projeto real.
         </p>
         <ul>
           <li><b><code>UPDATE</code> ou <code>DELETE</code> sem <code>WHERE</code> atinge a tabela inteira.</b> E não pede confirmação. <b>Hábito que salva:</b> escreva primeiro como <code>SELECT</code> com o mesmo <code>WHERE</code>, confira quais linhas voltam, e só então troque o começo por <code>UPDATE</code> ou <code>DELETE</code>.</li>
-          <li><b>Sem <code>BEGIN</code>, cada comando já está confirmado.</b> Na maioria das ferramentas não existe "desfazer". Em dado que importa, abra a transação antes, confira o resultado, e só então <code>COMMIT</code> — ou <code>ROLLBACK</code>.</li>
+          <li><b>Sem <code>BEGIN</code>, cada comando já está confirmado.</b> Na maioria das ferramentas não existe "desfazer". Em dado que importa, abra a transação antes, confira o resultado, e só então <code>COMMIT</code> ou <code>ROLLBACK</code>.</li>
           <li><b>Conte antes de escrever.</b> <code>SELECT COUNT(*)</code> com o mesmo <code>WHERE</code> diz quantas linhas você está prestes a mudar. Se o número surpreender, pare.</li>
           <li><b><code>INSERT</code> sem nomear as colunas quebra quando a tabela muda.</b> <code>INSERT INTO t VALUES (...)</code> depende da ordem das colunas. Nomeie sempre: <code>INSERT INTO t (a, b) VALUES (...)</code>.</li>
           <li><b>Massa de teste criada por você também precisa ser limpa.</b> Dado de teste esquecido em ambiente compartilhado vira o "bug" que outra pessoa vai investigar na semana que vem.</li>
@@ -125,7 +125,7 @@ COMMIT;      -- grava as duas mudanças de uma vez
     <section class="secao">
       <h2>Prática</h2>
       <p class="legenda">
-        Cada exercício pode ter vários comandos separados por <code>;</code> — todos rodam.
+        Cada exercício pode ter vários comandos separados por <code>;</code>; todos rodam.
         Rode com o botão ou <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.
       </p>
       <div id="schema-ref"></div>
@@ -145,13 +145,13 @@ COMMIT;      -- grava as duas mudanças de uma vez
     <section class="secao">
       <div class="card" style="border-left:3px solid var(--acento)">
         <h2 style="margin-top:0;border:0">Olhar de QA</h2>
-        <p style="margin-bottom:0">Escrever no banco é a parte do SQL em que QA precisa de mais disciplina, porque não existe desfazer. O hábito que salva: <b>escreva primeiro como <code>SELECT</code> com o mesmo <code>WHERE</code></b>, confira as linhas que voltam, e só então troque o começo por <code>UPDATE</code> ou <code>DELETE</code>. E lembre que massa de teste criada por você em ambiente compartilhado é lixo que outra pessoa vai investigar como bug na semana que vem — limpe o que criar.</p>
+        <p style="margin-bottom:0">Escrever no banco é a parte do SQL em que QA precisa de mais disciplina, porque não existe desfazer. O hábito que salva: <b>escreva primeiro como <code>SELECT</code> com o mesmo <code>WHERE</code></b>, confira as linhas que voltam, e só então troque o começo por <code>UPDATE</code> ou <code>DELETE</code>. E lembre que massa de teste criada por você em ambiente compartilhado é lixo que outra pessoa vai investigar como bug na semana que vem, então limpe o que criar.</p>
       </div>
     </section>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>
@@ -171,7 +171,7 @@ COMMIT;      -- grava as duas mudanças de uma vez
       gabarito: "INSERT INTO produtos (id, nome, categoria, preco, estoque, ativo)\nVALUES (16, 'Micro SD 128GB', 'Armazenamento', 89.90, 50, 1);\nSELECT * FROM produtos WHERE nome = 'Micro SD 128GB';" },
     { id: "7.2",
       enunciado: "Insira um cliente de teste (id 999, email 'qa.teste@exemplo.com', cidade/estado à escolha, data_cadastro '2025-08-01', ativo 1).",
-      dica: "mesmo padrão do 7.1, agora em <code>clientes</code> — não esqueça de listar todas as colunas obrigatórias",
+      dica: "mesmo padrão do 7.1, agora em <code>clientes</code>; não esqueça de listar todas as colunas obrigatórias",
       gabarito: "INSERT INTO clientes (id, nome, email, cidade, estado, data_cadastro, ativo)\nVALUES (999, 'QA Teste', 'qa.teste@exemplo.com', 'Curitiba', 'PR', '2025-08-01', 1);\nSELECT * FROM clientes WHERE id = 999;" },
     { id: "7.3",
       enunciado: "Crie um pedido (id 999) pra esse cliente 999, status 'novo', data_pedido '2025-08-02', valor_total 0. Depois adicione 2 itens referenciando produtos reais.",
@@ -179,7 +179,7 @@ COMMIT;      -- grava as duas mudanças de uma vez
       gabarito: "INSERT INTO pedidos (id, cliente_id, data_pedido, status, valor_total)\nVALUES (999, 999, '2025-08-02', 'novo', 0);\nINSERT INTO itens_pedido (id, pedido_id, produto_id, quantidade, preco_unitario)\nVALUES (9001, 999, 1, 2, 320.0);\nINSERT INTO itens_pedido (id, pedido_id, produto_id, quantidade, preco_unitario)\nVALUES (9002, 999, 3, 1, 250.0);" },
     { id: "7.4",
       enunciado: "Atualize o valor_total do pedido 999 pra bater com a soma dos itens (rode um SELECT da soma antes, depois o UPDATE).",
-      dica: "<code>UPDATE pedidos SET valor_total = ... WHERE id = 999</code> — sempre com <code>WHERE</code>, senão atualiza a tabela inteira",
+      dica: "<code>UPDATE pedidos SET valor_total = ... WHERE id = 999</code>, sempre com <code>WHERE</code>, senão atualiza a tabela inteira",
       gabarito: "SELECT SUM(quantidade * preco_unitario) FROM itens_pedido WHERE pedido_id = 999;  -- 890\nUPDATE pedidos SET valor_total = 890.0 WHERE id = 999;" },
     { id: "7.5",
       enunciado: "Suba o preco de todos os produtos da categoria 'Perifericos' em 10%. Confira antes e depois.",
@@ -191,7 +191,7 @@ COMMIT;      -- grava as duas mudanças de uma vez
       gabarito: "UPDATE defeitos\nSET status = 'fechado', data_fechamento = '2025-08-31'\nWHERE status = 'resolvido';" },
     { id: "7.7",
       enunciado: "Transação: BEGIN; apague os itens do pedido 999; apague o pedido 999; rode um SELECT pra conferir; se estiver ok faça COMMIT (senão ROLLBACK).",
-      dica: "apague primeiro <code>itens_pedido</code> e só depois <code>pedidos</code> — a ordem importa por causa da referência entre as tabelas",
+      dica: "apague primeiro <code>itens_pedido</code> e só depois <code>pedidos</code>, a ordem importa por causa da referência entre as tabelas",
       gabarito: "BEGIN;\nDELETE FROM itens_pedido WHERE pedido_id = 999;\nDELETE FROM pedidos WHERE id = 999;\nSELECT * FROM pedidos WHERE id = 999;   -- deve vir vazio\nCOMMIT;" },
     { id: "7.8",
       enunciado: "Apague o cliente de teste 999 e o produto 'Micro SD 128GB'. (Depois, o botão Resetar banco lá em cima devolve tudo.)",

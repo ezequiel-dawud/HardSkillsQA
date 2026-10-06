@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/sql/modulo-2.html" />
-  <meta property="og:title" content="Módulo 2 — NULL e filtros finos — QA Learning" />
+  <meta property="og:title" content="Módulo 2: NULL e filtros finos | QA Learning" />
   <meta property="og:description" content="IS NULL, COALESCE, CASE. Módulo 2 da trilha SQL para QA, no QA Learning. Teoria curta e exercícios que rodam num banco dentro do próprio navegador." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-sql.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Módulo 2 — NULL e filtros finos — QA Learning" />
+  <meta property="og:image:alt" content="Módulo 2: NULL e filtros finos | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Módulo 2 — NULL e filtros finos</title>
+  <title>Módulo 2: NULL e filtros finos</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -41,7 +41,7 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 2 — NULL e filtros finos</h1>
+    <h1>Módulo 2: NULL e filtros finos</h1>
     <p class="legenda">IS NULL, COALESCE, CASE</p>
 
     <section class="secao teoria">
@@ -50,8 +50,8 @@
         <ul>
           <li><code>NULL</code> = "sem valor". <strong>Não</strong> é 0 nem <code>''</code>. Não dá pra comparar com <code>=</code>: use <code>IS NULL</code> / <code>IS NOT NULL</code>.</li>
           <li>Qualquer conta com <code>NULL</code> vira <code>NULL</code> (<code>10 + NULL</code> = <code>NULL</code>).</li>
-          <li><code>COALESCE(a, b, c)</code> — devolve o primeiro argumento que não for <code>NULL</code>.</li>
-          <li><code>CASE WHEN condição THEN x WHEN ... THEN y ELSE z END</code> — o "if" dentro do <code>SELECT</code>. Bom pra criar faixas/rótulos.</li>
+          <li><code>COALESCE(a, b, c)</code>: devolve o primeiro argumento que não for <code>NULL</code>.</li>
+          <li><code>CASE WHEN condição THEN x WHEN ... THEN y ELSE z END</code>: o "if" dentro do <code>SELECT</code>. Bom pra criar faixas/rótulos.</li>
           <li>Truque útil: <code>SUM(CASE WHEN cond THEN 1 ELSE 0 END)</code> conta quantas linhas batem uma condição.</li>
         </ul>
         <p style="margin-bottom:0"><strong>Olhar de QA:</strong> linha com <code>data_fechamento IS NULL</code> = defeito ainda aberto. <code>NULL</code> onde não devia é uma classe inteira de bug.</p>
@@ -60,14 +60,14 @@
 
     <section class="secao">
       <h2>Exemplos de aplicação</h2>
-      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar — é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
+      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar: é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
 
       <div class="card">
         <h3 style="margin-top:0"><code>IS NULL</code> / <code>IS NOT NULL</code></h3>
         <pre class="bloco"><code>SELECT id, titulo, data_fechamento
 FROM defeitos
 WHERE data_fechamento IS NULL;</code></pre>
-        <p style="margin-bottom:0"><code>data_fechamento</code> tem a data em que o defeito foi fechado — ou <code>NULL</code> se ainda está aberto. <code>WHERE data_fechamento = NULL</code> nunca dá certo (não dá pra comparar com <code>=</code>); o teste é <code>IS NULL</code>. Essa query lista os defeitos em aberto.</p>
+        <p style="margin-bottom:0"><code>data_fechamento</code> tem a data em que o defeito foi fechado, ou <code>NULL</code> se ainda está aberto. <code>WHERE data_fechamento = NULL</code> nunca dá certo (não dá pra comparar com <code>=</code>); o teste é <code>IS NULL</code>. Essa query lista os defeitos em aberto.</p>
       </div>
 
       <div class="card">
@@ -76,7 +76,7 @@ WHERE data_fechamento IS NULL;</code></pre>
        data_fechamento,
        julianday(data_fechamento) - julianday(data_abertura) AS dias_aberto
 FROM defeitos;</code></pre>
-        <p style="margin-bottom:0">Nos defeitos fechados, <code>dias_aberto</code> vem com o número. Nos que têm <code>data_fechamento</code> nulo, a subtração inteira vira <code>NULL</code> — qualquer operação que toca em <code>NULL</code> resulta <code>NULL</code>. É por isso que linhas assim "somem" de médias e somas sem dar erro.</p>
+        <p style="margin-bottom:0">Nos defeitos fechados, <code>dias_aberto</code> vem com o número. Nos que têm <code>data_fechamento</code> nulo, a subtração inteira vira <code>NULL</code>, porque qualquer operação que toca em <code>NULL</code> resulta <code>NULL</code>. É por isso que linhas assim "somem" de médias e somas sem dar erro.</p>
       </div>
 
       <div class="card">
@@ -116,14 +116,14 @@ FROM defeitos;</code></pre>
         <h2 style="margin-top:0;border:0">Pegadinhas deste módulo</h2>
         <p style="margin-top:0;font-size:14px">
           Os erros que quase todo mundo comete aqui. Ler agora poupa meia hora de
-          confusão depois — e alguns deles são a causa de relatório errado em projeto real.
+          confusão depois, e alguns deles são a causa de relatório errado em projeto real.
         </p>
         <ul>
-          <li><b><code>NULL</code> não é igual a nada — nem a outro <code>NULL</code>.</b> <code>WHERE data_fechamento = NULL</code> devolve <b>zero linhas sempre</b>, mesmo havendo milhares com o campo vazio. O certo é <code>IS NULL</code>. Não dá erro: dá resultado vazio, que é pior.</li>
-          <li><b><code>&lt;&gt;</code> descarta as linhas com <code>NULL</code> em silêncio.</b> <code>WHERE status &lt;&gt; 'fechado'</code> <b>não</b> traz as linhas cujo status é <code>NULL</code> — porque <code>NULL &lt;&gt; 'fechado'</code> não é verdadeiro, é desconhecido. Se você quer essas linhas, precisa de <code>OR status IS NULL</code>. Esta é uma das maiores fontes de relatório com número errado.</li>
+          <li><b><code>NULL</code> não é igual a nada, nem a outro <code>NULL</code>.</b> <code>WHERE data_fechamento = NULL</code> devolve <b>zero linhas sempre</b>, mesmo havendo milhares com o campo vazio. O certo é <code>IS NULL</code>. Não dá erro: dá resultado vazio, que é pior.</li>
+          <li><b><code>&lt;&gt;</code> descarta as linhas com <code>NULL</code> em silêncio.</b> <code>WHERE status &lt;&gt; 'fechado'</code> <b>não</b> traz as linhas cujo status é <code>NULL</code>, porque <code>NULL &lt;&gt; 'fechado'</code> não é verdadeiro, é desconhecido. Se você quer essas linhas, precisa de <code>OR status IS NULL</code>. Esta é uma das maiores fontes de relatório com número errado.</li>
           <li><b>Qualquer conta com <code>NULL</code> vira <code>NULL</code>.</b> <code>valor_total + frete</code> some se o frete for nulo. Use <code>COALESCE(frete, 0)</code> quando o vazio deve valer zero.</li>
           <li><b><code>NULL</code>, string vazia e zero são três coisas diferentes.</b> <code>NULL</code> = nunca preenchido; <code>''</code> = preenchido com nada; <code>0</code> = preenchido com zero. Tratar os três como "vazio" no teste é como defeito de importação de dados passa despercebido.</li>
-          <li><b><code>CASE</code> sem <code>ELSE</code> devolve <code>NULL</code>.</b> Se nenhuma condição bater e não houver <code>ELSE</code>, o resultado é nulo — e a soma daquela coluna some junto.</li>
+          <li><b><code>CASE</code> sem <code>ELSE</code> devolve <code>NULL</code>.</b> Se nenhuma condição bater e não houver <code>ELSE</code>, o resultado é nulo, e a soma daquela coluna some junto.</li>
         </ul>
       </div>
     </section>
@@ -147,7 +147,7 @@ FROM defeitos;</code></pre>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 2 da trilha Teste de carga com k6 — Anatomia do script: options, default function, http, check, sleep, group. Corrigida na hora; 70% fecha o…" />
+  <meta name="description" content="Prova do módulo 2 da trilha Teste de carga com k6: anatomia do script, options, default function, http, check, sleep, group. Corrigida na hora; 70% fecha o…" />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/k6/prova-2.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/k6/prova-2.html" />
-  <meta property="og:title" content="Prova — Módulo 2 (k6) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 2 da trilha Teste de carga com k6 — Anatomia do script: options, default function, http, check, sleep, group. Corrigida na hora; 70% fecha o…" />
+  <meta property="og:title" content="Prova do Módulo 2 (k6) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 2 da trilha Teste de carga com k6: anatomia do script, options, default function, http, check, sleep, group. Corrigida na hora; 70% fecha o…" />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-k6.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 2 (k6) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 2 (k6) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 2 (k6)</title>
+  <title>Prova do Módulo 2 (k6)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 2</h1>
+    <h1>Prova do Módulo 2</h1>
     <p class="legenda">Anatomia do script: options, default function, http, check, sleep, group. &nbsp;<a href="modulo-2.html">← rever o módulo</a></p>
     <div id="prova"></div>
   </main>
@@ -51,7 +51,7 @@
             "t": "mc",
             "enun": "O que roda dentro da <code>export default function</code>?",
             "ops": [
-                  "O roteiro de um VU numa iteração — o k6 repete isso em loop",
+                  "O roteiro de um VU numa iteração, que o k6 repete em loop",
                   "A configuração de carga e os thresholds",
                   "O carregamento dos arquivos de dados, uma única vez",
                   "A geração do relatório final"
@@ -63,13 +63,13 @@
             "t": "mc",
             "enun": "Qual a diferença entre um <code>check()</code> do k6 e um <code>assert</code> do pytest?",
             "ops": [
-                  "O <code>check</code> falso <b>não interrompe</b> a iteração — ele alimenta a métrica de checks; para reprovar o teste é preciso um <code>threshold</code>",
+                  "O <code>check</code> falso <b>não interrompe</b> a iteração, apenas alimenta a métrica de checks; para reprovar o teste é preciso um <code>threshold</code>",
                   "O <code>check</code> interrompe a execução e o <code>assert</code> não",
                   "São equivalentes, apenas com nomes diferentes",
                   "O <code>check</code> só funciona com respostas HTTP"
             ],
             "correta": 0,
-            "exp": "É a confusão mais comum de quem vem de teste funcional: encher o script de checks e achar que o build vai reprovar. Não vai — quem reprova é o threshold."
+            "exp": "É a confusão mais comum de quem vem de teste funcional: encher o script de checks e achar que o build vai reprovar. Não vai, quem reprova é o threshold."
       },
       {
             "t": "mc",
@@ -81,7 +81,7 @@
                   "Reunir várias requisições numa única conexão"
             ],
             "correta": 0,
-            "exp": "Sem grupos, o p95 do teste inteiro mistura o login rápido com o checkout lento — e você não sabe qual etapa é o gargalo."
+            "exp": "Sem grupos, o p95 do teste inteiro mistura o login rápido com o checkout lento, e você não sabe qual etapa é o gargalo."
       },
       {
             "t": "mc",
@@ -93,13 +93,13 @@
                   "O número da iteração atual"
             ],
             "correta": 0,
-            "exp": "É o que permite que cada VU faça login com um usuário distinto — e não mil vezes com o mesmo, medindo cache."
+            "exp": "É o que permite que cada VU faça login com um usuário distinto, e não mil vezes com o mesmo, medindo cache."
       },
       {
             "t": "mc",
             "enun": "Onde deve ficar a leitura de um arquivo de dados no script?",
             "ops": [
-                  "Fora da função default, no contexto de init — assim é lido uma vez, e não a cada iteração",
+                  "Fora da função default, no contexto de init: assim é lido uma vez, e não a cada iteração",
                   "Dentro da função default, no começo de cada iteração",
                   "Dentro de um <code>group()</code> específico",
                   "No objeto <code>options</code>"
@@ -117,12 +117,12 @@
                   "Um objeto que precisa ser convertido manualmente com <code>JSON.parse</code>"
             ],
             "correta": 0,
-            "exp": "<code>.timings</code> é o que permite investigar <i>onde</i> o tempo foi gasto — conexão, espera pelo servidor, download."
+            "exp": "<code>.timings</code> é o que permite investigar <i>onde</i> o tempo foi gasto: conexão, espera pelo servidor, download."
       },
       {
             "t": "aberta",
-            "enun": "Escreva (em pseudocódigo ou JavaScript) o roteiro de um VU que: busca a lista de produtos, escolhe um produto, e adiciona ao carrinho — com think time e checks adequados. Explique suas escolhas.",
-            "modelo": "<pre class=\"bloco\"><code>import http from \"k6/http\";\nimport { check, sleep, group } from \"k6\";\n\nconst BASE = \"http://localhost:8000\";\n\nexport default function () {\n  let produtos;\n\n  group(\"listar produtos\", () =&gt; {\n    const r = http.get(`${BASE}/produtos`);\n    check(r, {\n      \"lista: status 200\": (res) =&gt; res.status === 200,\n      \"lista: veio conteudo\": (res) =&gt; res.json(\"length\") &gt; 0,\n    });\n    produtos = r.json();\n  });\n\n  sleep(Math.random() * 2 + 1);   // 1 a 3s: a pessoa olhando a lista\n\n  // produto diferente por VU e por iteracao: evita medir so o cache\n  const p = produtos[Math.floor(Math.random() * produtos.length)];\n\n  group(\"adicionar ao carrinho\", () =&gt; {\n    const r = http.post(\n      `${BASE}/carrinho`,\n      JSON.stringify({ produto_id: p.id, quantidade: 1 }),\n      { headers: { \"Content-Type\": \"application/json\" } }\n    );\n    check(r, {\n      \"carrinho: status 201\": (res) =&gt; res.status === 201,\n      \"carrinho: devolveu item\": (res) =&gt; res.json(\"id\") !== undefined,\n    });\n  });\n\n  sleep(1);\n}</code></pre><p><b>As escolhas que importam:</b></p><ul><li><b>Think time variável</b> (<code>Math.random() * 2 + 1</code>) em vez de fixo: VUs com pausa idêntica sincronizam e produzem ondas artificiais de requisições.</li><li><b>Produto sorteado</b> em vez do primeiro da lista: com dado fixo você mede o cache quente de um registro só, e o sistema parece mais rápido do que é.</li><li><b>Correlação:</b> o id usado no POST vem da resposta do GET, como um usuário real faria — em vez de um id inventado que pode nem existir.</li><li><b>Grupos:</b> separam o p95 da listagem do p95 da escrita, que têm perfis de custo bem diferentes. Sem isso o gargalo fica escondido na média.</li><li><b>Checks enxutos:</b> status e um campo essencial. Carga não é o lugar de validar contrato inteiro — isso é trabalho do teste funcional, e custaria CPU do gerador de carga.</li></ul><p>E o que <b>falta</b> neste script para ele reprovar um build: os <code>thresholds</code>. Sem eles, todos os checks podem falhar e o k6 ainda sai com código 0.</p>",
+            "enun": "Escreva (em pseudocódigo ou JavaScript) o roteiro de um VU que: busca a lista de produtos, escolhe um produto, e adiciona ao carrinho, com think time e checks adequados. Explique suas escolhas.",
+            "modelo": "<pre class=\"bloco\"><code>import http from \"k6/http\";\nimport { check, sleep, group } from \"k6\";\n\nconst BASE = \"http://localhost:8000\";\n\nexport default function () {\n  let produtos;\n\n  group(\"listar produtos\", () =&gt; {\n    const r = http.get(`${BASE}/produtos`);\n    check(r, {\n      \"lista: status 200\": (res) =&gt; res.status === 200,\n      \"lista: veio conteudo\": (res) =&gt; res.json(\"length\") &gt; 0,\n    });\n    produtos = r.json();\n  });\n\n  sleep(Math.random() * 2 + 1);   // 1 a 3s: a pessoa olhando a lista\n\n  // produto diferente por VU e por iteracao: evita medir so o cache\n  const p = produtos[Math.floor(Math.random() * produtos.length)];\n\n  group(\"adicionar ao carrinho\", () =&gt; {\n    const r = http.post(\n      `${BASE}/carrinho`,\n      JSON.stringify({ produto_id: p.id, quantidade: 1 }),\n      { headers: { \"Content-Type\": \"application/json\" } }\n    );\n    check(r, {\n      \"carrinho: status 201\": (res) =&gt; res.status === 201,\n      \"carrinho: devolveu item\": (res) =&gt; res.json(\"id\") !== undefined,\n    });\n  });\n\n  sleep(1);\n}</code></pre><p><b>As escolhas que importam:</b></p><ul><li><b>Think time variável</b> (<code>Math.random() * 2 + 1</code>) em vez de fixo: VUs com pausa idêntica sincronizam e produzem ondas artificiais de requisições.</li><li><b>Produto sorteado</b> em vez do primeiro da lista: com dado fixo você mede o cache quente de um registro só, e o sistema parece mais rápido do que é.</li><li><b>Correlação:</b> o id usado no POST vem da resposta do GET, como um usuário real faria, em vez de um id inventado que pode nem existir.</li><li><b>Grupos:</b> separam o p95 da listagem do p95 da escrita, que têm perfis de custo bem diferentes. Sem isso o gargalo fica escondido na média.</li><li><b>Checks enxutos:</b> status e um campo essencial. Carga não é o lugar de validar contrato inteiro, isso é trabalho do teste funcional, e custaria CPU do gerador de carga.</li></ul><p>E o que <b>falta</b> neste script para ele reprovar um build: os <code>thresholds</code>. Sem eles, todos os checks podem falhar e o k6 ainda sai com código 0.</p>",
             "dica": "pense em think time variável, dado que varia, correlação e por que agrupar."
       }
 ]

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 2 da trilha Git e GitHub para QA — As três áreas, status/add/commit/push, branch, diff e log. Corrigida na hora; 70% fecha o módulo." />
+  <meta name="description" content="Prova do módulo 2 da trilha Git e GitHub para QA: As três áreas, status/add/commit/push, branch, diff e log. Corrigida na hora; 70% fecha o módulo." />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/git/prova-2.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/git/prova-2.html" />
-  <meta property="og:title" content="Prova — Módulo 2 (Git) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 2 da trilha Git e GitHub para QA — As três áreas, status/add/commit/push, branch, diff e log. Corrigida na hora; 70% fecha o módulo." />
+  <meta property="og:title" content="Prova do Módulo 2 (Git) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 2 da trilha Git e GitHub para QA: As três áreas, status/add/commit/push, branch, diff e log. Corrigida na hora; 70% fecha o módulo." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-git.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 2 (Git) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 2 (Git) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 2 (Git)</title>
+  <title>Prova do Módulo 2 (Git)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -37,7 +37,7 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 2</h1>
+    <h1>Prova do Módulo 2</h1>
     <p class="legenda">As três áreas, status/add/commit/push, branch, diff e log. &nbsp;<a href="modulo-2.html">← rever o módulo</a></p>
     <div id="prova"></div>
   </main>
@@ -80,13 +80,13 @@
                   "<code>alterações do dia 12</code>"
             ],
             "correta": 0,
-            "exp": "A mensagem é para quem vai ler o histórico daqui a seis meses — muitas vezes você. Diga o que a mudança faz."
+            "exp": "A mensagem é para quem vai ler o histórico daqui a seis meses, muitas vezes você. Diga o que a mudança faz."
       },
       {
             "t": "mc",
             "enun": "Você editou um arquivo e fez <code>git commit</code>. Onde a mudança está?",
             "ops": [
-                  "Só na sua máquina — ela só chega ao GitHub depois de <code>git push</code>",
+                  "Só na sua máquina: ela só chega ao GitHub depois de <code>git push</code>",
                   "Já no GitHub, visível para o time",
                   "Na área de preparo, aguardando o <code>git add</code>",
                   "Em nenhum lugar ainda: falta aprovar o Pull Request"
@@ -116,7 +116,7 @@
                   "O Git perdeu as suas alterações e é preciso refazê-las"
             ],
             "correta": 0,
-            "exp": "O Git marca o trecho com <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> / <code>=======</code> / <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>. Nada foi perdido — é você quem decide como fica."
+            "exp": "O Git marca o trecho com <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> / <code>=======</code> / <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>. Nada foi perdido: é você quem decide como fica."
       },
       {
             "t": "mc",
@@ -132,8 +132,8 @@
       },
       {
             "t": "aberta",
-            "enun": "Você é QA e recebeu a tarefa de testar uma entrega. Descreva, em passos, como usar o Git para descobrir <b>o que exatamente mudou</b> — e o que você procuraria.",
-            "modelo": "<p><b>Como descobrir:</b></p><ol><li><code>git switch main</code> e <code>git pull</code> — partir da versão atual.</li><li><code>git log --oneline -20</code> — ver os commits recentes e suas mensagens.</li><li><code>git log --oneline -- caminho/da/area</code> — restringir à área que te interessa.</li><li><code>git show &lt;hash&gt;</code> ou a aba <b>Files changed</b> do PR — ver as linhas em si.</li></ol><p><b>O que procurar no diff</b> (é aqui que está o valor):</p><ul><li><b>Arquivos fora do escopo</b> — a história era sobre carrinho e o diff mexe em autenticação? Pergunte.</li><li><b>Números que mudaram</b> — limites, percentuais, tamanhos máximos. Cada um é um caso de valor limite.</li><li><b>Condições que mudaram</b> — um <code>&gt;</code> que virou <code>&gt;=</code>, um <code>and</code> que virou <code>or</code>. São as mudanças de uma linha que mais causam defeito.</li><li><b>Linhas removidas</b> — uma validação apagada é um caminho que ficou aberto.</li><li><b>Veio teste junto?</b> Mudança de comportamento sem nenhum teste novo é pergunta legítima na revisão.</li><li><b>Migração de banco?</b> Então há risco de dados — vale conferir no banco depois de subir.</li></ul><p>Se a sua resposta parou em \"leio os commits\", falta a segunda metade: o valor está em <b>o que você procura</b> no diff, não em conseguir abri-lo.</p>",
+            "enun": "Você é QA e recebeu a tarefa de testar uma entrega. Descreva, em passos, como usar o Git para descobrir <b>o que exatamente mudou</b>, e o que você procuraria.",
+            "modelo": "<p><b>Como descobrir:</b></p><ol><li><code>git switch main</code> e <code>git pull</code>: partir da versão atual.</li><li><code>git log --oneline -20</code>: ver os commits recentes e suas mensagens.</li><li><code>git log --oneline -- caminho/da/area</code>: restringir à área que te interessa.</li><li><code>git show &lt;hash&gt;</code> ou a aba <b>Files changed</b> do PR: ver as linhas em si.</li></ol><p><b>O que procurar no diff</b> (é aqui que está o valor):</p><ul><li><b>Arquivos fora do escopo</b>: a história era sobre carrinho e o diff mexe em autenticação? Pergunte.</li><li><b>Números que mudaram</b>: limites, percentuais, tamanhos máximos. Cada um é um caso de valor limite.</li><li><b>Condições que mudaram</b>: um <code>&gt;</code> que virou <code>&gt;=</code>, um <code>and</code> que virou <code>or</code>. São as mudanças de uma linha que mais causam defeito.</li><li><b>Linhas removidas</b>: uma validação apagada é um caminho que ficou aberto.</li><li><b>Veio teste junto?</b> Mudança de comportamento sem nenhum teste novo é pergunta legítima na revisão.</li><li><b>Migração de banco?</b> Então há risco de dados, vale conferir no banco depois de subir.</li></ul><p>Se a sua resposta parou em \"leio os commits\", falta a segunda metade: o valor está em <b>o que você procura</b> no diff, não em conseguir abri-lo.</p>",
             "dica": "dois blocos: os comandos, e depois o que você examina no resultado."
       }
 ]

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="SELECT, WHERE, ORDER BY, LIMIT/OFFSET, DISTINCT — e as manias do Postgres. Módulo 1 da trilha PostgreSQL para QA, no QA Learning." />
+  <meta name="description" content="SELECT, WHERE, ORDER BY, LIMIT/OFFSET, DISTINCT e as manias do Postgres. Módulo 1 da trilha PostgreSQL para QA, no QA Learning." />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/pg/modulo-1.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/pg/modulo-1.html" />
-  <meta property="og:title" content="PG Módulo 1 — Ler dados no Postgres — QA Learning" />
-  <meta property="og:description" content="SELECT, WHERE, ORDER BY, LIMIT/OFFSET, DISTINCT — e as manias do Postgres. Módulo 1 da trilha PostgreSQL para QA, no QA Learning." />
+  <meta property="og:title" content="PG Módulo 1: Ler dados no Postgres | QA Learning" />
+  <meta property="og:description" content="SELECT, WHERE, ORDER BY, LIMIT/OFFSET, DISTINCT e as manias do Postgres. Módulo 1 da trilha PostgreSQL para QA, no QA Learning." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-pg.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="PG Módulo 1 — Ler dados no Postgres — QA Learning" />
+  <meta property="og:image:alt" content="PG Módulo 1: Ler dados no Postgres | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>PG Módulo 1 — Ler dados no Postgres</title>
+  <title>PG Módulo 1: Ler dados no Postgres</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -41,8 +41,8 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 1 — Ler dados no Postgres</h1>
-    <p class="legenda">SELECT, WHERE, ORDER BY, LIMIT/OFFSET, DISTINCT — e as manias do Postgres</p>
+    <h1>Módulo 1: Ler dados no Postgres</h1>
+    <p class="legenda">SELECT, WHERE, ORDER BY, LIMIT/OFFSET, DISTINCT e as manias do Postgres</p>
 
     <section class="secao">
       <h2>Antes de começar</h2>
@@ -54,17 +54,17 @@
         </p>
         <ul>
           <li><b>Aspas.</b> Texto vai entre <b>aspas simples</b>: <code>'SP'</code>. Aspas
-            <b>duplas</b> são pra nome de coluna/tabela (<code>"Nome Estranho"</code>) — se você
+            <b>duplas</b> são pra nome de coluna/tabela (<code>"Nome Estranho"</code>). Se você
             escrever <code>"SP"</code> o Postgres procura uma <i>coluna</i> chamada SP e dá erro.</li>
-          <li><b>Cast rápido com <code>::</code></b> — <code>'2025-03-01'::date</code>,
+          <li><b>Cast rápido com <code>::</code></b>: <code>'2025-03-01'::date</code>,
             <code>valor_total::int</code>. É o jeito curto de <code>CAST(x AS tipo)</code>.</li>
-          <li><b><code>LIMIT n OFFSET m</code></b> — pega n linhas, pulando as m primeiras
+          <li><b><code>LIMIT n OFFSET m</code></b>: pega n linhas, pulando as m primeiras
             (paginação).</li>
-          <li><b><code>ILIKE</code></b> — igual ao <code>LIKE</code>, mas ignora maiúsc./minúsc.
+          <li><b><code>ILIKE</code></b>: igual ao <code>LIKE</code>, mas ignora maiúsc./minúsc.
             (só existe no Postgres).</li>
         </ul>
         <p style="margin-bottom:0"><b>Olhar de QA:</b> toda investigação começa com um
-          <code>SELECT ... WHERE</code> — "me mostra as linhas onde algo está estranho".</p>
+          <code>SELECT ... WHERE</code>: "me mostra as linhas onde algo está estranho".</p>
       </div>
 
       <h3>Dois exemplos pra ver funcionando</h3>
@@ -76,26 +76,26 @@
       <h2>Teoria</h2>
       <div class="card">
         <ul>
-          <li><code>SELECT colunas FROM tabela</code> — o quê e de onde. <code>SELECT *</code> = todas as colunas.</li>
-          <li><code>WHERE condição</code> — filtra linhas. <code>=</code> <code>&lt;&gt;</code> <code>&gt;</code> <code>&lt;</code> <code>&gt;=</code> <code>&lt;=</code>, <code>AND</code>, <code>OR</code>, <code>NOT</code>.</li>
-          <li><code>BETWEEN a AND b</code> — intervalo inclusivo. <code>IN (v1, v2, …)</code> — valor numa lista.</li>
-          <li><code>LIKE 'Silva%'</code> / <code>ILIKE '%silva%'</code> — texto por padrão: <code>%</code> = qualquer coisa, <code>_</code> = 1 caractere. <code>ILIKE</code> ignora caixa.</li>
-          <li><code>ORDER BY coluna ASC|DESC</code> — ordena. <code>LIMIT n</code> — corta nas n primeiras. <code>OFFSET m</code> — pula m.</li>
-          <li><code>DISTINCT</code> — remove linhas repetidas do resultado.</li>
-          <li><code>AS</code> — apelido de coluna: <code>preco * 0.9 AS preco_promo</code>.</li>
+          <li><code>SELECT colunas FROM tabela</code>: o quê e de onde. <code>SELECT *</code> = todas as colunas.</li>
+          <li><code>WHERE condição</code>: filtra linhas. <code>=</code> <code>&lt;&gt;</code> <code>&gt;</code> <code>&lt;</code> <code>&gt;=</code> <code>&lt;=</code>, <code>AND</code>, <code>OR</code>, <code>NOT</code>.</li>
+          <li><code>BETWEEN a AND b</code>: intervalo inclusivo. <code>IN (v1, v2, …)</code>: valor numa lista.</li>
+          <li><code>LIKE 'Silva%'</code> / <code>ILIKE '%silva%'</code>: texto por padrão, <code>%</code> = qualquer coisa, <code>_</code> = 1 caractere. <code>ILIKE</code> ignora caixa.</li>
+          <li><code>ORDER BY coluna ASC|DESC</code>: ordena. <code>LIMIT n</code>: corta nas n primeiras. <code>OFFSET m</code>: pula m.</li>
+          <li><code>DISTINCT</code>: remove linhas repetidas do resultado.</li>
+          <li><code>AS</code>: apelido de coluna, <code>preco * 0.9 AS preco_promo</code>.</li>
         </ul>
       </div>
     </section>
 
     <section class="secao">
       <h2>Exemplos de aplicação</h2>
-      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar — é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
+      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar, é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
 
       <div class="card">
         <h3 style="margin-top:0"><code>SELECT ... FROM tabela</code></h3>
         <pre class="bloco"><code>SELECT nome, categoria, preco
 FROM produtos;</code></pre>
-        <p style="margin-bottom:0"><code>SELECT</code> diz quais colunas aparecem; <code>FROM produtos</code> diz de qual tabela. <code>SELECT *</code> traria todas. Igual ao SQLite — a diferença do Postgres começa nos tipos das colunas (aqui <code>preco</code> é <code>numeric</code> de verdade, não "número solto").</p>
+        <p style="margin-bottom:0"><code>SELECT</code> diz quais colunas aparecem; <code>FROM produtos</code> diz de qual tabela. <code>SELECT *</code> traria todas. Igual ao SQLite. A diferença do Postgres começa nos tipos das colunas (aqui <code>preco</code> é <code>numeric</code> de verdade, não "número solto").</p>
       </div>
 
       <div class="card">
@@ -103,7 +103,7 @@ FROM produtos;</code></pre>
         <pre class="bloco"><code>SELECT id, status, valor_total
 FROM pedidos
 WHERE status &lt;&gt; 'cancelado' AND valor_total &gt;= 1000;</code></pre>
-        <p style="margin-bottom:0">Passa só quem satisfaz as duas condições (<code>AND</code>). No Postgres, texto <strong>tem</strong> que ir entre aspas simples — aspas duplas significam nome de coluna e dariam erro.</p>
+        <p style="margin-bottom:0">Passa só quem satisfaz as duas condições (<code>AND</code>). No Postgres, texto <strong>tem</strong> que ir entre aspas simples. Aspas duplas significam nome de coluna e dariam erro.</p>
       </div>
 
       <div class="card">
@@ -120,7 +120,7 @@ WHERE data_cadastro BETWEEN DATE '2025-01-01' AND DATE '2025-03-31'
         <pre class="bloco"><code>SELECT nome, email
 FROM clientes
 WHERE nome ILIKE '%silva%';</code></pre>
-        <p style="margin-bottom:0"><code>LIKE</code> compara texto com molde: <code>%</code> = qualquer sequência, <code>_</code> = 1 caractere. <code>ILIKE</code> é a versão que <em>ignora maiúscula/minúscula</em> — <code>'%silva%'</code> pega "Silva", "SILVA", "da Silva". Isso é do Postgres; no SQLite não existe <code>ILIKE</code>.</p>
+        <p style="margin-bottom:0"><code>LIKE</code> compara texto com molde: <code>%</code> = qualquer sequência, <code>_</code> = 1 caractere. <code>ILIKE</code> é a versão que <em>ignora maiúscula/minúscula</em>: <code>'%silva%'</code> pega "Silva", "SILVA", "da Silva". Isso é do Postgres; no SQLite não existe <code>ILIKE</code>.</p>
       </div>
 
       <div class="card">
@@ -129,7 +129,7 @@ WHERE nome ILIKE '%silva%';</code></pre>
 FROM pedidos
 ORDER BY valor_total DESC
 LIMIT 10 OFFSET 10;</code></pre>
-        <p style="margin-bottom:0"><code>ORDER BY ... DESC</code> ordena do maior pro menor. <code>LIMIT 10</code> pega 10 linhas; <code>OFFSET 10</code> pula as 10 primeiras antes disso — ou seja, esta query traz do 11º ao 20º pedido mais caro. É o padrão de paginação.</p>
+        <p style="margin-bottom:0"><code>ORDER BY ... DESC</code> ordena do maior pro menor. <code>LIMIT 10</code> pega 10 linhas; <code>OFFSET 10</code> pula as 10 primeiras antes disso, ou seja, esta query traz do 11º ao 20º pedido mais caro. É o padrão de paginação.</p>
       </div>
 
       <div class="card">
@@ -146,7 +146,7 @@ ORDER BY estado;</code></pre>
        preco AS preco_cheio,
        preco * 0.9 AS preco_promo
 FROM produtos;</code></pre>
-        <p style="margin-bottom:0"><code>AS</code> renomeia a coluna no resultado — troca um nome ou dá nome a coluna calculada (<code>preco * 0.9</code>). O <code>AS</code> é opcional (<code>preco AS preco_cheio</code> = <code>preco preco_cheio</code>), mas escrever deixa claro.</p>
+        <p style="margin-bottom:0"><code>AS</code> renomeia a coluna no resultado: troca um nome ou dá nome a coluna calculada (<code>preco * 0.9</code>). O <code>AS</code> é opcional (<code>preco AS preco_cheio</code> = <code>preco preco_cheio</code>), mas escrever deixa claro.</p>
       </div>
     </section>
 
@@ -155,14 +155,14 @@ FROM produtos;</code></pre>
         <h2 style="margin-top:0;border:0">Pegadinhas deste módulo</h2>
         <p style="margin-top:0;font-size:14px">
           Os erros que quase todo mundo comete aqui. Ler agora poupa meia hora de
-          confusão depois — e alguns deles são a causa de relatório errado em projeto real.
+          confusão depois, e alguns deles são a causa de relatório errado em projeto real.
         </p>
         <ul>
-          <li><b>Texto diferencia maiúscula de minúscula.</b> <code>WHERE cidade = 'campinas'</code> não acha <code>'Campinas'</code> e devolve <b>zero linhas sem dar erro</b>. Zero linha não é sinal de que está tudo certo — é sinal de que você precisa conferir a condição.</li>
+          <li><b>Texto diferencia maiúscula de minúscula.</b> <code>WHERE cidade = 'campinas'</code> não acha <code>'Campinas'</code> e devolve <b>zero linhas sem dar erro</b>. Zero linha não é sinal de que está tudo certo: é sinal de que você precisa conferir a condição.</li>
           <li><b><code>LIMIT</code> sem <code>ORDER BY</code> não significa nada.</b> "As 5 primeiras" de um resultado não ordenado são 5 linhas quaisquer, e podem mudar entre execuções. Se o enunciado fala em "maiores" ou "mais recentes", tem que haver <code>ORDER BY</code>.</li>
           <li><b><code>LIKE '%Silva%'</code> ≠ <code>LIKE 'Silva'</code>.</b> Sem os <code>%</code>, o <code>LIKE</code> vira uma igualdade. É a causa mais comum de "minha busca não acha nada".</li>
-          <li><b>Aspas simples para texto, nada para número.</b> <code>WHERE preco > '500'</code> pode funcionar por acidente e comparar como <em>texto</em> — e aí <code>'90'</code> fica maior que <code>'500'</code>, porque <code>9</code> vem depois de <code>5</code> no alfabeto.</li>
-          <li><b><code>BETWEEN</code> inclui as duas pontas.</b> <code>BETWEEN 100 AND 200</code> pega o 100 e o 200. Quando o requisito diz "acima de 100", <code>BETWEEN</code> está errado — e essa diferença de uma linha é exatamente o tipo de defeito que a análise de valor limite procura.</li>
+          <li><b>Aspas simples para texto, nada para número.</b> <code>WHERE preco > '500'</code> pode funcionar por acidente e comparar como <em>texto</em>, e aí <code>'90'</code> fica maior que <code>'500'</code>, porque <code>9</code> vem depois de <code>5</code> no alfabeto.</li>
+          <li><b><code>BETWEEN</code> inclui as duas pontas.</b> <code>BETWEEN 100 AND 200</code> pega o 100 e o 200. Quando o requisito diz "acima de 100", <code>BETWEEN</code> está errado, e essa diferença de uma linha é exatamente o tipo de defeito que a análise de valor limite procura.</li>
           <li><b>No Postgres, tipo importa de verdade.</b> Diferente do SQLite, comparar texto com número dá <b>erro</b> em vez de resultado estranho. Isso é bom: o erro aparece na hora, em vez de virar número errado no relatório.</li>
         </ul>
       </div>
@@ -192,7 +192,7 @@ FROM produtos;</code></pre>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>
@@ -212,7 +212,7 @@ FROM produtos;</code></pre>
       sql: "SELECT * FROM produtos LIMIT 5;",
     },
     {
-      titulo: "2) Escolher colunas e filtrar — repare nas aspas simples",
+      titulo: "2) Escolher colunas e filtrar, repare nas aspas simples",
       explica: "3 colunas de <code>clientes</code>; <code>WHERE estado = 'SP'</code> deixa passar só SP. Texto SEMPRE entre aspas simples.",
       sql: "SELECT nome, cidade, estado\nFROM clientes\nWHERE estado = 'SP'\nLIMIT 5;",
     },
@@ -225,7 +225,7 @@ FROM produtos;</code></pre>
       gabarito: "SELECT nome, categoria, preco FROM produtos;" },
     { id: "1.2",
       enunciado: "Nome e email só dos clientes do estado 'SP'.",
-      dica: "<code>WHERE estado = 'SP'</code> — aspas <b>simples</b> no texto (aspas duplas dariam erro de \"coluna não existe\").",
+      dica: "<code>WHERE estado = 'SP'</code>: aspas <b>simples</b> no texto (aspas duplas dariam erro de \"coluna não existe\").",
       gabarito: "SELECT nome, email FROM clientes WHERE estado = 'SP';" },
     { id: "1.3",
       enunciado: "Produtos com preco acima de 500, do mais caro pro mais barato. Mostre nome e preco.",
@@ -237,11 +237,11 @@ FROM produtos;</code></pre>
       gabarito: "SELECT id, valor_total FROM pedidos\nORDER BY valor_total DESC\nLIMIT 5;" },
     { id: "1.5",
       enunciado: "Do 6º ao 10º pedido mais caro (a \"segunda página\" de 5 em 5). Mostre id e valor_total.",
-      dica: "mesma ordenação do 1.4, agora com <code>LIMIT 5 OFFSET 5</code> — pula os 5 primeiros.",
+      dica: "mesma ordenação do 1.4, agora com <code>LIMIT 5 OFFSET 5</code>: pula os 5 primeiros.",
       gabarito: "SELECT id, valor_total FROM pedidos\nORDER BY valor_total DESC\nLIMIT 5 OFFSET 5;" },
     { id: "1.6",
       enunciado: "Clientes cujo nome contém 'silva', sem se importar com maiúsculas/minúsculas. Mostre só o nome.",
-      dica: "<code>ILIKE '%silva%'</code> — a versão do <code>LIKE</code> que ignora a caixa das letras.",
+      dica: "<code>ILIKE '%silva%'</code>: a versão do <code>LIKE</code> que ignora a caixa das letras.",
       gabarito: "SELECT nome FROM clientes WHERE nome ILIKE '%silva%';" },
     { id: "1.7",
       enunciado: "Produtos das categorias 'Perifericos' ou 'Acessorios'. Mostre nome e categoria.",

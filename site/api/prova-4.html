@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 4 da trilha Teste de API — Cruzar API × banco: quando a resposta mente. Corrigida na hora; 70% fecha o módulo." />
+  <meta name="description" content="Prova do módulo 4 da trilha Teste de API: cruzar API × banco, quando a resposta mente. Corrigida na hora; 70% fecha o módulo." />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/api/prova-4.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/api/prova-4.html" />
-  <meta property="og:title" content="Prova — Módulo 4 (API) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 4 da trilha Teste de API — Cruzar API × banco: quando a resposta mente. Corrigida na hora; 70% fecha o módulo." />
+  <meta property="og:title" content="Prova do Módulo 4 (API) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 4 da trilha Teste de API: cruzar API × banco, quando a resposta mente. Corrigida na hora; 70% fecha o módulo." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-api.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 4 (API) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 4 (API) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 4 (API)</title>
+  <title>Prova do Módulo 4 (API)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 4</h1>
+    <h1>Prova do Módulo 4</h1>
     <p class="legenda">Cruzar API × banco: quando a resposta mente. &nbsp;<a href="modulo-4.html">← rever o módulo</a></p>
     <div id="prova"></div>
   </main>
@@ -51,7 +51,7 @@
             "t": "mc",
             "enun": "Por que comparar a resposta da API com o banco, se a API já respondeu 200 com o contrato correto?",
             "ops": [
-                  "Porque a API pode devolver um valor que não é o que está gravado — cache velho, cálculo errado numa camada de serviço, join torto",
+                  "Porque a API pode devolver um valor que não é o que está gravado: cache velho, cálculo errado numa camada de serviço, join torto",
                   "Porque o banco é mais rápido de consultar",
                   "Porque o contrato só pode ser validado no banco",
                   "Porque o status 200 não é confiável em ambiente de homologação"
@@ -93,7 +93,7 @@
                   "Garantir que o banco está com índices corretos"
             ],
             "correta": 0,
-            "exp": "É o uso do banco como <b>oráculo</b> — o conceito do Módulo 4 de Fundamentos, aplicado na prática."
+            "exp": "É o uso do banco como <b>oráculo</b>, o conceito do Módulo 4 de Fundamentos, aplicado na prática."
       },
       {
             "t": "mc",
@@ -105,24 +105,24 @@
                   "Conferir se a API usa o mesmo fuso horário do banco"
             ],
             "correta": 0,
-            "exp": "Um <i>sanity check</i> barato: se a contagem já não bate, há filtro, paginação ou registro sumindo — e você descobre isso em uma linha."
+            "exp": "Um <i>sanity check</i> barato: se a contagem já não bate, há filtro, paginação ou registro sumindo, e você descobre isso em uma linha."
       },
       {
             "t": "mc",
             "enun": "A API devolve corretamente, mas o dado no banco está errado desde a criação. O teste de cruzamento vai acusar?",
             "ops": [
-                  "Não — as duas fontes concordam. Esse caso pede uma verificação de <b>regra de negócio</b> sobre o banco, como a soma dos itens bater com o valor_total",
+                  "Não, porque as duas fontes concordam. Esse caso pede uma verificação de <b>regra de negócio</b> sobre o banco, como a soma dos itens bater com o valor_total",
                   "Sim, porque o cruzamento detecta qualquer inconsistência",
                   "Sim, desde que se compare também o status HTTP",
                   "Não, e não há como detectar esse caso automaticamente"
             ],
             "correta": 0,
-            "exp": "Cruzamento pega divergência entre camadas; validação de regra pega dado errado em ambas. São os dois tipos de teste, e você precisa dos dois — é exatamente o que a Trilha de SQL ensina."
+            "exp": "Cruzamento pega divergência entre camadas; validação de regra pega dado errado em ambas. São os dois tipos de teste, e você precisa dos dois: é exatamente o que a Trilha de SQL ensina."
       },
       {
             "t": "aberta",
             "enun": "Um usuário reclama: \"finalizei a compra, a tela disse que deu certo, mas o pedido não aparece no meu histórico\". Descreva como você investigaria, usando o que aprendeu nas trilhas de API e SQL.",
-            "modelo": "<p>A investigação vai <b>camada por camada</b>, do que o usuário viu até o dado gravado:</p><ol><li><b>Reproduzir</b> com uma conta de teste, com o painel de rede aberto. Reproduziu? Se não, colete tudo que possa diferir (Fundamentos, Módulo 5).</li><li><b>A requisição de criação:</b> que status voltou no <code>POST</code>? Se veio 201, o que tem no corpo — veio um <code>id</code>?</li><li><b>O dado existe?</b> No banco: <code>SELECT * FROM pedidos WHERE id = &lt;id devolvido&gt;</code>. Três desfechos possíveis, e cada um aponta para um lugar diferente:<ul><li><b>não existe</b> → a API respondeu sucesso sem gravar: defeito na escrita ou transação que não commitou;</li><li><b>existe, mas com <code>cliente_id</code> errado ou nulo</b> → gravou no lugar errado, e por isso não aparece no histórico <i>daquele</i> usuário;</li><li><b>existe e está correto</b> → o problema está na <b>leitura</b>, não na escrita.</li></ul></li><li><b>Se está correto no banco:</b> chamar direto <code>GET /pedidos?cliente_id=X</code> e comparar com <code>SELECT * FROM pedidos WHERE cliente_id = X</code>. Se a API devolve menos, o defeito está no filtro, na paginação, ou em cache.</li><li><b>Procurar o padrão:</b> é só esse pedido? <code>SELECT COUNT(*) FROM pedidos WHERE cliente_id IS NULL</code>, ou pedidos apontando para cliente inexistente — se houver muitos, o defeito é sistêmico e a prioridade sobe.</li><li><b>Relatar</b> com o id do pedido, a resposta do POST, a linha do banco e a resposta do GET lado a lado. Com essa evidência, quem corrige não precisa investigar de novo.</li></ol><p>O ponto central da resposta: <b>separar escrita de leitura</b>. \"Não aparece no histórico\" tem duas causas completamente diferentes, e a consulta ao banco é o que decide qual das duas é — em um minuto, em vez de um dia.</p>",
+            "modelo": "<p>A investigação vai <b>camada por camada</b>, do que o usuário viu até o dado gravado:</p><ol><li><b>Reproduzir</b> com uma conta de teste, com o painel de rede aberto. Reproduziu? Se não, colete tudo que possa diferir (Fundamentos, Módulo 5).</li><li><b>A requisição de criação:</b> que status voltou no <code>POST</code>? Se veio 201, o que tem no corpo, veio um <code>id</code>?</li><li><b>O dado existe?</b> No banco: <code>SELECT * FROM pedidos WHERE id = &lt;id devolvido&gt;</code>. Três desfechos possíveis, e cada um aponta para um lugar diferente:<ul><li><b>não existe</b> → a API respondeu sucesso sem gravar: defeito na escrita ou transação que não commitou;</li><li><b>existe, mas com <code>cliente_id</code> errado ou nulo</b> → gravou no lugar errado, e por isso não aparece no histórico <i>daquele</i> usuário;</li><li><b>existe e está correto</b> → o problema está na <b>leitura</b>, não na escrita.</li></ul></li><li><b>Se está correto no banco:</b> chamar direto <code>GET /pedidos?cliente_id=X</code> e comparar com <code>SELECT * FROM pedidos WHERE cliente_id = X</code>. Se a API devolve menos, o defeito está no filtro, na paginação, ou em cache.</li><li><b>Procurar o padrão:</b> é só esse pedido? <code>SELECT COUNT(*) FROM pedidos WHERE cliente_id IS NULL</code>, ou pedidos apontando para cliente inexistente: se houver muitos, o defeito é sistêmico e a prioridade sobe.</li><li><b>Relatar</b> com o id do pedido, a resposta do POST, a linha do banco e a resposta do GET lado a lado. Com essa evidência, quem corrige não precisa investigar de novo.</li></ol><p>O ponto central da resposta: <b>separar escrita de leitura</b>. \"Não aparece no histórico\" tem duas causas completamente diferentes, e a consulta ao banco é o que decide qual das duas é, em um minuto, em vez de um dia.</p>",
             "dica": "pense em: gravou? gravou certo? e a leitura devolve o que está gravado?"
       }
 ]

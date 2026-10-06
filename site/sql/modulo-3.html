@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/sql/modulo-3.html" />
-  <meta property="og:title" content="Módulo 3 — Agregação — QA Learning" />
+  <meta property="og:title" content="Módulo 3: Agregação | QA Learning" />
   <meta property="og:description" content="COUNT, SUM, AVG, GROUP BY, HAVING. Módulo 3 da trilha SQL para QA, no QA Learning. Teoria curta e exercícios que rodam num banco dentro do próprio navegador." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-sql.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Módulo 3 — Agregação — QA Learning" />
+  <meta property="og:image:alt" content="Módulo 3: Agregação | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Módulo 3 — Agregação</title>
+  <title>Módulo 3: Agregação</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -41,7 +41,7 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 3 — Agregação</h1>
+    <h1>Módulo 3: Agregação</h1>
     <p class="legenda">COUNT, SUM, AVG, GROUP BY, HAVING</p>
 
     <section class="secao teoria">
@@ -50,25 +50,25 @@
         <ul>
           <li>Funções de agregação resumem várias linhas em uma:
             <ul>
-              <li><code>COUNT(x)</code> — quantas linhas (ex.: quantos pedidos, quantos casos de teste).</li>
-              <li><code>SUM(x)</code> — soma os valores da coluna (ex.: faturamento total).</li>
-              <li><code>AVG(x)</code> — média dos valores (ex.: ticket médio, tempo médio de execução).</li>
-              <li><code>MIN(x)</code> — o menor valor (ex.: pedido mais barato, data mais antiga).</li>
-              <li><code>MAX(x)</code> — o maior valor (ex.: pedido mais caro, data mais recente).</li>
+              <li><code>COUNT(x)</code>: quantas linhas (ex.: quantos pedidos, quantos casos de teste).</li>
+              <li><code>SUM(x)</code>: soma os valores da coluna (ex.: faturamento total).</li>
+              <li><code>AVG(x)</code>: média dos valores (ex.: ticket médio, tempo médio de execução).</li>
+              <li><code>MIN(x)</code>: o menor valor (ex.: pedido mais barato, data mais antiga).</li>
+              <li><code>MAX(x)</code>: o maior valor (ex.: pedido mais caro, data mais recente).</li>
             </ul>
           </li>
-          <li><code>GROUP BY coluna</code> — calcula a agregação <strong>por grupo</strong> (ex.: total por status).</li>
+          <li><code>GROUP BY coluna</code>: calcula a agregação <strong>por grupo</strong> (ex.: total por status).</li>
           <li><code>WHERE</code> filtra <strong>antes</strong> de agrupar; <code>HAVING</code> filtra <strong>depois</strong>, sobre o resultado agregado. Ex.: <code>HAVING COUNT(*) &gt; 5</code>.</li>
           <li><code>COUNT(*)</code> conta linhas; <code>COUNT(coluna)</code> ignora as linhas em que aquela coluna é <code>NULL</code>.</li>
-          <li><code>ROUND(x, 2)</code> arredonda — útil pra médias e somas de dinheiro.</li>
+          <li><code>ROUND(x, 2)</code> arredonda, útil pra médias e somas de dinheiro.</li>
         </ul>
-        <p style="margin-bottom:0"><strong>Olhar de QA:</strong> é assim que se monta métrica — taxa de aprovação por suite, defeitos por módulo, ticket médio por status.</p>
+        <p style="margin-bottom:0"><strong>Olhar de QA:</strong> é assim que se monta métrica: taxa de aprovação por suite, defeitos por módulo, ticket médio por status.</p>
       </div>
     </section>
 
     <section class="secao">
       <h2>Exemplos de aplicação</h2>
-      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar — é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
+      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar: é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
 
       <div class="card">
         <h3 style="margin-top:0">Funções de agregação</h3>
@@ -101,7 +101,7 @@ FROM pedidos
 WHERE status &lt;&gt; 'cancelado'
 GROUP BY cliente_id
 HAVING COUNT(*) &gt;= 3;</code></pre>
-        <p style="margin-bottom:0"><code>WHERE</code> corta linhas <em>antes</em> de agrupar (tira os cancelados). <code>HAVING</code> corta <em>depois</em>, olhando o resultado já agregado — aqui mantém só clientes com 3+ pedidos válidos. <code>HAVING</code> pode usar <code>COUNT(*)</code>/<code>SUM(...)</code>; <code>WHERE</code> não.</p>
+        <p style="margin-bottom:0"><code>WHERE</code> corta linhas <em>antes</em> de agrupar (tira os cancelados). <code>HAVING</code> corta <em>depois</em>, olhando o resultado já agregado; aqui mantém só clientes com 3+ pedidos válidos. <code>HAVING</code> pode usar <code>COUNT(*)</code>/<code>SUM(...)</code>; <code>WHERE</code> não.</p>
       </div>
 
       <div class="card">
@@ -128,13 +128,13 @@ GROUP BY suite;</code></pre>
         <h2 style="margin-top:0;border:0">Pegadinhas deste módulo</h2>
         <p style="margin-top:0;font-size:14px">
           Os erros que quase todo mundo comete aqui. Ler agora poupa meia hora de
-          confusão depois — e alguns deles são a causa de relatório errado em projeto real.
+          confusão depois, e alguns deles são a causa de relatório errado em projeto real.
         </p>
         <ul>
           <li><b><code>COUNT(*)</code> e <code>COUNT(coluna)</code> dão respostas diferentes.</b> <code>COUNT(*)</code> conta linhas; <code>COUNT(coluna)</code> ignora as linhas em que aquela coluna é <code>NULL</code>. Usar um pelo outro é a origem de metade dos números errados em relatório de QA.</li>
-          <li><b><code>AVG</code> também ignora <code>NULL</code> — e isso muda a média.</b> <code>AVG(duracao)</code> sobre 100 linhas com 40 nulas é a média de 60, não de 100. Se o vazio deveria contar como zero, use <code>AVG(COALESCE(duracao, 0))</code>.</li>
-          <li><b><code>WHERE</code> filtra antes de agrupar; <code>HAVING</code>, depois.</b> Filtrar por valor de linha no <code>HAVING</code> funciona em alguns bancos e é lento em todos. E o contrário — <code>WHERE COUNT(*) > 5</code> — simplesmente não existe: agregação não cabe no <code>WHERE</code>.</li>
-          <li><b>Grupo sem nenhuma linha não aparece no resultado.</b> Se você agrupa defeitos por módulo, o módulo com <b>zero</b> defeitos não vem na lista — ele some. Quem lê o relatório conclui que o módulo não existe, e não que ele está limpo.</li>
+          <li><b><code>AVG</code> também ignora <code>NULL</code>, e isso muda a média.</b> <code>AVG(duracao)</code> sobre 100 linhas com 40 nulas é a média de 60, não de 100. Se o vazio deveria contar como zero, use <code>AVG(COALESCE(duracao, 0))</code>.</li>
+          <li><b><code>WHERE</code> filtra antes de agrupar; <code>HAVING</code>, depois.</b> Filtrar por valor de linha no <code>HAVING</code> funciona em alguns bancos e é lento em todos. E o contrário, <code>WHERE COUNT(*) > 5</code>, simplesmente não existe: agregação não cabe no <code>WHERE</code>.</li>
+          <li><b>Grupo sem nenhuma linha não aparece no resultado.</b> Se você agrupa defeitos por módulo, o módulo com <b>zero</b> defeitos não vem na lista: ele some. Quem lê o relatório conclui que o módulo não existe, e não que ele está limpo.</li>
           <li><b>Cuidado ao somar percentuais já calculados.</b> A média das taxas de falha por suíte <b>não</b> é a taxa de falha geral: suítes com tamanhos diferentes pesam diferente. Some os numeradores e os denominadores, e divida no fim.</li>
         </ul>
       </div>
@@ -159,7 +159,7 @@ GROUP BY suite;</code></pre>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>

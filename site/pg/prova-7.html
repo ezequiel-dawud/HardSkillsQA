@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 7 da trilha PostgreSQL para QA — Window functions: OVER, PARTITION BY, ROW_NUMBER/RANK, running SUM, LAG. Corrigida na hora; 70% fecha o…" />
+  <meta name="description" content="Prova do módulo 7 da trilha PostgreSQL para QA: window functions, OVER, PARTITION BY, ROW_NUMBER/RANK, running SUM, LAG. Corrigida na hora; 70% fecha o…" />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/pg/prova-7.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/pg/prova-7.html" />
-  <meta property="og:title" content="Prova — Módulo 7 (PostgreSQL) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 7 da trilha PostgreSQL para QA — Window functions: OVER, PARTITION BY, ROW_NUMBER/RANK, running SUM, LAG. Corrigida na hora; 70% fecha o…" />
+  <meta property="og:title" content="Prova do Módulo 7 (PostgreSQL) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 7 da trilha PostgreSQL para QA: window functions, OVER, PARTITION BY, ROW_NUMBER/RANK, running SUM, LAG. Corrigida na hora; 70% fecha o…" />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-pg.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 7 (PostgreSQL) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 7 (PostgreSQL) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 7 (PostgreSQL)</title>
+  <title>Prova do Módulo 7 (PostgreSQL)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -41,7 +41,7 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 7</h1>
+    <h1>Prova do Módulo 7</h1>
     <p class="legenda">Window functions: OVER, PARTITION BY, ROW_NUMBER/RANK, running SUM, LAG. &nbsp;<a href="modulo-7.html">← rever o módulo</a></p>
     <p class="status-banco" id="status-banco">carregando Postgres…</p>
     <div id="prova"></div>
@@ -73,7 +73,7 @@
 
       { t: "sql", ordenado: true,
         enun: "Cada produto com o preço médio da sua categoria ao lado (sem colapsar as linhas). Colunas: <code>nome</code>, <code>categoria</code>, <code>preco</code>, <code>media_categoria</code> (2 casas); ordene por <code>categoria</code> e <code>nome</code>.",
-        dica: "<code>AVG(preco) OVER (PARTITION BY categoria)</code> — window, não <code>GROUP BY</code>.",
+        dica: "<code>AVG(preco) OVER (PARTITION BY categoria)</code>, window, não <code>GROUP BY</code>.",
         gab: "SELECT nome, categoria, preco,\n       ROUND(AVG(preco) OVER (PARTITION BY categoria), 2) AS media_categoria\nFROM produtos\nORDER BY categoria, nome;" },
 
       { t: "mc",
@@ -91,7 +91,7 @@
           "uma soma acumulada (running total), linha a linha, na ordem de <code>d</code>",
           "a soma total repetida em todas as linhas",
           "a média de <code>x</code>",
-          "erro — <code>SUM</code> não é window function" ],
+          "erro: <code>SUM</code> não é window function" ],
         correta: 0 },
 
       { t: "mc",

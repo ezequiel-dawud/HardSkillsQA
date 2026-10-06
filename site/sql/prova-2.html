@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 2 da trilha SQL para QA — NULL e filtros finos: IS NULL, COALESCE, CASE. Corrigida na hora; 70% fecha o módulo." />
+  <meta name="description" content="Prova do módulo 2 da trilha SQL para QA, sobre NULL e filtros finos: IS NULL, COALESCE, CASE. Corrigida na hora; 70% fecha o módulo." />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/sql/prova-2.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/sql/prova-2.html" />
-  <meta property="og:title" content="Prova — Módulo 2 (SQL) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 2 da trilha SQL para QA — NULL e filtros finos: IS NULL, COALESCE, CASE. Corrigida na hora; 70% fecha o módulo." />
+  <meta property="og:title" content="Prova do Módulo 2 (SQL) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 2 da trilha SQL para QA, sobre NULL e filtros finos: IS NULL, COALESCE, CASE. Corrigida na hora; 70% fecha o módulo." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-sql.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 2 (SQL) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 2 (SQL) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 2 (SQL)</title>
+  <title>Prova do Módulo 2 (SQL)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -41,7 +41,7 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 2</h1>
+    <h1>Prova do Módulo 2</h1>
     <p class="legenda">NULL e filtros finos: IS NULL, COALESCE, CASE. &nbsp;<a href="modulo-2.html">← rever o módulo</a></p>
     <p class="status-banco" id="status-banco">carregando banco…</p>
     <div id="prova"></div>
@@ -62,13 +62,13 @@
         gab: "SELECT COUNT(*) AS falhas_sem_defeito FROM execucoes_teste\nWHERE resultado = 'falhou' AND defeito_id IS NULL;" },
 
       { t: "sql", ordenado: true,
-        enun: "Para os 6 primeiros defeitos por <code>id</code>: <code>id</code>, <code>titulo</code> e a data de fechamento — quando for nula, mostre o texto <code>'em aberto'</code>. Terceira coluna: <code>fechamento</code>.",
+        enun: "Para os 6 primeiros defeitos por <code>id</code>: <code>id</code>, <code>titulo</code> e a data de fechamento (quando for nula, mostre o texto <code>'em aberto'</code>). Terceira coluna: <code>fechamento</code>.",
         dica: "<code>COALESCE(data_fechamento, 'em aberto') AS fechamento</code>.",
         gab: "SELECT id, titulo, COALESCE(data_fechamento, 'em aberto') AS fechamento\nFROM defeitos\nORDER BY id\nLIMIT 6;" },
 
       { t: "sql", ordenado: true,
         enun: "Classifique cada pedido por faixa de valor: <code>'alto'</code> se <code>valor_total &gt;= 10000</code>, <code>'medio'</code> se <code>&gt;= 2000</code>, senão <code>'baixo'</code>. Traga os 6 primeiros por <code>id</code>. Colunas: <code>id</code>, <code>faixa</code>.",
-        dica: "<code>CASE WHEN ... THEN ... WHEN ... THEN ... ELSE ... END AS faixa</code> — a ordem dos <code>WHEN</code> importa.",
+        dica: "<code>CASE WHEN ... THEN ... WHEN ... THEN ... ELSE ... END AS faixa</code>: a ordem dos <code>WHEN</code> importa.",
         gab: "SELECT id,\n       CASE WHEN valor_total >= 10000 THEN 'alto'\n            WHEN valor_total >= 2000 THEN 'medio'\n            ELSE 'baixo' END AS faixa\nFROM pedidos\nORDER BY id\nLIMIT 6;" },
 
       { t: "sql", ordenado: true,
@@ -79,7 +79,7 @@
       { t: "mc",
         enun: "Por que <code>SELECT * FROM execucoes_teste WHERE defeito_id = NULL;</code> não devolve as linhas com <code>defeito_id</code> nulo?",
         ops: [
-          "Comparar com <code>NULL</code> usando <code>=</code> resulta em 'desconhecido', nunca em verdadeiro — o certo é <code>IS NULL</code>",
+          "Comparar com <code>NULL</code> usando <code>=</code> resulta em 'desconhecido', nunca em verdadeiro; o certo é <code>IS NULL</code>",
           "<code>NULL</code> só funciona em colunas de texto",
           "Falta aspas em <code>NULL</code>",
           "<code>WHERE</code> ignora colunas numéricas" ],

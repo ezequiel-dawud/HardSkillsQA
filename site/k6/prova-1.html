@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 1 da trilha Teste de carga com k6 — O que é teste de carga, VU, iteração, duração, think time. Corrigida na hora; 70% fecha o módulo." />
+  <meta name="description" content="Prova do módulo 1 da trilha Teste de carga com k6: o que é teste de carga, VU, iteração, duração, think time. Corrigida na hora; 70% fecha o módulo." />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/k6/prova-1.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/k6/prova-1.html" />
-  <meta property="og:title" content="Prova — Módulo 1 (k6) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 1 da trilha Teste de carga com k6 — O que é teste de carga, VU, iteração, duração, think time. Corrigida na hora; 70% fecha o módulo." />
+  <meta property="og:title" content="Prova do Módulo 1 (k6) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 1 da trilha Teste de carga com k6: o que é teste de carga, VU, iteração, duração, think time. Corrigida na hora; 70% fecha o módulo." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-k6.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 1 (k6) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 1 (k6) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 1 (k6)</title>
+  <title>Prova do Módulo 1 (k6)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 1</h1>
+    <h1>Prova do Módulo 1</h1>
     <p class="legenda">O que é teste de carga, VU, iteração, duração, think time. &nbsp;<a href="modulo-1.html">← rever o módulo</a></p>
     <div id="prova"></div>
   </main>
@@ -51,7 +51,7 @@
             "t": "mc",
             "enun": "Que pergunta o teste de carga responde, diferente dos testes funcionais?",
             "ops": [
-                  "Se o sistema aguenta muita gente fazendo a coisa certa ao mesmo tempo — quanto demora e quantas requisições falham sob pressão",
+                  "Se o sistema aguenta muita gente fazendo a coisa certa ao mesmo tempo, quanto demora e quantas requisições falham sob pressão",
                   "Se o sistema faz a coisa certa para cada entrada possível",
                   "Se o código está livre de erros de sintaxe",
                   "Se a interface é usável em telas pequenas"
@@ -81,7 +81,7 @@
                   "Porque reduz o custo de execução do teste"
             ],
             "correta": 0,
-            "exp": "Sem think time você mede um cenário que não existe — e normalmente conclui que o sistema é pior do que é."
+            "exp": "Sem think time você mede um cenário que não existe, e normalmente conclui que o sistema é pior do que é."
       },
       {
             "t": "mc",
@@ -111,18 +111,18 @@
             "t": "mc",
             "enun": "Como uma meta de performance vira algo útil para QA?",
             "ops": [
-                  "Virando um critério verificável — \"o checkout responde em menos de 800ms no p95 com 200 usuários\" — que o k6 confere sozinho e o CI pode reprovar",
+                  "Virando um critério verificável, \"o checkout responde em menos de 800ms no p95 com 200 usuários\", que o k6 confere sozinho e o CI pode reprovar",
                   "Virando um relatório apresentado ao time depois de cada entrega",
                   "Virando um alerta de monitoramento em produção",
                   "Virando uma média histórica acompanhada mês a mês"
             ],
             "correta": 0,
-            "exp": "Meta sem número e sem carga associada não é meta — é desejo. \"Tem que ser rápido\" não reprova nada."
+            "exp": "Meta sem número e sem carga associada não é meta, é desejo. \"Tem que ser rápido\" não reprova nada."
       },
       {
             "t": "aberta",
             "enun": "Seu time vai lançar uma promoção que deve triplicar o acesso ao site. Que perguntas você faria antes de desenhar o teste de carga?",
-            "modelo": "<p>O teste de carga só é útil se as perguntas de negócio forem respondidas antes. As essenciais:</p><ul><li><b>Quanta carga?</b> Qual o volume normal hoje (usuários simultâneos, requisições por segundo) e qual o esperado no pico? Triplicar o quê — acessos, pedidos, faturamento?</li><li><b>Qual é a meta?</b> Qual tempo de resposta é aceitável e em qual percentil? Qual taxa de erro é tolerável? Sem isso não existe portão, só relatório.</li><li><b>Quais fluxos importam?</b> Todo mundo vai para a home, ou para uma página de campanha específica? O gargalo tende a ser o caminho do dinheiro — busca, carrinho, checkout.</li><li><b>Qual é a forma da curva?</b> A carga sobe aos poucos ou é um pico às 00h do dia da promoção? Isso decide entre um teste de <i>load</i> e um de <i>spike</i>.</li><li><b>Onde testar?</b> O ambiente tem a mesma capacidade que produção? Se for menor, os números não se transferem direto — e isso precisa estar dito no relatório.</li><li><b>Quais dependências externas?</b> Pagamento, antifraude, frete. Vão aguentar? Podem ser simuladas? Testar contra o sandbox de terceiros pode medir o terceiro, não você.</li><li><b>Dados:</b> temos massa variada suficiente? Mil requisições no mesmo produto medem o cache, não o sistema.</li><li><b>O que fazemos com o resultado?</b> Se não passar, há plano — aumentar capacidade, limitar acesso, adiar? Teste cujo resultado não muda nenhuma decisão é tempo gasto.</li></ul><p>A pergunta que mais falta na prática é a segunda: <b>qual é o número que define passar ou reprovar</b>.</p>",
+            "modelo": "<p>O teste de carga só é útil se as perguntas de negócio forem respondidas antes. As essenciais:</p><ul><li><b>Quanta carga?</b> Qual o volume normal hoje (usuários simultâneos, requisições por segundo) e qual o esperado no pico? Triplicar o quê: acessos, pedidos, faturamento?</li><li><b>Qual é a meta?</b> Qual tempo de resposta é aceitável e em qual percentil? Qual taxa de erro é tolerável? Sem isso não existe portão, só relatório.</li><li><b>Quais fluxos importam?</b> Todo mundo vai para a home, ou para uma página de campanha específica? O gargalo tende a ser o caminho do dinheiro: busca, carrinho, checkout.</li><li><b>Qual é a forma da curva?</b> A carga sobe aos poucos ou é um pico às 00h do dia da promoção? Isso decide entre um teste de <i>load</i> e um de <i>spike</i>.</li><li><b>Onde testar?</b> O ambiente tem a mesma capacidade que produção? Se for menor, os números não se transferem direto, e isso precisa estar dito no relatório.</li><li><b>Quais dependências externas?</b> Pagamento, antifraude, frete. Vão aguentar? Podem ser simuladas? Testar contra o sandbox de terceiros pode medir o terceiro, não você.</li><li><b>Dados:</b> temos massa variada suficiente? Mil requisições no mesmo produto medem o cache, não o sistema.</li><li><b>O que fazemos com o resultado?</b> Se não passar, há plano: aumentar capacidade, limitar acesso, adiar? Teste cujo resultado não muda nenhuma decisão é tempo gasto.</li></ul><p>A pergunta que mais falta na prática é a segunda: <b>qual é o número que define passar ou reprovar</b>.</p>",
             "dica": "pense em: quanta carga, qual meta, quais fluxos, qual ambiente, quais dependências."
       }
 ]

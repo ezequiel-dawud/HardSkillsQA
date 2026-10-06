@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 3 da trilha Teste de API — POST, 201, 400, validação de entrada e efeito colateral. Corrigida na hora; 70% fecha o módulo." />
+  <meta name="description" content="Prova do módulo 3 da trilha Teste de API: POST, 201, 400, validação de entrada e efeito colateral. Corrigida na hora; 70% fecha o módulo." />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/api/prova-3.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/api/prova-3.html" />
-  <meta property="og:title" content="Prova — Módulo 3 (API) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 3 da trilha Teste de API — POST, 201, 400, validação de entrada e efeito colateral. Corrigida na hora; 70% fecha o módulo." />
+  <meta property="og:title" content="Prova do Módulo 3 (API) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 3 da trilha Teste de API: POST, 201, 400, validação de entrada e efeito colateral. Corrigida na hora; 70% fecha o módulo." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-api.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 3 (API) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 3 (API) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 3 (API)</title>
+  <title>Prova do Módulo 3 (API)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 3</h1>
+    <h1>Prova do Módulo 3</h1>
     <p class="legenda">POST, 201, 400, validação de entrada e efeito colateral. &nbsp;<a href="modulo-3.html">← rever o módulo</a></p>
     <div id="prova"></div>
   </main>
@@ -57,7 +57,7 @@
                   "301 Moved Permanently"
             ],
             "correta": 0,
-            "exp": "E o corpo devolvido costuma trazer o <code>id</code> novo e os campos com valor padrão preenchidos — que também merecem verificação."
+            "exp": "E o corpo devolvido costuma trazer o <code>id</code> novo e os campos com valor padrão preenchidos, que também merecem verificação."
       },
       {
             "t": "mc",
@@ -73,7 +73,7 @@
       },
       {
             "t": "mc",
-            "enun": "Qual é a verificação mais importante — e mais esquecida — depois de um POST recusado com 400?",
+            "enun": "Qual é a verificação mais importante (e mais esquecida) depois de um POST recusado com 400?",
             "ops": [
                   "Confirmar que <b>nada foi criado</b>: contar os registros antes e depois",
                   "Confirmar que a mensagem de erro está em português",
@@ -99,7 +99,7 @@
             "t": "mc",
             "enun": "Um POST cria um defeito com <code>status</code> padrão <code>'aberto'</code>, mesmo sem esse campo no corpo enviado. Isso deve ser testado?",
             "ops": [
-                  "Sim — valores padrão fazem parte do contrato e quebram silenciosamente quando alguém muda a regra",
+                  "Sim, porque valores padrão fazem parte do contrato e quebram silenciosamente quando alguém muda a regra",
                   "Não, porque o campo não foi enviado pelo cliente",
                   "Não, porque valores padrão são responsabilidade do banco",
                   "Sim, mas apenas em teste unitário"
@@ -122,7 +122,7 @@
       {
             "t": "aberta",
             "enun": "Descreva a bateria de testes para <code>POST /pedidos</code>, que recebe <code>cliente_id</code> e uma lista de itens, e deve devolver 201 com o pedido criado.",
-            "modelo": "<p><b>Sucesso</b></p><ul><li>201; o corpo traz <code>id</code> novo, <code>status</code> inicial correto e <code>data_pedido</code> preenchida</li><li><code>valor_total</code> devolvido bate com a soma de <code>quantidade × preco_unitario</code> dos itens enviados</li><li><b>efeito colateral:</b> <code>GET /pedidos/{id}</code> em seguida encontra o pedido, com os mesmos valores</li><li>os itens também foram gravados, e na quantidade certa</li></ul><p><b>Entrada inválida → 400, e nada criado</b> (contando antes e depois em cada caso)</p><ul><li>sem <code>cliente_id</code>; sem lista de itens; lista de itens vazia</li><li><code>cliente_id</code> inexistente — não pode criar pedido órfão</li><li>produto inexistente na lista de itens</li><li><code>quantidade</code> igual a 0, negativa, decimal, ou em texto</li><li>quantidade acima do estoque disponível</li><li>preço enviado pelo cliente diferente do preço real do produto — <b>a API confia no que o cliente mandou?</b> Esse é o teste que vale dinheiro</li></ul><p><b>Limites</b> (Fundamentos, Módulo 3)</p><ul><li>1 item; muitos itens (100); o mesmo produto repetido duas vezes na lista</li><li>quantidade no limite exato do estoque</li></ul><p><b>Repetição e concorrência</b></p><ul><li>enviar a mesma requisição duas vezes seguidas — cria dois pedidos?</li><li>dois pedidos simultâneos para o último item em estoque — o estoque fica negativo?</li></ul><p><b>Segurança e método</b></p><ul><li>criar pedido para o <code>cliente_id</code> de outra pessoa, estando autenticado como você</li><li><code>GET</code> ou <code>PUT</code> nessa rota → 405</li></ul><p><b>Cruzamento com o banco</b></p><ul><li>o <code>valor_total</code> gravado bate com a soma dos itens gravados — a mesma verificação que você escreve em SQL e em pytest</li><li>o estoque do produto foi decrementado</li></ul><p>Os dois achados mais valiosos dessa lista são <b>o preço vindo do cliente</b> e <b>o estoque em concorrência</b>: os dois devolvem 201 alegremente e causam prejuízo real.</p>",
+            "modelo": "<p><b>Sucesso</b></p><ul><li>201; o corpo traz <code>id</code> novo, <code>status</code> inicial correto e <code>data_pedido</code> preenchida</li><li><code>valor_total</code> devolvido bate com a soma de <code>quantidade × preco_unitario</code> dos itens enviados</li><li><b>efeito colateral:</b> <code>GET /pedidos/{id}</code> em seguida encontra o pedido, com os mesmos valores</li><li>os itens também foram gravados, e na quantidade certa</li></ul><p><b>Entrada inválida → 400, e nada criado</b> (contando antes e depois em cada caso)</p><ul><li>sem <code>cliente_id</code>; sem lista de itens; lista de itens vazia</li><li><code>cliente_id</code> inexistente: não pode criar pedido órfão</li><li>produto inexistente na lista de itens</li><li><code>quantidade</code> igual a 0, negativa, decimal, ou em texto</li><li>quantidade acima do estoque disponível</li><li>preço enviado pelo cliente diferente do preço real do produto: <b>a API confia no que o cliente mandou?</b> Esse é o teste que vale dinheiro</li></ul><p><b>Limites</b> (Fundamentos, Módulo 3)</p><ul><li>1 item; muitos itens (100); o mesmo produto repetido duas vezes na lista</li><li>quantidade no limite exato do estoque</li></ul><p><b>Repetição e concorrência</b></p><ul><li>enviar a mesma requisição duas vezes seguidas: cria dois pedidos?</li><li>dois pedidos simultâneos para o último item em estoque: o estoque fica negativo?</li></ul><p><b>Segurança e método</b></p><ul><li>criar pedido para o <code>cliente_id</code> de outra pessoa, estando autenticado como você</li><li><code>GET</code> ou <code>PUT</code> nessa rota → 405</li></ul><p><b>Cruzamento com o banco</b></p><ul><li>o <code>valor_total</code> gravado bate com a soma dos itens gravados: a mesma verificação que você escreve em SQL e em pytest</li><li>o estoque do produto foi decrementado</li></ul><p>Os dois achados mais valiosos dessa lista são <b>o preço vindo do cliente</b> e <b>o estoque em concorrência</b>: os dois devolvem 201 alegremente e causam prejuízo real.</p>",
             "dica": "sucesso, inválido (com efeito colateral), limites, repetição, e cruzamento com o banco."
       }
 ]

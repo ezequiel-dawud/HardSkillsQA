@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="Prova do módulo 4 da trilha Validação com pytest — parametrize e rodar no CI (GitHub Actions). Corrigida na hora; 70% fecha o módulo." />
+  <meta name="description" content="Prova do módulo 4 da trilha Validação com pytest: parametrize e rodar no CI (GitHub Actions). Corrigida na hora; 70% fecha o módulo." />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/pytest/prova-4.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/pytest/prova-4.html" />
-  <meta property="og:title" content="Prova — Módulo 4 (pytest) — QA Learning" />
-  <meta property="og:description" content="Prova do módulo 4 da trilha Validação com pytest — parametrize e rodar no CI (GitHub Actions). Corrigida na hora; 70% fecha o módulo." />
+  <meta property="og:title" content="Prova do Módulo 4 (pytest) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 4 da trilha Validação com pytest: parametrize e rodar no CI (GitHub Actions). Corrigida na hora; 70% fecha o módulo." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-pytest.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Prova — Módulo 4 (pytest) — QA Learning" />
+  <meta property="og:image:alt" content="Prova do Módulo 4 (pytest) | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>Prova — Módulo 4 (pytest)</title>
+  <title>Prova do Módulo 4 (pytest)</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
   </header>
 
   <main class="container">
-    <h1>Prova — Módulo 4</h1>
+    <h1>Prova do Módulo 4</h1>
     <p class="legenda">parametrize e rodar no CI (GitHub Actions). &nbsp;<a href="modulo-4.html">← rever o módulo</a></p>
     <div id="prova"></div>
   </main>
@@ -57,7 +57,7 @@
                   "Repetir o teste até que ele passe"
             ],
             "correta": 0,
-            "exp": "Se um dos casos quebrar, você vê exatamente qual — sem ambiguidade e sem copiar a função N vezes."
+            "exp": "Se um dos casos quebrar, você vê exatamente qual, sem ambiguidade e sem copiar a função N vezes."
       },
       {
             "t": "mc",
@@ -69,7 +69,7 @@
                   "Reduz o tempo de execução pela metade"
             ],
             "correta": 0,
-            "exp": "Você ganha a economia da duplicação <b>sem</b> perder a granularidade do relatório — que é o motivo de não juntar tudo num teste só."
+            "exp": "Você ganha a economia da duplicação <b>sem</b> perder a granularidade do relatório, que é o motivo de não juntar tudo num teste só."
       },
       {
             "t": "mc",
@@ -93,7 +93,7 @@
                   "Um teste marcado como <code>xfail</code> falhar"
             ],
             "correta": 0,
-            "exp": "<code>xfail</code> que falha é o comportamento esperado e mantém a suíte verde — é justamente o que permite os três bugs plantados conviverem com um CI verde."
+            "exp": "<code>xfail</code> que falha é o comportamento esperado e mantém a suíte verde: é justamente o que permite os três bugs plantados conviverem com um CI verde."
       },
       {
             "t": "mc",
@@ -111,7 +111,7 @@
             "t": "mc",
             "enun": "O que significa um teste <code>xfail</code> virar <code>XPASS</code> com <code>strict=True</code>?",
             "ops": [
-                  "O problema que ele vigiava foi corrigido — e o build reprova de propósito, para lembrar de remover o marcador",
+                  "O problema que ele vigiava foi corrigido, e o build reprova de propósito, para lembrar de remover o marcador",
                   "O teste passou por acaso e deve ser ignorado",
                   "O teste foi pulado por falta de dependências",
                   "O marcador está mal configurado e precisa de um <code>reason</code>"
@@ -122,7 +122,7 @@
       {
             "t": "aberta",
             "enun": "Escreva um teste parametrizado que confirme que a coluna <code>id</code> não se repete em <code>clientes</code>, <code>produtos</code> e <code>pedidos</code>. Explique por que parametrizar é melhor aqui do que um único teste com três queries.",
-            "modelo": "<pre class=\"bloco\"><code>@pytest.mark.parametrize(\"tabela\", [\"clientes\", \"produtos\", \"pedidos\"])\ndef test_id_nao_se_repete(db, tabela):\n    ruins = db.execute(\n        f\"SELECT id, COUNT(*) AS qtd FROM {tabela} \"\n        f\"GROUP BY id HAVING COUNT(*) &gt; 1\"\n    ).fetchall()\n    assert ruins == [], f\"{tabela}: ids repetidos {[r['id'] for r in ruins]}\"</code></pre><p><b>Por que parametrizar é melhor que um teste com três queries:</b></p><ul><li><b>Granularidade no relatório:</b> aparecem três casos — <code>[clientes]</code>, <code>[produtos]</code>, <code>[pedidos]</code>. Se um quebrar, você lê qual no próprio nome, sem abrir o log.</li><li><b>Não para no primeiro:</b> num teste único com três asserts, o primeiro que falha interrompe a função e você nunca descobre se as outras duas tabelas também estão com problema. Parametrizado, os três casos rodam sempre.</li><li><b>Fácil de estender:</b> acrescentar <code>itens_pedido</code> é acrescentar uma string na lista.</li></ul><p>Esses dois primeiros pontos são o motivo real: parametrizar não é só evitar repetição de código — é preservar a informação que o relatório entrega.</p>",
+            "modelo": "<pre class=\"bloco\"><code>@pytest.mark.parametrize(\"tabela\", [\"clientes\", \"produtos\", \"pedidos\"])\ndef test_id_nao_se_repete(db, tabela):\n    ruins = db.execute(\n        f\"SELECT id, COUNT(*) AS qtd FROM {tabela} \"\n        f\"GROUP BY id HAVING COUNT(*) &gt; 1\"\n    ).fetchall()\n    assert ruins == [], f\"{tabela}: ids repetidos {[r['id'] for r in ruins]}\"</code></pre><p><b>Por que parametrizar é melhor que um teste com três queries:</b></p><ul><li><b>Granularidade no relatório:</b> aparecem três casos: <code>[clientes]</code>, <code>[produtos]</code>, <code>[pedidos]</code>. Se um quebrar, você lê qual no próprio nome, sem abrir o log.</li><li><b>Não para no primeiro:</b> num teste único com três asserts, o primeiro que falha interrompe a função e você nunca descobre se as outras duas tabelas também estão com problema. Parametrizado, os três casos rodam sempre.</li><li><b>Fácil de estender:</b> acrescentar <code>itens_pedido</code> é acrescentar uma string na lista.</li></ul><p>Esses dois primeiros pontos são o motivo real: parametrizar não é só evitar repetição de código, é preservar a informação que o relatório entrega.</p>",
             "dica": "pense no que aparece no relatório quando um dos três casos falha."
       }
 ]

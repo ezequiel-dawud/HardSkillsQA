@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/k6/modulo-3.html" />
-  <meta property="og:title" content="k6 Módulo 3 — Carga de verdade: stages e thresholds — QA Learning" />
+  <meta property="og:title" content="k6 Módulo 3: Carga de verdade com stages e thresholds | QA Learning" />
   <meta property="og:description" content="Desenhar a rampa de carga no tempo e transformar a meta de performance num portão que reprova. Módulo 3 da trilha Teste de carga com k6, no QA Learning." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-k6.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="k6 Módulo 3 — Carga de verdade: stages e thresholds — QA Learning" />
+  <meta property="og:image:alt" content="k6 Módulo 3: Carga de verdade com stages e thresholds | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>k6 Módulo 3 — Carga de verdade: stages e thresholds</title>
+  <title>k6 Módulo 3: Carga de verdade com stages e thresholds</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,22 +38,22 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 3 — Carga de verdade: stages e thresholds</h1>
+    <h1>Módulo 3: Carga de verdade com stages e thresholds</h1>
     <p class="legenda">Desenhar a rampa de carga no tempo e transformar a meta de performance num portão que reprova.</p>
     <p style="margin:0 0 14px; font-size:14px; color:var(--suave)">
-      Os trechos de código desta página explicam a sintaxe — não são pra colar no terminal. Eles
+      Os trechos de código desta página explicam a sintaxe, não são pra colar no terminal. Eles
       já estão montados no arquivo real <code>scripts/03_carga.js</code> (vem pronto no projeto).
       Abra esse arquivo no editor pra ver <code>stages</code> e <code>thresholds</code> no
-      contexto — é nele que você roda o teste, na seção <a href="#rodar">Rodar</a> mais abaixo.
+      contexto: é nele que você roda o teste, na seção <a href="#rodar">Rodar</a> mais abaixo.
     </p>
 
     <section class="secao">
-      <h2><code>stages</code> — a rampa</h2>
+      <h2><code>stages</code>: a rampa</h2>
       <div class="card">
-        <p style="margin-top:0">Carga real não começa no talo — ela <b>sobe</b>, <b>segura</b> e
+        <p style="margin-top:0">Carga real não começa no talo: ela <b>sobe</b>, <b>segura</b> e
           <b>desce</b>. <code>stages</code> troca o <code>vus</code>/<code>duration</code> fixos por
           uma curva:</p>
-        <p class="rotulo-bloco">🧩 trecho de exemplo — JavaScript pra estudar ou colar num arquivo .js, não é comando de terminal</p>
+        <p class="rotulo-bloco">🧩 trecho de exemplo: JavaScript pra estudar ou colar num arquivo .js, não é comando de terminal</p>
         <pre class="bloco"><code>export const options = {
   stages: [
     { duration: "20s", target: 20 },  // sobe de 0 a 20 VUs em 20s
@@ -69,12 +69,12 @@
     </section>
 
     <section class="secao">
-      <h2><code>thresholds</code> — o portão</h2>
+      <h2><code>thresholds</code>: o portão</h2>
       <div class="card">
         <p style="margin-top:0">É a única coisa no k6 que <b>reprova</b> o teste. Cada regra é uma
           condição sobre uma métrica; se ela não for cumprida, o <code>k6 run</code> termina com
-          <b>código de saída 99</b> — e o CI marca o build como vermelho.</p>
-        <p class="rotulo-bloco">🧩 trecho de exemplo — JavaScript pra estudar ou colar num arquivo .js, não é comando de terminal</p>
+          <b>código de saída 99</b>, e o CI marca o build como vermelho.</p>
+        <p class="rotulo-bloco">🧩 trecho de exemplo: JavaScript pra estudar ou colar num arquivo .js, não é comando de terminal</p>
         <pre class="bloco"><code>thresholds: {
   http_req_failed: ["rate&lt;0.01"],       // menos de 1% de erro
   http_req_duration: ["p(95)&lt;300"],     // 95% das respostas abaixo de 300ms
@@ -83,7 +83,7 @@
 },</code></pre>
         <ul>
           <li><code>rate&lt;0.01</code> numa métrica de taxa (<code>http_req_failed</code>,
-            <code>checks</code>) — proporção.</li>
+            <code>checks</code>): proporção.</li>
           <li><code>p(95)&lt;300</code>, <code>p(99)&lt;500</code>, <code>avg&lt;200</code>,
             <code>max&lt;1000</code> numa métrica de tempo.</li>
           <li>vários limites na mesma métrica: <code>["p(95)&lt;300", "p(99)&lt;800"]</code>.</li>
@@ -115,14 +115,14 @@
       <div class="card">
         <p style="margin-top:0">Quando o portão reprova, olhe <b>o que</b> reprovou:</p>
         <ul>
-          <li><b>p95 estourou, erro baixo</b> — o sistema respondeu tudo, só devagar. Gargalo de
+          <li><b>p95 estourou, erro baixo</b>: o sistema respondeu tudo, só devagar. Gargalo de
             performance (banco, CPU, fila).</li>
-          <li><b>erro subiu</b> — passou a recusar requisições (5xx, timeout, connection reset).
+          <li><b>erro subiu</b>: passou a recusar requisições (5xx, timeout, connection reset).
             Achou um teto de capacidade.</li>
-          <li><b>os dois pioram juntos a partir de um nº de VUs</b> — esse número é a capacidade
+          <li><b>os dois pioram juntos a partir de um nº de VUs</b>: esse número é a capacidade
             aproximada do sistema como está.</li>
         </ul>
-        <p style="margin-bottom:0">Reprovar <b>não</b> é bug no seu script — é o resultado. O teste
+        <p style="margin-bottom:0">Reprovar <b>não</b> é bug no seu script, é o resultado. O teste
           de carga existe pra achar esse limite antes do usuário achar.</p>
       </div>
     </section>
@@ -136,14 +136,14 @@
           portão <b>reprova</b>. Com o mock ligado:</p>
         <pre class="bloco"><code>k6 run scripts/03_carga.js</code></pre>
         <p style="margin:10px 0 0; font-size:14px; color:var(--suave)">O k6 termina com código 99
-          (portão reprovado) — é o esperado, não é falha sua.</p>
+          (portão reprovado): é o esperado, não é falha sua.</p>
         <p style="margin:10px 0 0"><b>Agora vá ao Terminal 1 e aperte Ctrl+C</b> pra encerrar o
-          mock — sem isso o corretor não consegue checar o lado do servidor. Só depois disso, de
+          mock. Sem isso o corretor não consegue checar o lado do servidor. Só depois disso, de
           volta no Terminal 2:</p>
         <pre class="bloco"><code>python verificar.py 3</code></pre>
         <p style="margin-bottom:0">O corretor confere o que <b>você</b> montou (a rampa chegou a
           20 VUs? os dois thresholds existem? o servidor sentiu a carga simultânea?) e mostra uma
-          nota dizendo que o portão reprovou — que é o certo aqui.</p>
+          nota dizendo que o portão reprovou, que é o certo aqui.</p>
       </div>
     </section>
 
@@ -155,11 +155,11 @@
           reprovado.</p>
         <p><b>B)</b> Afrouxe a meta pra <code>http_req_duration: ["p(95)&lt;1500"]</code> e rode de
           novo. Agora o <code>k6 run</code> sai com código 0 e a nota vira "o portão passou". A
-          pergunta que sobra — <em>1500ms é aceitável pro seu produto?</em> — é decisão de time,
+          pergunta que sobra, <em>1500ms é aceitável pro seu produto?</em>, é decisão de time,
           não da ferramenta.</p>
         <p style="margin-bottom:0"><b>C, opcional)</b> Suba o mock com a contenção desligada
           (<code>$env:MOCK_LATENCIA_POR_CARGA_MS=0; python mock/servidor.py</code>) e rode o
-          <code>03_carga.js</code> original — o p95 nem sobe. Gabarito em
+          <code>03_carga.js</code> original: o p95 nem sobe. Gabarito em
           <code>trilha-5/GABARITO.md</code>.</p>
       </div>
     </section>
@@ -167,13 +167,13 @@
     <section class="secao">
       <div class="card" style="border-left:3px solid var(--acento)">
         <h2 style="margin-top:0;border:0">Olhar de QA</h2>
-        <p style="margin-bottom:0">Quando o portão fecha, <b>reprovar não é falha do teste — é o teste funcionando</b>. O seu trabalho não é decidir se adia a entrega; é entregar a informação com precisão suficiente para outra pessoa decidir. "O p95 do checkout passa de 800ms a partir de 140 usuários; abaixo disso fica em 310ms" é acionável. "Está lento" não é — e é o que faz um relatório de performance ser ignorado.</p>
+        <p style="margin-bottom:0">Quando o portão fecha, <b>reprovar não é falha do teste, é o teste funcionando</b>. O seu trabalho não é decidir se adia a entrega; é entregar a informação com precisão suficiente para outra pessoa decidir. "O p95 do checkout passa de 800ms a partir de 140 usuários; abaixo disso fica em 310ms" é acionável. "Está lento" não é, e é o que faz um relatório de performance ser ignorado.</p>
       </div>
     </section>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>

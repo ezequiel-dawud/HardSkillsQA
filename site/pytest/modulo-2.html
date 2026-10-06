@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/pytest/modulo-2.html" />
-  <meta property="og:title" content="pytest Módulo 2 — Anatomia de um teste — QA Learning" />
+  <meta property="og:title" content="pytest Módulo 2: Anatomia de um teste | QA Learning" />
   <meta property="og:description" content="função test_, assert, fixture, conftest.py. Módulo 2 da trilha Validação com pytest, no QA Learning." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-pytest.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="pytest Módulo 2 — Anatomia de um teste — QA Learning" />
+  <meta property="og:image:alt" content="pytest Módulo 2: Anatomia de um teste | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>pytest Módulo 2 — Anatomia de um teste</title>
+  <title>pytest Módulo 2: Anatomia de um teste</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 2 — Anatomia de um teste</h1>
+    <h1>Módulo 2: Anatomia de um teste</h1>
     <p class="legenda">função <code>test_</code>, <code>assert</code>, fixture, <code>conftest.py</code></p>
 
     <section class="secao">
@@ -49,7 +49,7 @@
         <ul>
           <li>O pytest descobre sozinho toda função cujo nome começa com <code>test_</code>,
             em arquivos <code>test_*.py</code>.</li>
-          <li><code>assert &lt;expressão&gt;</code> — se for verdadeira, passa; se falsa, falha.
+          <li><code>assert &lt;expressão&gt;</code>: se for verdadeira, passa; se falsa, falha.
             Nada de <code>self.assertEqual</code>; é o <code>assert</code> puro do Python.</li>
           <li>Quando falha, o pytest <b>reescreve</b> o assert pra te mostrar os valores:
             <code>assert 4 == 5</code> vira uma mensagem com o 4 e o 5 lado a lado.</li>
@@ -77,7 +77,7 @@ def db(tmp_path):
         <p style="margin-bottom:0">Qualquer teste que escreva <code>def test_x(db):</code> recebe
           essa conexão pronta. O <code>yield</code> divide a fixture em "antes" e "depois":
           o que vem depois do <code>yield</code> é a limpeza. <code>tmp_path</code> é uma fixture
-          do próprio pytest — uma pasta temporária só daquele teste.</p>
+          do próprio pytest, uma pasta temporária só daquele teste.</p>
       </div>
     </section>
 
@@ -86,7 +86,7 @@ def db(tmp_path):
       <div class="card">
         <p style="margin:0">Arquivo especial que o pytest carrega <b>automaticamente</b>, sem
           import. Serve pra fixtures e configuração compartilhadas por todos os testes da pasta
-          (e subpastas). Você nunca escreve <code>import conftest</code> — só põe as fixtures lá
+          (e subpastas). Você nunca escreve <code>import conftest</code>, só põe as fixtures lá
           e usa pelo nome.</p>
       </div>
     </section>
@@ -125,13 +125,13 @@ pytest --lf                        # só os que falharam na última rodada</code
     <section class="secao">
       <div class="card" style="border-left:3px solid var(--acento)">
         <h2 style="margin-top:0;border:0">Olhar de QA</h2>
-        <p style="margin-bottom:0">A fixture que copia o banco antes de cada teste não é detalhe técnico — é <b>isolamento</b>, e isolamento é o que separa uma suíte confiável de uma que falha sozinha às terças. Teste que depende do que o teste anterior deixou vai falhar um dia, sem ninguém entender o porquê, e é assim que um time deixa de confiar no vermelho.</p>
+        <p style="margin-bottom:0">A fixture que copia o banco antes de cada teste não é detalhe técnico, é <b>isolamento</b>, e isolamento é o que separa uma suíte confiável de uma que falha sozinha às terças. Teste que depende do que o teste anterior deixou vai falhar um dia, sem ninguém entender o porquê, e é assim que um time deixa de confiar no vermelho.</p>
       </div>
     </section>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>

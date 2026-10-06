@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="COUNT, SUM, AVG, GROUP BY, HAVING — e o FILTER (WHERE …), jeito Postgres. Módulo 5 da trilha PostgreSQL para QA, no QA Learning." />
+  <meta name="description" content="COUNT, SUM, AVG, GROUP BY, HAVING e o FILTER (WHERE …), jeito Postgres. Módulo 5 da trilha PostgreSQL para QA, no QA Learning." />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/pg/modulo-5.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/pg/modulo-5.html" />
-  <meta property="og:title" content="PG Módulo 5 — Agregação e GROUP BY — QA Learning" />
-  <meta property="og:description" content="COUNT, SUM, AVG, GROUP BY, HAVING — e o FILTER (WHERE …), jeito Postgres. Módulo 5 da trilha PostgreSQL para QA, no QA Learning." />
+  <meta property="og:title" content="PG Módulo 5: Agregação e GROUP BY | QA Learning" />
+  <meta property="og:description" content="COUNT, SUM, AVG, GROUP BY, HAVING e o FILTER (WHERE …), jeito Postgres. Módulo 5 da trilha PostgreSQL para QA, no QA Learning." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-pg.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="PG Módulo 5 — Agregação e GROUP BY — QA Learning" />
+  <meta property="og:image:alt" content="PG Módulo 5: Agregação e GROUP BY | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>PG Módulo 5 — Agregação e GROUP BY</title>
+  <title>PG Módulo 5: Agregação e GROUP BY</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -41,8 +41,8 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 5 — Agregação e GROUP BY</h1>
-    <p class="legenda">COUNT, SUM, AVG, GROUP BY, HAVING — e o <code>FILTER (WHERE …)</code>, jeito Postgres</p>
+    <h1>Módulo 5: Agregação e GROUP BY</h1>
+    <p class="legenda">COUNT, SUM, AVG, GROUP BY, HAVING e o <code>FILTER (WHERE …)</code>, jeito Postgres</p>
 
     <section class="secao">
       <h2>Antes de começar</h2>
@@ -53,14 +53,14 @@
           uma condição, <b>por coluna</b>, sem aquele <code>SUM(CASE WHEN … THEN 1 ELSE 0 END)</code>.
         </p>
         <ul>
-          <li><code>COUNT(*) FILTER (WHERE resultado = 'passou')</code> — quantas passaram.</li>
+          <li><code>COUNT(*) FILTER (WHERE resultado = 'passou')</code>: quantas passaram.</li>
           <li>Dá pra ter várias na mesma query, cada uma com seu filtro, lado a lado.</li>
-          <li>É mais curto e mais legível que <code>SUM(CASE …)</code> — e faz a mesma coisa.</li>
-          <li><b><code>bool_or(cond)</code></b> / <b><code>bool_and(cond)</code></b> — "existe alguma
+          <li>É mais curto e mais legível que <code>SUM(CASE …)</code>, e faz a mesma coisa.</li>
+          <li><b><code>bool_or(cond)</code></b> / <b><code>bool_and(cond)</code></b>: "existe alguma
             linha no grupo onde…" / "todas as linhas do grupo…".</li>
         </ul>
         <p style="margin-bottom:0"><b>Cuidado de tipo (Módulo 2):</b> <code>AVG</code> de inteiros ou
-          uma divisão inteira zeram casas decimais — force <code>::numeric</code> e
+          uma divisão inteira zeram casas decimais, então force <code>::numeric</code> e
           <code>ROUND(x, 2)</code>.</p>
         <p style="margin:8px 0 0"><b>Olhar de QA:</b> quase toda métrica de qualidade
           (taxa de aprovação, backlog por severidade, faturamento por categoria) é um
@@ -76,18 +76,18 @@
       <div class="card">
         <ul>
           <li><code>COUNT(*)</code>, <code>COUNT(coluna)</code> (ignora NULL), <code>SUM</code>, <code>AVG</code>, <code>MIN</code>, <code>MAX</code>.</li>
-          <li><code>GROUP BY col</code> — uma linha por valor de <code>col</code>. Tudo que não é agregado tem que estar no GROUP BY.</li>
-          <li><code>HAVING</code> — filtra <em>depois</em> de agrupar (é o WHERE dos agregados).</li>
-          <li><code>agg FILTER (WHERE cond)</code> — agrega só as linhas que passam em <code>cond</code>.</li>
-          <li><code>bool_or(cond)</code> / <code>bool_and(cond)</code> — "algum" / "todos" dentro do grupo.</li>
-          <li><code>ROUND(AVG(x)::numeric, 2)</code>, <code>x * 100.0 / y</code> — pra não perder casas.</li>
+          <li><code>GROUP BY col</code>: uma linha por valor de <code>col</code>. Tudo que não é agregado tem que estar no GROUP BY.</li>
+          <li><code>HAVING</code>: filtra <em>depois</em> de agrupar (é o WHERE dos agregados).</li>
+          <li><code>agg FILTER (WHERE cond)</code>: agrega só as linhas que passam em <code>cond</code>.</li>
+          <li><code>bool_or(cond)</code> / <code>bool_and(cond)</code>: "algum" / "todos" dentro do grupo.</li>
+          <li><code>ROUND(AVG(x)::numeric, 2)</code>, <code>x * 100.0 / y</code>: pra não perder casas.</li>
         </ul>
       </div>
     </section>
 
     <section class="secao">
       <h2>Exemplos de aplicação</h2>
-      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar — é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
+      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar, é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
 
       <div class="card">
         <h3 style="margin-top:0">Agregações + <code>COUNT(coluna)</code></h3>
@@ -118,7 +118,7 @@ ORDER BY suite, resultado;</code></pre>
 FROM defeitos
 GROUP BY modulo
 HAVING COUNT(*) &gt; 10;</code></pre>
-        <p style="margin-bottom:0"><code>HAVING</code> é o filtro que roda <em>depois</em> de agrupar — só mantém os módulos com mais de 10 defeitos. Não dá pra usar <code>WHERE COUNT(*) &gt; 10</code>: o <code>WHERE</code> acontece antes da contagem existir.</p>
+        <p style="margin-bottom:0"><code>HAVING</code> é o filtro que roda <em>depois</em> de agrupar; só mantém os módulos com mais de 10 defeitos. Não dá pra usar <code>WHERE COUNT(*) &gt; 10</code>: o <code>WHERE</code> acontece antes da contagem existir.</p>
       </div>
 
       <div class="card">
@@ -130,7 +130,7 @@ HAVING COUNT(*) &gt; 10;</code></pre>
   COUNT(*) FILTER (WHERE resultado = 'falhou') AS falharam
 FROM execucoes_teste
 GROUP BY suite;</code></pre>
-        <p style="margin-bottom:0"><code>FILTER</code> aplica uma condição só àquela agregação. É a versão limpa do <code>SUM(CASE WHEN ... THEN 1 ELSE 0 END)</code> do SQLite — mesma ideia (contar um subconjunto do grupo), sintaxe mais direta.</p>
+        <p style="margin-bottom:0"><code>FILTER</code> aplica uma condição só àquela agregação. É a versão limpa do <code>SUM(CASE WHEN ... THEN 1 ELSE 0 END)</code> do SQLite: mesma ideia (contar um subconjunto do grupo), sintaxe mais direta.</p>
       </div>
 
       <div class="card">
@@ -154,7 +154,7 @@ GROUP BY pedido_id;</code></pre>
   ) AS aprovacao_pct
 FROM execucoes_teste
 GROUP BY suite;</code></pre>
-        <p style="margin-bottom:0">Multiplicar por <code>100.0</code> (com o <code>.0</code>) força a conta a ser decimal — senão a divisão de inteiros truncaria pra 0. <code>ROUND(x, 1)</code> deixa uma casa.</p>
+        <p style="margin-bottom:0">Multiplicar por <code>100.0</code> (com o <code>.0</code>) força a conta a ser decimal; senão a divisão de inteiros truncaria pra 0. <code>ROUND(x, 1)</code> deixa uma casa.</p>
       </div>
     </section>
 
@@ -163,14 +163,14 @@ GROUP BY suite;</code></pre>
         <h2 style="margin-top:0;border:0">Pegadinhas deste módulo</h2>
         <p style="margin-top:0;font-size:14px">
           Os erros que quase todo mundo comete aqui. Ler agora poupa meia hora de
-          confusão depois — e alguns deles são a causa de relatório errado em projeto real.
+          confusão depois, e alguns deles são a causa de relatório errado em projeto real.
         </p>
         <ul>
-          <li><b><code>NOT IN</code> com <code>NULL</code> na subconsulta devolve <b>zero linhas</b>.</b> Se a subconsulta de <code>WHERE id NOT IN (SELECT cliente_id FROM pedidos)</code> contiver um único <code>NULL</code>, o resultado é vazio — sempre, sem erro. Prefira <code>NOT EXISTS</code>, que não tem esse problema, ou acrescente <code>WHERE cliente_id IS NOT NULL</code> na subconsulta.</li>
+          <li><b><code>NOT IN</code> com <code>NULL</code> na subconsulta devolve <b>zero linhas</b>.</b> Se a subconsulta de <code>WHERE id NOT IN (SELECT cliente_id FROM pedidos)</code> contiver um único <code>NULL</code>, o resultado é vazio, sempre, sem erro. Prefira <code>NOT EXISTS</code>, que não tem esse problema, ou acrescente <code>WHERE cliente_id IS NOT NULL</code> na subconsulta.</li>
           <li><b>Subconsulta escalar precisa devolver exatamente uma linha.</b> <code>= (SELECT ...)</code> que devolve duas linhas dá erro; que devolve nenhuma vira <code>NULL</code> e a comparação falha em silêncio.</li>
-          <li><b>CTE não é otimização — é legibilidade.</b> <code>WITH</code> deixa a query compreensível, mas em vários bancos não torna nada mais rápido. Use pela clareza, que já é motivo suficiente.</li>
+          <li><b>CTE não é otimização, é legibilidade.</b> <code>WITH</code> deixa a query compreensível, mas em vários bancos não torna nada mais rápido. Use pela clareza, que já é motivo suficiente.</li>
           <li><b><code>EXISTS</code> costuma ser melhor que <code>IN</code> em lista grande.</b> <code>EXISTS</code> para assim que acha a primeira linha; <code>IN</code> pode materializar a lista inteira.</li>
-          <li><b>Subconsulta correlacionada roda uma vez por linha.</b> Funciona bem em 60 clientes e trava em 6 milhões. Em banco de produção, desconfie — e teste com volume antes de rodar.</li>
+          <li><b>Subconsulta correlacionada roda uma vez por linha.</b> Funciona bem em 60 clientes e trava em 6 milhões. Em banco de produção, desconfie, e teste com volume antes de rodar.</li>
         </ul>
       </div>
     </section>
@@ -199,7 +199,7 @@ GROUP BY suite;</textarea>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>
@@ -215,7 +215,7 @@ GROUP BY suite;</textarea>
   window.EXEMPLOS = [
     {
       titulo: "1) FILTER no lugar de SUM(CASE)",
-      explica: "Conta abertos e fechados numa linha só — sem CASE.",
+      explica: "Conta abertos e fechados numa linha só, sem CASE.",
       sql: "SELECT COUNT(*) FILTER (WHERE data_fechamento IS NULL) AS abertos,\n       COUNT(*) FILTER (WHERE data_fechamento IS NOT NULL) AS fechados\nFROM defeitos;",
     },
     {
@@ -240,7 +240,7 @@ GROUP BY suite;</textarea>
       gabarito: "SELECT COUNT(*) FILTER (WHERE data_fechamento IS NULL) AS abertos,\n       COUNT(*) FILTER (WHERE data_fechamento IS NOT NULL) AS fechados\nFROM defeitos;" },
     { id: "5.4",
       enunciado: "Por suite: total de execuções, quantas passaram, e a taxa de aprovação em % (1 casa). Colunas suite, total, passaram, taxa_aprovacao, da maior taxa pra menor. Use FILTER pra contar as que passaram.",
-      dica: "<code>COUNT(*) FILTER (WHERE resultado = 'passou')</code>. Taxa = <code>ROUND(passaram * 100.0 / total, 1)</code> — repita o FILTER na conta ou use <code>* 100.0 / COUNT(*)</code>.",
+      dica: "<code>COUNT(*) FILTER (WHERE resultado = 'passou')</code>. Taxa = <code>ROUND(passaram * 100.0 / total, 1)</code>: repita o FILTER na conta ou use <code>* 100.0 / COUNT(*)</code>.",
       gabarito: "SELECT suite,\n       COUNT(*) AS total,\n       COUNT(*) FILTER (WHERE resultado = 'passou') AS passaram,\n       ROUND(COUNT(*) FILTER (WHERE resultado = 'passou') * 100.0 / COUNT(*), 1) AS taxa_aprovacao\nFROM execucoes_teste\nGROUP BY suite\nORDER BY taxa_aprovacao DESC;" },
     { id: "5.5",
       enunciado: "Módulos de defeito com MAIS de 12 defeitos. Colunas modulo e qtd, do maior pro menor.",

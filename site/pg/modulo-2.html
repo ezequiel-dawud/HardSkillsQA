@@ -15,15 +15,15 @@
   <meta property="og:site_name" content="QA Learning" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/pg/modulo-2.html" />
-  <meta property="og:title" content="PG Módulo 2 — Tipos de verdade — QA Learning" />
+  <meta property="og:title" content="PG Módulo 2: Tipos de verdade | QA Learning" />
   <meta property="og:description" content="boolean, numeric x divisão inteira, CAST/::, NULL, IS DISTINCT FROM. Módulo 2 da trilha PostgreSQL para QA, no QA Learning." />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-pg.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="PG Módulo 2 — Tipos de verdade — QA Learning" />
+  <meta property="og:image:alt" content="PG Módulo 2: Tipos de verdade | QA Learning" />
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
-  <title>PG Módulo 2 — Tipos de verdade</title>
+  <title>PG Módulo 2: Tipos de verdade</title>
   <link rel="stylesheet" href="../assets/estilo.css" />
 </head>
 <body>
@@ -41,7 +41,7 @@
   </header>
 
   <main class="container">
-    <h1>Módulo 2 — Tipos de verdade</h1>
+    <h1>Módulo 2: Tipos de verdade</h1>
     <p class="legenda">boolean, numeric x divisão inteira, CAST/::, NULL, IS DISTINCT FROM</p>
 
     <section class="secao">
@@ -49,11 +49,11 @@
       <div class="card">
         <p style="margin-top:0">
           O SQLite é frouxo com tipos: aceita <code>ativo = 1</code>, junta texto com número
-          sem reclamar. O Postgres é <b>rígido</b> — e isso é bom, porque erro de tipo vira
+          sem reclamar. O Postgres é <b>rígido</b>, e isso é bom: erro de tipo vira
           erro na hora, não dado torto que só aparece semanas depois.
         </p>
         <ul>
-          <li><b><code>boolean</code></b> — <code>ativo</code> aqui é <code>true</code>/<code>false</code>,
+          <li><b><code>boolean</code></b>: <code>ativo</code> aqui é <code>true</code>/<code>false</code>,
             não 0/1. <code>WHERE ativo</code> já basta (é "onde ativo é verdadeiro").
             O contrário é <code>WHERE NOT ativo</code>. Também existe <code>ativo IS TRUE</code> /
             <code>IS FALSE</code> / <code>IS NOT TRUE</code> (esse último pega inclusive
@@ -61,7 +61,7 @@
           <li><b>Divisão inteira.</b> <code>5 / 2</code> dá <code>2</code> (dois inteiros → resultado
             inteiro). Pra ter <code>2.5</code>: <code>5 / 2.0</code> ou <code>5::numeric / 2</code>.
             Pega muita gente em cálculo de taxa/percentual.</li>
-          <li><b><code>CAST(x AS tipo)</code></b> ou <b><code>x::tipo</code></b> — converte de propósito:
+          <li><b><code>CAST(x AS tipo)</code></b> ou <b><code>x::tipo</code></b>: converte de propósito:
             <code>'42'::int</code>, <code>preco::int</code>, <code>data_abertura::text</code>.</li>
           <li><b><code>NULL</code></b> não é igual a nada, nem a outro NULL. Teste com
             <code>IS NULL</code> / <code>IS NOT NULL</code>. <code>COALESCE(a, b)</code> devolve o
@@ -69,7 +69,7 @@
             valor comum (útil pra "mudou?").</li>
         </ul>
         <p style="margin-bottom:0"><b>Olhar de QA:</b> "esse campo devia ser numérico e veio texto"
-          ou "somaram 0/1 num campo boolean" são bugs clássicos — no Postgres o próprio banco te avisa.</p>
+          ou "somaram 0/1 num campo boolean" são bugs clássicos: no Postgres o próprio banco te avisa.</p>
       </div>
 
       <h3>Dois exemplos</h3>
@@ -80,19 +80,19 @@
       <h2>Teoria</h2>
       <div class="card">
         <ul>
-          <li><code>WHERE ativo</code> — coluna boolean já é a condição. Negativo: <code>WHERE NOT ativo</code>.</li>
-          <li><code>coluna IS TRUE / IS FALSE / IS NOT TRUE</code> — o <code>IS NOT TRUE</code> também casa com <code>NULL</code>.</li>
+          <li><code>WHERE ativo</code>: coluna boolean já é a condição. Negativo: <code>WHERE NOT ativo</code>.</li>
+          <li><code>coluna IS TRUE / IS FALSE / IS NOT TRUE</code>: o <code>IS NOT TRUE</code> também casa com <code>NULL</code>.</li>
           <li><code>5 / 2</code> = 2 (inteiro). <code>5::numeric / 2</code> = 2.5. <code>ROUND(x::numeric, 2)</code> arredonda.</li>
           <li><code>x::tipo</code> = <code>CAST(x AS tipo)</code>. Ex.: <code>valor_total::int</code>, <code>'2025-01-01'::date</code>.</li>
-          <li><code>COALESCE(a, b, …)</code> — primeiro valor não-nulo. <code>NULLIF(a, b)</code> — vira NULL se <code>a = b</code>.</li>
-          <li><code>a IS DISTINCT FROM b</code> — "são diferentes", contando NULL como valor.</li>
+          <li><code>COALESCE(a, b, …)</code>: primeiro valor não-nulo. <code>NULLIF(a, b)</code>: vira NULL se <code>a = b</code>.</li>
+          <li><code>a IS DISTINCT FROM b</code>: "são diferentes", contando NULL como valor.</li>
         </ul>
       </div>
     </section>
 
     <section class="secao">
       <h2>Exemplos de aplicação</h2>
-      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar — é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
+      <p class="legenda">Um exemplo montado pra cada item da teoria acima. Não precisa rodar, é pra ver a cara do recurso e entender cada pedaço. Os valores são ilustrativos.</p>
 
       <div class="card">
         <h3 style="margin-top:0">Coluna <code>boolean</code> como condição</h3>
@@ -102,7 +102,7 @@ WHERE ativo;          -- só os à venda
 
 -- inativos:
 -- WHERE NOT ativo;</code></pre>
-        <p style="margin-bottom:0"><code>ativo</code> já é <code>true</code>/<code>false</code>, então <code>WHERE ativo</code> basta — não precisa de <code>= 1</code> nem <code>= TRUE</code>. Pra negar, <code>WHERE NOT ativo</code>. No SQLite isso era <code>ativo = 1</code>; no Postgres é boolean de verdade.</p>
+        <p style="margin-bottom:0"><code>ativo</code> já é <code>true</code>/<code>false</code>, então <code>WHERE ativo</code> basta, não precisa de <code>= 1</code> nem <code>= TRUE</code>. Pra negar, <code>WHERE NOT ativo</code>. No SQLite isso era <code>ativo = 1</code>; no Postgres é boolean de verdade.</p>
       </div>
 
       <div class="card">
@@ -110,7 +110,7 @@ WHERE ativo;          -- só os à venda
         <pre class="bloco"><code>SELECT nome, ativo
 FROM produtos
 WHERE ativo IS NOT TRUE;</code></pre>
-        <p style="margin-bottom:0"><code>IS NOT TRUE</code> pega tanto <code>false</code> quanto <code>NULL</code> — diferente de <code>WHERE NOT ativo</code>, que deixa o <code>NULL</code> de fora. Use quando "não é verdade" precisa incluir os sem valor.</p>
+        <p style="margin-bottom:0"><code>IS NOT TRUE</code> pega tanto <code>false</code> quanto <code>NULL</code>, diferente de <code>WHERE NOT ativo</code>, que deixa o <code>NULL</code> de fora. Use quando "não é verdade" precisa incluir os sem valor.</p>
       </div>
 
       <div class="card">
@@ -159,14 +159,14 @@ WHERE reportado_por IS DISTINCT FROM 'ezequiel';</code></pre>
         <h2 style="margin-top:0;border:0">Pegadinhas deste módulo</h2>
         <p style="margin-top:0;font-size:14px">
           Os erros que quase todo mundo comete aqui. Ler agora poupa meia hora de
-          confusão depois — e alguns deles são a causa de relatório errado em projeto real.
+          confusão depois, e alguns deles são a causa de relatório errado em projeto real.
         </p>
         <ul>
-          <li><b><code>NULL</code> não é igual a nada — nem a outro <code>NULL</code>.</b> <code>WHERE data_fechamento = NULL</code> devolve <b>zero linhas sempre</b>, mesmo havendo milhares com o campo vazio. O certo é <code>IS NULL</code>. Não dá erro: dá resultado vazio, que é pior.</li>
-          <li><b><code>&lt;&gt;</code> descarta as linhas com <code>NULL</code> em silêncio.</b> <code>WHERE status &lt;&gt; 'fechado'</code> <b>não</b> traz as linhas cujo status é <code>NULL</code> — porque <code>NULL &lt;&gt; 'fechado'</code> não é verdadeiro, é desconhecido. Se você quer essas linhas, precisa de <code>OR status IS NULL</code>. Esta é uma das maiores fontes de relatório com número errado.</li>
+          <li><b><code>NULL</code> não é igual a nada, nem a outro <code>NULL</code>.</b> <code>WHERE data_fechamento = NULL</code> devolve <b>zero linhas sempre</b>, mesmo havendo milhares com o campo vazio. O certo é <code>IS NULL</code>. Não dá erro: dá resultado vazio, que é pior.</li>
+          <li><b><code>&lt;&gt;</code> descarta as linhas com <code>NULL</code> em silêncio.</b> <code>WHERE status &lt;&gt; 'fechado'</code> <b>não</b> traz as linhas cujo status é <code>NULL</code>, porque <code>NULL &lt;&gt; 'fechado'</code> não é verdadeiro, é desconhecido. Se você quer essas linhas, precisa de <code>OR status IS NULL</code>. Esta é uma das maiores fontes de relatório com número errado.</li>
           <li><b>Qualquer conta com <code>NULL</code> vira <code>NULL</code>.</b> <code>valor_total + frete</code> some se o frete for nulo. Use <code>COALESCE(frete, 0)</code> quando o vazio deve valer zero.</li>
           <li><b><code>NULL</code>, string vazia e zero são três coisas diferentes.</b> <code>NULL</code> = nunca preenchido; <code>''</code> = preenchido com nada; <code>0</code> = preenchido com zero. Tratar os três como "vazio" no teste é como defeito de importação de dados passa despercebido.</li>
-          <li><b><code>CASE</code> sem <code>ELSE</code> devolve <code>NULL</code>.</b> Se nenhuma condição bater e não houver <code>ELSE</code>, o resultado é nulo — e a soma daquela coluna some junto.</li>
+          <li><b><code>CASE</code> sem <code>ELSE</code> devolve <code>NULL</code>.</b> Se nenhuma condição bater e não houver <code>ELSE</code>, o resultado é nulo, e a soma daquela coluna some junto.</li>
         </ul>
       </div>
     </section>
@@ -191,7 +191,7 @@ WHERE reportado_por IS DISTINCT FROM 'ezequiel';</code></pre>
 
     <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
       <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
-        Terminou este módulo? Marque — o ✓ aparece no índice da trilha e a barra de
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
         progresso anda no começo do site. Fica salvo só no seu navegador.
       </span>
     </div>
@@ -220,7 +220,7 @@ WHERE reportado_por IS DISTINCT FROM 'ezequiel';</code></pre>
   window.EXERCICIOS = [
     { id: "2.1",
       enunciado: "Clientes ativos (nome e cidade). Use a coluna boolean direto, sem = TRUE.",
-      dica: "<code>WHERE ativo</code> — só isso. A coluna já é a condição.",
+      dica: "<code>WHERE ativo</code>, só isso. A coluna já é a condição.",
       gabarito: "SELECT nome, cidade FROM clientes WHERE ativo;" },
     { id: "2.2",
       enunciado: "Produtos fora de linha (ativo falso), mostrando nome e ativo.",
@@ -236,7 +236,7 @@ WHERE reportado_por IS DISTINCT FROM 'ezequiel';</code></pre>
       gabarito: "SELECT nome, estoque,\n       ROUND(estoque * 100.0 / 120, 1) AS pct\nFROM produtos\nORDER BY pct DESC;" },
     { id: "2.5",
       enunciado: "Para cada defeito: id, titulo e uma coluna fechamento com a data_fechamento ou o texto 'em aberto' quando for NULL.",
-      dica: "<code>COALESCE(data_fechamento::text, 'em aberto')</code> — precisa do <code>::text</code> porque os dois lados têm que ser do mesmo tipo.",
+      dica: "<code>COALESCE(data_fechamento::text, 'em aberto')</code>, precisa do <code>::text</code> porque os dois lados têm que ser do mesmo tipo.",
       gabarito: "SELECT id, titulo,\n       COALESCE(data_fechamento::text, 'em aberto') AS fechamento\nFROM defeitos;" },
     { id: "2.6",
       enunciado: "Defeitos que NÃO estão fechados. Traga id, status e data_fechamento.",
