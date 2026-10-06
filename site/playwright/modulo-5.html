@@ -83,7 +83,7 @@ test("POST sem token retorna 401", async ({ request }) => {
 test("POST com token cria produto", async ({ request }) => {
   const res = await request.post("/api/produtos", {
     headers: AUTORIZADO,
-    data: { nome: "Produto de teste", preco: 50, emoji: "🧪" },
+    data: { nome: "Produto de teste", preco: 50, categoria: "Acessórios", emoji: "🧪" },
   });
   expect(res.status()).toBe(201);
 });</code></pre>
@@ -109,7 +109,7 @@ test("POST com token cria produto", async ({ request }) => {
   test("POST com token cria produto", async ({ request }) => {
     const res = await request.post("/api/produtos", {
       headers: AUTORIZADO,
-      data: { nome: "Produto de teste", preco: 50, emoji: "🧪" },
+      data: { nome: "Produto de teste", preco: 50, categoria: "Acessórios", emoji: "🧪" },
     });
     const corpo = await res.json();
     produtoId = corpo.item.id;

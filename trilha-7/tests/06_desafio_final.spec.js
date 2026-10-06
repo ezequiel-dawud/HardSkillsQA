@@ -16,7 +16,9 @@ test.describe.serial("desafio final", () => {
   let produtoId;
 
   // 1) Via API (request.post, com o header Authorization), crie um produto
-  //    com nome "Produto do desafio", preco 42 e o emoji que quiser.
+  //    com nome "Produto do desafio", preco 42, categoria (obrigatoria --
+  //    qualquer uma das que GET /api/categorias devolve, ex.: "Acessorios")
+  //    e o emoji que quiser.
   //    Guarde o id da resposta em `produtoId`.
   //    Depois, pelo NAVEGADOR (LoginPage.pularLogin + page.goto), abra
   //    /produto.html?id=<produtoId> e confira que o titulo mostrado

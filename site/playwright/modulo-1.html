@@ -41,6 +41,11 @@
   <main class="container">
     <h1>Módulo 1: Preparar e primeiro teste</h1>
     <p class="legenda">O que é automação de navegador, instalar o Playwright, o alvo já publicado, e rodar o primeiro teste de login.</p>
+    <p style="font-size:14px; color:var(--suave); margin-top:-8px">
+      Curioso de onde vem cada arquivo do projeto desta trilha? O
+      <a href="modulo-0.html">Módulo 0 (bônus)</a> monta um do zero, sem nada pronto. É opcional
+      e pode ser pulado.
+    </p>
 
     <section class="secao">
       <h2>O que é automação de navegador</h2>
@@ -84,7 +89,43 @@
     </section>
 
     <section class="secao">
-      <h2>2. O alvo já está no ar</h2>
+      <h2>2. Pegar o código da trilha</h2>
+      <div class="card">
+        <p style="margin-top:0">Baixe, descompacte, e pronto. Não precisa de Git nem de conta no GitHub:</p>
+        <div class="baixar">
+          <a class="link-botao" href="../downloads/qa-learning-playwright.zip" download>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3a1 1 0 0 1 1 1v9.59l3.3-3.3a1 1 0 1 1 1.4 1.42l-5 5a1 1 0 0 1-1.4 0l-5-5a1 1 0 1 1 1.4-1.42l3.3 3.3V4a1 1 0 0 1 1-1zM5 19a1 1 0 1 1 0-2h14a1 1 0 1 1 0 2H5z"/></svg>
+            Baixar só esta trilha (.zip)
+          </a>
+          <span class="baixar-nota">19 KB · 23 arquivos, sem mais nada junto</span>
+        </div>
+        <p style="margin-bottom:0">Dentro do ZIP vem só uma pasta, exatamente a que esta trilha
+          precisa:</p>
+        <pre class="bloco"><code>trilha-7/     o projeto Playwright que você vai usar em todos os módulos</code></pre>
+        <p style="margin-bottom:6px"><b>Se preferir clonar com Git</b>, um aviso: isso baixa o
+          <b>repositório inteiro</b> (o site, as outras trilhas e todo o histórico de commits),
+          não só esta trilha.</p>
+        <pre class="bloco"><code>git clone https://github.com/ezequiel-dawud/HardSkillsQA.git</code></pre>
+        <p>Só vale a pena se você for fazer a <a href="../cicd/index.html">Trilha 6 (CI/CD)</a>, que
+          precisa do repositório de verdade pra rodar o pipeline, ou se quiser praticar o que a
+          <a href="../git/index.html">Trilha 2</a> ensina. Nesse caso a pasta se chama
+          <code>HardSkillsQA</code> e o projeto fica em <code>HardSkillsQA/trilha-7/</code>.
+          <b>Para só fazer esta trilha, o botão acima basta.</b></p>
+        <div class="card card-info" style="margin-bottom:0">
+          <p style="margin:0; font-size:14px">
+            <b>No Windows, atenção a uma pegadinha:</b> o "Extrair Tudo" cria uma pasta com o nome
+            do arquivo <i>e</i> mantém o que vem dentro dele, às vezes você acaba com
+            <code>qa-learning-playwright\qa-learning-playwright\</code>. A pasta certa é a que tem
+            <code>trilha-7</code> <b>logo dentro</b>. Se você baixar duas vezes, o Windows ainda
+            acrescenta <code>(1)</code> no nome, não tem problema, só confira onde você está antes
+            de rodar os comandos.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>3. O alvo já está no ar</h2>
       <div class="card">
         <p style="margin-top:0">Diferente de outras trilhas que rodam tudo local, o QA Treino
           está publicado em
@@ -104,7 +145,7 @@
     </section>
 
     <section class="secao">
-      <h2>3. Instalar o Playwright na trilha</h2>
+      <h2>4. Instalar o Playwright na trilha</h2>
       <div class="card">
         <p style="margin-top:0">De dentro de <code>trilha-7/</code> (no repositório do
           QA Learning), um comando de cada vez (espera o primeiro terminar antes de rodar o
@@ -122,7 +163,7 @@
     </section>
 
     <section class="secao">
-      <h2>4. <code>data-testid</code> e locators</h2>
+      <h2>5. <code>data-testid</code> e locators</h2>
       <div class="card">
         <p style="margin-top:0">A forma de "achar" um elemento na página chama-se <b>locator</b>.
           Dá pra localizar por texto, por CSS, por papel de acessibilidade, mas o mais estável pra
@@ -137,7 +178,7 @@ await page.getByTestId("login-submit-button").click();</code></pre>
     </section>
 
     <section class="secao">
-      <h2>5. O primeiro teste</h2>
+      <h2>6. O primeiro teste</h2>
       <div class="card">
         <p style="margin-top:0">O arquivo já vem pronto no projeto. Isto aqui é só pra você ver o
           conteúdo, <b>não precisa digitar nem colar isto no terminal</b>:</p>
@@ -169,7 +210,7 @@ test("login com credenciais validas entra na loja", async ({ page }) => {
     </section>
 
     <section class="secao">
-      <h2>6. Ler o resultado</h2>
+      <h2>7. Ler o resultado</h2>
       <div class="card">
         <p style="margin-top:0">O Playwright imprime cada teste com <code>ok</code> ou
           <code>failed</code> e grava um relatório (<code>resultado.json</code>, configurado em

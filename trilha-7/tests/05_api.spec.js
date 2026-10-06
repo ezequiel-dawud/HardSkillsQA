@@ -31,7 +31,7 @@ test.describe.serial("ciclo de vida de um produto via API", () => {
   test("POST com token cria produto", async ({ request }) => {
     const res = await request.post("/api/produtos", {
       headers: AUTORIZADO,
-      data: { nome: "Produto de teste", preco: 50, emoji: "🧪" },
+      data: { nome: "Produto de teste", preco: 50, emoji: "🧪", categoria: "Acessórios" },
     });
     expect(res.status()).toBe(201);
 

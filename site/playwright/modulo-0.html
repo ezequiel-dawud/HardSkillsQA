@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- meta: gerado por site/assets/og/meta.py -->
+  <meta name="description" content="Bônus opcional: montar um projeto Playwright do zero, sem nada pronto, pra entender cada arquivo antes de usar o projeto já montado do Módulo 1 em diante." />
+  <link rel="canonical" href="https://qa-learning-nine.vercel.app/playwright/modulo-0.html" />
+  <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href="/favicon.ico" sizes="48x48" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="QA Learning" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:url" content="https://qa-learning-nine.vercel.app/playwright/modulo-0.html" />
+  <meta property="og:title" content="Playwright Módulo 0 (bônus): montar o projeto do zero | QA Learning" />
+  <meta property="og:description" content="Bônus opcional: montar um projeto Playwright do zero, sem nada pronto, pra entender cada arquivo antes de usar o projeto já montado do Módulo 1 em diante." />
+  <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-playwright.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Playwright Módulo 0 (bônus): montar o projeto do zero | QA Learning" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <!-- /meta -->
+  <title>Playwright Módulo 0 (bônus): montar o projeto do zero</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ Playwright</span></div>
+  </header>
+
+  <main class="container">
+    <p style="margin:0 0 4px"><a href="index.html" style="font-size:14px; color:var(--suave); text-decoration:none">← Índice da trilha</a></p>
+    <h1>Módulo 0 (bônus): montar o projeto do zero</h1>
+    <p class="legenda">
+      Totalmente opcional. A partir do Módulo 1, a trilha usa um projeto já pronto
+      (<code>trilha-7/</code>), que vem com tudo configurado. Esse módulo existe pra quem quer
+      entender <b>de onde</b> cada arquivo daquele projeto veio, montando um do zero, numa pasta
+      separada, antes de seguir.
+    </p>
+
+    <div class="card card-info">
+      <h3 style="margin-top:0">Quer pular direto?</h3>
+      <p style="margin:0; font-size:14px; color:var(--suave)">
+        Sem problema nenhum. Isso aqui não é pré-requisito, e o Módulo 1 funciona perfeitamente
+        sem passar por aqui antes. <a href="modulo-1.html">Ir direto pro Módulo 1 →</a>
+      </p>
+    </div>
+
+    <section class="secao">
+      <h2>1. Criar a pasta e iniciar o projeto Node</h2>
+      <div class="card">
+        <p style="margin-top:0">Numa pasta <b>separada</b> da trilha (não dentro de
+          <code>trilha-7/</code> nem do repositório do QA Learning, pra não misturar com nada),
+          crie uma pasta nova e entre nela:</p>
+        <pre class="bloco"><code>mkdir meu-projeto-playwright
+cd meu-projeto-playwright</code></pre>
+        <p style="margin:10px 0 0">Agora inicie um projeto Node:</p>
+        <pre class="bloco"><code>npm init -y</code></pre>
+        <p style="margin-bottom:0">Isso cria um <code>package.json</code>: o arquivo que descreve
+          o projeto (nome, versão) e vai guardar a lista de dependências instaladas. É o mesmo
+          arquivo que já existe pronto em <code>trilha-7/package.json</code> — só que lá ele já
+          veio preenchido.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>2. Instalar o Playwright</h2>
+      <div class="card">
+        <p style="margin-top:0">Um comando de cada vez:</p>
+        <pre class="bloco"><code>npm install -D @playwright/test</code></pre>
+        <p style="margin:10px 0 0; font-size:14px; color:var(--suave)">
+          O <code>-D</code> significa "dependência de desenvolvimento": o Playwright é uma
+          ferramenta pra <b>testar</b> o projeto, não faz parte dele quando ele vai pra produção.
+          Depois de rodar, repare que o <code>package.json</code> ganhou uma seção
+          <code>devDependencies</code> com o Playwright listado.
+        </p>
+        <p style="margin:10px 0 0">Agora instale o navegador que ele vai controlar:</p>
+        <pre class="bloco"><code>npx playwright install chromium</code></pre>
+        <p style="margin-bottom:0; font-size:14px; color:var(--suave)">
+          São dois passos separados de propósito: instalar a <b>ferramenta</b> (npm) é diferente
+          de instalar o <b>navegador</b> que ela controla (um download à parte, de uns 150 MB,
+          só na primeira vez).
+        </p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>3. Criar o arquivo de configuração</h2>
+      <div class="card">
+        <p style="margin-top:0">Crie um arquivo chamado <code>playwright.config.js</code> na raiz
+          do projeto, com este conteúdo (digite ou copie, mas leia cada linha):</p>
+        <pre class="bloco"><code>// @ts-check
+const { defineConfig, devices } = require("@playwright/test");
+
+module.exports = defineConfig({
+  testDir: "./tests",
+  use: {
+    baseURL: "https://qa-learning-treino-production.up.railway.app",
+  },
+  projects: [
+    { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+  ],
+});</code></pre>
+        <p style="margin:10px 0 0; font-size:14px; color:var(--suave)">
+          <code>testDir</code> diz onde o Playwright procura arquivos de teste.
+          <code>baseURL</code> é o alvo padrão (o mesmo QA Treino que o resto da trilha usa,
+          já publicado): assim os testes podem usar <code>page.goto("/login.html")</code> em vez
+          da URL inteira toda vez. <code>projects</code> define em qual navegador os testes
+          rodam; aqui só o Chromium, pra ficar leve.
+        </p>
+        <p style="margin-bottom:0">Esse é o arquivo mínimo. O
+          <code>trilha-7/playwright.config.js</code> tem mais algumas opções (relatório em JSON
+          pro corretor ler, captura de trace em caso de falha) — dá uma olhada nele depois de
+          terminar aqui, pra comparar.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>4. Escrever o primeiro teste do zero</h2>
+      <div class="card">
+        <p style="margin-top:0">Crie a pasta <code>tests/</code> e, dentro dela, um arquivo
+          <code>exemplo.spec.js</code>:</p>
+        <pre class="bloco"><code>mkdir tests</code></pre>
+        <p style="margin:10px 0 0">Conteúdo de <code>tests/exemplo.spec.js</code>:</p>
+        <pre class="bloco"><code>const { test, expect } = require("@playwright/test");
+
+test("a pagina de login carrega", async ({ page }) => {
+  await page.goto("/login.html");
+  await expect(page.getByTestId("login-form")).toBeVisible();
+});</code></pre>
+        <p style="margin-bottom:0">Repare que não existe Page Object nem nada "escondido" aqui:
+          é o teste mais simples possível, só pra provar que a configuração está certa. A partir
+          do Módulo 1, você vai ver esse mesmo teste (e outros) já escritos dentro de
+          <code>trilha-7/</code>.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>5. Rodar</h2>
+      <div class="card">
+        <p style="margin-top:0">De dentro da pasta do projeto:</p>
+        <pre class="bloco"><code>npx playwright test</code></pre>
+        <p style="margin-bottom:0">Se aparecer <code>1 passed</code>, o projeto está montado e
+          funcionando, do zero, sem nada pronto. Esse é exatamente o resultado que
+          <code>trilha-7/</code> já te dá de cara — agora você sabe o que tem por trás.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <div class="card" style="border-left:3px solid var(--acento)">
+        <h2 style="margin-top:0;border:0">Olhar de QA</h2>
+        <p style="margin-bottom:0">Entender a configuração não é perda de tempo: quando um teste
+          falha de um jeito estranho (não acha o navegador certo, não resolve a URL, não lê o
+          relatório), saber o que cada peça do <code>playwright.config.js</code> faz é o que
+          separa "reiniciar tudo e torcer" de "ler a mensagem de erro e saber exatamente onde
+          olhar". Guarde essa pasta como referência; a partir daqui a trilha usa o projeto já
+          pronto em <code>trilha-7/</code>, pra não repetir esse setup a cada módulo.</p>
+      </div>
+    </section>
+
+    <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
+      <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
+        Terminou este bônus? Marque aqui. Fica salvo só no seu navegador (não conta pra barra de
+        progresso da trilha, já que é opcional).
+      </span>
+    </div>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="index.html"><button>← Índice</button></a>
+      <a href="modulo-1.html"><button class="primario">Módulo 1 →</button></a>
+    </nav>
+  </main>
+  <script src="../assets/progresso.js"></script>
+  <script src="../assets/conta.js"></script>
+  <script src="../assets/copiar.js" defer></script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

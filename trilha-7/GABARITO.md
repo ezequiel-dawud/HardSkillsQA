@@ -149,7 +149,7 @@ test.describe.serial("desafio final", () => {
   test("criar produto via API e ver ele na loja", async ({ page, request }) => {
     const res = await request.post("/api/produtos", {
       headers: AUTORIZADO,
-      data: { nome: "Produto do desafio", preco: 42, emoji: "🎯" },
+      data: { nome: "Produto do desafio", preco: 42, categoria: "Acessórios", emoji: "🎯" },
     });
     const corpo = await res.json();
     produtoId = corpo.item.id;

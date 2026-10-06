@@ -65,8 +65,9 @@
         <ol>
           <li><b>Criar produto via API e ver ele na loja.</b> Via <code>request.post</code>
             (com o header <code>Authorization</code>), crie um produto com nome
-            <code>"Produto do desafio"</code>, preço <code>42</code> e o emoji que quiser.
-            Guarde o <code>id</code> da resposta. Pelo navegador
+            <code>"Produto do desafio"</code>, preço <code>42</code>, categoria (qualquer uma
+            das que <code>GET /api/categorias</code> devolve, é obrigatória) e o emoji que
+            quiser. Guarde o <code>id</code> da resposta. Pelo navegador
             (<code>LoginPage.pularLogin</code> + <code>page.goto</code>), abra
             <code>/produto.html?id=&lt;id&gt;</code> e confira que o
             <code>product-detail-title</code> mostra exatamente
