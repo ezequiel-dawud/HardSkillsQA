@@ -107,13 +107,16 @@
       <h2>3. Instalar o Playwright na trilha</h2>
       <div class="card">
         <p style="margin-top:0">De dentro de <code>trilha-7/</code> (no repositório do
-          QA Learning):</p>
-        <pre class="bloco"><code>npm install
-npx playwright install chromium</code></pre>
+          QA Learning), um comando de cada vez (espera o primeiro terminar antes de rodar o
+          segundo):</p>
+        <pre class="bloco"><code>npm install</code></pre>
+        <p style="margin:10px 0 0; font-size:14px; color:var(--suave)">Instala as
+          dependências do projeto (o próprio Playwright). Só depois que esse terminar:</p>
+        <pre class="bloco"><code>npx playwright install chromium</code></pre>
         <p style="margin:10px 0 0; font-size:14px; color:var(--suave)">
-          O segundo comando baixa o navegador que o Playwright controla (só a primeira vez; são
-          uns 150 MB). Instalamos só o Chromium aqui pra ficar leve; Firefox e WebKit entram
-          depois, se você quiser testar em mais de um motor.
+          Esse baixa o navegador que o Playwright controla (só a primeira vez; são uns 150 MB).
+          Instalamos só o Chromium aqui pra ficar leve; Firefox e WebKit entram depois, se você
+          quiser testar em mais de um motor.
         </p>
       </div>
     </section>
