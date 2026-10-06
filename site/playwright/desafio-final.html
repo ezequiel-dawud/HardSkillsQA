@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- meta: gerado por site/assets/og/meta.py -->
+  <meta name="description" content="Combine UI e API no mesmo teste: criar, editar e excluir um produto via requisição, conferindo o resultado na tela do site de treino. Desafio final da trilha…" />
+  <link rel="canonical" href="https://qa-learning-nine.vercel.app/playwright/desafio-final.html" />
+  <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href="/favicon.ico" sizes="48x48" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="QA Learning" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:url" content="https://qa-learning-nine.vercel.app/playwright/desafio-final.html" />
+  <meta property="og:title" content="Desafio final: UI e API juntos | QA Learning" />
+  <meta property="og:description" content="Combine UI e API no mesmo teste: criar, editar e excluir um produto via requisição, conferindo o resultado na tela do site de treino. Desafio final da trilha…" />
+  <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-playwright.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Desafio final: UI e API juntos | QA Learning" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <!-- /meta -->
+  <title>Desafio final: UI e API juntos</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ Playwright</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html">4</a>
+      <a href="modulo-5.html">5</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <p style="margin:0 0 4px"><a href="index.html" style="font-size:14px; color:var(--suave); text-decoration:none">← Índice da trilha</a></p>
+    <h1>Desafio final: UI e API juntos</h1>
+    <p class="legenda">
+      Não é um módulo novo nem uma prova de múltipla escolha: é um exercício prático que
+      combina tudo que a trilha ensinou, UI (Módulos 1 a 4) e API (Módulo 5), no mesmo teste.
+    </p>
+
+    <div class="card card-info">
+      <h3 style="margin-top:0">A ideia</h3>
+      <p style="margin:0; font-size:14px; color:var(--suave)">
+        Um cenário real de QA raramente fica numa camada só: você usa a API pra preparar ou
+        mudar um dado rapidamente, e a UI pra confirmar que a pessoa que usa o produto realmente
+        vê o que deveria ver. Este desafio pratica exatamente isso, três vezes: criar, editar e
+        excluir um produto pela API, conferindo cada mudança na tela do site de treino.
+      </p>
+    </div>
+
+    <section class="secao">
+      <h2>O que fazer</h2>
+      <div class="card">
+        <p style="margin-top:0">Em <code>tests/06_desafio_final.spec.js</code> (o arquivo já
+          existe, com os três testes como <code>test.skip</code> e comentários explicando cada
+          passo), implemente:</p>
+        <ol>
+          <li><b>Criar produto via API e ver ele na loja.</b> Via <code>request.post</code>
+            (com o header <code>Authorization</code>), crie um produto com nome
+            <code>"Produto do desafio"</code>, preço <code>42</code> e o emoji que quiser.
+            Guarde o <code>id</code> da resposta. Pelo navegador
+            (<code>LoginPage.pularLogin</code> + <code>page.goto</code>), abra
+            <code>/produto.html?id=&lt;id&gt;</code> e confira que o
+            <code>product-detail-title</code> mostra exatamente
+            <code>"Produto do desafio"</code>.</li>
+          <li><b>Mudar o preço via API e ver refletido na tela.</b> Via
+            <code>request.put</code>, mude o preço do mesmo produto pra <code>123.45</code>.
+            Pelo navegador, abra a mesma página de novo e confira que
+            <code>product-detail-price</code> contém <code>"123.45"</code> (o site formata
+            como <code>"R$ 123.45"</code>, com ponto, não vírgula).</li>
+          <li><b>Excluir via API e confirmar que some da loja.</b> Via
+            <code>request.delete</code>, apague o produto. Pelo navegador, abra a mesma página
+            de novo e confira que o título agora é <code>"Produto não encontrado"</code>
+            (é assim que <code>produto.html</code> reage quando o <code>GET</code> volta com
+            <code>item: null</code>).</li>
+        </ol>
+        <p style="margin-bottom:0">Use <code>test.describe.serial</code> (Módulo 5) pros três
+          testes, já que trabalham no mesmo produto, um atrás do outro. Rode
+          <code>npx playwright test tests/06_desafio_final.spec.js</code> e depois
+          <code>python verificar.py final</code> até todos os critérios ficarem
+          <code>[ok]</code>. Gabarito em <code>trilha-7/GABARITO.md</code>, só olhe depois de
+          tentar.</p>
+      </div>
+      <details class="card estrutura-pastas">
+        <summary>📁 Ver estrutura de pastas da trilha-7/</summary>
+        <pre class="bloco"><code>trilha-7/
+├── playwright.config.js
+├── package.json
+├── verificar.py
+├── GABARITO.md
+├── README.md
+├── fixtures/
+│   └── exemplo.png
+├── pages/
+│   ├── <b style="color:var(--acento)">LoginPage.js</b>   ← pularLogin() usado aqui
+│   ├── CadastroPage.js
+│   ├── ProdutosPage.js
+│   ├── ProdutoPage.js
+│   └── RedePage.js
+└── tests/
+    ├── 01_primeiro_teste.spec.js
+    ├── 02_selecionadores.spec.js
+    ├── 03_cenarios.spec.js
+    ├── 04_rede_ci.spec.js
+    ├── 05_api.spec.js
+    └── <b style="color:var(--acento)">06_desafio_final.spec.js</b>   ← este desafio</code></pre>
+      </details>
+    </section>
+
+    <section class="secao">
+      <div class="card" style="border-left:3px solid var(--acento)">
+        <h2 style="margin-top:0;border:0">Olhar de QA</h2>
+        <p style="margin-bottom:0">Se os três testes passarem, você praticou o mesmo
+          raciocínio que um QA usa no trabalho real o tempo todo: a API é a forma rápida de
+          colocar o sistema num estado específico (sem depender de clicar em formulário pra
+          chegar lá), e a UI é o que confirma que esse estado chega certo pra quem usa o
+          produto. É também o encerramento natural da trilha: Módulo 1 ensinou o primeiro
+          teste, Módulo 2 ensinou a organizar, Módulos 3 e 4 cobriram os cenários de UI mais
+          difíceis, e o Módulo 5 trouxe a camada de API. Este desafio junta tudo isso num
+          cenário só, que é como automação de verdade costuma se parecer.</p>
+      </div>
+    </section>
+
+    <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
+      <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
+        Terminou o desafio final? Marque: o ✓ aparece no índice da trilha e a barra de
+        progresso anda no começo do site. Fica salvo só no seu navegador.
+      </span>
+    </div>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="index.html"><button>← Índice</button></a>
+      <a href="modulo-5.html"><button>← Módulo 5</button></a>
+    </nav>
+  </main>
+  <script src="../assets/progresso.js"></script>
+  <script src="../assets/conta.js"></script>
+  <script src="../assets/copiar.js" defer></script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

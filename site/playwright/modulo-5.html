@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- meta: gerado por site/assets/og/meta.py -->
+  <meta name="description" content="Testar API direto com o fixture request do Playwright, sem abrir navegador: autenticação com token, e test.describe.serial pro ciclo de vida de um recurso. Módulo 5 da trilha…" />
+  <link rel="canonical" href="https://qa-learning-nine.vercel.app/playwright/modulo-5.html" />
+  <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href="/favicon.ico" sizes="48x48" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="QA Learning" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:url" content="https://qa-learning-nine.vercel.app/playwright/modulo-5.html" />
+  <meta property="og:title" content="Playwright Módulo 5: Testes de API | QA Learning" />
+  <meta property="og:description" content="Testar API direto com o fixture request do Playwright, sem abrir navegador: autenticação com token, e test.describe.serial pro ciclo de vida de um recurso. Módulo 5 da trilha…" />
+  <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-playwright.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Playwright Módulo 5: Testes de API | QA Learning" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <!-- /meta -->
+  <title>Playwright Módulo 5: Testes de API</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ Playwright</span></div>
+    <nav>
+      <a href="modulo-1.html">1</a>
+      <a href="modulo-2.html">2</a>
+      <a href="modulo-3.html">3</a>
+      <a href="modulo-4.html">4</a>
+      <a href="modulo-5.html" class="atual">5</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Módulo 5: Testes de API</h1>
+    <p class="legenda">O fixture <code>request</code> do Playwright, chamar API sem abrir navegador, autenticação com token, e <code>test.describe.serial</code> pro ciclo de vida de um recurso.</p>
+
+    <section class="secao">
+      <h2>1. Por que testar API com o Playwright, se ele é de navegador</h2>
+      <div class="card">
+        <p style="margin-top:0">Os Módulos 1 a 4 abriram um navegador pra cada teste. Mas boa
+          parte do que vale testar numa API não precisa de tela nenhuma: criar um dado de
+          setup antes de um teste de UI, conferir que um endpoint devolve o status e o corpo
+          certos, ou testar um cenário que seria lento (ou frágil) de montar clicando na
+          página. O <code>@playwright/test</code> já vem com um fixture pra isso:
+          <code>request</code>. Ele faz chamada HTTP pura, sem Chromium, sem
+          <code>page.goto</code>, e aponta pro mesmo <code>baseURL</code> configurado em
+          <code>playwright.config.js</code>:</p>
+        <pre class="bloco"><code>test("GET /api/produtos retorna 200", async ({ request }) => {
+  const res = await request.get("/api/produtos?id=1");
+  expect(res.status()).toBe(200);
+});</code></pre>
+        <p style="margin-bottom:0">Repare que o teste recebe <code>request</code> em vez de
+          <code>page</code>: são dois fixtures diferentes que o Playwright oferece, e você usa
+          o que o teste precisa (ou os dois juntos, como no desafio no fim deste módulo).</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>2. Autenticação com token</h2>
+      <div class="card">
+        <p style="margin-top:0">No QA Treino, ler produto é público, mas <b>criar, editar e
+          excluir</b> exigem um token fixo no header <code>Authorization</code>. É o cenário
+          mais comum de API em produção: leitura aberta, escrita protegida. Sem o header
+          certo, a API responde <code>401</code>:</p>
+        <pre class="bloco"><code>const TOKEN = "token-treino-123";
+const AUTORIZADO = { Authorization: `Bearer ${TOKEN}` };
+
+test("POST sem token retorna 401", async ({ request }) => {
+  const res = await request.post("/api/produtos", {
+    data: { nome: "Produto sem token", preco: 10 },
+  });
+  expect(res.status()).toBe(401);
+});
+
+test("POST com token cria produto", async ({ request }) => {
+  const res = await request.post("/api/produtos", {
+    headers: AUTORIZADO,
+    data: { nome: "Produto de teste", preco: 50, emoji: "🧪" },
+  });
+  expect(res.status()).toBe(201);
+});</code></pre>
+        <p style="margin-bottom:0">O <code>data</code> vira o corpo da requisição em JSON
+          automaticamente (não precisa de <code>JSON.stringify</code> nem de
+          <code>Content-Type</code> manual). <code>headers</code> é onde entra qualquer header
+          extra, como o <code>Authorization</code> aqui.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>3. <code>test.describe.serial</code>: testar o ciclo de vida de um recurso</h2>
+      <div class="card">
+        <p style="margin-top:0">Nos módulos anteriores, cada teste era independente de
+          propósito, o Playwright roda testes em paralelo e não garante ordem. Mas pra testar
+          <b>criar → ler → atualizar → excluir</b> o mesmo produto, os passos dependem um do
+          outro: o segundo precisa do <code>id</code> que o primeiro criou.
+          <code>test.describe.serial</code> é a exceção deliberada: roda os testes do grupo em
+          ordem, na mesma worker, e permite compartilhar uma variável entre eles:</p>
+        <pre class="bloco"><code>test.describe.serial("ciclo de vida de um produto via API", () => {
+  let produtoId;
+
+  test("POST com token cria produto", async ({ request }) => {
+    const res = await request.post("/api/produtos", {
+      headers: AUTORIZADO,
+      data: { nome: "Produto de teste", preco: 50, emoji: "🧪" },
+    });
+    const corpo = await res.json();
+    produtoId = corpo.item.id;
+  });
+
+  test("PUT atualiza o preco", async ({ request }) => {
+    const res = await request.put(`/api/produtos?id=${produtoId}`, {
+      headers: AUTORIZADO,
+      data: { preco: 120 },
+    });
+    expect(res.status()).toBe(200);
+  });
+
+  test("DELETE remove o produto", async ({ request }) => {
+    const res = await request.delete(`/api/produtos?id=${produtoId}`, {
+      headers: AUTORIZADO,
+    });
+    expect(res.status()).toBe(200);
+  });
+});</code></pre>
+        <p style="margin-bottom:0"><code>await res.json()</code> lê o corpo da resposta já
+          convertido de JSON pra objeto JavaScript, é assim que o teste pega o
+          <code>id</code> gerado pra usar no próximo passo. Use
+          <code>test.describe.serial</code> com moderação: fora desse tipo de cenário
+          (dependência real entre passos), testes independentes continuam sendo a regra, porque
+          rodam em paralelo e uma falha não arrasta as outras.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>4. Sem banco, sem reset: o cuidado que isso exige</h2>
+      <div class="card">
+        <p style="margin-top:0">O QA Treino guarda os produtos em memória, sem banco de
+          verdade. Isso significa duas coisas importantes pros seus testes:</p>
+        <ul>
+          <li>os produtos criados em teste <b>ficam lá</b> até o servidor reiniciar, não existe
+            endpoint de reset;</li>
+          <li>por isso, todo teste que <b>cria</b> um produto neste módulo também o
+            <b>apaga</b> no fim do próprio teste (ou do grupo, no caso do
+            <code>describe.serial</code> acima) — é o padrão de limpar o que você sujou, e vale
+            pra testes de API tanto quanto pra testes de UI;</li>
+          <li>os 12 produtos originais (ids 1 a 12) nunca devem ser editados ou apagados nos
+            seus testes, porque os Módulos 1 a 4 (e a prova deles) dependem desses dados
+            continuarem do jeito que estavam.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>5. Os testes deste módulo</h2>
+      <div class="card">
+        <p style="margin-top:0"><b>Arquivo já existe</b> em
+          <code>tests/05_api.spec.js</code>. Não precisa digitar, só rodar:</p>
+        <pre class="bloco"><code>npx playwright test tests/05_api.spec.js</code></pre>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>Exercício</h2>
+      <div class="card">
+        <p style="margin-top:0">Em <code>tests/05_api.spec.js</code>, escreva um teste chamado
+          <code>"PUT sem token retorna 401 e nao muda o preco"</code>: faça um
+          <code>request.put("/api/produtos?id=1", { data: { preco: 999 } })</code>
+          <b>sem</b> o header <code>Authorization</code>, confira que a resposta é
+          <code>401</code>, e depois confira com um <code>GET</code> que o preço do produto 1
+          continua <code>249.9</code> (não mudou). Rode
+          <code>npx playwright test tests/05_api.spec.js</code> e depois
+          <code>python verificar.py 5</code> até dar 8 <code>[ok]</code>. Gabarito em
+          <code>trilha-7/GABARITO.md</code>.</p>
+      </div>
+      <details class="card estrutura-pastas">
+        <summary>📁 Ver estrutura de pastas da trilha-7/</summary>
+        <pre class="bloco"><code>trilha-7/
+├── playwright.config.js
+├── package.json
+├── verificar.py
+├── GABARITO.md
+├── README.md
+├── fixtures/
+│   └── exemplo.png
+├── pages/
+│   ├── LoginPage.js
+│   ├── CadastroPage.js
+│   ├── ProdutosPage.js
+│   ├── ProdutoPage.js
+│   └── RedePage.js
+└── tests/
+    ├── 01_primeiro_teste.spec.js
+    ├── 02_selecionadores.spec.js
+    ├── 03_cenarios.spec.js
+    ├── 04_rede_ci.spec.js
+    ├── <b style="color:var(--acento)">05_api.spec.js</b>   ← este exercício
+    └── 06_desafio_final.spec.js</code></pre>
+      </details>
+    </section>
+
+    <section class="secao">
+      <div class="card" style="border-left:3px solid var(--acento)">
+        <h2 style="margin-top:0;border:0">Olhar de QA</h2>
+        <p style="margin-bottom:0">Testar API é geralmente mais barato e mais estável do que
+          testar a mesma coisa pela UI: sem navegador, sem seletor, sem esperar animação. Por
+          isso, quando um cenário pode ser verificado nas duas camadas, a camada de API costuma
+          ser onde cobrir mais casos de borda (status, validação, autorização) compensa mais, e
+          a UI fica pra confirmar que tudo isso aparece certo na tela pro usuário final. O
+          desafio final deste trilha combina as duas camadas no mesmo teste, que é exatamente
+          esse raciocínio na prática: API pra preparar e mudar o dado, UI pra confirmar o que a
+          pessoa realmente vê.</p>
+      </div>
+    </section>
+
+    <div class="card" id="marcar-concluido" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px">
+      <span style="font-size:14px;color:var(--suave);flex:1;min-width:200px">
+        Terminou este módulo? Marque: o ✓ aparece no índice da trilha e a barra de
+        progresso anda no começo do site. Fica salvo só no seu navegador.
+      </span>
+    </div>
+
+    <nav class="acoes" style="margin-top:32px">
+      <a href="index.html"><button>← Índice</button></a>
+      <a href="prova-5.html"><button>📝 Prova do módulo</button></a>
+      <a href="desafio-final.html"><button class="primario">Desafio final →</button></a>
+    </nav>
+  </main>
+  <script src="../assets/progresso.js"></script>
+  <script src="../assets/conta.js"></script>
+  <script src="../assets/copiar.js" defer></script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

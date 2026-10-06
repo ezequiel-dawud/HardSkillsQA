@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- meta: gerado por site/assets/og/meta.py -->
+  <meta name="description" content="Prova do módulo 5 da trilha Automação web com Playwright, sobre testes de API: fixture request, autenticação com token, test.describe.serial. Corrigida na…" />
+  <link rel="canonical" href="https://qa-learning-nine.vercel.app/playwright/prova-5.html" />
+  <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href="/favicon.ico" sizes="48x48" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="QA Learning" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:url" content="https://qa-learning-nine.vercel.app/playwright/prova-5.html" />
+  <meta property="og:title" content="Prova do Módulo 5 (Playwright) | QA Learning" />
+  <meta property="og:description" content="Prova do módulo 5 da trilha Automação web com Playwright, sobre testes de API: fixture request, autenticação com token, test.describe.serial. Corrigida na…" />
+  <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-playwright.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Prova do Módulo 5 (Playwright) | QA Learning" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <!-- /meta -->
+  <title>Prova do Módulo 5 (Playwright)</title>
+  <link rel="stylesheet" href="../assets/estilo.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><a href="../index.html">QA Learning</a> <span style="color:var(--suave)">/ Playwright / Provas</span></div>
+    <nav>
+      <a href="prova-1.html">1</a>
+      <a href="prova-2.html">2</a>
+      <a href="prova-3.html">3</a>
+      <a href="prova-4.html">4</a>
+      <a href="prova-5.html" class="atual">5</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Prova do Módulo 5</h1>
+    <p class="legenda">Fixture <code>request</code>, autenticação com token, <code>test.describe.serial</code>. &nbsp;<a href="modulo-5.html">← rever o módulo</a></p>
+    <div id="prova"></div>
+  </main>
+
+  <script>
+  window.PROVA = {
+    titulo: "Módulo 5", trilha: "playwright", modulo: 5, indiceHref: "index.html",
+    questoes: [
+      {
+            "t": "mc",
+            "enun": "Qual a principal diferença entre o fixture <code>request</code> e o fixture <code>page</code> num teste Playwright?",
+            "ops": [
+                  "<code>request</code> faz chamadas HTTP diretas, sem abrir navegador; <code>page</code> controla um navegador de verdade",
+                  "<code>request</code> só funciona em testes headless, <code>page</code> só em testes com interface",
+                  "São exatamente a mesma coisa, só com nomes diferentes",
+                  "<code>request</code> só pode ser usado dentro de test.describe.serial"
+            ],
+            "correta": 0,
+            "exp": "request faz HTTP puro, mais rápido e sem depender de renderização; page abre e controla um navegador de verdade."
+      },
+      {
+            "t": "mc",
+            "enun": "No QA Treino, uma chamada <code>POST /api/produtos</code> sem o header <code>Authorization</code> retorna qual status?",
+            "ops": [
+                  "401",
+                  "200",
+                  "500",
+                  "A API aceita normalmente, sem exigir nada"
+            ],
+            "correta": 0,
+            "exp": "Rotas de escrita (POST/PUT/DELETE) exigem o token Bearer; sem ele, a API responde 401."
+      },
+      {
+            "t": "mc",
+            "enun": "Por que este módulo usa <code>test.describe.serial</code> no grupo que cria, atualiza e exclui o mesmo produto, ao contrário dos módulos anteriores (onde cada teste era independente)?",
+            "ops": [
+                  "Porque os passos dependem uns dos outros: o segundo teste precisa do id que o primeiro criou, então precisam rodar em ordem e na mesma worker",
+                  "Porque testes de API sempre precisam ser seriais, nunca paralelos",
+                  "Porque o Playwright exige describe.serial sempre que o fixture request é usado",
+                  "Para deixar a suíte mais rápida"
+            ],
+            "correta": 0,
+            "exp": "describe.serial é a exceção deliberada para quando existe dependência real entre os passos; fora disso, testes independentes continuam sendo a regra."
+      },
+      {
+            "t": "mc",
+            "enun": "Por que todo teste deste módulo que cria um produto também precisa apagá-lo no final?",
+            "ops": [
+                  "Porque o QA Treino guarda os produtos em memória, sem banco, e não existe endpoint de reset: o que é criado fica lá até o servidor reiniciar",
+                  "Porque a API recusa mais de 12 produtos cadastrados",
+                  "Porque criar produto sem apagar deixa o token inválido",
+                  "Não é necessário; o servidor limpa sozinho a cada requisição"
+            ],
+            "correta": 0,
+            "exp": "Sem banco e sem endpoint de reset, qualquer produto criado em teste permanece até o próximo restart; limpar o que você criou evita lixo acumulando e afetando outros testes."
+      },
+      {
+            "t": "mc",
+            "enun": "Depois de <code>const res = await request.post(\"/api/produtos\", { headers: AUTORIZADO, data: {...} })</code>, como o teste pega o <code>id</code> do produto recém-criado?",
+            "ops": [
+                  "Com <code>const corpo = await res.json(); corpo.item.id;</code>, lendo o corpo da resposta convertido de JSON",
+                  "O id sempre é 1, não precisa ler a resposta",
+                  "Com <code>res.status()</code>",
+                  "O Playwright gera o id automaticamente numa variável global"
+            ],
+            "correta": 0,
+            "exp": "res.json() lê e converte o corpo da resposta; é de lá que o teste extrai o id gerado pelo servidor para usar nos passos seguintes."
+      },
+      {
+            "t": "aberta",
+            "enun": "Seu time está decidindo se um cenário novo (cancelar um pedido e conferir o reembolso) deveria ganhar um teste de API, um teste de UI, ou os dois. Como você conduziria essa decisão?",
+            "modelo": "<p>A pergunta certa não é \"API ou UI\", é \"o que cada camada cobre que a outra não cobre\":</p><ul><li><b>Teste de API</b> é mais barato e mais estável para conferir a <b>regra de negócio em si</b>: o cancelamento muda o status certo, o valor do reembolso está correto, casos de borda (cancelar duas vezes, cancelar um pedido já entregue) respondem com o erro esperado. Como não depende de navegador nem de seletor, cobre mais variações de dado com menos custo de manutenção.</li><li><b>Teste de UI</b> é necessário para confirmar o que a <b>pessoa realmente vê</b>: o botão de cancelar aparece no momento certo, a mensagem de confirmação é clara, o valor do reembolso aparece formatado certo na tela. Isso só existe no navegador, nenhum teste de API cobre.</li><li><b>Na prática</b>, o caminho mais comum é: várias combinações e casos de borda cobertos por teste de API (rápido, barato, fácil de rodar em CI), e um ou dois testes de UI de ponta a ponta confirmando que o caminho feliz (e talvez um erro visível) aparece certo pra quem usa o produto.</li></ul><p>A armadilha a evitar é duplicar o mesmo caso nas duas camadas sem motivo: se o teste de API já garante que o reembolso está correto, o teste de UI não precisa reconferir todas as variações de valor, só precisa confirmar que a tela mostra o que a API devolveu.</p>",
+            "dica": "pense em: o que cada camada testa que a outra não testa, e onde duplicar o mesmo caso nas duas seria desperdício."
+      }
+    ]
+  };
+  </script>
+  <script src="../assets/progresso.js"></script>
+  <script src="../assets/conta.js"></script>
+  <script type="module" src="../assets/prova-core.js"></script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
