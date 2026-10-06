@@ -22,9 +22,13 @@ const DESTINO = join(RAIZ, "site", "downloads");
 const PACOTES = [
   { arquivo: "qa-learning-pytest.zip", partes: ["trilha-3", "pratica/pratica.db"] },
   { arquivo: "qa-learning-k6.zip", partes: ["trilha-5"] },
+  { arquivo: "qa-learning-playwright.zip", partes: ["trilha-7"] },
 ];
 
-const IGNORAR = new Set([".venv", "__pycache__", ".pytest_cache", "node_modules", ".git"]);
+const IGNORAR = new Set([
+  ".venv", "__pycache__", ".pytest_cache", "node_modules", ".git",
+  "resultado.json", "test-results", "playwright-report",
+]);
 
 /* ---- CRC32, que o formato ZIP exige por arquivo ---- */
 const TABELA = (() => {
