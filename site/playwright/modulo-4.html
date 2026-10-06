@@ -115,12 +115,10 @@ await expect(page.getByTestId("nav-account-name")).toHaveText("Maria");</code></
       <div class="card">
         <p style="margin-top:0">Os comandos que você já roda (<code>npx playwright test</code>)
           já executam <b>headless</b> por padrão (sem abrir janela de navegador), então já
-          funcionam num servidor de CI sem alteração nenhuma. As diferenças de verdade são de
-          <b>infraestrutura</b>: o CI precisa subir o site de treino antes dos testes (mesmo
-          <code>npm run dev</code> que você já usa, só que em background) e instalar os navegadores
-          do Playwright na máquina do runner. Um workflow do GitHub Actions pra isso, pra ler (não
-          precisa rodar agora, depende dos dois repositórios estarem públicos, que ainda não é o
-          caso):</p>
+          funcionam num servidor de CI sem alteração nenhuma. Como o alvo (QA Treino) já está
+          publicado, o CI nem precisa subir nada: só instalar os navegadores do Playwright na
+          máquina do runner e rodar. Um workflow do GitHub Actions pra isso, pra ler (não precisa
+          rodar agora, depende do repositório estar público, que ainda não é o caso):</p>
         <pre class="bloco"><code>name: Playwright
 on: [push, pull_request]
 jobs:
@@ -134,8 +132,6 @@ jobs:
         working-directory: trilha-7
       - run: npx playwright install --with-deps chromium
         working-directory: trilha-7
-      - run: npm run dev &
-        working-directory: qa-learning-treino
       - run: npx playwright test
         working-directory: trilha-7</code></pre>
         <p style="margin-bottom:0">É a mesma lógica da <a href="../cicd/index.html">Trilha 6</a>:

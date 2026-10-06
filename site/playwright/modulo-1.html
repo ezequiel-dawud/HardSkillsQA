@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- meta: gerado por site/assets/og/meta.py -->
-  <meta name="description" content="O que é automação de navegador, instalar o Playwright, subir o site de treino e rodar o primeiro teste de login. Módulo 1 da trilha Automação web com…" />
+  <meta name="description" content="O que é automação de navegador, instalar o Playwright, o alvo já publicado, e rodar o primeiro teste de login. Módulo 1 da trilha Automação web com…" />
   <link rel="canonical" href="https://qa-learning-nine.vercel.app/playwright/modulo-1.html" />
   <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
@@ -16,7 +16,7 @@
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://qa-learning-nine.vercel.app/playwright/modulo-1.html" />
   <meta property="og:title" content="Playwright Módulo 1: Preparar e primeiro teste | QA Learning" />
-  <meta property="og:description" content="O que é automação de navegador, instalar o Playwright, subir o site de treino e rodar o primeiro teste de login. Módulo 1 da trilha Automação web com…" />
+  <meta property="og:description" content="O que é automação de navegador, instalar o Playwright, o alvo já publicado, e rodar o primeiro teste de login. Módulo 1 da trilha Automação web com…" />
   <meta property="og:image" content="https://qa-learning-nine.vercel.app/assets/og/og-playwright.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -40,7 +40,7 @@
 
   <main class="container">
     <h1>Módulo 1: Preparar e primeiro teste</h1>
-    <p class="legenda">O que é automação de navegador, instalar o Playwright, subir o site de treino e rodar o primeiro teste de login.</p>
+    <p class="legenda">O que é automação de navegador, instalar o Playwright, o alvo já publicado, e rodar o primeiro teste de login.</p>
 
     <section class="secao">
       <h2>O que é automação de navegador</h2>
@@ -84,23 +84,30 @@
     </section>
 
     <section class="secao">
-      <h2>2. Subir o site de treino</h2>
+      <h2>2. O alvo já está no ar</h2>
       <div class="card">
-        <p style="margin-top:0">O QA Treino é um repositório próprio. Pegue o código (clone ou
-          baixe o zip pelo GitHub) e, de dentro dele:</p>
-        <p><b>Terminal 1 (o alvo)</b>:</p>
-        <pre class="bloco"><code>npm run dev</code></pre>
-        <p style="margin:10px 0 0">Deixe rodando. Ele serve o site em
-          <code>http://localhost:3000</code>. É só Node, sem instalar nada e sem conta em
-          lugar nenhum.</p>
+        <p style="margin-top:0">Diferente de outras trilhas que rodam tudo local, o QA Treino
+          está publicado em
+          <code>https://qa-learning-treino-production.up.railway.app</code>. Não precisa clonar
+          nada nem subir servidor: o <code>playwright.config.js</code> da <code>trilha-7/</code>
+          já aponta pra lá por padrão.</p>
+        <p style="margin-bottom:0; font-size:14px; color:var(--suave)">
+          Quer rodar o alvo na sua própria máquina mesmo assim (offline, ou pra mexer no código
+          do site de treino)? Clone
+          <a href="https://github.com/ezequiel-dawud/qa-learning-treino">qa-learning-treino</a>,
+          rode <code>npm run dev</code> ali dentro (sobe em
+          <code>http://localhost:3000</code>) e aponte os testes pra ele com
+          <code>BASE_URL=http://localhost:3000</code>. Pra seguir a trilha normalmente, pode
+          pular direto pro próximo passo.
+        </p>
       </div>
     </section>
 
     <section class="secao">
       <h2>3. Instalar o Playwright na trilha</h2>
       <div class="card">
-        <p style="margin-top:0">Agora, de dentro de <code>trilha-7/</code> (no repositório do
-          QA Learning), <b>Terminal 2</b>:</p>
+        <p style="margin-top:0">De dentro de <code>trilha-7/</code> (no repositório do
+          QA Learning):</p>
         <pre class="bloco"><code>npm install
 npx playwright install chromium</code></pre>
         <p style="margin:10px 0 0; font-size:14px; color:var(--suave)">
@@ -149,12 +156,11 @@ test("login com credenciais validas entra na loja", async ({ page }) => {
   await expect(page.getByTestId("nav-account-name")).toHaveText("Maria");
 });</code></pre>
         <p style="margin:10px 0 0">Repare: <code>page.goto("/login.html")</code> é relativo;
-          o <code>baseURL</code> (<code>http://localhost:3000</code>) já está configurado em
+          o <code>baseURL</code> (o site de treino publicado) já está configurado em
           <code>playwright.config.js</code>. E não existe nenhum <code>sleep()</code> antes de ler o
           nome "Maria" no header: o <code>expect()</code> do Playwright <b>espera sozinho</b> até uns
           5 segundos até a condição ficar verdadeira, ou falha com uma mensagem clara.</p>
-        <p style="margin:10px 0 0"><b>Terminal 2</b>, de dentro de <code>trilha-7/</code> (com o
-          site de treino ligado no Terminal 1):</p>
+        <p style="margin:10px 0 0">De dentro de <code>trilha-7/</code>:</p>
         <pre class="bloco"><code>npx playwright test tests/01_primeiro_teste.spec.js</code></pre>
       </div>
     </section>

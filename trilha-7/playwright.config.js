@@ -6,7 +6,7 @@ module.exports = defineConfig({
   fullyParallel: true,
   reporter: [["list"], ["json", { outputFile: "resultado.json" }]],
   use: {
-    baseURL: process.env.BASE_URL || "http://localhost:3000",
+    baseURL: process.env.BASE_URL || "https://qa-learning-treino-production.up.railway.app",
     trace: "retain-on-failure",
   },
   projects: [

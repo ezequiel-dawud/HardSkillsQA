@@ -15,17 +15,21 @@ Sem conta, sem Docker, sem pip install. Só Node e npm.
 
 ## O alvo: o site de treino
 
-Os testes rodam contra o **QA Treino**, um repositório separado
-(`qa-learning-treino`) feito especificamente pra automação, com
-`data-testid` em cada elemento. Antes de rodar os testes, suba ele:
+Os testes rodam contra o **QA Treino**
+(https://qa-learning-treino-production.up.railway.app), publicado, feito
+especificamente pra automação, com `data-testid` em cada elemento. Não
+precisa clonar nem subir nada: o `playwright.config.js` já aponta pra lá por
+padrão.
 
-```powershell
-# dentro do repo qa-learning-treino
-npm run dev
-```
+Se preferir rodar o alvo na sua própria máquina (offline, ou pra testar uma
+mudança no site de treino), clone `qa-learning-treino`, rode `npm run dev`
+ali dentro (sobe em `http://localhost:3000`) e aponte os testes pra ele com
+`BASE_URL=http://localhost:3000`.
 
-Isso sobe `http://localhost:3000` — o `playwright.config.js` já aponta pra lá
-por padrão (`BASE_URL` sobrescreve, se precisar).
+**Estado compartilhado:** como o site publicado é o mesmo pra todo mundo
+fazendo a trilha, os 12 produtos originais (ids 1 a 12) não devem ser
+editados nem excluídos nos seus testes — só mexa em produtos que você mesmo
+criou (e apague o que criar).
 
 ## Como está organizado
 
@@ -36,6 +40,8 @@ por padrão (`BASE_URL` sobrescreve, se precisar).
 | `tests/02_selecionadores.spec.js` | Módulo 2 — formulário, validação de campo, `test.describe`/`beforeEach`, introduz Page Object Model |
 | `tests/03_cenarios.spec.js` | Módulo 3 — loading assíncrono, paginação, estado vazio, modal, upload, drag and drop |
 | `tests/04_rede_ci.spec.js` | Módulo 4 — `page.route` (mock de rede), atalho de login via `localStorage` pra CI |
+| `tests/05_api.spec.js` | Módulo 5 — fixture `request`, autenticação com token, `test.describe.serial` |
+| `tests/06_desafio_final.spec.js` | Desafio final — UI e API no mesmo teste (a implementar, é o exercício) |
 | `pages/*.js` | Page Objects (um por página do site de treino) — a partir do Módulo 2 |
 | `fixtures/exemplo.png` | arquivo usado no teste de upload do Módulo 3 |
 | `verificar.py` | confere os critérios objetivos de cada módulo a partir de `resultado.json` |
@@ -44,16 +50,15 @@ por padrão (`BASE_URL` sobrescreve, se precisar).
 ## Rodar (Windows / PowerShell)
 
 ```powershell
-# Terminal 1 — o alvo (dentro de qa-learning-treino/)
-npm run dev
-
-# Terminal 2 — os testes (dentro de trilha-7/)
+# dentro de trilha-7/
 npm install
 npx playwright install chromium
 npx playwright test tests/01_primeiro_teste.spec.js ; python verificar.py 1
 npx playwright test tests/02_selecionadores.spec.js ; python verificar.py 2
 npx playwright test tests/03_cenarios.spec.js       ; python verificar.py 3
 npx playwright test tests/04_rede_ci.spec.js        ; python verificar.py 4
+npx playwright test tests/05_api.spec.js            ; python verificar.py 5
+npx playwright test tests/06_desafio_final.spec.js  ; python verificar.py final
 ```
 
 **Atenção:** não passe `--reporter=...` nesses comandos — isso substitui os

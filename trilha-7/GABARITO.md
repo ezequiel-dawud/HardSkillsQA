@@ -192,10 +192,7 @@ de verdade contra o servidor antes de entrar aqui, não é só teoria.
 ## Comandos, resumo
 
 ```powershell
-# Terminal 1 (dentro do repo qa-learning-treino)
-npm run dev
-
-# Terminal 2 (dentro de trilha-7/)
+# dentro de trilha-7/ -- o alvo ja esta publicado, nao precisa subir nada
 npx playwright test tests/01_primeiro_teste.spec.js ; python verificar.py 1
 npx playwright test tests/02_selecionadores.spec.js ; python verificar.py 2
 npx playwright test tests/03_cenarios.spec.js       ; python verificar.py 3
