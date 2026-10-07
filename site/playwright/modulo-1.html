@@ -221,9 +221,16 @@ test("login com credenciais validas entra na loja", async ({ page }) => {
   await expect(page).toHaveURL(/index\.html/);
   await expect(page.getByTestId("nav-account-name")).toHaveText("Maria");
 });</code></pre>
-        <p style="margin:10px 0 0">Repare: <code>page.goto("/login.html")</code> é relativo;
-          o <code>baseURL</code> (o site de treino publicado) já está configurado em
-          <code>playwright.config.js</code>. E não existe nenhum <code>sleep()</code> antes de ler o
+        <p style="margin:10px 0 0">Repare que <code>page.goto("/login.html")</code> usa um
+          caminho <b>relativo</b>, não a URL inteira. Isso funciona porque todo teste já recebe um
+          <code>page</code> pronto, apontando pro <code>baseURL</code> configurado em
+          <code>playwright.config.js</code> (o site de treino publicado): o Playwright gruda esse
+          <code>baseURL</code> na frente de qualquer caminho relativo que você passar pro
+          <code>goto()</code>. Na prática, <code>page.goto("/login.html")</code> e
+          <code>page.goto("https://qa-learning-treino-production.up.railway.app/login.html")</code>
+          abrem a mesma página; a primeira forma só evita repetir a URL inteira em todo teste, e
+          facilita trocar de alvo no futuro (como no Módulo 0, que usa outro <code>baseURL</code>)
+          sem precisar editar teste por teste. E não existe nenhum <code>sleep()</code> antes de ler o
           nome "Maria" no header: o <code>expect()</code> do Playwright <b>espera sozinho</b> até uns
           5 segundos até a condição ficar verdadeira, ou falha com uma mensagem clara.</p>
         <p style="margin:10px 0 0">De dentro de <code>trilha-7/</code>:</p>
