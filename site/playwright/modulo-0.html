@@ -44,13 +44,15 @@
     <div class="card">
       <h3 style="margin-top:0">🎥 Prefere ver antes de ler?</h3>
       <p style="margin:0 0 12px; font-size:14px; color:var(--suave)">
-        Esse vídeo (3min46) explica o que são Node e npm, a diferença entre instalar a
+        Esse vídeo (5min05) explica o que são Node e npm, a diferença entre instalar a
         <b>ferramenta</b> (npm) e o <b>navegador</b> que ela controla (download à parte), o que
-        cada linha do <code>playwright.config.js</code> faz, e fecha montando o projeto inteiro de
-        verdade, ao vivo, num terminal: <code>mkdir</code>, <code>npm init</code>,
-        <code>npm install</code>, os dois arquivos escritos na hora, e <code>1 passed</code> rodando
-        contra o QA Treino publicado de verdade. Não substitui o texto abaixo, mas ajuda a
-        visualizar antes de praticar.
+        cada linha do <code>playwright.config.js</code> faz (incluindo o <code>testIdAttribute</code>,
+        que por padrão já é <code>data-testid</code>), mostra de onde vem cada pasta e arquivo do
+        projeto, e fecha montando tudo de verdade, ao vivo, num terminal: <code>mkdir</code>,
+        <code>npm init</code>, <code>npm install</code>, os dois arquivos escritos na hora,
+        <code>1 passed</code> rodando contra o QA Treino publicado de verdade, e a estrutura de
+        pastas real conferida no fim. Não substitui o texto abaixo, mas ajuda a visualizar antes de
+        praticar.
       </p>
       <video controls preload="metadata" poster="../assets/videos/playwright-modulo-0-poster.jpg"
              style="width:100%; max-width:720px; border-radius:8px; display:block">
@@ -134,6 +136,47 @@ module.exports = defineConfig({
           <code>trilha-7/playwright.config.js</code> tem mais algumas opções (relatório em JSON
           pro corretor ler, captura de trace em caso de falha) — dá uma olhada nele depois de
           terminar aqui, pra comparar.</p>
+        <p style="margin:14px 0 0">Mais uma opção que existe, embora a gente não precise mexer
+          nela: <code>testIdAttribute</code>. É ela que diz pro <code>page.getByTestId(...)</code>
+          em qual atributo HTML procurar. <b>O padrão do Playwright já é
+          <code>data-testid</code></b> — exatamente o atributo que o QA Treino usa em todo
+          elemento, por isso tudo funcionou sem configurar nada extra. Se um dia você testar um
+          site que usa outro nome, tipo <code>data-test</code> ou <code>data-cy</code>, é aqui que
+          você avisa o Playwright:</p>
+        <pre class="bloco"><code>use: {
+  baseURL: "...",
+  testIdAttribute: "data-test", // só se o site NÃO usar data-testid
+},</code></pre>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>6. Olhando a estrutura de pastas depois de tudo isso</h2>
+      <div class="card">
+        <p style="margin-top:0">Depois dos passos acima, é assim que a pasta
+          <code>meu-projeto-playwright/</code> fica por dentro. Repare de onde veio cada item:</p>
+        <pre class="bloco"><code>meu-projeto-playwright/
+├── package.json          ← criado pelo "npm init -y" (passo 1)
+├── package-lock.json     ← criado pelo "npm install" (passo 2, trava as versões)
+├── node_modules/         ← criado pelo "npm install" (passo 2, o código do Playwright em si)
+├── playwright.config.js  ← você criou na mão (passo 3)
+├── tests/
+│   └── exemplo.spec.js   ← você criou na mão (passo 4)
+└── test-results/         ← o Playwright cria sozinho ao rodar (passo 5), guarda prints/vídeos de falha</code></pre>
+        <p style="margin-bottom:0"><code>node_modules/</code> e <code>package-lock.json</code> não
+          existiam antes do <code>npm install</code>: é ali que o código de verdade do Playwright
+          fica guardado (geralmente uma pasta pesada, por isso ela nunca é commitada no Git — só o
+          <code>package.json</code> descreve o que precisa ser reinstalado). Compare essa árvore
+          com a de <code>trilha-7/</code>, que você já viu nos módulos anteriores: é a mesma ideia,
+          só que com mais Page Objects dentro de <code>tests/</code> e <code>pages/</code>.</p>
+        <p style="margin-bottom:0; font-size:14px; color:var(--suave)">
+          Não existe uma pasta <code>playwright-report/</code> aqui: ela só aparece se você
+          configurar um reporter específico pra isso (<code>reporter: "html"</code>). O
+          <code>trilha-7/playwright.config.js</code> usa outra combinação,
+          <code>reporter: [["list"], ["json", ...]]</code>, que mostra o resultado direto no
+          terminal e grava um <code>resultado.json</code> (é esse arquivo que
+          <code>verificar.py</code> lê pra conferir seu exercício).
+        </p>
       </div>
     </section>
 
