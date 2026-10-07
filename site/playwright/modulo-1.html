@@ -160,6 +160,17 @@
           quiser testar em mais de um motor.
         </p>
       </div>
+      <div class="card card-info" style="margin-bottom:0">
+        <p style="margin:0; font-size:14px">
+          <b>Se o VS Code sublinhar de vermelho <code>require("@playwright/test")</code>
+          com "Cannot find module"</b>, mesmo depois do <code>npm install</code> terminar: é
+          falso alarme. O editor analisou o arquivo antes do <code>node_modules/</code> existir
+          e não percebeu sozinho que a pasta apareceu. <b>Ctrl+Shift+P</b> → digite
+          <b>"Reload Window"</b> → Enter resolve. Confirme rodando o teste de verdade no
+          terminal antes de se preocupar: se ele passar, o módulo está lá, é só o editor que
+          está desatualizado.
+        </p>
+      </div>
     </section>
 
     <section class="secao">
