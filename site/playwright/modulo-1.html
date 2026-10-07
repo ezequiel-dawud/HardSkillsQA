@@ -282,6 +282,19 @@ test("login com credenciais validas entra na loja", async ({ page }) => {
           <code>python verificar.py 1</code> até dar 4 <code>[ok]</code>. O gabarito está em
           <code>trilha-7/GABARITO.md</code>.</p>
       </div>
+      <div class="card card-info" style="margin-bottom:0">
+        <p style="margin:0; font-size:14px">
+          <b>Pegadinha clássica:</b> um teste sem nenhum <code>expect()</code> sempre passa, não
+          importa o que aconteça na tela — o Playwright só reprova quando uma asserção falha, e
+          sem asserção não tem o que falhar. Faça os passos (<code>goto</code>,
+          <code>fill</code>, <code>click</code>) sem a linha final de <code>expect()</code> e rode
+          de novo: o relatório mostra "<code>1 passed</code>" mesmo assim. É fácil escrever uma
+          suíte inteira "verde" que não testa nada — o <code>python verificar.py 1</code> também
+          cairia nessa, porque só confere se o teste existe e se passou, não se ele tem
+          asserção de verdade. Depois de ver isso acontecer, acrescente o
+          <code>expect(...).toBeVisible()</code> de volta.
+        </p>
+      </div>
       <details class="card estrutura-pastas">
         <summary>📁 Ver estrutura de pastas da trilha-7/</summary>
         <pre class="bloco"><code>trilha-7/
