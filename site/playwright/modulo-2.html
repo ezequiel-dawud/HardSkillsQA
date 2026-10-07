@@ -123,6 +123,14 @@ class CadastroPage {
 }
 
 module.exports = { CadastroPage };</code></pre>
+        <p><code>constructor(page)</code> é um método especial de toda classe: ele roda sozinho,
+          uma vez, no exato momento em que alguém escreve <code>new CadastroPage(page)</code> (isso
+          acontece no <code>beforeEach</code> do teste, mais abaixo). É o lugar certo pra preparar
+          tudo que o objeto vai precisar. Aqui ele recebe o <code>page</code> do Playwright (o
+          mesmo que o Módulo 1 usava direto no teste) e guarda, em <code>this.algumaCoisa</code>,
+          um locator pronto pra cada campo e botão da tela de cadastro. Esses <code>this.algumaCoisa</code>
+          ficam acessíveis pros outros métodos da classe (<code>preencher</code>, <code>submeter</code>)
+          e pro teste, como <code>cadastro.passwordError</code> faz lá na frente.</p>
         <p style="margin-bottom:0">Arquivo já existe em <code>pages/CadastroPage.js</code>. Se o
           <code>data-testid</code> de um campo mudar amanhã, você corrige em <b>um lugar</b>, a
           classe, e todo teste que usa <code>CadastroPage</code> continua funcionando.</p>
