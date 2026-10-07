@@ -42,6 +42,26 @@
     <h1>Módulo 5: Testes de API</h1>
     <p class="legenda">O fixture <code>request</code> do Playwright, chamar API sem abrir navegador, autenticação com token, e <code>test.describe.serial</code> pro ciclo de vida de um recurso.</p>
 
+    <div class="card">
+      <h3 style="margin-top:0">🎥 Prefere ver antes de ler?</h3>
+      <p style="margin:0 0 12px; font-size:14px; color:var(--suave)">
+        Esse vídeo (5min27) explica o que é o fixture <code>request</code>, o que é um header e o
+        formato <code>Bearer</code>, por que <code>data</code> vira JSON sozinho, por que
+        <code>test.describe.serial</code> existe (e por que os outros módulos nunca precisaram
+        dele), como <code>res.json()</code> lê o corpo da resposta, e o cuidado de limpar o que
+        você criou já que o site não tem banco de dados. Fecha mostrando o comando rodando de
+        verdade num terminal (repara: nenhuma janela de navegador abre) e criando/apagando um
+        produto direto pela API, refletido ao vivo na lista do site. Não substitui o texto abaixo,
+        mas ajuda a visualizar antes de praticar.
+      </p>
+      <video controls preload="metadata" poster="../assets/videos/playwright-modulo-5-poster.jpg"
+             style="width:100%; max-width:720px; border-radius:8px; display:block">
+        <source src="../assets/videos/playwright-modulo-5.mp4" type="video/mp4" />
+        Seu navegador não suporta vídeo embutido. Baixe em
+        <a href="../assets/videos/playwright-modulo-5.mp4">playwright-modulo-5.mp4</a>.
+      </video>
+    </div>
+
     <section class="secao">
       <h2>1. Por que testar API com o Playwright, se ele é de navegador</h2>
       <div class="card">
