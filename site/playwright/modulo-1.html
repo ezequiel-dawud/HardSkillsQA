@@ -217,6 +217,17 @@ test("login com credenciais validas entra na loja", async ({ page }) => {
           5 segundos até a condição ficar verdadeira, ou falha com uma mensagem clara.</p>
         <p style="margin:10px 0 0">De dentro de <code>trilha-7/</code>:</p>
         <pre class="bloco"><code>npx playwright test tests/01_primeiro_teste.spec.js</code></pre>
+        <p style="margin:10px 0 0; font-size:14px; color:var(--suave)">
+          Por padrão isso roda <b>headless</b> (sem abrir janela de navegador) — mais rápido,
+          mas você não vê nada acontecendo. Pra ver o navegador de verdade clicando e
+          preenchendo, acrescente <code>--headed</code>:
+        </p>
+        <pre class="bloco"><code>npx playwright test tests/01_primeiro_teste.spec.js --headed</code></pre>
+        <p style="margin-bottom:0; font-size:14px; color:var(--suave)">
+          Como os dois testes rodam em paralelo, podem abrir duas janelas ao mesmo tempo — não é
+          erro. Vale usar <code>--headed</code> enquanto você está aprendendo um cenário novo, e
+          depois voltar pro padrão (headless) no dia a dia, que é mais rápido e é como o CI roda.
+        </p>
       </div>
     </section>
 
