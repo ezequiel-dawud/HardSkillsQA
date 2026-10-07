@@ -90,6 +90,16 @@
           excluir</b> exigem um token fixo no header <code>Authorization</code>. É o cenário
           mais comum de API em produção: leitura aberta, escrita protegida. Sem o header
           certo, a API responde <code>401</code>:</p>
+        <p>De onde vem esse <code>token-treino-123</code>? Aqui, de lugar nenhum dinâmico: ele
+          está escrito no <code>README</code> do QA Treino, só pra simplificar o aprendizado. Repare
+          que o <code>/api/login</code> deste site (o mesmo do Módulo 1) não devolve token nenhum,
+          só o nome da pessoa pra controlar a sessão da tela — são dois mecanismos
+          completamente separados. Numa API de verdade, o token quase nunca é um valor fixo
+          decorado: ele normalmente é <b>gerado</b> na hora, por um endpoint de login que devolve
+          um token novo a cada vez (ou por um painel de "API keys" do serviço), e costuma expirar
+          depois de um tempo. Se um dia você testar uma API assim, o primeiro passo do teste
+          costuma ser literalmente fazer esse login e guardar o token que veio na resposta, pra
+          usar nas chamadas seguintes.</p>
         <pre class="bloco"><code>const TOKEN = "token-treino-123";
 const AUTORIZADO = { Authorization: `Bearer ${TOKEN}` };
 
