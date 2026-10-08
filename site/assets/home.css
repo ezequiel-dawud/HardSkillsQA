@@ -2,6 +2,11 @@
    pra não vazar pras páginas de módulo, que continuam com o visual de estilo.css. */
 
 body.pagina-inicial {
+  /* a home segue só o tema claro do design de referência (DESIGN.md não define
+     modo escuro); sem isto o navegador em modo escuro troca cores de formulário
+     e scrollbar sozinho, destoando da paleta fixa abaixo */
+  color-scheme: light;
+
   --h-bg: #F4F3EE;
   --h-superficie: #FCFCFA;
   --h-texto: #15171A;
@@ -25,25 +30,6 @@ body.pagina-inicial {
   font-family: "Instrument Sans", system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  body.pagina-inicial {
-    --h-bg: #15171A;
-    --h-superficie: #1D2024;
-    --h-texto: #EDEDE7;
-    --h-texto-suave: #C9CCD1;
-    --h-texto-suave2: #9AA0A8;
-    --h-borda: #2C2F34;
-    --h-borda-tracejada: #3A3E45;
-    --h-grade: #202327;
-    --h-termo-bg: #0E1013;
-    --h-foco: #6E8CFF;
-
-    --h-base: #5FD1C8;      --h-base-fraco: #16302E;
-    --h-dados: #7C9CFF;     --h-dados-fraco: #1A2340;
-    --h-auto: #FFA35C;      --h-auto-fraco: #3A2412;
-    --h-entrega: #C9A6F2;   --h-entrega-fraco: #2C2140;
-  }
-}
 
 body.pagina-inicial * { box-sizing: border-box; }
 body.pagina-inicial a { color: inherit; text-decoration: none; }
