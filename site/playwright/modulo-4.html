@@ -117,6 +117,19 @@ await expect(page.getByTestId("nav-account-name")).toHaveText("Maria");</code></
           outra coisa (carrinho, paginação, mock de produto), pular direto é mais rápido e mais
           estável: menos passos, menos chance de um deles falhar por motivo que não tem nada a
           ver com o que você está testando.</p>
+        <div class="card card-info" style="margin-bottom:0">
+          <p style="margin:0; font-size:14px">
+            <b>Fora desta trilha:</b> o <code>addInitScript</code> funciona porque aqui a sessão
+            é só um item no <code>localStorage</code>. Em projetos reais o Playwright tem um jeito
+            oficial pra isso: <code>storageState</code>. A ideia é fazer o login pela UI
+            <b>uma vez</b>, salvar cookies e <code>localStorage</code> num arquivo JSON
+            (<code>await page.context().storageState({ path: "sessao.json" })</code>) e depois
+            reaproveitar esse arquivo em todos os testes via <code>playwright.config.js</code>
+            (<code>use: { storageState: "sessao.json" }</code>). É o padrão usado em produção
+            porque funciona com qualquer mecanismo de sessão (cookie de verdade, token, o que
+            for), não só <code>localStorage</code> manual como fizemos acima.
+          </p>
+        </div>
       </div>
     </section>
 

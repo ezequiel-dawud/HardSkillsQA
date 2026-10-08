@@ -101,6 +101,17 @@
           depois de um tempo. Se um dia você testar uma API assim, o primeiro passo do teste
           costuma ser literalmente fazer esse login e guardar o token que veio na resposta, pra
           usar nas chamadas seguintes.</p>
+        <div class="card card-info" style="margin-bottom:0">
+          <p style="margin:0; font-size:14px">
+            <b>Sobre deixar o token escrito no código:</b> aqui é só pra simplificar o
+            aprendizado, mas num projeto de verdade isso é considerado vazamento de segredo —
+            o mesmo cuidado que o <code>BASE_URL</code> já recebe no Módulo 1
+            (<code>process.env.BASE_URL || "..."</code> no <code>playwright.config.js</code>).
+            Token, senha e chave de API seguem a mesma lógica: ficam numa variável de ambiente
+            (ou num <code>.env</code> fora do controle de versão) e o teste só lê
+            <code>process.env.TOKEN</code>, nunca o valor escrito direto no arquivo.
+          </p>
+        </div>
         <pre class="bloco"><code>const TOKEN = "token-treino-123";
 const AUTORIZADO = { Authorization: `Bearer ${TOKEN}` };
 

@@ -1,3 +1,5 @@
+const { expect } = require("@playwright/test");
+
 // Page Object de /produto.html -- ver Modulo 3.
 class ProdutoPage {
   constructor(page) {
@@ -14,7 +16,7 @@ class ProdutoPage {
     await this.page.goto(`/produto.html?id=${id}`);
     // o detalhe do produto vem de um fetch com atraso proposital -- esperar o
     // titulo preencher evita agir numa pagina que ainda nao carregou o produto.
-    await this.page.waitForSelector('[data-testid="product-detail-title"]:not(:empty)');
+    await expect(this.title).not.toHaveText("");
   }
 
   galleryItem(n) {

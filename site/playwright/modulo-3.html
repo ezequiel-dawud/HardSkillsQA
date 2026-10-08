@@ -143,7 +143,50 @@ await expect(produto.filePreview).toContainText("exemplo.png");</code></pre>
     </section>
 
     <section class="secao">
-      <h2>5. Os testes deste módulo</h2>
+      <h2>5. Além da trilha: fixtures (<code>test.extend</code>)</h2>
+      <div class="card">
+        <p style="margin-top:0">O padrão que você acabou de praticar — criar
+          <code>new LoginPage(page)</code> dentro de um <code>beforeEach</code> — funciona e é
+          assim que esta trilha ensina do início ao fim. Mas em projetos Playwright de médio/grande
+          porte, o jeito recomendado pela documentação oficial é empacotar isso numa
+          <b>fixture customizada</b>, com <code>test.extend</code>. A ideia: em vez de repetir
+          "crie o Page Object e faça login" em cada arquivo de teste, você declara isso uma vez e
+          o Playwright injeta pronto, exatamente como já injeta <code>{ page }</code>:</p>
+        <pre class="bloco"><code>// fixtures.js
+const base = require("@playwright/test");
+const { LoginPage } = require("./pages/LoginPage");
+
+exports.test = base.test.extend({
+  paginaLogada: async ({ page }, use) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.goto();
+    await loginPage.login("maria@exemplo.com", "SenhaForte123");
+    await base.expect(page).toHaveURL(/index\.html/);
+    await use(page); // o teste roda aqui, ja logado
+  },
+});
+exports.expect = base.expect;</code></pre>
+        <p>No teste, troca-se o <code>require("@playwright/test")</code> pelo arquivo de fixtures,
+          e o <code>beforeEach</code> de login some: quem pede <code>paginaLogada</code> no teste
+          já recebe a página logada, sem escrever a lógica de novo:</p>
+        <pre class="bloco"><code>const { test, expect } = require("../fixtures");
+
+test("produtos aparecem depois do carregamento", async ({ paginaLogada }) => {
+  await expect(paginaLogada.getByTestId("product-list")).toBeVisible();
+});</code></pre>
+        <p style="margin-bottom:0"><b>Por que isso importa:</b> o <code>beforeEach</code> manual
+          que esta trilha usa não escala bem quando você tem várias combinações de setup (logado
+          como admin, logado sem produtos no carrinho, logado com sessão expirada...) — vira um
+          emaranhado de funções auxiliares. Fixtures resolvem isso com composição: cada teste pede
+          só as fixtures que precisa, e o Playwright cuida da ordem e da limpeza. Esta trilha fica
+          no <code>beforeEach</code> de propósito, por ser mais fácil de enxergar o que acontece
+          quando você está aprendendo — mas se o próximo projeto usar <code>test.extend</code>,
+          agora você já reconhece o padrão.</p>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2>6. Os testes deste módulo</h2>
       <div class="card">
         <p style="margin-top:0"><b>Arquivo já existe</b> em
           <code>tests/03_cenarios.spec.js</code>. Não precisa digitar, só rodar:</p>
