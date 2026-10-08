@@ -1,0 +1,338 @@
+/* Redesign da home ("caderno técnico de QA") — escopado em body.pagina-inicial
+   pra não vazar pras páginas de módulo, que continuam com o visual de estilo.css. */
+
+body.pagina-inicial {
+  --h-bg: #F4F3EE;
+  --h-superficie: #FCFCFA;
+  --h-texto: #15171A;
+  --h-texto-suave: #3B4047;
+  --h-texto-suave2: #4A4F57;
+  --h-borda: #D9D6C9;
+  --h-borda-tracejada: #B9B5A3;
+  --h-grade: #E7E5DB;
+  --h-termo-bg: #15171A;
+  --h-termo-verde: #7BE0A4;
+  --h-termo-laranja: #FFB86B;
+  --h-foco: #2548C9;
+
+  --h-base: #0B6B66;       --h-base-fraco: #D3EBE8;
+  --h-dados: #2548C9;      --h-dados-fraco: #DDE5FA;
+  --h-auto: #A8480F;       --h-auto-fraco: #F6E0CF;
+  --h-entrega: #55308A;    --h-entrega-fraco: #E9DFF5;
+
+  background: var(--h-bg);
+  color: var(--h-texto);
+  font-family: "Instrument Sans", system-ui, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  body.pagina-inicial {
+    --h-bg: #15171A;
+    --h-superficie: #1D2024;
+    --h-texto: #EDEDE7;
+    --h-texto-suave: #C9CCD1;
+    --h-texto-suave2: #9AA0A8;
+    --h-borda: #2C2F34;
+    --h-borda-tracejada: #3A3E45;
+    --h-grade: #202327;
+    --h-termo-bg: #0E1013;
+    --h-foco: #6E8CFF;
+
+    --h-base: #5FD1C8;      --h-base-fraco: #16302E;
+    --h-dados: #7C9CFF;     --h-dados-fraco: #1A2340;
+    --h-auto: #FFA35C;      --h-auto-fraco: #3A2412;
+    --h-entrega: #C9A6F2;   --h-entrega-fraco: #2C2140;
+  }
+}
+
+body.pagina-inicial * { box-sizing: border-box; }
+body.pagina-inicial a { color: inherit; text-decoration: none; }
+body.pagina-inicial a:focus-visible,
+body.pagina-inicial button:focus-visible {
+  outline: 3px solid var(--h-foco); outline-offset: 3px;
+}
+
+/* o resto do site usa .container (max-width 900px); a home usa uma largura própria */
+body.pagina-inicial .h-faixa {
+  max-width: 1200px; width: 100%; box-sizing: border-box;
+  margin: 0 auto; padding-left: clamp(16px, 4vw, 40px); padding-right: clamp(16px, 4vw, 40px);
+}
+
+/* ---- header -------------------------------------------------------------- */
+body.pagina-inicial .topo {
+  position: static; backdrop-filter: none; -webkit-backdrop-filter: none;
+  background: var(--h-superficie);
+  border-bottom: 1px solid var(--h-borda);
+  padding: 0;
+}
+body.pagina-inicial .topo .marca a::before { content: none; } /* remove o "▸" do tema padrão (estilo.css) */
+body.pagina-inicial .h-header-int {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 12px; padding: 14px clamp(16px, 4vw, 40px);
+}
+body.pagina-inicial .marca {
+  display: flex; align-items: center; gap: 10px;
+  font-family: "Bricolage Grotesque", system-ui, sans-serif;
+  font-weight: 700; font-size: 20px; letter-spacing: -0.01em;
+}
+body.pagina-inicial .marca a { display: flex; align-items: center; gap: 10px; color: var(--h-texto); }
+body.pagina-inicial .marca-icone {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px; border-radius: 8px;
+  background: var(--h-termo-bg); color: var(--h-termo-verde);
+  font-family: "JetBrains Mono", monospace; font-size: 15px; font-weight: 500;
+}
+body.pagina-inicial .topo nav {
+  margin-left: auto; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+}
+body.pagina-inicial .topo nav a, body.pagina-inicial .topo nav button {
+  min-height: 44px; padding: 0 14px; display: inline-flex; align-items: center;
+  border-radius: 999px; font-size: 15px; font-weight: 500;
+  border: none; background: none; color: var(--h-texto); font-family: inherit; cursor: pointer;
+}
+body.pagina-inicial .topo nav a:hover, body.pagina-inicial .topo nav button:hover { background: #E6E4DA; }
+body.pagina-inicial .topo nav .conta-botao {
+  border: 1.5px solid var(--h-texto) !important; font-weight: 600;
+  max-width: 190px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+body.pagina-inicial .topo nav .conta-botao:hover { background: var(--h-texto); color: var(--h-bg); }
+
+/* ---- hero ------------------------------------------------------------- */
+body.pagina-inicial .h-hero {
+  background-image:
+    linear-gradient(var(--h-grade) 1px, transparent 1px),
+    linear-gradient(90deg, var(--h-grade) 1px, transparent 1px);
+  background-size: 40px 40px;
+  border-bottom: 1px solid var(--h-borda);
+}
+body.pagina-inicial .h-hero-int {
+  padding-top: clamp(40px, 7vw, 88px); padding-bottom: clamp(40px, 7vw, 88px);
+  display: flex; flex-wrap: wrap; align-items: center; gap: 48px;
+}
+body.pagina-inicial .h-hero-texto { flex: 1 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 24px; }
+body.pagina-inicial .h-eyebrow {
+  font-family: "JetBrains Mono", monospace; font-size: 13px; font-weight: 500;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--h-base);
+}
+body.pagina-inicial .h-eyebrow .prompt { margin-right: 2px; }
+body.pagina-inicial .h-hero h1 {
+  margin: 0; font-family: "Bricolage Grotesque", system-ui, sans-serif; font-weight: 700;
+  font-size: clamp(40px, 6vw, 72px); line-height: 1.02; letter-spacing: -0.03em;
+  background: none; -webkit-background-clip: initial; background-clip: initial; color: var(--h-texto);
+}
+body.pagina-inicial .h-hero p.legenda {
+  margin: 0; font-size: 19px; color: var(--h-texto-suave); max-width: 56ch;
+}
+body.pagina-inicial .h-hero p.legenda strong { color: var(--h-texto); }
+body.pagina-inicial .h-cta { display: flex; flex-wrap: wrap; gap: 12px; }
+body.pagina-inicial .h-btn-primario, body.pagina-inicial .h-btn-ghost {
+  min-height: 52px; padding: 0 26px; display: inline-flex; align-items: center; gap: 10px;
+  border-radius: 12px; font-size: 16px; font-weight: 600;
+}
+body.pagina-inicial .h-btn-primario { background: var(--h-texto); color: var(--h-bg); }
+body.pagina-inicial .h-btn-primario:hover { background: var(--h-foco); }
+body.pagina-inicial .h-btn-ghost { border: 1.5px solid var(--h-texto); }
+body.pagina-inicial .h-btn-ghost:hover { background: var(--h-texto); color: var(--h-bg); }
+body.pagina-inicial .h-stats { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+body.pagina-inicial .h-stat {
+  padding: 12px 18px; border: 1px solid var(--h-borda); border-radius: 12px; background: var(--h-superficie);
+  display: flex; align-items: baseline; gap: 8px;
+}
+body.pagina-inicial .h-stat b {
+  font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 30px; font-weight: 700; line-height: 1;
+}
+body.pagina-inicial .h-stat span { font-size: 14px; color: var(--h-texto-suave2); }
+
+body.pagina-inicial .h-terminal { flex: 1 1 380px; min-width: 0; }
+body.pagina-inicial .h-terminal-janela {
+  background: var(--h-termo-bg); border-radius: 16px; overflow: hidden;
+  box-shadow: 0 24px 48px -24px rgba(21, 23, 26, .55);
+}
+body.pagina-inicial .h-terminal-barra {
+  display: flex; align-items: center; gap: 8px; padding: 14px 18px; border-bottom: 1px solid #2A2D33;
+}
+body.pagina-inicial .h-terminal-bola { width: 11px; height: 11px; border-radius: 50%; background: #4A4F57; }
+body.pagina-inicial .h-terminal-nome {
+  margin-left: 8px; font-family: "JetBrains Mono", monospace; font-size: 12px; color: #A3A8B0;
+}
+body.pagina-inicial .h-terminal-corpo {
+  padding: 22px 22px 26px; font-family: "JetBrains Mono", monospace; font-size: 14px; line-height: 1.9;
+  color: #E8E9EB; display: flex; flex-direction: column;
+}
+body.pagina-inicial .h-terminal-corpo .verde { color: var(--h-termo-verde); }
+body.pagina-inicial .h-terminal-prox {
+  margin-top: 10px; padding-top: 12px; border-top: 1px dashed #3A3E45;
+}
+body.pagina-inicial .h-terminal-prox .laranja { color: var(--h-termo-laranja); }
+body.pagina-inicial .h-terminal-prox strong { color: #fff; font-weight: 500; }
+
+/* ---- seções genéricas --------------------------------------------------- */
+body.pagina-inicial .h-secao { padding-top: clamp(48px, 6vw, 80px); }
+body.pagina-inicial .h-secao-cabeca {
+  display: flex; flex-direction: column; gap: 8px; margin-bottom: 28px;
+}
+body.pagina-inicial .h-secao-cabeca.com-selo {
+  flex-direction: row; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px;
+}
+body.pagina-inicial .h-kicker {
+  font-family: "JetBrains Mono", monospace; font-size: 13px; font-weight: 500;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--h-texto-suave2);
+}
+body.pagina-inicial .h-secao h2 {
+  margin: 0; border: none; padding: 0;
+  font-family: "Bricolage Grotesque", system-ui, sans-serif; font-weight: 700;
+  font-size: clamp(28px, 3.4vw, 40px); letter-spacing: -0.02em; line-height: 1.1;
+}
+body.pagina-inicial .h-secao-intro { margin: 0; font-size: 16px; color: var(--h-texto-suave); max-width: 620px; }
+body.pagina-inicial .h-selo-tempo {
+  font-family: "JetBrains Mono", monospace; font-size: 14px; font-weight: 500;
+  padding: 10px 16px; border-radius: 999px; background: var(--h-texto); color: var(--h-bg); white-space: nowrap;
+}
+
+/* ---- como funciona ------------------------------------------------------- */
+body.pagina-inicial .h-grade-4 {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 16px;
+}
+body.pagina-inicial .h-card {
+  background: var(--h-superficie); border: 1px solid var(--h-borda); border-radius: 16px; padding: 22px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+body.pagina-inicial .h-card-cabeca {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;
+}
+body.pagina-inicial .h-card-titulo {
+  font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 20px; font-weight: 700;
+}
+body.pagina-inicial .h-chip {
+  font-family: "JetBrains Mono", monospace; font-size: 12px; font-weight: 500;
+  padding: 4px 10px; border-radius: 999px; white-space: nowrap;
+}
+body.pagina-inicial .h-card p { margin: 0; font-size: 15px; color: var(--h-texto-suave); }
+body.pagina-inicial .h-card .h-nota {
+  margin: 0; font-size: 14px; color: var(--h-texto-suave2); padding-top: 10px;
+  border-top: 1px dashed var(--h-borda);
+}
+body.pagina-inicial .h-card .h-nota strong { color: var(--h-texto); }
+body.pagina-inicial .h-card .h-nota a { font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---- caminho recomendado -------------------------------------------------- */
+body.pagina-inicial .h-grade-caminho {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); gap: 12px;
+}
+body.pagina-inicial .h-passo {
+  background: var(--h-superficie); border: 1px solid var(--h-borda); border-radius: 16px; padding: 20px;
+  display: flex; flex-direction: column; gap: 10px; transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+body.pagina-inicial .h-passo:hover { transform: translateY(-3px); box-shadow: 0 10px 28px -12px rgba(21, 23, 26, .35); border-color: var(--h-texto); }
+body.pagina-inicial .h-passo-num {
+  font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 44px; font-weight: 700; line-height: 1;
+}
+body.pagina-inicial .h-passo-titulo { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 18px; font-weight: 700; line-height: 1.2; }
+body.pagina-inicial .h-passo-desc { font-size: 14px; color: var(--h-texto-suave); flex: 1; }
+body.pagina-inicial .h-passo-tempo { font-family: "JetBrains Mono", monospace; font-size: 13px; font-weight: 500; color: var(--h-texto-suave2); }
+body.pagina-inicial .h-caminho-nota {
+  margin-top: 16px; padding: 18px 22px; border: 1.5px dashed var(--h-borda-tracejada); border-radius: 16px;
+  display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; justify-content: space-between;
+}
+body.pagina-inicial .h-caminho-nota p { margin: 0; }
+body.pagina-inicial .h-caminho-nota p:first-child { font-size: 15px; color: var(--h-texto-suave); flex: 1 1 420px; }
+body.pagina-inicial .h-caminho-nota p:last-child { font-size: 14px; color: var(--h-texto-suave2); flex: 1 1 280px; }
+body.pagina-inicial .h-caminho-nota strong { color: var(--h-texto); }
+
+/* ---- filtros de trilha ----------------------------------------------------- */
+body.pagina-inicial .h-filtros { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+body.pagina-inicial .h-filtro {
+  min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1.5px solid var(--h-borda);
+  background: var(--h-superficie); color: var(--h-texto);
+  font-family: "Instrument Sans", system-ui, sans-serif; font-size: 15px; font-weight: 600; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+body.pagina-inicial .h-filtro span {
+  font-family: "JetBrains Mono", monospace; font-size: 12px; font-weight: 500; opacity: .8;
+}
+body.pagina-inicial .h-filtro[aria-pressed="true"] { border-color: var(--h-texto); background: var(--h-texto); color: var(--h-bg); }
+
+/* ---- grade de trilhas -------------------------------------------------- */
+body.pagina-inicial .h-grade-trilhas { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 16px; }
+body.pagina-inicial .h-trilha-card {
+  background: var(--h-superficie); border: 1px solid var(--h-borda); border-radius: 16px; padding: 22px;
+  display: flex; flex-direction: column; gap: 12px;
+  border-top-width: 6px; border-top-style: solid;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+body.pagina-inicial .h-trilha-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px -12px rgba(21, 23, 26, .35); }
+body.pagina-inicial .h-trilha-card[hidden] { display: none; }
+body.pagina-inicial .h-trilha-cabeca { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+body.pagina-inicial .h-trilha-kicker {
+  font-family: "JetBrains Mono", monospace; font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase;
+}
+body.pagina-inicial .h-trilha-selos { display: flex; gap: 6px; flex-wrap: wrap; }
+body.pagina-inicial .h-selo-area, body.pagina-inicial .h-selo-aprof {
+  font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px;
+}
+body.pagina-inicial .h-selo-aprof { background: var(--h-texto); color: var(--h-bg); }
+body.pagina-inicial .h-trilha-card h3 {
+  margin: 0; font-family: "Bricolage Grotesque", system-ui, sans-serif; font-weight: 700;
+  font-size: 23px; line-height: 1.15; letter-spacing: -0.01em;
+}
+body.pagina-inicial .h-trilha-card p { margin: 0; font-size: 15px; color: var(--h-texto-suave); flex: 1; }
+body.pagina-inicial .h-trilha-meta { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--h-texto-suave2); }
+body.pagina-inicial .h-trilha-meta .mono { font-family: "JetBrains Mono", monospace; }
+body.pagina-inicial .h-trilha-card .trilha-progresso { padding-top: 12px; border-top: 1px dashed var(--h-borda); margin-top: 0; }
+
+/* ---- projeto final ------------------------------------------------------- */
+body.pagina-inicial .h-projeto {
+  background: var(--h-termo-bg); color: #F4F3EE; border-radius: 24px; padding: clamp(28px, 5vw, 56px);
+  display: flex; flex-wrap: wrap; gap: 36px; align-items: center;
+}
+body.pagina-inicial .h-projeto-texto { flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+body.pagina-inicial .h-projeto .h-kicker { color: var(--h-termo-verde); }
+body.pagina-inicial .h-projeto h2 {
+  margin: 0; font-family: "Bricolage Grotesque", system-ui, sans-serif; font-weight: 700;
+  font-size: clamp(28px, 3.6vw, 44px); letter-spacing: -0.02em; line-height: 1.08;
+}
+body.pagina-inicial .h-projeto p { margin: 0; font-size: 17px; color: #C9CCD1; max-width: 48ch; }
+body.pagina-inicial .h-projeto .h-btn-primario { background: #F4F3EE; color: var(--h-termo-bg); margin-top: 8px; }
+body.pagina-inicial .h-projeto .h-btn-primario:hover { background: var(--h-termo-verde); }
+body.pagina-inicial .h-projeto-lista {
+  flex: 1 1 360px; min-width: 0; margin: 0; padding: 0; list-style: none;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 10px;
+}
+body.pagina-inicial .h-projeto-lista li {
+  display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 1px solid #33373E; border-radius: 12px; font-size: 15px;
+}
+body.pagina-inicial .h-projeto-lista .num { font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--h-termo-verde); }
+
+/* ---- footer -------------------------------------------------------------- */
+body.pagina-inicial .h-rodape {
+  padding-top: 56px; padding-bottom: 40px;
+}
+body.pagina-inicial .h-rodape-int {
+  border-top: 1px solid var(--h-borda); padding-top: 24px;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+  font-size: 15px; color: var(--h-texto-suave);
+}
+body.pagina-inicial .h-rodape strong { color: var(--h-texto); }
+body.pagina-inicial .h-rodape a { min-height: 44px; display: inline-flex; align-items: center; font-weight: 600; color: var(--h-texto); text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---- responsivo (um único corte, igual ao protótipo) ---------------------- */
+@media (max-width: 640px) {
+  body.pagina-inicial .h-header-int { flex-wrap: wrap; }
+  body.pagina-inicial .topo nav {
+    order: 3; flex: 0 0 100%; margin-left: 0; overflow-x: auto; flex-wrap: nowrap !important;
+    scrollbar-width: none; padding-bottom: 2px;
+  }
+  body.pagina-inicial .topo nav::-webkit-scrollbar { display: none; }
+  body.pagina-inicial .topo nav a, body.pagina-inicial .topo nav button { flex: 0 0 auto; }
+  body.pagina-inicial .h-cta { flex-direction: column; }
+  body.pagina-inicial .h-cta a { justify-content: center; }
+  body.pagina-inicial .h-stat { flex: 1 1 calc(50% - 6px); }
+  body.pagina-inicial .h-filtros {
+    flex-wrap: nowrap !important; overflow-x: auto; scrollbar-width: none;
+    margin-left: -16px; margin-right: -16px; padding: 0 16px 4px;
+  }
+  body.pagina-inicial .h-filtros::-webkit-scrollbar { display: none; }
+  body.pagina-inicial .h-filtro { flex: 0 0 auto; }
+  body.pagina-inicial .h-grade-caminho { grid-template-columns: repeat(2, 1fr); }
+  body.pagina-inicial .h-card, body.pagina-inicial .h-passo, body.pagina-inicial .h-trilha-card { padding: 18px !important; }
+}

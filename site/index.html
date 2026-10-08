@@ -24,279 +24,331 @@
   <meta name="twitter:card" content="summary_large_image" />
   <!-- /meta -->
   <title>QA Learning</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/estilo.css" />
+  <link rel="stylesheet" href="assets/home.css" />
 </head>
 <body class="pagina-inicial">
   <header class="topo">
-    <div class="marca"><a href="index.html">QA Learning</a></div>
-    <nav>
-      <a href="avisos.html">Avisos</a>
-      <a href="sobre.html">Sobre</a>
-    </nav>
+    <div class="h-header-int">
+      <div class="marca">
+        <a href="index.html"><span class="marca-icone" aria-hidden="true">&gt;_</span> QA Learning</a>
+      </div>
+      <nav>
+        <a href="#caminho">Caminho</a>
+        <a href="#trilhas">Trilhas</a>
+        <a href="avisos.html">Avisos</a>
+        <a href="sobre.html">Sobre</a>
+      </nav>
+    </div>
   </header>
 
-  <main class="container">
-    <div class="hero">
-      <p class="hero-kicker"><span class="prompt">$</span> trilhas de estudo pra QA</p>
-      <h1>QA Learning</h1>
-      <p class="legenda">
-        Trilhas de estudo pra crescer como QA, do zero. Cada uma tem a teoria curta e a
-        prática pra fazer de verdade: a maioria roda dentro do próprio navegador.
-        Nunca estudou QA? Comece pela trilha de <b>Fundamentos</b>; o caminho completo
-        está logo abaixo.
-      </p>
-      <div class="hero-stats">
-        <span class="chip-stat"><strong>8</strong> trilhas</span>
-        <span class="chip-stat"><strong>38</strong> módulos</span>
-        <span class="chip-stat"><strong>0</strong> instalação pra começar</span>
+  <section class="h-hero">
+    <div class="h-faixa h-hero-int">
+      <div class="h-hero-texto">
+        <p class="h-eyebrow"><span class="prompt">$</span> trilhas de estudo pra QA</p>
+        <h1>Cresça como QA, do zero.</h1>
+        <p class="legenda">
+          Cada trilha tem a teoria curta e a prática pra fazer de verdade: a maioria roda
+          dentro do próprio navegador. Nunca estudou QA?
+          <strong>Comece pela trilha de Fundamentos.</strong>
+        </p>
+        <div class="h-cta">
+          <a class="h-btn-primario" href="fundamentos/index.html">
+            Começar por Fundamentos
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="h-btn-ghost" href="#caminho">Ver o caminho completo</a>
+        </div>
+        <div class="h-stats">
+          <div class="h-stat"><b>9</b><span>trilhas</span></div>
+          <div class="h-stat"><b>43</b><span>módulos</span></div>
+          <div class="h-stat" style="flex:1 1 100%"><b>0</b><span>instalação pra começar</span></div>
+        </div>
+      </div>
+
+      <div class="h-terminal">
+        <div class="h-terminal-janela">
+          <div class="h-terminal-barra">
+            <span class="h-terminal-bola"></span>
+            <span class="h-terminal-bola"></span>
+            <span class="h-terminal-bola"></span>
+            <span class="h-terminal-nome">qa-learning</span>
+          </div>
+          <div class="h-terminal-corpo">
+            <div><span class="verde">$</span> qa-learning --começar</div>
+            <div><span class="verde">✓</span> nada pra instalar</div>
+            <div><span class="verde">✓</span> teoria curta + prática de verdade</div>
+            <div><span class="verde">✓</span> roda no navegador <span style="color:#A3A8B0">(trilhas 1, 2 e 4)</span></div>
+            <div><span class="verde">✓</span> progresso salvo no seu navegador</div>
+            <div class="h-terminal-prox"><span class="laranja">→</span> próxima: <strong>Fundamentos de Teste</strong></div>
+          </div>
+        </div>
       </div>
     </div>
+  </section>
 
-    <div class="card card-info">
-      <h3 style="margin-top:0">Como funciona</h3>
-      <p style="margin:0; font-size:14px; color:var(--suave)">
-        Nas Trilhas 1, 2 e 4 o banco/API roda dentro do próprio navegador (WebAssembly ou
-        JavaScript): nada que você escreve sai da sua máquina, nenhum servidor processa nada.
-        As Trilhas 3 (pytest) e 5 (carga com k6) rodam no seu computador, a partir do código
-        no repositório. A Trilha 6 (CI/CD) é de leitura: você entende e mexe nos pipelines
-        que já vêm no repositório. As respostas que você digita ficam salvas no seu navegador
-        (<code>localStorage</code>). Quer levar o progresso pra outro computador? Clique em
-        <b>Entrar</b>, no topo, e crie uma conta, é só um nome de usuário.
-        A barra de cada trilha anda conforme você acerta exercícios e faz as provas; um
-        módulo conta inteiro com <b>70%</b> dos exercícios certos ou <b>70%</b> na prova dele.
-      </p>
+  <section id="como-funciona" class="h-secao">
+    <div class="h-faixa">
+      <div class="h-secao-cabeca">
+        <div class="h-kicker">Como funciona</div>
+        <h2>Onde cada trilha roda</h2>
+      </div>
+      <div class="h-grade-4">
+        <div class="h-card">
+          <div class="h-card-cabeca">
+            <span class="h-card-titulo">No navegador</span>
+            <span class="h-chip" style="background:var(--h-dados-fraco);color:var(--h-dados)">Trilhas 1, 2, 4</span>
+          </div>
+          <p>O banco e a API rodam dentro da página (WebAssembly ou JavaScript). Nada que você escreve sai da sua máquina, e nenhum servidor processa nada.</p>
+        </div>
+        <div class="h-card">
+          <div class="h-card-cabeca">
+            <span class="h-card-titulo">No seu computador</span>
+            <span class="h-chip" style="background:var(--h-auto-fraco);color:var(--h-auto)">Trilhas 3, 5, 7</span>
+          </div>
+          <p>pytest, carga com k6 e automação com Playwright rodam localmente, a partir do código que está no repositório.</p>
+        </div>
+        <div class="h-card">
+          <div class="h-card-cabeca">
+            <span class="h-card-titulo">De leitura</span>
+            <span class="h-chip" style="background:var(--h-entrega-fraco);color:var(--h-entrega)">Trilha 6</span>
+          </div>
+          <p>CI/CD: você entende e mexe nos pipelines que já vêm no repositório.</p>
+        </div>
+        <div class="h-card">
+          <div class="h-card-cabeca">
+            <span class="h-card-titulo">Progresso salvo</span>
+            <span class="h-chip" style="background:var(--h-base-fraco);color:var(--h-base)">localStorage</span>
+          </div>
+          <p>Suas respostas ficam no navegador. Quer levar pra outro computador? Clique em <b>Entrar</b>, no topo, e crie uma conta: é só um nome de usuário.</p>
+          <p class="h-nota">Um módulo conta inteiro com <strong>70%</strong> dos exercícios certos ou <strong>70%</strong> na prova dele.</p>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <div class="card card-info">
-      <h3 style="margin-top:0">Caminho recomendado</h3>
-      <p style="margin:0 0 10px; font-size:14px; color:var(--suave)">
-        Se você está começando do zero, siga nesta ordem. Cada trilha usa o que a anterior
-        deixou pronto.
-      </p>
-      <ol style="margin:0; font-size:14px; line-height:1.8">
-        <li><b>Fundamentos de Teste</b>: o que testar e por quê. <span style="color:var(--suave)">~3h30</span></li>
-        <li><b>Git e GitHub</b>: pra conseguir baixar o código e entregar o seu. <span style="color:var(--suave)">~2h</span></li>
-        <li><b>SQL para QA</b>: investigar e validar dados, a habilidade que mais muda o dia a dia. <span style="color:var(--suave)">~6h</span></li>
-        <li><b>Teste de API</b>: status, contrato, e cruzar a resposta com o banco. <span style="color:var(--suave)">~3h</span></li>
-        <li><b>Validação com pytest</b>: suas verificações viram testes que rodam sozinhos. <span style="color:var(--suave)">~3h</span></li>
-        <li><b>CI/CD para QA</b>: fazer tudo isso rodar a cada mudança e reprovar o build. <span style="color:var(--suave)">~2h30</span></li>
-      </ol>
-      <p style="margin:12px 0 0; font-size:14px; color:var(--suave)">
-        <b>PostgreSQL</b> e <b>Teste de carga com k6</b> são aprofundamentos: faça quando as
-        seis acima estiverem firmes, ou antes se o seu trabalho pedir. Os tempos são
-        estimativas fazendo os exercícios de verdade, não só lendo.
-      </p>
+  <section id="caminho" class="h-secao">
+    <div class="h-faixa">
+      <div class="h-secao-cabeca com-selo">
+        <div style="display:flex;flex-direction:column;gap:8px;max-width:620px">
+          <div class="h-kicker">Caminho recomendado</div>
+          <h2>Começando do zero? Siga nesta ordem.</h2>
+          <p class="h-secao-intro">Cada trilha usa o que a anterior deixou pronto.</p>
+        </div>
+        <div class="h-selo-tempo">≈ 20h no caminho principal</div>
+      </div>
+
+      <div class="h-grade-caminho">
+        <a class="h-passo" href="fundamentos/index.html">
+          <span class="h-passo-num" style="color:var(--h-base)">1</span>
+          <span class="h-passo-titulo">Fundamentos de Teste</span>
+          <span class="h-passo-desc">O que testar e por quê.</span>
+          <span class="h-passo-tempo">~3h30</span>
+        </a>
+        <a class="h-passo" href="git/index.html">
+          <span class="h-passo-num" style="color:var(--h-base)">2</span>
+          <span class="h-passo-titulo">Git e GitHub</span>
+          <span class="h-passo-desc">Pra conseguir baixar o código e entregar o seu.</span>
+          <span class="h-passo-tempo">~2h</span>
+        </a>
+        <a class="h-passo" href="sql/index.html">
+          <span class="h-passo-num" style="color:var(--h-dados)">3</span>
+          <span class="h-passo-titulo">SQL para QA</span>
+          <span class="h-passo-desc">Investigar e validar dados, a habilidade que mais muda o dia a dia.</span>
+          <span class="h-passo-tempo">~6h</span>
+        </a>
+        <a class="h-passo" href="api/index.html">
+          <span class="h-passo-num" style="color:var(--h-auto)">4</span>
+          <span class="h-passo-titulo">Teste de API</span>
+          <span class="h-passo-desc">Status, contrato, e cruzar a resposta com o banco.</span>
+          <span class="h-passo-tempo">~3h</span>
+        </a>
+        <a class="h-passo" href="pytest/index.html">
+          <span class="h-passo-num" style="color:var(--h-auto)">5</span>
+          <span class="h-passo-titulo">Validação com pytest</span>
+          <span class="h-passo-desc">Suas verificações viram testes que rodam sozinhos.</span>
+          <span class="h-passo-tempo">~3h</span>
+        </a>
+        <a class="h-passo" href="cicd/index.html">
+          <span class="h-passo-num" style="color:var(--h-entrega)">6</span>
+          <span class="h-passo-titulo">CI/CD para QA</span>
+          <span class="h-passo-desc">Fazer tudo isso rodar a cada mudança e reprovar o build.</span>
+          <span class="h-passo-tempo">~2h30</span>
+        </a>
+      </div>
+
+      <div class="h-caminho-nota">
+        <p><strong>PostgreSQL</strong> e <strong>Teste de carga com k6</strong> são aprofundamentos: faça quando as seis acima estiverem firmes, ou antes se o seu trabalho pedir.</p>
+        <p>Os tempos são estimativas fazendo os exercícios de verdade, não só lendo.</p>
+      </div>
     </div>
+  </section>
 
-    <h2>Comece por aqui</h2>
-    <div class="grade-modulos grade-trilhas">
+  <section id="trilhas" class="h-secao">
+    <div class="h-faixa">
+      <div class="h-secao-cabeca">
+        <div class="h-kicker">Todas as trilhas</div>
+        <h2>Escolha por onde estudar</h2>
+      </div>
 
-      <a class="modulo-link" href="fundamentos/index.html" data-trilha="fundamentos" data-modulos="5">
-        <div class="trilha-topo">
-          <span class="trilha-icone" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1z"/>
-              <path d="M16 5h2a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h2"/>
-              <path d="m9 12 2 2 4-4"/>
-              <path d="M9 17h6"/>
-            </svg>
-          </span>
-          <div class="rot">Fundamentos</div>
-        </div>
-        <div class="tit">Fundamentos de Teste</div>
-        <div class="desc">
-          A base da profissão, antes de qualquer ferramenta: princípios, níveis e tipos,
-          técnicas pra escolher casos de teste, exploratório e relatar bug. 5 módulos.
-        </div>
-      </a>
+      <div id="trilhas-filtros" class="h-filtros" role="group" aria-label="Filtrar trilhas por área">
+        <button class="h-filtro" data-cat="Todas" aria-pressed="true">Todas <span></span></button>
+        <button class="h-filtro" data-cat="Base" aria-pressed="false">Base <span></span></button>
+        <button class="h-filtro" data-cat="Dados" aria-pressed="false">Dados <span></span></button>
+        <button class="h-filtro" data-cat="Automação" aria-pressed="false">Automação <span></span></button>
+        <button class="h-filtro" data-cat="Entrega e carga" aria-pressed="false">Entrega e carga <span></span></button>
+      </div>
 
-      <a class="modulo-link" href="git/index.html" data-trilha="git" data-modulos="3">
-        <div class="trilha-topo">
-          <span class="trilha-icone" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="7" cy="5" r="2.2"/>
-              <circle cx="7" cy="19" r="2.2"/>
-              <circle cx="17" cy="12" r="2.2"/>
-              <path d="M7 7.2v9.6"/>
-              <path d="M14.8 12H12a5 5 0 0 1-5-5"/>
-            </svg>
-          </span>
-          <div class="rot">Base</div>
-        </div>
-        <div class="tit">Git e GitHub para QA</div>
-        <div class="desc">
-          Baixar o código, versionar seus testes, ler o que mudou num Pull Request e
-          entender o vermelho do CI. Destrava as trilhas 3, 5 e 6. 3 módulos.
-        </div>
-      </a>
+      <div id="trilhas-grade" class="h-grade-trilhas">
 
+        <a class="h-trilha-card" style="border-top-color:var(--h-base)" href="fundamentos/index.html"
+           data-trilha="fundamentos" data-modulos="5" data-categoria="Base">
+          <div class="h-trilha-cabeca">
+            <span class="h-trilha-kicker" style="color:var(--h-base)">Fundamentos</span>
+            <span class="h-trilha-selos"><span class="h-selo-area" style="background:var(--h-base-fraco);color:var(--h-base)">Base</span></span>
+          </div>
+          <h3>Fundamentos de Teste</h3>
+          <p>A base da profissão, antes de qualquer ferramenta: princípios, níveis e tipos, técnicas pra escolher casos de teste, exploratório e relatar bug.</p>
+          <div class="h-trilha-meta"><span class="mono">5 módulos</span><span class="mono">~3h30</span></div>
+        </a>
+
+        <a class="h-trilha-card" style="border-top-color:var(--h-base)" href="git/index.html"
+           data-trilha="git" data-modulos="3" data-categoria="Base">
+          <div class="h-trilha-cabeca">
+            <span class="h-trilha-kicker" style="color:var(--h-base)">Base</span>
+            <span class="h-trilha-selos"><span class="h-selo-area" style="background:var(--h-base-fraco);color:var(--h-base)">Base</span></span>
+          </div>
+          <h3>Git e GitHub para QA</h3>
+          <p>Baixar o código, versionar seus testes, ler o que mudou num Pull Request e entender o vermelho do CI. Destrava as trilhas 3, 5 e 6.</p>
+          <div class="h-trilha-meta"><span class="mono">3 módulos</span><span class="mono">~2h</span></div>
+        </a>
+
+        <a class="h-trilha-card" style="border-top-color:var(--h-dados)" href="sql/index.html"
+           data-trilha="sql" data-modulos="7" data-categoria="Dados">
+          <div class="h-trilha-cabeca">
+            <span class="h-trilha-kicker" style="color:var(--h-dados)">Trilha 1</span>
+            <span class="h-trilha-selos"><span class="h-selo-area" style="background:var(--h-dados-fraco);color:var(--h-dados)">Dados</span></span>
+          </div>
+          <h3>SQL para QA</h3>
+          <p>Consultar, validar e investigar dados. Do SELECT às transações, com um SQLite dentro da página.</p>
+          <div class="h-trilha-meta"><span class="mono">7 módulos</span><span class="mono">~6h</span><span>Roda no navegador</span></div>
+        </a>
+
+        <a class="h-trilha-card" style="border-top-color:var(--h-dados)" href="pg/index.html"
+           data-trilha="pg" data-modulos="7" data-categoria="Dados">
+          <div class="h-trilha-cabeca">
+            <span class="h-trilha-kicker" style="color:var(--h-dados)">Trilha 2</span>
+            <span class="h-trilha-selos">
+              <span class="h-selo-aprof">Aprofundamento</span>
+              <span class="h-selo-area" style="background:var(--h-dados-fraco);color:var(--h-dados)">Dados</span>
+            </span>
+          </div>
+          <h3>PostgreSQL na prática</h3>
+          <p>O mesmo cenário num Postgres de verdade (rodando na página). Tipos reais, datas, texto, FILTER, window functions.</p>
+          <div class="h-trilha-meta"><span class="mono">7 módulos</span><span>Roda no navegador</span></div>
+        </a>
+
+        <a class="h-trilha-card" style="border-top-color:var(--h-auto)" href="pytest/index.html"
+           data-trilha="pytest" data-modulos="4" data-categoria="Automação">
+          <div class="h-trilha-cabeca">
+            <span class="h-trilha-kicker" style="color:var(--h-auto)">Trilha 3</span>
+            <span class="h-trilha-selos"><span class="h-selo-area" style="background:var(--h-auto-fraco);color:var(--h-auto)">Automação</span></span>
+          </div>
+          <h3>Validação com pytest</h3>
+          <p>As queries de validação viram testes automatizados que rodam no seu terminal e no CI. Projeto real em <code>trilha-3/</code>.</p>
+          <div class="h-trilha-meta"><span class="mono">4 módulos</span><span class="mono">~3h</span><span>Roda no seu computador</span></div>
+        </a>
+
+        <a class="h-trilha-card" style="border-top-color:var(--h-auto)" href="api/index.html"
+           data-trilha="api" data-modulos="4" data-categoria="Automação">
+          <div class="h-trilha-cabeca">
+            <span class="h-trilha-kicker" style="color:var(--h-auto)">Trilha 4</span>
+            <span class="h-trilha-selos"><span class="h-selo-area" style="background:var(--h-auto-fraco);color:var(--h-auto)">Automação</span></span>
+          </div>
+          <h3>Teste de API</h3>
+          <p>HTTP, status codes, contrato da resposta, e cruzar o que a API devolve com o que está no banco. API falsa na própria página.</p>
+          <div class="h-trilha-meta"><span class="mono">4 módulos</span><span class="mono">~3h</span><span>Roda no navegador</span></div>
+        </a>
+
+        <a class="h-trilha-card" style="border-top-color:var(--h-entrega)" href="k6/index.html"
+           data-trilha="k6" data-modulos="4" data-categoria="Entrega e carga">
+          <div class="h-trilha-cabeca">
+            <span class="h-trilha-kicker" style="color:var(--h-entrega)">Trilha 5</span>
+            <span class="h-trilha-selos">
+              <span class="h-selo-aprof">Aprofundamento</span>
+              <span class="h-selo-area" style="background:var(--h-entrega-fraco);color:var(--h-entrega)">Entrega e carga</span>
+            </span>
+          </div>
+          <h3>Teste de carga com k6</h3>
+          <p>Muitos usuários ao mesmo tempo: medir tempo de resposta e taxa de erro, e fazer a meta de performance reprovar o build. Projeto real em <code>trilha-5/</code>.</p>
+          <div class="h-trilha-meta"><span class="mono">4 módulos</span><span>Roda no seu computador</span></div>
+        </a>
+
+        <a class="h-trilha-card" style="border-top-color:var(--h-entrega)" href="cicd/index.html"
+           data-trilha="cicd" data-modulos="4" data-categoria="Entrega e carga">
+          <div class="h-trilha-cabeca">
+            <span class="h-trilha-kicker" style="color:var(--h-entrega)">Trilha 6</span>
+            <span class="h-trilha-selos"><span class="h-selo-area" style="background:var(--h-entrega-fraco);color:var(--h-entrega)">Entrega e carga</span></span>
+          </div>
+          <h3>CI/CD para QA</h3>
+          <p>O que é um pipeline, ler um arquivo do GitHub Actions sem susto, e fazer os testes rodarem sozinhos a cada mudança, reprovando o build quando quebra.</p>
+          <div class="h-trilha-meta"><span class="mono">4 módulos</span><span class="mono">~2h30</span><span>Leitura + repositório</span></div>
+        </a>
+
+        <a class="h-trilha-card" style="border-top-color:var(--h-auto)" href="playwright/index.html"
+           data-trilha="playwright" data-modulos="5" data-categoria="Automação">
+          <div class="h-trilha-cabeca">
+            <span class="h-trilha-kicker" style="color:var(--h-auto)">Trilha 7</span>
+            <span class="h-trilha-selos"><span class="h-selo-area" style="background:var(--h-auto-fraco);color:var(--h-auto)">Automação</span></span>
+          </div>
+          <h3>Automação web com Playwright</h3>
+          <p>Controlar um navegador de verdade: clicar, preencher formulário, esperar carregamento assíncrono, mockar rede e testar API. Projeto real em <code>trilha-7/</code>, contra um site de treino feito pra automação.</p>
+          <div class="h-trilha-meta"><span class="mono">5 módulos</span><span>Roda no seu computador</span></div>
+        </a>
+
+      </div>
     </div>
+  </section>
 
-    <h2>Trilhas técnicas</h2>
-    <div class="grade-modulos grade-trilhas">
-
-      <a class="modulo-link" href="sql/index.html" data-trilha="sql" data-modulos="7">
-        <div class="trilha-topo">
-          <span class="trilha-icone" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <ellipse cx="12" cy="5" rx="8" ry="3"/>
-              <path d="M4 5v6c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/>
-              <path d="M4 11v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"/>
-            </svg>
-          </span>
-          <div class="rot">Trilha 1</div>
+  <section class="h-secao">
+    <div class="h-faixa">
+      <div class="h-projeto">
+        <div class="h-projeto-texto">
+          <div class="h-kicker">Projeto final</div>
+          <h2>Uma história, do refinamento ao pipeline</h2>
+          <p>Sete etapas usando tudo junto. No fim, vira portfólio.</p>
+          <div>
+            <a class="h-btn-primario" href="projeto/index.html">
+              Ver o projeto final
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
         </div>
-        <div class="tit">SQL para QA</div>
-        <div class="desc">
-          Consultar, validar e investigar dados. 7 módulos, do SELECT às
-          transações, com um SQLite dentro da página.
-        </div>
-      </a>
-
-      <a class="modulo-link" href="pg/index.html" data-trilha="pg" data-modulos="7">
-        <div class="trilha-topo">
-          <span class="trilha-icone" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <ellipse cx="12" cy="5" rx="8" ry="3"/>
-              <path d="M4 5v14c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/>
-              <path d="M4 10c0 1.66 3.58 3 8 3s8-1.34 8-3"/>
-              <path d="M4 15c0 1.66 3.58 3 8 3s8-1.34 8-3"/>
-            </svg>
-          </span>
-          <div class="rot">Trilha 2</div>
-        </div>
-        <div class="tit">PostgreSQL na prática</div>
-        <div class="desc">
-          O mesmo cenário num Postgres de verdade (rodando na página). Tipos reais,
-          datas, texto, FILTER, window functions. 7 módulos.
-        </div>
-      </a>
-
-      <a class="modulo-link" href="pytest/index.html" data-trilha="pytest" data-modulos="4">
-        <div class="trilha-topo">
-          <span class="trilha-icone" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 3h6"/>
-              <path d="M10 3v6.5L5.5 17a2.5 2.5 0 0 0 2.2 3.8h8.6a2.5 2.5 0 0 0 2.2-3.8L14 9.5V3"/>
-              <path d="M7.5 14h9"/>
-              <path d="m10.5 11.5 1.5 1.5 3-3"/>
-            </svg>
-          </span>
-          <div class="rot">Trilha 3</div>
-        </div>
-        <div class="tit">Validação com pytest</div>
-        <div class="desc">
-          As queries de validação viram testes automatizados que rodam no seu
-          terminal e no CI. Projeto real em <code>trilha-3/</code>. 4 módulos.
-        </div>
-      </a>
-
-      <a class="modulo-link" href="api/index.html" data-trilha="api" data-modulos="4">
-        <div class="trilha-topo">
-          <span class="trilha-icone" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M8 4 3 12l5 8"/>
-              <path d="m16 4 5 8-5 8"/>
-              <path d="M13.5 8 11 16"/>
-            </svg>
-          </span>
-          <div class="rot">Trilha 4</div>
-        </div>
-        <div class="tit">Teste de API</div>
-        <div class="desc">
-          HTTP, status codes, contrato da resposta, e cruzar o que a API devolve
-          com o que está no banco. API falsa na própria página. 4 módulos.
-        </div>
-      </a>
-
-      <a class="modulo-link" href="k6/index.html" data-trilha="k6" data-modulos="4">
-        <div class="trilha-topo">
-          <span class="trilha-icone" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3.5 18a9 9 0 1 1 17 0"/>
-              <path d="m14 10-3 4"/>
-              <circle cx="12" cy="15" r="1.6" fill="currentColor" stroke="none"/>
-            </svg>
-          </span>
-          <div class="rot">Trilha 5</div>
-        </div>
-        <div class="tit">Teste de carga com k6</div>
-        <div class="desc">
-          Muitos usuários ao mesmo tempo: medir tempo de resposta e taxa de erro,
-          e fazer a meta de performance reprovar o build. Projeto real em
-          <code>trilha-5/</code>. 4 módulos.
-        </div>
-      </a>
-
-      <a class="modulo-link" href="cicd/index.html" data-trilha="cicd" data-modulos="4">
-        <div class="trilha-topo">
-          <span class="trilha-icone" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M7 8a4 4 0 1 0 0 8c2.5 0 3.5-2 5-4s2.5-4 5-4a4 4 0 1 1 0 8c-2.5 0-3.5-2-5-4"/>
-            </svg>
-          </span>
-          <div class="rot">Trilha 6</div>
-        </div>
-        <div class="tit">CI/CD para QA</div>
-        <div class="desc">
-          O que é um pipeline, ler um arquivo do GitHub Actions sem susto, e fazer
-          os testes rodarem sozinhos a cada mudança, reprovando o build quando
-          quebra. Usa os workflows que já existem no repositório. 4 módulos.
-        </div>
-      </a>
-
-      <a class="modulo-link" href="playwright/index.html" data-trilha="playwright" data-modulos="5">
-        <div class="trilha-topo">
-          <span class="trilha-icone" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="4" width="18" height="16" rx="2"/>
-              <path d="M3 8h18"/>
-              <path d="m10 13 4 2.5-4 2.5z" fill="currentColor" stroke="none"/>
-            </svg>
-          </span>
-          <div class="rot">Trilha 7</div>
-        </div>
-        <div class="tit">Automação web com Playwright</div>
-        <div class="desc">
-          Controlar um navegador de verdade: clicar, preencher formulário, esperar
-          carregamento assíncrono, mockar rede e testar API. Projeto real em
-          <code>trilha-7/</code>, contra um site de treino feito pra automação. 5 módulos.
-        </div>
-      </a>
-
+        <ol class="h-projeto-lista">
+          <li><span class="num">01</span>Perguntas de refinamento</li>
+          <li><span class="num">02</span>Casos de teste com técnica</li>
+          <li><span class="num">03</span>Investigação no banco</li>
+          <li><span class="num">04</span>Teste de API</li>
+          <li><span class="num">05</span>Automação em pytest</li>
+          <li><span class="num">06</span>O PR com o check verde</li>
+          <li><span class="num">07</span>Relatório final</li>
+        </ol>
+      </div>
     </div>
+  </section>
 
-
-    <h2>Para fechar</h2>
-    <div class="grade-modulos grade-trilhas">
-
-      <a class="modulo-link" href="projeto/index.html">
-        <div class="trilha-topo">
-          <span class="trilha-icone" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2 3 7v6c0 5 3.8 8.4 9 9 5.2-.6 9-4 9-9V7z"/>
-              <path d="m8.5 12 2.5 2.5 4.5-5"/>
-            </svg>
-          </span>
-          <div class="rot">Projeto final</div>
-        </div>
-        <div class="tit">Uma história, do refinamento ao pipeline</div>
-        <div class="desc">
-          Sete etapas usando tudo junto: perguntas de refinamento, casos de teste com
-          técnica, investigação no banco, teste de API, automação em pytest, o PR com o
-          check verde e o relatório final. Vira portfólio.
-        </div>
-      </a>
-
-    </div>
-
-    <footer class="rodape">
-      <span>Feito por <a href="sobre.html">Ezequiel Dawud</a></span>
+  <footer class="h-rodape">
+    <div class="h-faixa h-rodape-int">
+      <span>Feito por <a href="sobre.html"><strong>Ezequiel Dawud</strong></a></span>
       <a href="https://www.linkedin.com/in/ezequiel-dawud-979387207/" target="_blank" rel="noopener">LinkedIn ↗</a>
-    </footer>
-  </main>
+    </div>
+  </footer>
+
   <script src="assets/progresso.js"></script>
   <script src="assets/conta.js"></script>
+  <script src="assets/home.js"></script>
   <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
