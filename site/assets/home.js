@@ -22,4 +22,23 @@
       });
     });
   });
+
+  /* carrossel do "Caminho recomendado": setas rolam um card por clique e
+     desabilitam sozinhas no início/fim */
+  const trilho = document.getElementById("caminho-trilhos");
+  const prev = document.querySelector(".h-carrossel-prev");
+  const next = document.querySelector(".h-carrossel-next");
+  if (trilho && prev && next) {
+    const passo = () => (trilho.querySelector(".h-passo") || {}).offsetWidth + 12 || 200;
+    prev.addEventListener("click", () => trilho.scrollBy({ left: -passo(), behavior: "smooth" }));
+    next.addEventListener("click", () => trilho.scrollBy({ left: passo(), behavior: "smooth" }));
+    const atualizarSetas = () => {
+      const fim = trilho.scrollWidth - trilho.clientWidth - 2;
+      prev.disabled = trilho.scrollLeft <= 2;
+      next.disabled = trilho.scrollLeft >= fim;
+    };
+    trilho.addEventListener("scroll", atualizarSetas);
+    window.addEventListener("resize", atualizarSetas);
+    atualizarSetas();
+  }
 })();

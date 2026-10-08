@@ -140,7 +140,9 @@
         <div class="h-selo-tempo">≈ 20h no caminho principal</div>
       </div>
 
-      <div class="h-grade-caminho">
+      <div class="h-carrossel">
+        <button type="button" class="h-carrossel-seta h-carrossel-prev" aria-label="Rolar pra trás" aria-controls="caminho-trilhos">‹</button>
+        <div class="h-grade-caminho" id="caminho-trilhos">
         <a class="h-passo" href="fundamentos/index.html">
           <span class="h-passo-num" style="color:var(--h-base)">1</span>
           <span class="h-passo-titulo">Fundamentos de Teste</span>
@@ -177,10 +179,18 @@
           <span class="h-passo-desc">Fazer tudo isso rodar a cada mudança e reprovar o build.</span>
           <span class="h-passo-tempo">~2h30</span>
         </a>
+        <a class="h-passo" href="playwright/index.html">
+          <span class="h-passo-num" style="color:var(--h-auto)">7</span>
+          <span class="h-passo-titulo">Automação com Playwright</span>
+          <span class="h-passo-desc">Controlar um navegador de verdade, do clique ao mock de rede.</span>
+          <span class="h-passo-tempo">&nbsp;</span>
+        </a>
+        </div>
+        <button type="button" class="h-carrossel-seta h-carrossel-next" aria-label="Rolar pra frente" aria-controls="caminho-trilhos">›</button>
       </div>
 
       <div class="h-caminho-nota">
-        <p><strong>PostgreSQL</strong> e <strong>Teste de carga com k6</strong> são aprofundamentos: faça quando as seis acima estiverem firmes, ou antes se o seu trabalho pedir.</p>
+        <p><strong>PostgreSQL</strong> e <strong>Teste de carga com k6</strong> são aprofundamentos: faça quando as seis primeiras estiverem firmes, ou antes se o seu trabalho pedir.</p>
         <p>Os tempos são estimativas fazendo os exercícios de verdade, não só lendo.</p>
       </div>
     </div>
@@ -203,7 +213,7 @@
 
       <div id="trilhas-grade" class="h-grade-trilhas">
 
-        <a class="h-trilha-card" style="border-top-color:var(--h-base)" href="fundamentos/index.html"
+        <a class="h-trilha-card" style="--cor:var(--h-base)" href="fundamentos/index.html"
            data-trilha="fundamentos" data-modulos="5" data-categoria="Base">
           <div class="h-trilha-cabeca">
             <span class="h-trilha-kicker" style="color:var(--h-base)">Fundamentos</span>
@@ -214,7 +224,7 @@
           <div class="h-trilha-meta"><span class="mono">5 módulos</span><span class="mono">~3h30</span></div>
         </a>
 
-        <a class="h-trilha-card" style="border-top-color:var(--h-base)" href="git/index.html"
+        <a class="h-trilha-card" style="--cor:var(--h-base)" href="git/index.html"
            data-trilha="git" data-modulos="3" data-categoria="Base">
           <div class="h-trilha-cabeca">
             <span class="h-trilha-kicker" style="color:var(--h-base)">Base</span>
@@ -225,7 +235,7 @@
           <div class="h-trilha-meta"><span class="mono">3 módulos</span><span class="mono">~2h</span></div>
         </a>
 
-        <a class="h-trilha-card" style="border-top-color:var(--h-dados)" href="sql/index.html"
+        <a class="h-trilha-card" style="--cor:var(--h-dados)" href="sql/index.html"
            data-trilha="sql" data-modulos="7" data-categoria="Dados">
           <div class="h-trilha-cabeca">
             <span class="h-trilha-kicker" style="color:var(--h-dados)">Trilha 1</span>
@@ -236,7 +246,7 @@
           <div class="h-trilha-meta"><span class="mono">7 módulos</span><span class="mono">~6h</span><span>Roda no navegador</span></div>
         </a>
 
-        <a class="h-trilha-card" style="border-top-color:var(--h-dados)" href="pg/index.html"
+        <a class="h-trilha-card" style="--cor:var(--h-dados)" href="pg/index.html"
            data-trilha="pg" data-modulos="7" data-categoria="Dados">
           <div class="h-trilha-cabeca">
             <span class="h-trilha-kicker" style="color:var(--h-dados)">Trilha 2</span>
@@ -250,7 +260,7 @@
           <div class="h-trilha-meta"><span class="mono">7 módulos</span><span>Roda no navegador</span></div>
         </a>
 
-        <a class="h-trilha-card" style="border-top-color:var(--h-auto)" href="pytest/index.html"
+        <a class="h-trilha-card" style="--cor:var(--h-auto)" href="pytest/index.html"
            data-trilha="pytest" data-modulos="4" data-categoria="Automação">
           <div class="h-trilha-cabeca">
             <span class="h-trilha-kicker" style="color:var(--h-auto)">Trilha 3</span>
@@ -261,7 +271,7 @@
           <div class="h-trilha-meta"><span class="mono">4 módulos</span><span class="mono">~3h</span><span>Roda no seu computador</span></div>
         </a>
 
-        <a class="h-trilha-card" style="border-top-color:var(--h-auto)" href="api/index.html"
+        <a class="h-trilha-card" style="--cor:var(--h-auto)" href="api/index.html"
            data-trilha="api" data-modulos="4" data-categoria="Automação">
           <div class="h-trilha-cabeca">
             <span class="h-trilha-kicker" style="color:var(--h-auto)">Trilha 4</span>
@@ -272,7 +282,7 @@
           <div class="h-trilha-meta"><span class="mono">4 módulos</span><span class="mono">~3h</span><span>Roda no navegador</span></div>
         </a>
 
-        <a class="h-trilha-card" style="border-top-color:var(--h-entrega)" href="k6/index.html"
+        <a class="h-trilha-card" style="--cor:var(--h-entrega)" href="k6/index.html"
            data-trilha="k6" data-modulos="4" data-categoria="Entrega e carga">
           <div class="h-trilha-cabeca">
             <span class="h-trilha-kicker" style="color:var(--h-entrega)">Trilha 5</span>
@@ -286,7 +296,7 @@
           <div class="h-trilha-meta"><span class="mono">4 módulos</span><span>Roda no seu computador</span></div>
         </a>
 
-        <a class="h-trilha-card" style="border-top-color:var(--h-entrega)" href="cicd/index.html"
+        <a class="h-trilha-card" style="--cor:var(--h-entrega)" href="cicd/index.html"
            data-trilha="cicd" data-modulos="4" data-categoria="Entrega e carga">
           <div class="h-trilha-cabeca">
             <span class="h-trilha-kicker" style="color:var(--h-entrega)">Trilha 6</span>
@@ -297,7 +307,7 @@
           <div class="h-trilha-meta"><span class="mono">4 módulos</span><span class="mono">~2h30</span><span>Leitura + repositório</span></div>
         </a>
 
-        <a class="h-trilha-card" style="border-top-color:var(--h-auto)" href="playwright/index.html"
+        <a class="h-trilha-card" style="--cor:var(--h-auto)" href="playwright/index.html"
            data-trilha="playwright" data-modulos="5" data-categoria="Automação">
           <div class="h-trilha-cabeca">
             <span class="h-trilha-kicker" style="color:var(--h-auto)">Trilha 7</span>
