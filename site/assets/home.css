@@ -55,6 +55,7 @@ body.pagina-inicial .topo .marca a::before { content: none; } /* remove o "▸" 
 body.pagina-inicial .h-header-int {
   display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
   gap: 12px; padding: 14px clamp(16px, 4vw, 40px);
+  width: 100%; /* único filho do .topo (flex, de estilo.css): sem isto não cresce e gruda à esquerda */
 }
 body.pagina-inicial .marca {
   display: flex; align-items: center; gap: 10px;
