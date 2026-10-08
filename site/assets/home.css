@@ -2,11 +2,6 @@
    pra não vazar pras páginas de módulo, que continuam com o visual de estilo.css. */
 
 body.pagina-inicial {
-  /* a home segue só o tema claro do design de referência (DESIGN.md não define
-     modo escuro); sem isto o navegador em modo escuro troca cores de formulário
-     e scrollbar sozinho, destoando da paleta fixa abaixo */
-  color-scheme: light;
-
   --h-bg: #F4F3EE;
   --h-superficie: #FCFCFA;
   --h-texto: #15171A;
@@ -28,6 +23,31 @@ body.pagina-inicial {
   background: var(--h-bg);
   color: var(--h-texto);
   font-family: "Instrument Sans", system-ui, sans-serif;
+}
+
+/* modo escuro: reaproveita o azul-marinho que as demais páginas já usam
+   (variáveis --bg/--painel/--acento etc. de estilo.css), em vez de uma
+   paleta inventada só pra home */
+@media (prefers-color-scheme: dark) {
+  body.pagina-inicial {
+    --h-bg: var(--bg);
+    --h-superficie: var(--painel);
+    --h-texto: var(--texto);
+    --h-texto-suave: var(--suave);
+    --h-texto-suave2: var(--suave);
+    --h-borda: var(--borda);
+    --h-borda-tracejada: color-mix(in srgb, var(--borda) 60%, var(--texto) 15%);
+    --h-grade: color-mix(in srgb, var(--borda) 55%, var(--bg));
+    --h-termo-bg: var(--codigo-bg);
+    --h-termo-verde: var(--ok);
+    --h-termo-laranja: var(--aviso);
+    --h-foco: var(--acento);
+
+    --h-base: #4DD8C9;      --h-base-fraco: color-mix(in srgb, #4DD8C9 20%, var(--painel));
+    --h-dados: var(--acento); --h-dados-fraco: var(--acento-fraco);
+    --h-auto: #FFA35C;      --h-auto-fraco: color-mix(in srgb, #FFA35C 20%, var(--painel));
+    --h-entrega: #C9A6F2;   --h-entrega-fraco: color-mix(in srgb, #C9A6F2 20%, var(--painel));
+  }
 }
 
 
